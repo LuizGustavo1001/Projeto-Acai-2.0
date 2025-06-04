@@ -1,0 +1,100 @@
+body{
+    background: #ebd5ed url(general-images/bg3.png) center bottom no-repeat;
+
+}
+
+main{
+    margin-bottom: 10vh;
+}
+
+.left-content{
+    text-align: center;
+
+}
+
+.left-content h1{
+    font-family: var(--secondary-font);
+    font-size: 5em;
+    margin-bottom: 0.5em;
+
+    color: var(--secondary-clr);
+}
+
+.left-content p{
+    font-size: 1.5em;
+
+}
+
+.generic-button button{
+    margin: 0 auto;
+    margin-top: 5em;
+
+}
+
+
+.about-us-section h1{
+    color: var(--secondary-clr);
+}
+
+.about-us-section ul{
+    display: flex;
+    flex-direction: column;
+    gap: 3em;
+
+}
+
+.about-us-section svg{
+    width: 60px;
+    margin-left: 0.5em;
+
+}
+
+.about-us-item{
+    display: flex;
+    gap: 2em;
+    align-items: center;
+    border-left: 3px solid var(--secondary-clr);
+
+}
+
+.about-us-item-text{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+
+}
+
+
+@media(min-width: 1024px){
+
+    .main-section{
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+
+    }
+
+    .right-content{
+        display: block;
+        background: url(general-images/preview-alt.png) center center no-repeat;
+        background-size: contain;
+        
+        width: 40%;
+        height: 65vh;
+
+    }
+
+    .generic-button button{
+        margin-top: 2em;
+
+    }
+    
+
+    .about-us-section ul{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+    }
+
+
+}
