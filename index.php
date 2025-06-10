@@ -1,3 +1,9 @@
+<?php 
+    include "databaseConnection.php";
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -7,20 +13,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Sansita+Swashed:wght@300..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Leckerli+One&display=swap" rel="stylesheet">
 
     <link rel="shortcut icon" href="icon/iconeAcai.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="styles/general-style.css">
     <link rel="stylesheet" href="index.css">
 
-    <title>Açaí da Amazônia</title>
+    <title>Açaí Amazônia Ipatinga</title>
 
 </head>
 <body>
     <header>
         <ul>
             <li class="acai-icon">
-                <a href="index.html">
+                <a href="index.php">
                     <img src="general-images/acai-icon-2.png" alt="" style="width:100px">
                 </a>
             </li>
@@ -48,7 +56,7 @@
                         <path d="M1 1.75A.75.75 0 0 1 1.75 1h1.628a1.75 1.75 0 0 1 1.734 1.51L5.18 3a65.25 65.25 0 0 1 13.36 1.412.75.75 0 0 1 .58.875 48.645 48.645 0 0 1-1.618 6.2.75.75 0 0 1-.712.513H6a2.503 2.503 0 0 0-2.292 1.5H17.25a.75.75 0 0 1 0 1.5H2.76a.75.75 0 0 1-.748-.807 4.002 4.002 0 0 1 2.716-3.486L3.626 2.716a.25.25 0 0 0-.248-.216H1.75A.75.75 0 0 1 1 1.75ZM6 17.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM15.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
                     </svg>
                     <p>Carrinho</p>
-                    <p class="numberItens">1</p>
+                    <p class="numberItens">N</p>
                  </a>
             </li>
         </ul>
@@ -61,11 +69,11 @@
                 <h1>
                     Açaí
                     <br>
-                    <span style="color: #9c009c">Amazônia</span>
+                    <span style="color: #cc0088">Amazônia</span>
                 </h1>
                 <p>Qualidade Superior, Preço Inferior</p>
                 <div class="generic-button">
-                    <a href="">
+                    <a href="products/products.php">
                         <button>
                             Compre Agora
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5" style="width: 25px;">
@@ -79,6 +87,13 @@
         </section>
 
         <section class="about-us-section" style="margin-top: 6em;">
+            <h1 style="margin-bottom: 2em; font-size: 2em; display: flex; align-items: center; justify-content: center;">
+                Sobre Nós
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6" style="width: 40px">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3" />
+                </svg>
+
+            </h1>
             <ul>
                 <li class="about-us-item">
                     <div class="about-us-item-svg">
@@ -94,7 +109,7 @@
                             <strong>Picolés</strong>, <strong>Sorvetes</strong>, <strong>Adicionais Variados para Açaí e Sorvete</strong>
                             e <strong>Outros tipos de Cremes.</strong>
                         </p>
-                        <p>Ofereçemos apenas produtos de qualidade comprovada.</p>
+                        <p>Ofereçemos apenas produtos com qualidade comprovada.</p>
                     </div>
                 </li>
 
@@ -108,12 +123,12 @@
                         <h1>Nossa Produção</h1>
                         <p>Nossa Fábrica está localizada na cidade de <strong>*******</strong>.</p>
                         <p>
-                            Contamos com todas as <strong>Licenças e Alvarás</strong> exigidos pela 
+                            Contamos com todas as <strong>Alvarás e Licenças </strong> exigidos pela 
                             <strong>Vigilância Sanitária</strong>, <strong>Ministério da Agricultura</strong> 
                             e demais orgãos reguladores.
                         </p>
                         <p>
-                            Nossa Produção é <strong>supervisionada</strong> por um <strong>Engenheiro de Alimentos</strong> altamente qualificado.
+                            Nossa Produção é <strong>supervisionada</strong> por <strong>Engenheiro de Alimentos</strong> altamente qualificado.
                         </p>
                     </div>
                 </li>
@@ -154,28 +169,44 @@
     <footer>
         <ul>
             <li>
-                <strong>Endereço: </strong>
+                <strong>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                    </svg>
+                    Endereço: 
+                </strong>
                 <a href="#">
                     <p>Endereço Google Maps</p>
                 </a>
             </li>
 
             <li>
-                <strong>Instagram: </strong>
+                <strong>
+                    <img src="general-images/instagram-icon.png" alt="instagram logo">
+                    Instagram: 
+                </strong>
                 <a href="#" target="_blank">
                     <p>@Instagram</p>
                 </a>
             </li>
 
             <li>
-                <strong>Telefone: </strong>
+                <strong>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+                    </svg>
+                    Telefone: 
+                </strong>
                 <a href="tel:31957401232" target="_blank">
                     <p>Telefone Aqui</p>
                 </a>
             </li>
 
             <li>
-                <strong>WhatsApp: </strong>
+                <strong>
+                    <img src="general-images/whatsapp-icon.png" alt="whatsapp logo">
+                    WhatsApp: 
+                </strong>
                 <a href="#" target="_blank">
                     <p>WhatsApp Aqui</p>
                 </a>
@@ -185,7 +216,10 @@
                 2025 &copy; Açaí Amazônia Ipatinga. <br> Todos os direitos reservados
             </li>
             <li>
-                Desenvolvido Por: 
+                <strong>
+                    <img src="general-images/github-icon.png" alt="">
+                    Desenvolvido Por:
+                </strong>
                 <a href="github.com/luizgustavo1001" target="_blank">
                     <p>Luiz Gustavo</p>
                 </a>

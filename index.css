@@ -1,5 +1,5 @@
 body{
-    background: #ebd5ed url(general-images/bg3.png) center bottom no-repeat;
+    background: #ebd5ed url(general-images/bg3.png) right bottom no-repeat;
 
 }
 
@@ -15,14 +15,14 @@ main{
 .left-content h1{
     font-family: var(--secondary-font);
     font-size: 5em;
-    margin-bottom: 0.5em;
 
     color: var(--secondary-clr);
+    
 }
 
 .left-content p{
     font-size: 1.5em;
-
+    font-weight: bold;
 }
 
 .generic-button button{
@@ -31,9 +31,9 @@ main{
 
 }
 
-
 .about-us-section h1{
-    color: var(--secondary-clr);
+    color: var(--tertiary-clr);
+
 }
 
 .about-us-section ul{
@@ -53,7 +53,12 @@ main{
     display: flex;
     gap: 2em;
     align-items: center;
-    border-left: 3px solid var(--secondary-clr);
+    border-left: 4px solid var(--secondary-clr);
+    background: white;
+    box-shadow: 3px 1px 4px var(--primary-shadow-clr);
+    padding: 0.5em;
+
+    min-height: 200px;
 
 }
 
@@ -61,12 +66,17 @@ main{
     display: flex;
     flex-direction: column;
     gap: 0.5em;
+    width: 70%;
+    margin: 0 auto;
 
 }
 
 
 @media(min-width: 1024px){
+    .left-content h1{
+        font-size: 5vw;
 
+    }
     .main-section{
         display: flex;
         align-items: center;

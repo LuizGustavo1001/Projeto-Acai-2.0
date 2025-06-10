@@ -1,15 +1,17 @@
 :root{
-    --primary-clr: #370050;
-    --secondary-clr: #590083;
-    --tertiary-clr: #9c009c;
+    --primary-clr: #41005f;
+    --secondary-clr: #650194;
+    --tertiary-clr:#cc0088;
 
     --primary-font: "Exo 2", sans-serif;
-    --secondary-font: "Sansita Swashed", cursive, sans-serif;
+    --secondary-font: "Leckerli One", cursive, sans-serif;
 
     --transition: all, 0.3s;
 
     --border-radius: 50px;
     --border-radius-alt: 10px;
+
+    --primary-shadow-clr: #37005088;
 
 }
 
@@ -97,6 +99,7 @@ main{
 
 ul{
     list-style: none;
+    
 }
 
 a{
@@ -147,9 +150,9 @@ header svg{
 
 .generic-button button:hover{
     background: transparent;
-    color:var(--primary-clr);
+    color:var(--tertiary-clr);
 
-    border: 2px solid var(--primary-clr);
+    border: 2px solid var(--tertiary-clr);
 
 }
 
@@ -192,6 +195,36 @@ footer ul{
 footer a{
     color: rgb(202, 161, 235);
     text-decoration: none;
+
+}
+
+footer img, svg{
+    width: 20px;
+
+}
+
+footer li strong{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3em;
+
+}
+
+input, select{
+    padding: 1em;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--primary-clr);
+    cursor: pointer;
+
+    transition: var(--transition);
+
+
+}
+
+input:focus, select:focus{
+    border-color: var(--tertiary-clr);
+    outline: none;
 
 }
 
