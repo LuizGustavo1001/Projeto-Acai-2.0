@@ -1,5 +1,5 @@
 body{
-    background: var(--background-clr) url(general-images/primary-bg.png) center center;
+    background: var(--background-clr) url(https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079685/primary-bg_de1ozi.png) center center;
     background-repeat: no-repeat;
 }
 
@@ -123,7 +123,7 @@ main{
     .right-content{
         display: block;
         
-        background: url(general-images/preview.png) center center;
+        background: url(https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079685/preview_pub93o.png) center center;
         background-size: contain;
         background-repeat: no-repeat;
 

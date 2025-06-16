@@ -50,7 +50,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&display=swap" rel="stylesheet">
 
-    <link rel="shortcut icon" href="../icon/iconeAcai.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750080377/iconeAcai_mj7dqy.ico" type="image/x-icon">
 
     <title>Açaí Amazônia - Produtos</title>
     
@@ -61,7 +61,7 @@
         <ul>
             <li class="acai-icon">
                 <a href="../index.php">
-                    <img src="../general-images/acai-icon-white.png" class="item-translate" alt="Açaí Icon">
+                    <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079683/acai-icon-white_fll4gt.png" class="item-translate" alt="Açaí Icon">
                 </a>
                 <p>Açaí Amazônia Ipatinga</p>
             </li>
@@ -163,7 +163,7 @@
             <ul class="products-list">
                     <li class="products-item item-translate-alt">
                         <a href="product-item/caixaAcai10.php">
-                            <img src="../itens-images/caixa-acai.jpg" alt="10 Liters Açaí Box Image">
+                            <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079853/caixa-acai_l7uokc.jpg" alt="10 Liters Açaí Box Image">
                             <hr>
                             <div>
                                 <h2>Caixa de Açaí - 10 litros</h2>
@@ -174,7 +174,7 @@
 
                     <li class="products-item item-translate-alt">
                         <a href="">
-                            <img src="../itens-images/caixa-acai.jpg" alt="5 Liters Açaí Box Image">
+                            <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079853/caixa-acai_l7uokc.jpg" alt="5 Liters Açaí Box Image">
                             <hr>
                             <div>
                                 <h2>Caixa de Açaí - 5 litros</h2>
@@ -185,7 +185,7 @@
 
                     <li class="products-item item-translate-alt">
                         <a href="">
-                            <img src="../itens-images/caixa-acai.jpg" alt="1 Liters Açaí Box Image">
+                            <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079853/caixa-acai_l7uokc.jpg" alt="1 Liters Açaí Box Image">
                             <hr>
                             <div>
                                 <h2>Caixa de Açaí - 1 litro</h2>
@@ -196,7 +196,7 @@
                 
                     <li class="products-item item-translate-alt">
                         <a href="">
-                            <img src="../itens-images/cremes-frutados.png" alt="Cupuaçu Box Image">
+                            <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079855/cremes-frutados_kfdx1f.png" alt="Cupuaçu/ Other Creams Box Image">
                             <hr>
                             <div>
                                 <h2>Cremes Frutados - 10 litros</h2>
@@ -207,7 +207,7 @@
                 
                     <li class="products-item item-translate-alt">
                         <a href="">
-                        <img src="../itens-images/cremes-saborazzi.png" alt="Saborazzi's Cream Image">
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079853/caixa-acai_l7uokc.jpg" alt="Saborazzi's Cream Image">
                         <hr>
                         <div>
                             <h2>Cremes Saborazzi&copy; - Balde 5 kg</h2>
@@ -218,7 +218,7 @@
 
                     <li class="products-item item-translate-alt">
                         <a href="">
-                            <img src="../itens-images/caixa-acai.jpg" alt="Açaí Zero Sugar Box Image">
+                            <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079853/caixa-acai_l7uokc.jpg" alt="Açaí Zero Sugar Box Image">
                             <hr>
                             <div>
                                 <h2>Açaí Zero - 10 litros</h2>
@@ -229,7 +229,7 @@
                     
                     <li class="products-item item-translate-alt">
                         <a href="">
-                            <img src="../itens-images/caixa-acai.jpg" alt="Açaí with Ninho Box Image">
+                            <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079853/caixa-acai_l7uokc.jpg" alt="Açaí with Ninho Box Image">
                             <hr>
                             <div>
                                 <h2>Açaí c/Ninho - 1 litro</h2>
@@ -240,7 +240,7 @@
 
                     <li class="products-item item-translate-alt">
                         <a href="">
-                            <img src="../itens-images/caixa-acai.jpg" alt="Açaí with Ninho Box Image">
+                            <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079853/caixa-acai_l7uokc.jpg" alt="Açaí with Ninho Box Image">
                             <hr>
                             <div>
                                 <h2>Açaí c/Ninho - 250 ml</h2>
@@ -257,7 +257,7 @@
             <ul class="products-list">
                 <li class="products-item item-translate-alt">
                     <a href="">
-                        <img src="../itens-images/granola.png" alt="Granola Package Image">
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079859/granola_majjmg.png" alt="Granola Package Image">
                         <hr>
                         <div>
                             <h2>Granola Tia Sônia<sup>&copy;</sup> - 1,5 kg</h2>
@@ -268,7 +268,7 @@
 
                 <li class="products-item item-translate-alt">
                     <a href="">
-                        <img src="../itens-images/granola.png" alt="Granola Package Image">
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079859/granola_majjmg.png" alt="Granola Package Image">
                         <hr>
                         <div>
                             <h2>Granola Genérica - 1 kg</h2>
@@ -279,7 +279,7 @@
                 
                 <li class="products-item item-translate-alt">
                     <a href="">
-                    <img src="../itens-images/strawberry.jpeg" alt="Strawberry Package Image">
+                    <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750080166/strawberry_akhbkp.jpg" alt="Strawberry Package Image">
                     <hr>
                     <div>
                         <h2>Morango Congelado - 1 kg</h2>
@@ -290,7 +290,7 @@
                 
                 <li class="products-item item-translate-alt">
                     <a href="">
-                        <img src="../itens-images/leite em po.png" alt="Powdered Milk Package Image">
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079860/leite_em_po_rkrf0f.png" alt="Powdered Milk Package Image">
                         <hr>
                         <div>
                             <h2>Leite Em Pó - 1 kg</h2>
@@ -301,7 +301,7 @@
                 
                 <li class="products-item item-translate-alt">
                     <a href="">
-                    <img src="../itens-images/pacoca.png" alt="Paçoca Package Image">
+                    <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079844/pacoca_dlxek6.png" alt="Paçoca Package Image">
                     <hr>
                     <div>
                         <h2>Caixa de Paçoca - 150 Unidades</h2>
@@ -312,7 +312,7 @@
               
                 <li class="products-item item-translate-alt">
                         <a href="">
-                        <img src="../itens-images/pacoca.png" alt="Powdered Paçoca Package Image">
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079844/pacoca_dlxek6.png" alt="Powdered Paçoca Package Image">
                         <hr>
                         <div>
                             <h2>Farofa de Paçoca - 1 kg</h2>
@@ -323,7 +323,7 @@
 
                 <li class="products-item item-translate-alt">
                     <a href="">
-                        <img src="../itens-images/pacoca.png" alt="Crushed Peanut Package Image">
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079844/pacoca_dlxek6.png" alt="Crushed Peanut Package Image">
                         <hr>
                         <div>
                             <h2>Amendoim Triturado - 1 kg</h2>
@@ -335,7 +335,7 @@
                 
                 <li class="products-item item-translate-alt">
                     <a href="">
-                        <img src="../itens-images/gotas.jpeg" alt="Chocolate Chips Package Image">
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079858/gotas_wanvya.jpg    " alt="Chocolate Chips Package Image">
                         <hr>
                         <div>
                             <h2>Gotas de Chocolate - 1 kg</h2>
@@ -346,7 +346,7 @@
                 
                 <li class="products-item item-translate-alt">
                     <a href="">
-                        <img src="../itens-images/gotas.jpeg" alt="Chocoball Package Image">
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079858/gotas_wanvya.jpg" alt="Chocoball Package Image">
                         <hr>
                         <div>
                             <h2>ChocoBall - 1 kg</h2>
@@ -357,7 +357,7 @@
                
                 <li class="products-item item-translate-alt">
                     <a href="">
-                        <img src="../itens-images/gotas.jpeg" alt="Jujuba Package Image">
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079858/gotas_wanvya.jpg" alt="Jujuba Package Image">
                         <hr>
                         <div>
                             <h2>Jujuba - 500 g</h2>
@@ -368,7 +368,7 @@
                 
                 <li class="products-item item-translate-alt">
                     <a href="">
-                        <img src="../itens-images/gotas.jpeg" alt="Disqueti Package Image">
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079858/gotas_wanvya.jpg" alt="Disqueti Package Image">
                         <hr>
                         <div>
                             <h2>Disquete - 1 kg</h2>
@@ -385,7 +385,7 @@
             <ul class="products-list">
                 <li class="products-item item-translate-alt">
                     <a href="">
-                        <img src="../itens-images/caixa-colher.png" alt="Spoon Box Image">
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079854/caixa-colher_eurc6f.png" alt="Spoon Box Image">
                         <hr>
                         <div>
                             <h2>Colher Reforçada P/Açaí - 500 Unidades</h2>
@@ -396,7 +396,7 @@
                 
                 <li class="products-item item-translate-alt">
                     <a href="">
-                        <img src="../itens-images/caixa-colher.png" alt="Spoon Box Image">
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079854/caixa-colher_eurc6f.png" alt="Spoon Box Image">
                         <hr>
                         <div>
                             <h2>Colher Longa P/Açaí - 200 Unidades</h2>
@@ -407,7 +407,7 @@
 
                 <li class="products-item item-translate-alt">
                     <a href="">
-                        <img src="../itens-images/caixa-colher.png" alt="Spoon Box Image">
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079854/caixa-colher_eurc6f.png" alt="Spoon Box Image">
                         <hr>
                         <div>
                             <h2>Colher P/Sorvete - 800 Unidades</h2>
@@ -417,7 +417,7 @@
                 </li>
                 <li class="products-item item-translate-alt">
                     <a href="">
-                        <img src="../itens-images/polpas.jpg" alt="">
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079845/polpas_lnxxhz.jpg" alt="">
                         <hr>
                         <div>
                             <h2>Polpas de Frutas Sabor Natural&copy;</h2>
@@ -445,7 +445,7 @@
 
             <li>
                 <strong>
-                    <img src="../general-images/instagram-icon.png" alt="instagram logo">
+                    <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079684/instagram-icon_wjguqu.png" alt="instagram logo">
                     Instagram: 
                 </strong>
                 <a href="#" target="_blank">
@@ -467,7 +467,7 @@
 
             <li>
                 <strong>
-                    <img src="../general-images/whatsapp-icon.png" alt="whatsapp logo">
+                    <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079686/whatsapp-icon_ketibs.png" alt="whatsapp logo">
                     WhatsApp: 
                 </strong>
                 <a href="#" target="_blank">
@@ -480,7 +480,7 @@
             </li>
             <li>
                 <strong>
-                    <img src="../general-images/github-icon.png" alt="GitHub icon">
+                    <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079684/github-icon_xab4gh.png" alt="">
                     Desenvolvido Por:
                 </strong>
                 <a href="github.com/luizgustavo1001" target="_blank">

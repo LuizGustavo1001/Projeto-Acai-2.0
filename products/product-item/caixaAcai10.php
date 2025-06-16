@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&display=swap" rel="stylesheet"> 
 
-    <link rel="shortcut icon" href="../../icon/iconeAcai.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750080377/iconeAcai_mj7dqy.ico" type="image/x-icon">
 
     <title>Açaí Amazônia - Produtos</title>
 
@@ -214,7 +214,7 @@
         <ul>
             <li class="acai-icon">
                 <a href="../../index.php">
-                    <img src="../../general-images/acai-icon-white.png" class="item-translate" alt="Açaí Icon">
+                    <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079683/acai-icon-white_fll4gt.png" class="item-translate" alt="Açaí Icon">
                 </a>
                 <p>Açaí Amazônia Ipatinga</p>
             </li>
@@ -326,7 +326,7 @@
 
             <li>
                 <strong>
-                    <img src="../../general-images/instagram-icon.png" alt="instagram logo">
+                    <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079684/instagram-icon_wjguqu.png" alt="instagram logo">
                     Instagram: 
                 </strong>
                 <a href="#" target="_blank">
@@ -348,7 +348,7 @@
 
             <li>
                 <strong>
-                    <img src="../../general-images/whatsapp-icon.png" alt="whatsapp logo">
+                    <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079686/whatsapp-icon_ketibs.png" alt="whatsapp logo">
                     WhatsApp: 
                 </strong>
                 <a href="#" target="_blank">
@@ -359,10 +359,9 @@
             <li style="color: rgb(238, 224, 250); opacity: 0.8;">
                 2025 &copy; Açaí Amazônia Ipatinga. <br> Todos os direitos reservados
             </li>
-
             <li>
                 <strong>
-                    <img src="../../general-images/github-icon.png" alt="GitHub icon">
+                    <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079684/github-icon_xab4gh.png" alt="">
                     Desenvolvido Por:
                 </strong>
                 <a href="github.com/luizgustavo1001" target="_blank">
