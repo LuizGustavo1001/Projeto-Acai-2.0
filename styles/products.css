@@ -52,6 +52,7 @@ main{
 .products-search-item button{
     margin: 0 auto;
     margin-top: 0.5em;
+    padding: 0.5em;
 
     width: 100%;
 
@@ -84,7 +85,7 @@ main{
 }
 
 .products-list-title{
-    background: url(../general-images/title-background-1.png) center center;
+    background: url(https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079686/title-background-1_orh8zk.png) center center;
     background-repeat: no-repeat;
 
     margin-block: 2em;
@@ -198,7 +199,7 @@ main{
 
     .products-search-div button, .products-search-div select, .products-search-div input{
         padding: 0.6em;
-        font-size: 0.9em;
+        
         font-weight: bold;
 
     }

@@ -11,25 +11,44 @@
             "acaiZero10", "acaiNinho1", "acaiNinho250", "morango1", "leiteEmPo1", 
             "granola1.5", "granola1", "pacoca150", "farofaPacoca1", "amendoimTriturado1",
             "ovomaltine1", "gotaChocolate1", "chocoball1", "jujuba500", "disquete1", 
-            "cremeSaborazzi", "polpas"
+            "saborazzi", "polpas"
         ]; 
 
         if(in_array($nameProd, $allowedNames)){ // verificar se o nome para pesquisa é um dos produtos cadastrados
-            $query = $mysqli->prepare("SELECT price,priceDate FROM product WHERE nameProd = ?");
-            $query->bind_param("s",$nameProd);
+            switch($nameProd){
+                case "saborazzi":
+                    $product = "saborazzi%";
+                    $query = $mysqli->prepare("SELECT MIN(price) as price, priceDate FROM product WHERE nameProd LIKE ?");
+                    $query->bind_param("s",$product);
+
+                    break;
+                case "polpas":
+                    $product = "polpa%";
+                    $query = $mysqli->prepare("SELECT MIN(price) as price, priceDate FROM product WHERE nameProd LIKE ?");
+                    $query->bind_param("s",$product);
+
+                    break;
+                default:
+                    $query = $mysqli->prepare("SELECT price,priceDate FROM product WHERE nameProd = ?");
+                    $query->bind_param("s",$nameProd);
+
+                    break;
+            }
+
             $query->execute();
             $result = $query->get_result();
             
-            $defaultMoney = numfmt_create("pt-BR", style: NumberFormatter::CURRENCY);
+            $defaultMoney = numfmt_create("pt-BR", NumberFormatter::CURRENCY);
             
             $result = $result->fetch_assoc();
-            $price = $result['price'];
-
-            echo numfmt_format_currency($defaultMoney, $price, "BRL");
-
-            $date = $result['priceDate'];
-            
-            echo "<p><small>Preço Atualizado em:<strong> $date</strong></small></p>";
+            if ($result && isset($result['price'])) {
+                $price = $result['price'];
+                echo numfmt_format_currency($defaultMoney, $price, "BRL");
+                $date = $result['priceDate'];
+                echo "<p><small>Preço Atualizado em:<strong> $date</strong></small></p>";
+            } else {
+                echo "<em><small>Preço não disponível</small></em>";
+            }
 
         }else{
             echo "<em><small>Produto não encontrado</small></em>";
@@ -99,7 +118,7 @@
     <main>
 
         <section class="header-feature">
-            <img src="../general-images/feature-alt-5.png" alt="">
+            <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079684/feature-alt-5_om3heu.png" alt="feature Products Image">
         </section>
         <section class="products-header">
             <div class="products-header-title">
@@ -162,40 +181,19 @@
 
             <ul class="products-list">
                     <li class="products-item item-translate-alt">
-                        <a href="product-item/caixaAcai10.php">
+                        <a href="product-item/caixaAcai.php">
                             <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079853/caixa-acai_l7uokc.jpg" alt="10 Liters Açaí Box Image">
                             <hr>
                             <div>
-                                <h2>Caixa de Açaí - 10 litros</h2>
-                                <p><?php prodPrice("acai10")?></p>
+                                <h2>Caixa de Açaí</h2>
+                                <p><em>A Partir de</em>: <?php prodPrice("acai1")?></p>
+                                <p span="product-sizes" style="color: var(--primary-clr)">Tamanhos: 10l, 5l e 1l</p>
                             </div>
                         </a>
                     </li>
-
+                    
                     <li class="products-item item-translate-alt">
-                        <a href="">
-                            <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079853/caixa-acai_l7uokc.jpg" alt="5 Liters Açaí Box Image">
-                            <hr>
-                            <div>
-                                <h2>Caixa de Açaí - 5 litros</h2>
-                                <p><?php prodPrice("acai5")?></p>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="products-item item-translate-alt">
-                        <a href="">
-                            <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079853/caixa-acai_l7uokc.jpg" alt="1 Liters Açaí Box Image">
-                            <hr>
-                            <div>
-                                <h2>Caixa de Açaí - 1 litro</h2>
-                                <p><?php prodPrice("acai1")?></p>
-                            </div>
-                        </a>
-                    </li>
-                
-                    <li class="products-item item-translate-alt">
-                        <a href="">
+                        <a href="product-item/cremesFrutados.php">
                             <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079855/cremes-frutados_kfdx1f.png" alt="Cupuaçu/ Other Creams Box Image">
                             <hr>
                             <div>
@@ -207,11 +205,12 @@
                 
                     <li class="products-item item-translate-alt">
                         <a href="">
-                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079853/caixa-acai_l7uokc.jpg" alt="Saborazzi's Cream Image">
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079857/cremes-saborazzi_dhssx6.png" alt="Saborazzi's Cream Image">
                         <hr>
                         <div>
                             <h2>Cremes Saborazzi&copy; - Balde 5 kg</h2>
-                            <p><span>A Partir de: </span><?php prodPrice("cremeSaborazzi")?></p>
+                            <p><span>A Partir de: </span><?php prodPrice("saborazzi")?></p>
+                            <p>Diversos Sabores</p>
                         </div>
                         </a>
                     </li>
@@ -232,12 +231,13 @@
                             <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079853/caixa-acai_l7uokc.jpg" alt="Açaí with Ninho Box Image">
                             <hr>
                             <div>
-                                <h2>Açaí c/Ninho - 1 litro</h2>
+                                <h2>Açaí c/Ninho</h2>
                                 <p><?php prodPrice("acaiNinho1")?></p>
+                                <p span="product-sizes" style="color: var(--primary-clr)">Tamanhos: 1l e 250ml</p>
                             </div>
                         </a>
                     </li>
-
+    <!--
                     <li class="products-item item-translate-alt">
                         <a href="">
                             <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079853/caixa-acai_l7uokc.jpg" alt="Açaí with Ninho Box Image">
@@ -248,6 +248,7 @@
                             </div>
                         </a>
                     </li>
+-->
             </ul>
 
             <div class="products-list-title">
@@ -261,7 +262,7 @@
                         <hr>
                         <div>
                             <h2>Granola Tia Sônia<sup>&copy;</sup> - 1,5 kg</h2>
-                            <p><span>A Partir de: </span><?php prodPrice("granola1.5")?></p>
+                            <p><?php prodPrice("granola1.5")?></p>
                         </div>
                     </a>
                 </li>
@@ -421,7 +422,8 @@
                         <hr>
                         <div>
                             <h2>Polpas de Frutas Sabor Natural&copy;</h2>
-                            <p><?php prodPrice("polpas")?></p>
+                            <p><span>A partir de: </span><?php prodPrice("polpas")?></p>
+                            <p>Diversos Sabores</p>
                         </div>
                     </a>
                 </li>

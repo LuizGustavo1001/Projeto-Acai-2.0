@@ -15,6 +15,7 @@
         ]; 
 
         if(in_array($nameProd, $allowedNames)){ // verificar se o nome para pesquisa é um dos produtos cadastrados
+
             $query = $mysqli->prepare("SELECT price,priceDate FROM product WHERE nameProd = ?");
             $query->bind_param("s",$nameProd);
             $query->execute();
@@ -330,20 +331,18 @@
         
         <section class="product-hero">
             <div class="product-img">
-                <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079853/caixa-acai_l7uokc.jpg" alt="Product Image">
+                <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079855/cremes-frutados_kfdx1f.png" alt="Product Image">
             </div>
             <div>
                 <div class="product-text">
-                    <h1>Caixa de Açaí</h1>
-                    <p><?php prodPrice("acai10")?></p>
+                    <h1>Cremes Frutados</h1>
+                    <p> A partir de: <?php prodPrice("cremeCupuacu10")?></p>
                 </div>
                 <form method="post" class="product-forms">
                     <div class="product-size">
                         <label for="isize">Tamanho: </label>
                         <select name="size" id="isize">
-                            <option value="">10 litros</option>
-                            <option value="">5 litros</option>
-                            <option value="">1 litro</option>
+                            <option value="fiveL">5 litros</option>
                         </select>
                     </div>
                     <div class="product-amount">
