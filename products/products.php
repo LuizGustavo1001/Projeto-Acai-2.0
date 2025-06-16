@@ -257,7 +257,7 @@
             <ul class="products-list">
                 <li class="products-item item-translate-alt">
                     <a href="">
-                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079859/granola_majjmg.png" alt="Granola Package Image">
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750086648/granola_majjmg_o5aufd.png" alt="Granola Package Image">
                         <hr>
                         <div>
                             <h2>Granola Tia Sônia<sup>&copy;</sup> - 1,5 kg</h2>
@@ -268,7 +268,7 @@
 
                 <li class="products-item item-translate-alt">
                     <a href="">
-                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079859/granola_majjmg.png" alt="Granola Package Image">
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750086648/granola_majjmg_o5aufd.png" alt="Granola Package Image">
                         <hr>
                         <div>
                             <h2>Granola Genérica - 1 kg</h2>

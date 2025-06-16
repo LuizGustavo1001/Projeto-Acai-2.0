@@ -1,3 +1,43 @@
+<?php 
+    include "../../databaseConnection.php";
+
+    function prodPrice($nameProd){
+        global $mysqli;
+
+        $allowedNames = 
+        [
+            "acai10", "acai5", "acai1", "colher200", "colher500", "colher800", 
+            "cremeCupuacu10", "cremeNinho10", "cremeMaracuja10", "cremeMorango10",
+            "acaiZero10", "acaiNinho1", "acaiNinho250", "morango1", "leiteEmPo1", 
+            "granola1.5", "granola1", "pacoca150", "farofaPacoca1", "amendoimTriturado1",
+            "ovomaltine1", "gotaChocolate1", "chocoball1", "jujuba500", "disquete1", 
+            "cremeSaborazzi", "polpas"
+        ]; 
+
+        if(in_array($nameProd, $allowedNames)){ // verificar se o nome para pesquisa é um dos produtos cadastrados
+            $query = $mysqli->prepare("SELECT price,priceDate FROM product WHERE nameProd = ?");
+            $query->bind_param("s",$nameProd);
+            $query->execute();
+            $result = $query->get_result();
+            
+            $defaultMoney = numfmt_create("pt-BR", style: NumberFormatter::CURRENCY);
+            
+            $result = $result->fetch_assoc();
+            $price = $result['price'];
+
+            echo "<p class=\"price\">" . numfmt_format_currency($defaultMoney, $price, "BRL") . "</p>";
+
+            $date = $result['priceDate'];
+            
+            echo "<p><small>Preço Atualizado em:<strong> $date</strong></small></p>";
+
+        }else{
+            echo "<em><small>Produto não encontrado</small></em>";
+        }
+    }
+?>
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -18,7 +58,7 @@
         addEventListener("DOMContentLoaded", () =>{
             const plus = document.querySelector(".plus");
             const minus = document.querySelector(".minus");
-            const local = document.querySelector(".product-amount");
+            const local = document.querySelector(".product-amount-number");
             let amount = 0;
 
             plus.addEventListener("click", () => {
@@ -39,111 +79,115 @@
     </script>
 
     <style>
-
         main{
-            margin-bottom: 6em;
-            
-            padding-inline: 1em;
-        }
-        
-        section {
+            padding-inline: 1.5em;
+
             display: flex;
             flex-direction: column;
             gap: 2em;
 
-            align-items: center;
+        }
 
-            background: rgba(217, 197, 218, 0.2);
+        .product-img, .product-text, .product-forms{
+            background: white;
+
+        }
+
+        .product-img{
+            padding-top: 1em;
+            padding-inline: 1em;
+
+            display: flex;
+            justify-content: center;
+
+            border-top-left-radius: var(--border-radius);
+            border-top-right-radius: var(--border-radius);
+
+        }
+
+        .product-img img{
+            width: 350px;
+            border-radius: var(--border-radius);
+
+        }
+
+        .product-text{
+            padding: 1em;
+            border-bottom-left-radius: var(--border-radius);
+            border-bottom-right-radius: var(--border-radius);
+            text-align: center;
+            
+            
+        }
+
+        .product-text h1{
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        .price{
+            font-weight: bold;
+            color: var(--secondary-clr);
+            font-size: 1.5em;
+             margin-bottom: 0.5em;
+        }
+
+        .product-forms{
+            margin-top: 2em;
             padding: 2em;
 
-            border-radius: var(--border-radius-alt);
-
-        }
-
-        section img{
-            width: 350px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            border-radius: var(--border-radius-alt);
-
-        }
-
-        .product-info{
             display: flex;
             flex-direction: column;
-            gap: 1em;
-            width: 70%;
+            gap: 2em;
+
+            border-radius: var(--border-radius);
 
         }
 
-        .product-info h1{
-            font-size: 2em;
+        .product-forms button{
+            justify-content: center;
 
         }
 
-        .product-option{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            padding: 0.5em;
-
-        }
-
-        .product-option label{
-            font-size: 1.2em;
-
-        }
-
-        .product-option select, .product-option button{
-            border-radius: var(--border-radius-alt);
-            width: 50%;
-
-        }
-
-        .add-cart{
-            display: flex;
-            flex-direction: column;
-            gap: 1em;
-
-        }
-
-        .amount{
-            display: flex;
-            align-items: center;
-            gap: 1em;
-            font-weight: bold;
-            justify-content: space-between;
-
-        }
-
-        .amount-main{
-            display: flex;
-            border: 1px solid var(--primary-clr);
-            border-radius: var(--border-radius-alt);
-            
-        }
-
-        .amount-main > *:not(hr) {
-            display: flex;
-            align-items: center;
-
-        }
-
-        .amount-main svg{
-            width: 35px;
+        .product-forms svg{
+            width: 25px;
             cursor: pointer;
+        }
+
+        .product-size, .product-amount{
+            display: flex;
+            justify-content: space-between;
+
+        }
+
+        .product-size label, .product-amount p{
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .product-size select{
+            padding: 1em 3em 1em 3em;
+            border-radius: var(--border-radius);
+            color: var(--fourth-clr);
+            border: 2px solid var(--primary-clr);
+
+        }
+
+        .product-size select:focus{
+            border-color: var(--secondary-clr);
+            outline: none;
+
+        }
+
+        .product-amount-border{
+            display: flex;
+            gap: 0.8em;
+
+            padding: 0.3em 1em 0.3em 1em;
+
+            border: 2px solid var(--primary-clr);
+            border-radius: var(--border-radius);
             
-        }
-
-        .amount-main svg:hover{
-            background: rgba(160, 160, 160, 0.2);
-
-        }
-
-        .amount-main svg, .amount-main p {
-            padding-inline: 0.5em;
 
         }
 
@@ -156,7 +200,7 @@
 
             font-size: 1.2em;
 
-            color: var(--primary-clr);
+            color: var(--secondary-clr);
 
             width: 20%;
 
@@ -168,6 +212,8 @@
             color: var(--secondary-clr);
             text-decoration: underline;
 
+            text-underline-offset: 0.1em;
+
         }
 
         .back-button svg{
@@ -175,26 +221,8 @@
         }
 
         @media(min-width: 1024px){
-            section{
-                flex-direction: row;
-                margin-top: 2em;
-               
-            }
-
-            section img{
-                width: 35vw;
-            }
-
-            .add-cart{
-                flex-direction: row;
-                align-items: baseline;
-                justify-content: space-between;
-
-            }
-
-            #price-text{
-                font-size: 1.3em;
-                font-weight: bold;
+            main{
+                margin-bottom: 6em;
             }
 
             .back-button{
@@ -202,9 +230,49 @@
 
             }
 
-            
-        }
+             .product-img{
+                padding: 2em;
+                border-radius: var(--border-radius);
 
+             }
+
+            .product-img img{
+                width: 500px;
+                
+
+            }
+
+            .product-hero{
+                display: flex;
+                align-items: center;
+                gap: 4em;
+
+            }
+
+            .product-text{
+                background: transparent;
+                box-shadow: none;
+
+            }
+
+            .product-text h1{
+                font-size: 3em;
+
+            }
+            
+            .price{
+                font-size: 2em;
+
+            }
+
+            .product-forms{
+                margin-top: 0em;
+                border-radius: var(--border-radius);
+                width: 30vw;
+
+            }
+
+        }
     </style>
 
 </head>
@@ -249,6 +317,7 @@
 
     </header>
 
+
     <main>
         <div>
             <a href="../products.php" class="back-button">
@@ -258,55 +327,52 @@
                 Voltar
             </a>
         </div>
-
-        <section>
+        
+        <section class="product-hero">
             <div class="product-img">
-                <img src="../../itens-images/caixa-acai.jpg" alt="">
+                <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079853/caixa-acai_l7uokc.jpg" alt="Product Image">
             </div>
-
-            <div class="product-info">
-                <h1>Caixa de Açaí </h1>
-                <div class="product-option">
-                    <label for="iproduct">Tamanho</label>
-                    <select name="product" id="iproduct">
-                        <option value="">10 litros</option>
-                        <option value="">5 litros</option>
-                        <option value="">1 litro</option>
-                    </select>
+            <div>
+                <div class="product-text">
+                    <h1>Caixa de Açaí</h1>
+                    <p><?php prodPrice("acai10")?></p>
                 </div>
-
-                <p id="price-text">PRICE HERE</p>
-
-                <div class="add-cart">
-                    
-                    <div class="amount">
-                        <div class="amount-text">
-                            <p>Quantidade: </p>
-                        </div>
-                        
-                        <div class="amount-main">
+                <form method="post" class="product-forms">
+                    <div class="product-size">
+                        <label for="isize">Tamanho: </label>
+                        <select name="size" id="isize">
+                            <option value="">10 litros</option>
+                            <option value="">5 litros</option>
+                            <option value="">1 litro</option>
+                        </select>
+                    </div>
+                    <div class="product-amount">
+                        <p>Quantidade:</p>
+                        <div class="product-amount-border">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 minus" style=" border-bottom-left-radius: var(--border-radius-alt); border-top-left-radius:var(--border-radius-alt);">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14"/>
                             </svg>
-
                             <hr>
-                            <p class="product-amount">0</p>
+                            <p class="product-amount-number">0</p>
                             <hr>
-
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 plus" style=" border-bottom-right-radius: var(--border-radius-alt); border-top-right-radius:var(--border-radius-alt);">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                             </svg>
                         </div>
-                        
                     </div>
-
-                    <div class="generic-button">
-                        <button>Adicionar Ao Carrinho</button>
-                    </div>
-                </div>
-
+                    <button>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                        </svg>
+                        Adicionar Ao Carrinho
+                    </button>
+                </form>
             </div>
+
+
         </section>
+
+
 
     </main>
 

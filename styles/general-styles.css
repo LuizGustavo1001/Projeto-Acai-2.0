@@ -9,7 +9,7 @@
     --primary-font: "Exo 2", sans-serif;
     --secondary-font: "Leckerli One", cursive, sans-serif;
 
-    --transition: all, 0.3s;
+    --transition: all 0.3s;
 
     --border-radius: 10px;
     --border-radius-alt: 50px;
@@ -37,7 +37,7 @@ body{
     color: var(--primary-clr);
 }
 
-header, footer, .header-feature img, .products-item{
+header, footer, .header-feature img, .product-text, .product-img, .product-forms{
     box-shadow: 4px 4px 4px var(--shadow-clr);
     
 }
@@ -219,13 +219,19 @@ footer a{
 
     position: absolute;
     right: 1.8em;
-
     top: 2.5em;
 
-    background:var(--secondary-clr);
+    font-size: 0.9em;
     
-    padding: 0.2em;
-    border-radius: var(--border-radius);
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: var(--border-radius-alt);
+
+    background:var(--secondary-clr);
 
 }
 
@@ -235,7 +241,8 @@ footer a{
 
  @media(min-width: 1024px){
     header{
-        padding: 0.5em 1em 0.5em 1em;
+        padding: 0.5em 1.5em 0.5em 1.5em;
+
     }
 
     .acai-icon{
@@ -257,11 +264,13 @@ footer a{
     .numberItens{
         right: 1.5vw;
         top: 4vh;
+        padding: 0;
 
     }
 
      header, footer{
          font-size: 1vw;
+
      }
 
     footer ul{
@@ -270,5 +279,7 @@ footer a{
         align-items: center;
 
     }
+
+    
 
 }
