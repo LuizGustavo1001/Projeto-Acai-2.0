@@ -1,41 +1,7 @@
 <?php 
     include "../../databaseConnection.php";
-
-    function prodPrice($nameProd){
-        global $mysqli;
-
-        $allowedNames = 
-        [
-            "acai10", "acai5", "acai1", "colher200", "colher500", "colher800", 
-            "cremeCupuacu10", "cremeNinho10", "cremeMaracuja10", "cremeMorango10",
-            "acaiZero10", "acaiNinho1", "acaiNinho250", "morango1", "leiteEmPo1", 
-            "granola1.5", "granola1", "pacoca150", "farofaPacoca1", "amendoimTriturado1",
-            "ovomaltine1", "gotaChocolate1", "chocoball1", "jujuba500", "disquete1", 
-            "cremeSaborazzi", "polpas"
-        ]; 
-
-        if(in_array($nameProd, $allowedNames)){ // verificar se o nome para pesquisa é um dos produtos cadastrados
-
-            $query = $mysqli->prepare("SELECT price,priceDate FROM product WHERE nameProd = ?");
-            $query->bind_param("s",$nameProd);
-            $query->execute();
-            $result = $query->get_result();
-            
-            $defaultMoney = numfmt_create("pt-BR", style: NumberFormatter::CURRENCY);
-            
-            $result = $result->fetch_assoc();
-            $price = $result['price'];
-
-            echo "<p class=\"price\">" . numfmt_format_currency($defaultMoney, $price, "BRL") . "</p>";
-
-            $date = $result['priceDate'];
-            
-            echo "<p><small>Preço Atualizado em:<strong> $date</strong></small></p>";
-
-        }else{
-            echo "<em><small>Produto não encontrado</small></em>";
-        }
-    }
+    include "../prodPrice.php";
+    
 ?>
 
 
@@ -54,30 +20,6 @@
     <link rel="shortcut icon" href="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750080377/iconeAcai_mj7dqy.ico" type="image/x-icon">
 
     <title>Açaí Amazônia - Produtos</title>
-
-    <script>
-        addEventListener("DOMContentLoaded", () =>{
-            const plus = document.querySelector(".plus");
-            const minus = document.querySelector(".minus");
-            const local = document.querySelector(".product-amount-number");
-            let amount = 0;
-
-            plus.addEventListener("click", () => {
-                amount++;
-                local.textContent = amount;
-            });
-
-            minus.addEventListener("click", () =>{
-                if(amount != 0){
-                    amount--;
-                    local.textContent = amount;
-                }
-               
-            });
-
-            
-        });
-    </script>
 
     <style>
         main{
@@ -114,10 +56,10 @@
 
         .product-text{
             padding: 1em;
+            padding-bottom: 2em;
             border-bottom-left-radius: var(--border-radius);
             border-bottom-right-radius: var(--border-radius);
             text-align: center;
-            
             
         }
 
@@ -155,40 +97,41 @@
             cursor: pointer;
         }
 
-        .product-size, .product-amount{
+        .forms-item{
             display: flex;
             justify-content: space-between;
-
+            align-items: center;
         }
 
-        .product-size label, .product-amount p{
+        .forms-item label{
             font-weight: bold;
-            font-size: 1.1em;
+            font-size: 1.2em;
         }
 
-        .product-size select{
-            padding: 1em 3em 1em 3em;
+        .forms-item select, .forms-item input{
             border-radius: var(--border-radius);
             color: var(--fourth-clr);
             border: 2px solid var(--primary-clr);
 
-        }
+            font-weight: bold;
+            padding-inline: 0.3em;
 
-        .product-size select:focus{
+        }
+        .forms-item select:focus, .forms-item input:focus{
             border-color: var(--secondary-clr);
             outline: none;
 
         }
 
-        .product-amount-border{
-            display: flex;
-            gap: 0.8em;
+        .product-size select{
+            width: 210px;
+            height: 45px;
 
-            padding: 0.3em 1em 0.3em 1em;
+        }
 
-            border: 2px solid var(--primary-clr);
-            border-radius: var(--border-radius);
-            
+        .product-amount input{
+            width: 200px;
+            height: 40px;
 
         }
 
@@ -246,14 +189,26 @@
             .product-hero{
                 display: flex;
                 align-items: center;
-                gap: 4em;
+                justify-content: center;
 
+                gap: 4em;   
+                
             }
 
             .product-text{
-                background: transparent;
-                box-shadow: none;
+                background: white;
+                border-radius: 0px;
 
+                border-top-right-radius: var(--border-radius);
+                border-top-left-radius: var(--border-radius);
+                padding-bottom: 3em;
+                
+            }
+
+            .product-text small{
+                border-bottom: 2px solid var(--primary-clr);
+                padding-bottom: 2em;
+                
             }
 
             .product-text h1{
@@ -268,8 +223,13 @@
 
             .product-forms{
                 margin-top: 0em;
-                border-radius: var(--border-radius);
+
+                border-radius: 0px;
+                border-bottom-left-radius: var(--border-radius);
+                border-bottom-right-radius: var(--border-radius);
+
                 width: 30vw;
+                height: 270px;
 
             }
 
@@ -336,44 +296,32 @@
             <div>
                 <div class="product-text">
                     <h1>Caixa de Açaí</h1>
-                    <p><?php prodPrice("acai10")?></p>
+                    <p><?php prodPrice("acaiT")?></p>
                 </div>
-                <form method="post" class="product-forms">
-                    <div class="product-size">
+                <form method="get" class="product-forms">
+                    <div class="forms-item product-size">
                         <label for="isize">Tamanho: </label>
                         <select name="size" id="isize">
-                            <option value="">10 litros</option>
-                            <option value="">5 litros</option>
-                            <option value="">1 litro</option>
+                            <option value="10l">10 litros</option>
+                            <option value="5l">5 litros</option>
+                            <option value="1l">1 litro</option>
                         </select>
                     </div>
-                    <div class="product-amount">
-                        <p>Quantidade:</p>
-                        <div class="product-amount-border">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 minus" style=" border-bottom-left-radius: var(--border-radius-alt); border-top-left-radius:var(--border-radius-alt);">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14"/>
-                            </svg>
-                            <hr>
-                            <p class="product-amount-number">0</p>
-                            <hr>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 plus" style=" border-bottom-right-radius: var(--border-radius-alt); border-top-right-radius:var(--border-radius-alt);">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                            </svg>
-                        </div>
+                    <div class="forms-item product-amount">
+                        <label for="iamount-product">Quantidade: </label>
+                        <input type="number" name="amount-product" id="iamount-product" value="1" max="150" min="1">
                     </div>
-                    <button>
+
+                    <button type="submit">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
                         </svg>
                         Adicionar Ao Carrinho
                     </button>
+                        
                 </form>
             </div>
-
-
         </section>
-
-
 
     </main>
 

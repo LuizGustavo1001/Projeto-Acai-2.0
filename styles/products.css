@@ -213,4 +213,22 @@ main{
 
 
     }
+
+    .products-item img, .products-item{
+        width: 270px;
+
+    }
+}
+
+@media(min-width: 2000px){
+    .products-item img, .products-item{
+        width: 15vw;
+        
+
+    }
+
+    .products-item{
+        height: 50vh;
+    }
+
 }

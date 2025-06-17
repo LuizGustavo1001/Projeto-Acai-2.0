@@ -2,8 +2,6 @@
     include "../../databaseConnection.php";
     include "../prodPrice.php";
 ?>
-
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -291,21 +289,38 @@
         
         <section class="product-hero">
             <div class="product-img">
-                <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079855/cremes-frutados_kfdx1f.png" alt="Product Image">
+                <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079845/polpas_lnxxhz.jpg" alt="Product Image">
             </div>
             <div>
                 <div class="product-text">
-                    <h1>Cremes Frutados <br> 10 litros</h1>
-                    <p><?php prodPrice("cremesFrutados")?></p>
+                    <h1>Polpas de Frutas <br> Sabor Natural<sup>&copy;</sup></h1>
+                    <p><?php prodPrice("polpas")?></p>
                 </div>
                 <form method="get" class="product-forms">
                     <div class="forms-item product-flavor">
                         <label for="iflavor">Sabores: </label>
                         <select name="flavor" id="iflavor">
-                            <option value="strawberry">Morango</option>
-                            <option value="passionFruit">Maracujá</option>
+                            <option value="pineapple">Abacaxi</option>
+                            <option value="pineMint">Abacaxi c/ Hortelã</option>
+                            <option value="acai">Açaí</option>
+                            <option value="acerola">Acerola</option>
+                            <option value="acerPapaya">Acerola c/ Mamão</option>
+                            <option value="cocoa">Cacau</option>
+                            <option value="caja">Caja</option>
+                            <option value="cashew">Caju</option>
                             <option value="cupuacu">Cupuaçu</option>
-                            <option value="ninho">Ninho</option>
+                            <option value="guava">Goiaba</option>
+                            <option value="soursop">Graviola</option>
+                            <option value="papaya">Mamão</option>
+                            <option value="papaPashion">Mamão c/ Maracujá</option>
+                            <option value="mango">Manga</option>
+                            <option value="mangaba">Mangaba</option>
+                            <option value="pashionFruit">Maracujá</option>
+                            <option value="strawberry">Morango</option>
+                            <option value="pitanga">Pitanga</option>
+                            <option value="tangerine">Tangerina</option>
+                            <option value="umbu">Umbu</option>
+                            <option value="grape">Uva</option>
                         </select>
                     </div>
                     <div class="forms-item product-amount">

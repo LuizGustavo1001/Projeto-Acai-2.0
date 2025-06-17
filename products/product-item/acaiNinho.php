@@ -116,14 +116,13 @@
             padding-inline: 0.3em;
 
         }
-
         .forms-item select:focus, .forms-item input:focus{
             border-color: var(--secondary-clr);
             outline: none;
 
         }
 
-        .product-size select, .product-flavor select{
+        .product-size select{
             width: 210px;
             height: 45px;
 
@@ -291,26 +290,24 @@
         
         <section class="product-hero">
             <div class="product-img">
-                <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079855/cremes-frutados_kfdx1f.png" alt="Product Image">
+                <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079853/caixa-acai_l7uokc.jpg" alt="Product Image">
             </div>
             <div>
                 <div class="product-text">
-                    <h1>Cremes Frutados <br> 10 litros</h1>
-                    <p><?php prodPrice("cremesFrutados")?></p>
+                    <h1>Açaí c/ Ninho</h1>
+                    <p><?php prodPrice("acaiNinho1")?></p>
                 </div>
                 <form method="get" class="product-forms">
-                    <div class="forms-item product-flavor">
-                        <label for="iflavor">Sabores: </label>
-                        <select name="flavor" id="iflavor">
-                            <option value="strawberry">Morango</option>
-                            <option value="passionFruit">Maracujá</option>
-                            <option value="cupuacu">Cupuaçu</option>
-                            <option value="ninho">Ninho</option>
+                    <div class="forms-item product-size">
+                        <label for="isize">Tamanho: </label>
+                        <select name="size" id="isize">
+                            <option value="1l">1 litro</option>
+                            <option value="250ml">250 ml</option>
                         </select>
                     </div>
                     <div class="forms-item product-amount">
                         <label for="iamount-product">Quantidade: </label>
-                        <input type="number" name="amount-product" id="iamount-product" value="1" max="15" min="1">
+                        <input type="number" name="amount-product" id="iamount-product" value="1" max="150" min="1">
                     </div>
 
                     <button type="submit">

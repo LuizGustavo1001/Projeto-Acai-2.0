@@ -291,21 +291,20 @@
         
         <section class="product-hero">
             <div class="product-img">
-                <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079855/cremes-frutados_kfdx1f.png" alt="Product Image">
+                <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079854/caixa-colher_eurc6f.png" alt="Product Image">
             </div>
             <div>
                 <div class="product-text">
-                    <h1>Cremes Frutados <br> 10 litros</h1>
-                    <p><?php prodPrice("cremesFrutados")?></p>
+                    <h1>Colheres p/  <br> Açaí e Sorvete</h1>
+                    <p><?php prodPrice("colheres")?></p>
                 </div>
                 <form method="get" class="product-forms">
                     <div class="forms-item product-flavor">
                         <label for="iflavor">Sabores: </label>
                         <select name="flavor" id="iflavor">
-                            <option value="strawberry">Morango</option>
-                            <option value="passionFruit">Maracujá</option>
-                            <option value="cupuacu">Cupuaçu</option>
-                            <option value="ninho">Ninho</option>
+                            <option value="colher500">Colher Reforçada p/ Açaí</option>
+                            <option value="colher200">Colher Longa p/ Açaí</option>
+                            <option value="colher800">Colher p/ Sorvete</option>
                         </select>
                     </div>
                     <div class="forms-item product-amount">

@@ -291,21 +291,27 @@
         
         <section class="product-hero">
             <div class="product-img">
-                <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079855/cremes-frutados_kfdx1f.png" alt="Product Image">
+                <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079857/cremes-saborazzi_dhssx6.png" alt="Product Image">
             </div>
             <div>
                 <div class="product-text">
-                    <h1>Cremes Frutados <br> 10 litros</h1>
-                    <p><?php prodPrice("cremesFrutados")?></p>
+                    <h1>Cremes Saborazzi <sup>&copy;</sup><br> 10 litros</h1>
+                    <p><?php prodPrice("saborazzi")?></p>
                 </div>
                 <form method="get" class="product-forms">
                     <div class="forms-item product-flavor">
                         <label for="iflavor">Sabores: </label>
                         <select name="flavor" id="iflavor">
-                            <option value="strawberry">Morango</option>
-                            <option value="passionFruit">Maracujá</option>
-                            <option value="cupuacu">Cupuaçu</option>
-                            <option value="ninho">Ninho</option>
+                            <option value="Chocomaltine">Chocomaltine</option>
+                            <option value="coconut">Cocada Cremosa</option>
+                            <option value="cookies">Cookies Brancos</option>
+                            <option value="hazelnutP">Creme de Avelã Premium</option>
+                            <option value="hazelnutT">Creme de Avelã Tradicional</option>
+                            <option value="leitinho">Leitinho</option>
+                            <option value="peanut">Paçoca Cremosa</option>
+                            <option value="skimoM">Skimo ao Leite</option>
+                            <option value="skimoW">Skimo Branco</option>
+                            <option value="wafer">Wafer Cremoso</option>
                         </select>
                     </div>
                     <div class="forms-item product-amount">

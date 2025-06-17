@@ -37,7 +37,7 @@ body{
     color: var(--primary-clr);
 }
 
-header, footer, .header-feature img, .products-item, .product-text, .product-img, .product-forms{
+header, footer, .header-feature img, .products-item, .product-text, .product-img, .product-forms, select:focus, input:focus{
     box-shadow: 4px 4px 4px var(--shadow-clr);
     
 }
@@ -94,6 +94,11 @@ button:hover{
 
     border: 2px solid var(--secondary-clr);
     color: var(--secondary-clr);
+
+}
+
+select, input{
+    transition: var(--transition);
 
 }
 

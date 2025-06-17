@@ -1,6 +1,115 @@
 <?php 
     include "databaseConnection.php";
+    
+    function featureItens(){
+        global $mysqli;
+        $totalQuery = $mysqli->prepare("SELECT COUNT(*) FROM product");
+        $totalQuery->execute();
+        $totalResult = $totalQuery->get_result();
+        $total = $totalResult->fetch_row()[0];
+        $totalQuery->close();
 
+        $randomIdVec = [];
+        while (count($randomIdVec) < 4) {
+            $randomId = rand(1, $total);
+            if (!in_array($randomId, $randomIdVec)) {
+                $randomIdVec[] = $randomId;
+            }
+        }
+
+        $defaultMoney = numfmt_create("pt-BR", NumberFormatter::CURRENCY);
+
+        for($j = 0; $j < 4; $j++){
+            $query = $mysqli->prepare(
+                "SELECT nameProd, brand, price, priceDate, imageURL FROM product WHERE idProd = ?"
+            );
+            $query->bind_param("s", $randomIdVec[$j]);
+            $query->execute();
+            $result = $query->get_result();
+            $result = $result->fetch_assoc();
+
+            $name = $result['nameProd'];
+            $brand = $result['brand'];
+            $price = numfmt_format_currency($defaultMoney, $result['price'], "BRL");
+            $priceDate = $result['priceDate'];
+            $image = $result['imageURL'];
+
+            match($name){
+                "acaiT10"               => $name = "Caixa de Açaí - 10 l",
+                "acaiT5"                => $name = "Caixa de Açaí - 5 l",
+                "acaiT1"                => $name = "Caixa de Açaí - 1 l",
+                "colher200"             => $name = "Colher Longa P/Açaí - 200 Unidades",
+                "colher500"             => $name = "Colher Reforçada P/Açaí - 500 Unidades",
+                "colher800"             => $name = "Colher P/Sorvete - 800 unidades",
+                "cremeCupuacu10"        => $name = "Creme de Cupuaçu - 10 litros",
+                "cremeMorango10"        => $name = "Creme de Morango - 10 litros",
+                "cremeNinho10"          => $name = "Creme de Ninho - 10 litros",
+                "cremeMaracuja10"       => $name = "Creme de Maracujá - 10 litros",
+                "acaiZero10"            => $name = "Caixa de Açaí Zero - 10 litros",
+                "acaiNinho1"            => $name = "Açaí c/ Ninho - 1 litro",
+                "acaiNinho250"          => $name = "Açaí c/ Ninho - 250 ml",
+                "morango1"              => $name = "Morango Congelado - 1 kg",
+                "leiteEmPo1"            => $name = "Leite em Pó - 1 kg",
+                "granola1.5"            => $name = "Granola Tia Sônia<sup>&copy</sup> - 1.5 kg",
+                "granola1"              => $name = "Granola Genérica - 1 kg",
+                "pacoca150"             => $name = "Caixa de Paçoca - 150 unidades",
+                "farofaPacoca1"         => $name = "Farofa de Paçoca - 1 kg",
+                "amendoimTriturado1"    => $name = "Amendoim Triturado - 1 kg",
+                "ovomaltine1"           => $name = "Ovomaltine<sup>&copy</sup> - 750 g",
+                "gotaChocolate1"        => $name = "Gotas de Chocolate - 1 kg",
+                "chocoball1"            => $name = "Chocoball - 1 kg",
+                "jujuba500"             => $name = "Jujuba - 500 g",
+                "disquete1"             => $name = "Disqueti - 1 kg",
+                "saborazziChocomalt"    => $name = "Creme Chocomaltine - 5kg ",
+                "saborazziCocada"       => $name = "Creme Cocada Cremosa - 5kg ",
+                "saborazziCookies"      => $name = "Creme Cookies Brancos - 5kg ",
+                "saborazziAvelaP"       => $name = "Creme Avelã <em>Premium</em> - 5kg ",
+                "saborazziAvelaT"       => $name = "Creme Avelã <em>Tradicional</em> - 5kg ",
+                "saborazziLeitinho"     => $name = "Creme Leitinho - 5kg ",
+                "saborazziPacoca"       => $name = "Creme Paçoca Cremosa  - 5kg",
+                "saborazziSkimoL"       => $name = "Creme Skimo ao Leite - 5kg",
+                "saborazziSkimoB"       => $name = "Creme Skimo  Branco - 5kg",
+                "saborazziWafer"        => $name = "Creme Wafer Cremoso - 5kg",
+                "polpaAbac"             => $name = "Polpa de Abacaxi - Unidade",
+                "polpaAbacHort"         => $name = "Polpa de Abacaxi c/Hortelã - Unidade",
+                "polpaAcai"             => $name = "Polpa de Açaí - Unidade",
+                "polpaAcrl"             => $name = "Polpa de Acerola - Unidade",
+                "polpaAcrlMamao"        => $name = "Polpa de Acerola c/Mamão - Unidade",
+                "polpaCacau"            => $name = "Polpa de Cacau - Unidade",
+                "polpaCaja"             => $name = "Polpa de Caja - Unidade",
+                "polpaCaju"             => $name = "Polpa de Caju - Unidade",
+                "polpaCupuacu"          => $name = "Polpa de Cupuaçú - Unidade",
+                "polpaGoiaba"           => $name = "Polpa de Goiaba - Unidade",
+                "polpaGraviola"         => $name = "Polpa de Graviola - Unidade",
+                "polpaMamao"            => $name = "Polpa de Mamão - Unidade",
+                "polpaMamaoMrcj"        => $name = "Polpa de Mamão c/ Maracujá - Unidade",
+                "polpaManga"            => $name = "Polpa de Manga - Unidade",
+                "polpaMangaba"          => $name = "Polpa de Mangaba - Unidade",
+                "polpaMaracuja"         => $name = "Polpa de Maracujá - Unidade",
+                "polpaMorango"          => $name = "Polpa de Morango - Unidade",
+                "polpaPitanga"          => $name = "Polpa de Pitanga - Unidade",
+                "polpaTangerina"        => $name = "Polpa de Tangerina - Unidade",
+                "polpaUmbu"             => $name = "Polpa de Umbu - Unidade",
+                "polpaUva"              => $name = "Polpa de Uva - Unidade",
+                default                 => $name = "Produto Desconhecido",
+
+            };
+
+            echo "
+                <div class=\"feature-item item-translate-alt\">  
+                    <a href=\"\">
+                        <img src=\"$image\" alt=\"Product Image\">
+                        <p>$brand</p>
+                        <h2>$name</h2>
+                        <p class=\"price\">$price</p>
+                        <p>$priceDate</strong></p>
+                    </a>
+                </div>
+        
+            ";
+
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -17,6 +126,89 @@
 
     <link rel="stylesheet" href="styles/general-styles.css">
     <link rel="stylesheet" href="index-style.css">
+
+    <style>
+        .feature-products{
+            display: flex;
+            flex-direction: column;
+            gap: 2em;
+
+        }
+
+        .feature-title h1{
+            text-align: center;
+            font-size: 2em;
+
+        }
+
+        .feature-box{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2em;
+
+        }
+
+        .feature-item a{
+            background: white;
+
+            width: 250px;
+            height: 450px;
+
+            padding: 1em;
+            border-radius: var(--border-radius);
+            box-shadow: 4px 4px 4px var(--shadow-clr);
+            text-align: center;
+            
+            border: 1px solid transparent;
+            
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1em;
+
+            transition: var(--transition);
+
+        }
+
+        .feature-item a:hover{
+            border-color: var(--secondary-clr);
+
+        }
+
+        .feature-item h2{
+            color: var(--primary-clr);
+
+        }
+
+        .feature-item .price{
+            color: var(--secondary-clr);
+            font-weight: bold;
+            font-size: 1.2em;
+
+        }
+
+
+        .feature-item img{
+            width: 250px;
+            display: flex;
+            padding-bottom: 1em;
+            border-bottom: 2px solid var(--primary-clr);
+
+        }
+
+        @media(min-width: 1024px){
+            .feature-box{
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+
+
+
+    </style>
 
     <title>Açaí Amazônia Ipatinga</title>
 
@@ -165,6 +357,19 @@
             </ul>
 
         </section>
+
+        <section class="feature-products">
+            <div class="feature-title">
+                <h1>Produtos em Destaque</h1>
+            </div>
+            <div class="feature-box">
+                <?php 
+                    featureItens();
+                 ?>
+                
+            </div>
+        </section>
+
     </main>
     
     <footer>

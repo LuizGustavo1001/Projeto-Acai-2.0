@@ -6,30 +6,30 @@
 
         $allowedNames = 
         [
-            "acai10", "acai5", "acai1", "colher200", "colher500", "colher800", 
-            "cremeCupuacu10", "cremeNinho10", "cremeMaracuja10", "cremeMorango10",
-            "acaiZero10", "acaiNinho1", "acaiNinho250", "morango1", "leiteEmPo1", 
-            "granola1.5", "granola1", "pacoca150", "farofaPacoca1", "amendoimTriturado1",
-            "ovomaltine1", "gotaChocolate1", "chocoball1", "jujuba500", "disquete1", 
-            "saborazzi", "polpas"
-        ]; 
+            "acaiT1", "colher200", "cremeCupuacu10", "acaiZero10", "acaiNinho1", 
+            "acaiNinho250", "morango1", "leiteEmPo1", "granola1.5", "granola1", "pacoca150", 
+            "farofaPacoca1", "amendoimTriturado1", "ovomaltine1", "gotaChocolate1", "chocoball1", 
+            "jujuba500", "disquete1", "saborazzi", "polpas"
+        ];
+
+        // Optou-se por adicionar os produtos na página web manualmente para evitar muitos produtos repetidos
 
         if(in_array($nameProd, $allowedNames)){ // verificar se o nome para pesquisa é um dos produtos cadastrados
             switch($nameProd){
                 case "saborazzi":
                     $product = "saborazzi%";
-                    $query = $mysqli->prepare("SELECT MIN(price) as price, priceDate FROM product WHERE nameProd LIKE ?");
+                    $query = $mysqli->prepare("SELECT MIN(price) as price, priceDate, brand FROM product WHERE nameProd LIKE ?");
                     $query->bind_param("s",$product);
 
                     break;
                 case "polpas":
                     $product = "polpa%";
-                    $query = $mysqli->prepare("SELECT MIN(price) as price, priceDate FROM product WHERE nameProd LIKE ?");
+                    $query = $mysqli->prepare("SELECT MIN(price) as price, priceDate, brand FROM product WHERE nameProd LIKE ?");
                     $query->bind_param("s",$product);
 
                     break;
                 default:
-                    $query = $mysqli->prepare("SELECT price,priceDate FROM product WHERE nameProd = ?");
+                    $query = $mysqli->prepare("SELECT price, priceDate, brand FROM product WHERE nameProd = ?");
                     $query->bind_param("s",$nameProd);
 
                     break;
@@ -43,9 +43,15 @@
             $result = $result->fetch_assoc();
             if ($result && isset($result['price'])) {
                 $price = $result['price'];
-                echo numfmt_format_currency($defaultMoney, $price, "BRL");
                 $date = $result['priceDate'];
-                echo "<p><small>Preço Atualizado em:<strong> $date</strong></small></p>";
+
+                echo "<p><em>A partir de</em>: 
+                        <span style=\"font-size: 1.3em;\">" .
+                        numfmt_format_currency($defaultMoney, $price, "BRL") .
+                        "</span></p>
+                    ";
+                echo "<p style=\"color: var(--primary-clr)\"><small>Preço Atualizado em:<strong> $date</strong></small></p>";
+                
             } else {
                 echo "<em><small>Preço não disponível</small></em>";
             }
@@ -70,6 +76,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&display=swap" rel="stylesheet">
 
     <link rel="shortcut icon" href="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750080377/iconeAcai_mj7dqy.ico" type="image/x-icon">
+
+    <style>
+        .products-item div{
+            background:rgb(238, 238, 238);
+            padding-block: 1em;
+            border-radius: var(--border-radius);
+
+        }
+
+    </style>
 
     <title>Açaí Amazônia - Produtos</title>
     
@@ -186,7 +202,7 @@
                             <hr>
                             <div>
                                 <h2>Caixa de Açaí</h2>
-                                <p><em>A Partir de</em>: <?php prodPrice("acai1")?></p>
+                                <?php prodPrice("acaiT1")?>
                                 <p span="product-sizes" style="color: var(--primary-clr)">Tamanhos: 10l, 5l e 1l</p>
                             </div>
                         </a>
@@ -198,57 +214,44 @@
                             <hr>
                             <div>
                                 <h2>Cremes Frutados - 10 litros</h2>
-                                <p><em>A Partir de</em>: <?php prodPrice("cremeCupuacu10")?></p>
+                                <?php prodPrice("cremeCupuacu10")?>
                             </div>
                         </a>
                     </li>
                 
                     <li class="products-item item-translate-alt">
-                        <a href="">
+                        <a href="product-item/cremesSaborazzi.php">
                         <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079857/cremes-saborazzi_dhssx6.png" alt="Saborazzi's Cream Image">
                         <hr>
                         <div>
                             <h2>Cremes Saborazzi&copy; - Balde 5 kg</h2>
-                            <p><span>A Partir de: </span><?php prodPrice("saborazzi")?></p>
-                            <p>Diversos Sabores</p>
+                            <?php prodPrice("saborazzi")?>
                         </div>
                         </a>
                     </li>
 
                     <li class="products-item item-translate-alt">
-                        <a href="">
+                        <a href="product-item/acaiZero.php">
                             <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079853/caixa-acai_l7uokc.jpg" alt="Açaí Zero Sugar Box Image">
                             <hr>
                             <div>
                                 <h2>Açaí Zero - 10 litros</h2>
-                                <p><?php prodPrice("acaiZero10")?></p>
+                                <?php prodPrice("acaiZero10")?>
                             </div>
                         </a>
                     </li>
                     
                     <li class="products-item item-translate-alt">
-                        <a href="">
+                        <a href="product-item/acaiNinho.php">
                             <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079853/caixa-acai_l7uokc.jpg" alt="Açaí with Ninho Box Image">
                             <hr>
                             <div>
                                 <h2>Açaí c/Ninho</h2>
-                                <p><?php prodPrice("acaiNinho1")?></p>
+                                <?php prodPrice("acaiNinho1")?>
                                 <p span="product-sizes" style="color: var(--primary-clr)">Tamanhos: 1l e 250ml</p>
                             </div>
                         </a>
                     </li>
-    <!--
-                    <li class="products-item item-translate-alt">
-                        <a href="">
-                            <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079853/caixa-acai_l7uokc.jpg" alt="Açaí with Ninho Box Image">
-                            <hr>
-                            <div>
-                                <h2>Açaí c/Ninho - 250 ml</h2>
-                                <p><?php prodPrice("acaiNinho250")?></p>
-                            </div>
-                        </a>
-                    </li>
--->
             </ul>
 
             <div class="products-list-title">
@@ -257,123 +260,123 @@
 
             <ul class="products-list">
                 <li class="products-item item-translate-alt">
-                    <a href="">
+                    <a href="product-item/granolaTiaSonia.php">
                         <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750086648/granola_majjmg_o5aufd.png" alt="Granola Package Image">
                         <hr>
                         <div>
                             <h2>Granola Tia Sônia<sup>&copy;</sup> - 1,5 kg</h2>
-                            <p><?php prodPrice("granola1.5")?></p>
+                            <?php prodPrice("granola1.5")?>
                         </div>
                     </a>
                 </li>
 
                 <li class="products-item item-translate-alt">
-                    <a href="">
-                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750086648/granola_majjmg_o5aufd.png" alt="Granola Package Image">
+                    <a href="product-item/granolaTradicional.php">
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079685/LogoAcai_x1zv8k.png" alt="Granola Package Image">
                         <hr>
                         <div>
                             <h2>Granola Genérica - 1 kg</h2>
-                            <p><?php prodPrice("granola1")?></p>
+                            <?php prodPrice("granola1")?>
                         </div>
                     </a>
                 </li>
                 
                 <li class="products-item item-translate-alt">
-                    <a href="">
+                    <a href="product-item/morango.php">
                     <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750080166/strawberry_akhbkp.jpg" alt="Strawberry Package Image">
                     <hr>
                     <div>
                         <h2>Morango Congelado - 1 kg</h2>
-                        <p><?php prodPrice("morango1")?></p>
+                        <?php prodPrice("morango1")?>
                     </div>
                     </a>
                 </li>
                 
                 <li class="products-item item-translate-alt">
-                    <a href="">
+                    <a href="product-item/leitEemPo.php">
                         <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079860/leite_em_po_rkrf0f.png" alt="Powdered Milk Package Image">
                         <hr>
                         <div>
                             <h2>Leite Em Pó - 1 kg</h2>
-                            <p><?php prodPrice("leiteEmPo1")?></p>
+                            <?php prodPrice("leiteEmPo1")?>
                         </div>
                     </a>
                 </li>
                 
                 <li class="products-item item-translate-alt">
-                    <a href="">
+                    <a href="product-item/pacoca.php">
                     <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079844/pacoca_dlxek6.png" alt="Paçoca Package Image">
                     <hr>
                     <div>
                         <h2>Caixa de Paçoca - 150 Unidades</h2>
-                        <p><?php prodPrice("pacoca150")?></p>
+                        <?php prodPrice("pacoca150")?>
                     </div>
                     </a>
                 </li>
               
                 <li class="products-item item-translate-alt">
-                        <a href="">
-                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079844/pacoca_dlxek6.png" alt="Powdered Paçoca Package Image">
+                        <a href="product-item/farofaPacoca.php">
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079685/LogoAcai_x1zv8k.png" alt="Powdered Paçoca Package Image">
                         <hr>
                         <div>
                             <h2>Farofa de Paçoca - 1 kg</h2>
-                            <p><?php prodPrice("farofaPacoca1")?></p>
+                            <?php prodPrice("farofaPacoca1")?>
                         </div>
                     </a>
                 </li>
 
                 <li class="products-item item-translate-alt">
-                    <a href="">
-                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079844/pacoca_dlxek6.png" alt="Crushed Peanut Package Image">
+                    <a href="product-item/amendoim.php">
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079685/LogoAcai_x1zv8k.png" alt="Crushed Peanut Package Image">
                         <hr>
                         <div>
                             <h2>Amendoim Triturado - 1 kg</h2>
-                            <p><?php prodPrice("amendoimTriturado1")?></p>
+                            <?php prodPrice("amendoimTriturado1")?>
                         </div>
                     </a>
                 </li>
 
                 
                 <li class="products-item item-translate-alt">
-                    <a href="">
-                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079858/gotas_wanvya.jpg    " alt="Chocolate Chips Package Image">
+                    <a href="product-item/gotasChocolate.php">
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079858/gotas_wanvya.jpg" alt="Chocolate Chips Package Image">
                         <hr>
                         <div>
                             <h2>Gotas de Chocolate - 1 kg</h2>
-                            <p><?php prodPrice("gotaChocolate1")?></p>
+                            <?php prodPrice("gotaChocolate1")?>
                         </div>
                     </a>
                 </li>
                 
                 <li class="products-item item-translate-alt">
-                    <a href="">
-                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079858/gotas_wanvya.jpg" alt="Chocoball Package Image">
+                    <a href="product-item/chocoball.php">
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079685/LogoAcai_x1zv8k.png" alt="Chocoball Package Image">
                         <hr>
                         <div>
                             <h2>ChocoBall - 1 kg</h2>
-                            <p><?php prodPrice("chocoball1")?></p>
+                            <?php prodPrice("chocoball1")?>
                         </div>
                     </a>
                 </li>
                
                 <li class="products-item item-translate-alt">
-                    <a href="">
-                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079858/gotas_wanvya.jpg" alt="Jujuba Package Image">
+                    <a href="product-item/jujuba.php">
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079685/LogoAcai_x1zv8k.png" alt="Jujuba Package Image">
                         <hr>
                         <div>
                             <h2>Jujuba - 500 g</h2>
-                            <p><?php prodPrice("jujuba500")?></p>
+                            <?php prodPrice("jujuba500")?>
                         </div>
                     </a>
                 </li>
                 
                 <li class="products-item item-translate-alt">
-                    <a href="">
-                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079858/gotas_wanvya.jpg" alt="Disqueti Package Image">
+                    <a href="product-item/disqueti.php">
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079685/LogoAcai_x1zv8k.png" alt="Disqueti Package Image">
                         <hr>
                         <div>
-                            <h2>Disquete - 1 kg</h2>
-                            <p><?php prodPrice("disquete1")?></p>
+                            <h2>Disqueti - 1 kg</h2>
+                            <?php prodPrice("disquete1")?>
                         </div>
                     </a>
                 </li>
@@ -385,45 +388,23 @@
 
             <ul class="products-list">
                 <li class="products-item item-translate-alt">
-                    <a href="">
+                    <a href="product-item/colheres.php">
                         <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079854/caixa-colher_eurc6f.png" alt="Spoon Box Image">
                         <hr>
                         <div>
-                            <h2>Colher Reforçada P/Açaí - 500 Unidades</h2>
-                            <p><?php prodPrice("colher500")?></p>
+                            <h2>Colheres p/ Açaí e Sorvete </h2>
+                            <?php prodPrice("colher200")?>
                         </div>
                     </a>
                 </li>
                 
                 <li class="products-item item-translate-alt">
-                    <a href="">
-                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079854/caixa-colher_eurc6f.png" alt="Spoon Box Image">
-                        <hr>
-                        <div>
-                            <h2>Colher Longa P/Açaí - 200 Unidades</h2>
-                            <p><?php prodPrice("colher200")?></p>
-                        </div>
-                    </a>
-                </li>
-
-                <li class="products-item item-translate-alt">
-                    <a href="">
-                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079854/caixa-colher_eurc6f.png" alt="Spoon Box Image">
-                        <hr>
-                        <div>
-                            <h2>Colher P/Sorvete - 800 Unidades</h2>
-                            <p><?php prodPrice("colher800")?></p>
-                        </div>
-                    </a>
-                </li>
-                <li class="products-item item-translate-alt">
-                    <a href="">
-                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079845/polpas_lnxxhz.jpg" alt="">
+                    <a href="product-item/polpas.php">
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079845/polpas_lnxxhz.jpg" alt="fruit pulp">
                         <hr>
                         <div>
                             <h2>Polpas de Frutas Sabor Natural&copy;</h2>
-                            <p><span>A partir de: </span><?php prodPrice("polpas")?></p>
-                            <p>Diversos Sabores</p>
+                            <?php prodPrice("polpas")?>
                         </div>
                     </a>
                 </li>
