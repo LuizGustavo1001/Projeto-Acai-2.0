@@ -76,17 +76,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&display=swap" rel="stylesheet">
 
     <link rel="shortcut icon" href="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750080377/iconeAcai_mj7dqy.ico" type="image/x-icon">
-
-    <style>
-        .products-item div{
-            background:rgb(238, 238, 238);
-            padding-block: 1em;
-            border-radius: var(--border-radius);
-
-        }
-
-    </style>
-
+    
     <title>Açaí Amazônia - Produtos</title>
     
 </head>
@@ -136,6 +126,7 @@
         <section class="header-feature">
             <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079684/feature-alt-5_om3heu.png" alt="feature Products Image">
         </section>
+        
         <section class="products-header">
             <div class="products-header-title">
                 <h1>Nossos Produtos</h1>

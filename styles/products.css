@@ -78,7 +78,7 @@ main{
 }
 
 .products-search-item input::placeholder, .products-search-item select{
-    color: var(--fourth-clr);
+    color: var(--placeholder-clr);
     font-weight: normal;
     text-align: center;
 
@@ -112,7 +112,7 @@ main{
 }
 
 .products-item{
-    background: white;
+    background: var(--fourth-clr);
     padding: 1em;
 
     border-radius: var(--border-radius);
@@ -125,6 +125,13 @@ main{
     transition: var(--transition);
 
     height: 500px;
+
+}
+
+.products-item div{
+    background:rgb(238, 238, 238);
+    padding-block: 1em;
+    border-radius: var(--border-radius);
 
 }
 
