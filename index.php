@@ -1,5 +1,7 @@
 <?php 
     include "databaseConnection.php";
+    include "generalPHP.php";
+
     
     function featureItens(){
         global $mysqli;
@@ -10,6 +12,7 @@
         $totalQuery->close();
 
         $randomIdVec = [];
+
         while (count($randomIdVec) < 4) {
             $randomId = rand(1, $total);
             if (!in_array($randomId, $randomIdVec)) {
@@ -23,6 +26,7 @@
             $query = $mysqli->prepare(
                 "SELECT nameProd, brand, price, priceDate, imageURL FROM product WHERE idProd = ?"
             );
+            
             $query->bind_param("s", $randomIdVec[$j]);
             $query->execute();
             $result = $query->get_result();
@@ -34,70 +38,13 @@
             $priceDate = $result['priceDate'];
             $image = $result['imageURL'];
 
-            match($name){
-                "acaiT10"               => $name = "Caixa de Açaí - 10 l",
-                "acaiT5"                => $name = "Caixa de Açaí - 5 l",
-                "acaiT1"                => $name = "Caixa de Açaí - 1 l",
-                "colher200"             => $name = "Colher Longa P/Açaí - 200 Unidades",
-                "colher500"             => $name = "Colher Reforçada P/Açaí - 500 Unidades",
-                "colher800"             => $name = "Colher P/Sorvete - 800 unidades",
-                "cremeCupuacu10"        => $name = "Creme de Cupuaçu - 10 litros",
-                "cremeMorango10"        => $name = "Creme de Morango - 10 litros",
-                "cremeNinho10"          => $name = "Creme de Ninho - 10 litros",
-                "cremeMaracuja10"       => $name = "Creme de Maracujá - 10 litros",
-                "acaiZero10"            => $name = "Caixa de Açaí Zero - 10 litros",
-                "acaiNinho1"            => $name = "Açaí c/ Ninho - 1 litro",
-                "acaiNinho250"          => $name = "Açaí c/ Ninho - 250 ml",
-                "morango1"              => $name = "Morango Congelado - 1 kg",
-                "leiteEmPo1"            => $name = "Leite em Pó - 1 kg",
-                "granola1.5"            => $name = "Granola Tia Sônia<sup>&copy</sup> - 1.5 kg",
-                "granola1"              => $name = "Granola Genérica - 1 kg",
-                "pacoca150"             => $name = "Caixa de Paçoca - 150 unidades",
-                "farofaPacoca1"         => $name = "Farofa de Paçoca - 1 kg",
-                "amendoimTriturado1"    => $name = "Amendoim Triturado - 1 kg",
-                "ovomaltine1"           => $name = "Ovomaltine<sup>&copy</sup> - 750 g",
-                "gotaChocolate1"        => $name = "Gotas de Chocolate - 1 kg",
-                "chocoball1"            => $name = "Chocoball - 1 kg",
-                "jujuba500"             => $name = "Jujuba - 500 g",
-                "disquete1"             => $name = "Disqueti - 1 kg",
-                "saborazziChocomalt"    => $name = "Creme Chocomaltine - 5kg ",
-                "saborazziCocada"       => $name = "Creme Cocada Cremosa - 5kg ",
-                "saborazziCookies"      => $name = "Creme Cookies Brancos - 5kg ",
-                "saborazziAvelaP"       => $name = "Creme Avelã <em>Premium</em> - 5kg ",
-                "saborazziAvelaT"       => $name = "Creme Avelã <em>Tradicional</em> - 5kg ",
-                "saborazziLeitinho"     => $name = "Creme Leitinho - 5kg ",
-                "saborazziPacoca"       => $name = "Creme Paçoca Cremosa  - 5kg",
-                "saborazziSkimoL"       => $name = "Creme Skimo ao Leite - 5kg",
-                "saborazziSkimoB"       => $name = "Creme Skimo  Branco - 5kg",
-                "saborazziWafer"        => $name = "Creme Wafer Cremoso - 5kg",
-                "polpaAbac"             => $name = "Polpa de Abacaxi - Unidade",
-                "polpaAbacHort"         => $name = "Polpa de Abacaxi c/Hortelã - Unidade",
-                "polpaAcai"             => $name = "Polpa de Açaí - Unidade",
-                "polpaAcrl"             => $name = "Polpa de Acerola - Unidade",
-                "polpaAcrlMamao"        => $name = "Polpa de Acerola c/Mamão - Unidade",
-                "polpaCacau"            => $name = "Polpa de Cacau - Unidade",
-                "polpaCaja"             => $name = "Polpa de Caja - Unidade",
-                "polpaCaju"             => $name = "Polpa de Caju - Unidade",
-                "polpaCupuacu"          => $name = "Polpa de Cupuaçú - Unidade",
-                "polpaGoiaba"           => $name = "Polpa de Goiaba - Unidade",
-                "polpaGraviola"         => $name = "Polpa de Graviola - Unidade",
-                "polpaMamao"            => $name = "Polpa de Mamão - Unidade",
-                "polpaMamaoMrcj"        => $name = "Polpa de Mamão c/ Maracujá - Unidade",
-                "polpaManga"            => $name = "Polpa de Manga - Unidade",
-                "polpaMangaba"          => $name = "Polpa de Mangaba - Unidade",
-                "polpaMaracuja"         => $name = "Polpa de Maracujá - Unidade",
-                "polpaMorango"          => $name = "Polpa de Morango - Unidade",
-                "polpaPitanga"          => $name = "Polpa de Pitanga - Unidade",
-                "polpaTangerina"        => $name = "Polpa de Tangerina - Unidade",
-                "polpaUmbu"             => $name = "Polpa de Umbu - Unidade",
-                "polpaUva"              => $name = "Polpa de Uva - Unidade",
-                default                 => $name = "Produto Desconhecido",
+            $name = matchNames($name); // atualizar o nome do produto (mais legível)
 
-            };
+            $linkName = matchProductLinkName($result['nameProd']);
 
             echo "
                 <div class=\"feature-item item-translate-alt\">  
-                    <a href=\"\">
+                    <a href=\"products/product-item/$linkName.php\">
                         <img src=\"$image\" alt=\"Product Image\">
                         <p>$brand</p>
                         <h2>$name</h2>
@@ -125,7 +72,7 @@
     <link rel="shortcut icon" href="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750080377/iconeAcai_mj7dqy.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="styles/general-styles.css">
-    <link rel="stylesheet" href="index-style.css">
+    <link rel="stylesheet" href="styles/index-style.css">
 
     <title>Açaí Amazônia Ipatinga</title>
 
@@ -282,7 +229,7 @@
             <div class="feature-box">
                 <?php 
                     featureItens();
-                 ?>
+                ?>
                 
             </div>
         </section>

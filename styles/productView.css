@@ -95,7 +95,7 @@ main{
 .forms-item select, .forms-item input{
     border-radius: var(--border-radius);
     border: 2px solid var(--primary-clr);
-    color: var(--fourth-clr);
+    color: var(--secondary-clr);
 
     font-weight: bold;
 

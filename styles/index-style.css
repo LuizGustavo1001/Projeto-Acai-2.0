@@ -1,5 +1,5 @@
 body{
-    background: var(--background-clr) url(https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079685/primary-bg_de1ozi.png) center center;
+    background: var(--background-clr);
     background-repeat: no-repeat;
 }
 
@@ -19,8 +19,9 @@ main{
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
     gap: 1em;
+    
+    text-align: center;
 
 }
 
@@ -104,7 +105,6 @@ main{
         display: flex;
         justify-content: space-around;
         align-items: center;
-        
 
     }
 
@@ -115,9 +115,12 @@ main{
 
     .left-content h1{
         font-size: 5vw;
+
     }
+
     .left-content p{
        font-size: 1.5vw;
+
     }
 
     .right-content{
