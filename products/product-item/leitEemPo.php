@@ -1,6 +1,68 @@
 <?php 
+    if (!isset($_SESSION)) {
+        session_start();
+    }
     include "../../databaseConnection.php";
     include "../prodPrice.php";
+
+    // Processar o formulário ANTES de qualquer saída HTML
+    if(isset($_GET['size']) AND isset($_GET["amount-product"])){
+        add2Cart($_GET['size'], $_GET['amount-product']);
+    }
+
+    function add2Cart($prodName, $amount){
+
+        global $mysqli;
+
+        if(!isset($_SESSION['user_id'])){
+            header("Location: ../../account/account.php");
+        }else{
+            $allowedNames = 
+            [
+                "acaiT10", "acaiT5", "acaiT1", "colher200", "colher500", "colher800", "cremeNinho10",
+                "cremeCupuacu10", "cremeMaracuja10", "cremeMorango10", "acaiZero10", "acaiNinho1", 
+                "acaiNinho250", "saborazziChocomalt", "saborazziCocada", "saborazziCookies",
+                "saborazziAvelaP", "saborazziAvelaT", "saborazziLeitinho", "saborazziPacoca",
+                "saborazziSkimoL", "saborazziSkimoB", "saborazziWafer", "polpaAbac", "polpaAbacHort",
+                "polpaAcrl", "polpaAcrlMamao", "polpaCacau", "polpaCaja", "polpaCaju", "polpaCupuacu",
+                "polpaGoiaba", "polpaGraviola", "polpaManga", "polpaMangaba", "polpaMaracuja", "polpaMorango",
+                "polpaUva", "morango1", "leiteEmPo1", "granola1.5", "granola1", "pacoca150", "farofaPacoca1", 
+                "amendoimTriturado1","ovomaltine1", "gotaChocolate1", "chocoball1", "jujuba500", "disquete1"
+            ];
+
+            if(in_array($prodName, $allowedNames)){
+                $query = $mysqli->prepare("SELECT idProd, price FROM product WHERE nameProd = ?");
+
+                $query->bind_param("s",$prodName);
+                $query->execute();
+
+                $result = $query->get_result();
+                $result = $result->fetch_assoc();
+
+                $totalPrice = $result["price"] * $amount;
+                $idProd = $result["idProd"];
+
+                $query->close();
+
+                $query = $mysqli->prepare(
+                    "INSERT INTO product_order (idProd, amount, singlePrice, totPrice) VALUES
+                                (?, ?, ?, ?)"
+                );
+
+                $query->bind_param("iidd", $idProd, $amount, $result['price'], $totalPrice);
+
+                if($query->execute()){
+                    echo "<p class=\"sucess-text\">Produto Adicionado com sucesso ao Carrinho</p>";
+
+                }
+            }
+        }
+
+        
+    }
+
+
+
 ?>
 
 
@@ -10,8 +72,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="../../styles/general-styles.css">
-    <link rel="stylesheet" href="../../styles/productView.css">
+    <link rel="stylesheet" href="../../styles/general-style.css">
+    <link rel="stylesheet" href="../../styles/productView-style.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,13 +81,42 @@
 
     <link rel="shortcut icon" href="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750080377/iconeAcai_mj7dqy.ico" type="image/x-icon">
 
+    <?php
+        // Definir os preços usando a função prodPrice do PHP
+        $preco10l = returnPrice('acaiT10');
+        $preco5l = returnPrice('acaiT5');
+        $preco1l = returnPrice('acaiT1');
+    ?>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const priceElement = document.querySelector('.product-price');
+            const sizeSelect = document.getElementById('isize');
+
+            // Preços vindos do PHP
+            const prices = {
+                acai10l: "<?= $preco10l; ?>",
+                acai5l: "<?= $preco5l; ?>",
+                acai1l: "<?= $preco1l; ?>"
+            };
+
+            function updatePrice() {
+                const selectedSize = sizeSelect.value;
+                priceElement.textContent = prices[selectedSize] || 'Preço indisponível';
+            }
+
+            updatePrice();
+            sizeSelect.addEventListener('change', updatePrice);
+        });
+    </script>
+
     <title>Açaí Amazônia - Produtos</title>
 
 </head>
 <body>
 
     <header>
-        <ul>
+        <ul class="left-header">
             <li class="acai-icon">
                 <a href="../../index.php">
                     <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079683/acai-icon-white_fll4gt.png" class="item-translate" alt="Açaí Icon">
@@ -33,13 +124,15 @@
                 <p>Açaí Amazônia Ipatinga</p>
             </li>
         </ul>
+
         <ul class="right-header">
             <li>
                 <a href="../../account/account.php">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                     </svg>
-                    <p>Sua Conta</p>
+
+                    <p><span>Minha</span> Conta</p>
                 </a>
             </li>
             <li>
@@ -47,6 +140,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349M3.75 21V9.349m0 0a3.001 3.001 0 0 0 3.75-.615A2.993 2.993 0 0 0 9.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 0 0 2.25 1.016c.896 0 1.7-.393 2.25-1.015a3.001 3.001 0 0 0 3.75.614m-16.5 0a3.004 3.004 0 0 1-.621-4.72l1.189-1.19A1.5 1.5 0 0 1 5.378 3h13.243a1.5 1.5 0 0 1 1.06.44l1.19 1.189a3 3 0 0 1-.621 4.72M6.75 18h3.75a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.75c0 .414.336.75.75.75Z" />
                     </svg>
+
                     <p>Produtos</p>
                 </a>
             </li>
@@ -55,16 +149,17 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
                     </svg>
+
                     <p>Carrinho</p>
-                    <p class="numberItens">N</p>
                  </a>
+                 <p class="numberItens">N</p>
             </li>
         </ul>
 
     </header>
+    
 
-
-    <main>
+    <main class="mobile-main">
         <div>
             <a href="../products.php" class="back-button">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -73,21 +168,76 @@
                 Voltar
             </a>
         </div>
-        
+
         <section class="product-hero">
-            <div class="product-img">
-                <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079860/leite_em_po_rkrf0f.png" alt="Product Image">
-            </div>
-            <div>
-                <div class="product-text">
-                    <h1>Leite em Pó<br> 1 kg</h1>
-                    <p><?php prodPrice("leiteEmPo1")?></p>
+            <div class="product-main">
+                <div class="product-main-img">
+                    <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079860/leite_em_po_rkrf0f.png" alt="Product Image">
                 </div>
-                <form method="get" class="product-forms">
-                    
+
+                <div class="product-main-text">
+                     <h1>Leite em Po - 1kg</h1>
+                    <p class="product-price"> ---- </p>
+                </div>
+            </div>
+
+            <form method="get" class="product-forms">
+                <div class="forms-text">
+                    <div class="forms-item product-size">
+                        <label for="isize">Tamanho: </label>
+                        <select name="size" id="isize">
+                            <option value="leiteEmPo1">1kg</option>
+                        </select>
+                    </div>
                     <div class="forms-item product-amount">
                         <label for="iamount-product">Quantidade: </label>
-                        <input type="number" name="amount-product" id="iamount-product" value="1" max="15" min="1">
+                        <input type="number" name="amount-product" id="iamount-product" value="1" max="150" min="1">
+                    </div>
+                </div>
+
+                <button type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                    </svg>
+                    Adicionar Ao Carrinho
+                </button>
+            </form>
+
+        </section>
+
+    </main>
+
+    <main class="desktop-main">
+        <div>
+            <a href="../products.php" class="back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                </svg>
+                Voltar
+            </a>
+        </div>
+
+        <section>
+            <div class="product-main-img">
+                <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079860/leite_em_po_rkrf0f.png" alt="Product Image">
+            </div>
+
+            <div class="product-forms-div">
+                <h1>Leite em Po - 1kg</h1>
+                <p class="product-price"> ---- </p>
+
+                <form method="get" class="product-forms">
+                    <div class="forms-text">
+                        <div class="forms-item product-size">
+                            <label for="isize">Tamanho: </label>
+                            <select name="size" id="isize">
+                                <option value="leiteEmPo1">1kg</option>
+                            </select>
+                        </div>
+                        <div class="forms-item product-amount">
+                            <label for="iamount-product">Quantidade: </label>
+                            <input type="number" name="amount-product" id="iamount-product" value="1" max="150" min="1">
+                        </div>
                     </div>
 
                     <button type="submit">
@@ -96,11 +246,11 @@
                         </svg>
                         Adicionar Ao Carrinho
                     </button>
-                        
                 </form>
+
             </div>
         </section>
-
+    
     </main>
 
     <footer>

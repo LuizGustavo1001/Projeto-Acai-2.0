@@ -9,21 +9,24 @@ function prodOutput($prodName){ // dar saída nos produtos cadastrados no banco 
             "acaiNinho250", "morango1", "leiteEmPo1", "granola1.5", "granola1", "pacoca150", 
             "farofaPacoca1", "amendoimTriturado1", "ovomaltine1", "gotaChocolate1", "chocoball1", 
             "jujuba500", "disquete1", "saborazzi", "polpas"
-
         ];
         
         if(in_array($prodName, $allowedNames)){
-            if(
-                $prodName == "acaiT" or $prodName == "cremeFrutado" or $prodName == "saborazzi" or $prodName == "polpas" or $prodName == "colheres"
-                ){ // produtos com multiplas versões
+            if( // produtos com multiplas versões
+                $prodName == "acaiT" or 
+                $prodName == "cremeFrutado" or 
+                $prodName == "saborazzi" or 
+                $prodName == "polpas" or 
+                $prodName == "colheres"
+                ){ 
 
                 $prodName = match($prodName){
-                    "acaiT" => "acaiT%",
-                    "saborazzi" => "saborazzi%",
-                    "cremeFrutado" => "creme%",
-                    "polpas" => "polpa%",
-                    "colheres" => "colher%",
-                    default => $prodName
+                    "acaiT"         => "acaiT%",
+                    "saborazzi"     => "saborazzi%",
+                    "cremeFrutado"  => "creme%",
+                    "polpas"        => "polpa%",
+                    "colheres"      => "colher%",
+                    default         => $prodName
 
                 };
 
@@ -35,23 +38,24 @@ function prodOutput($prodName){ // dar saída nos produtos cadastrados no banco 
                             FROM product AS p 
                             WHERE p.nameProd LIKE ?
                         )
-                        LIMIT 1;
-                    "
+                        LIMIT 1;"
                     );
+
             }else{ // produtos com apenas 1 versão
                 $query = $mysqli->prepare("SELECT nameProd, price, priceDate, brand, imageURL FROM product WHERE nameProd = ?");
             }
 
             $query->bind_param("s", $prodName);
             $query->execute();
+
             $result = $query->get_result();
 
             if($result->num_rows > 0){ //verificar se algum produto foi encontrado com o fitro selecionado
                 while($row = $result->fetch_assoc()) {
 
-                $name = $row['nameProd'];
+                $name     = $row['nameProd'];
                 $linkName = matchProductLinkName($row['nameProd']);
-                $name = matchNamesAlt($name);
+                $name     = matchNamesAlt($name);
 
                 if($row['brand'] == "Other Brand"){
                     $row['brand'] = "Outra Marca";
@@ -64,11 +68,18 @@ function prodOutput($prodName){ // dar saída nos produtos cadastrados no banco 
                         <div>
                             <p>' . $row['brand'] . '</p>
                             <h2>' . $name . '</h2>
-                            <p><em>A partir de</em>: 
+                            <p class=\"price\">
+                                <em>A partir de</em>: 
                                 <span style="font-size: 1.3em;">' .
                                 numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $row['price'], "BRL") .
-                                '</span></p>
-                            <p style="color: var(--primary-clr)"><small>Preço Atualizado em:<strong> ' . $row['priceDate'] . '</strong></small></p>
+                                '</span>
+                            </p>
+                            <p style="color: var(--primary-clr)">
+                                <small>
+                                    Preço Atualizado em:
+                                    <strong> ' . $row['priceDate'] . '</strong>
+                                </small>
+                            </p>
                         </div>
                     </a>
                 ';
@@ -158,7 +169,7 @@ function matchNamesAlt($name){
         "cremeMorango10"        => $name = "Cremes Frutados - 10l",
         "cremeNinho10"          => $name = "Cremes Frutados - 10l",
         "cremeMaracuja10"       => $name = "Cremes Frutados - 10l",
-        "acaiZero10"            => $name = "Caixa de Açaí Zero - 10l",
+        "acaiZero10"            => $name = "Açaí Zero - 10l",
         "acaiNinho1"            => $name = "Açaí c/ Ninho",
         "acaiNinho250"          => $name = "Açaí c/ Ninho",
         "morango1"              => $name = "Morango Congelado - 1 kg",
@@ -207,7 +218,6 @@ function matchNamesAlt($name){
         default                 => $name = "Produto Desconhecido",
 
     };
-
     return $name;
 
 }
@@ -274,7 +284,6 @@ function matchProductLinkName($name){
         default                 => $name = "desconhecido",
 
     };
-
     return $name;
 
 }

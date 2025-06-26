@@ -1,13 +1,125 @@
 <?php 
     include "../databaseConnection.php";
 
-    if(! isset($_COOKIE["useremail"])){
-        header("location: login.php");
+    if(! isset($_SESSION)){
+        session_start();
     }
 
+    // Processar login ANTES de qualquer saída HTML
+    if(isset($_POST["name"], $_POST["email"], $_POST["password"])){
+        $result = login();
+        if(isset($result)){
+            switch($result){
+                case "errorLogin":
+                    $loginError = "Erro: Email não existente";
+                    break;
+
+                case "errorPassword":
+                    $loginError = "Erro: Senha Incorreta";
+                    break;
+            }
+        }
+    }
+
+    function login(){
+        global $mysqli;
+
+        $email = $_POST["email"];
+
+        $query = $mysqli->prepare("SELECT * FROM client_data WHERE clientMail = ?");
+
+        $query->bind_param("s", $email);
+        $query->execute();
+
+        $result = $query->get_result();
+        $query-> close();
+
+        $emailExist = $result->num_rows;
+
+        switch($emailExist){
+            case 0: // email não existente no banco de dados -> cadastrar
+                return "errorLogin";
+            
+            default: // continuar login
+                $name           = $_POST["name"];
+                $password       = $_POST["password"];
+                $data           = $result->fetch_assoc();
+                $storedPassword = $data["clientPassword"];
+
+                if($storedPassword == $password){
+                    // passar a senha no banco de dados para hash
+                    $newHash = password_hash($password, PASSWORD_DEFAULT);
+
+                    $updateStmt = $mysqli->prepare("UPDATE client_data SET clientPasswords = ? WHERE clientMail = ?");
+                    $updateStmt->bind_param("ss", $newHash, $email);
+                    $updateStmt->execute();
+                    $updateStmt->close();
+
+                    $storedPassword = $newHash; // atualizar o valor da senha armazenada no Banco de Dados
+
+                }
+
+                if(password_verify($password, $storedPassword)){
+                    $rememberUser = isset($_POST["remember"]);
+                    if($rememberUser){
+                        $time = time() + 30 * 24 * 60 * 60; // 30 dias em segundos
+
+                    }else{
+                        $time = time() + 60*60*24; // 1 dia em segundos
+                    }
+
+                    $rescueId = $mysqli->prepare("SELECT idClient FROM client_data WHERE clientMail = ?");
+                    $rescueId->bind_param("s", $email);
+                    $rescueId->execute();
+
+                    $rescueResult = $rescueId->get_result();
+                    $clientId = $rescueResult->fetch_assoc()["idClient"];
+
+                    $rescueId->close();
+
+                    $query2 = $mysqli->prepare("SELECT clientNumber FROM client_number WHERE idClient = ?");
+                    $query2->bind_param("i", $clientId);
+                    $query2->execute();
+
+                    $result2 = $query2->get_result();
+                    $clientNumber = $result2->fetch_assoc()["clientNumber"];
+
+                    $query2->close();
+
+                    $query2 = $mysqli->prepare("SELECT district, localNum, referencePoint, street, city FROM client_address WHERE idClient = ?");
+                    $query2->bind_param("i", $clientId);
+                    $query2->execute();
+
+                    $result2 = $query2->get_result();
+                    $result2 = $result2->fetch_assoc();
+
+                    $clientDistrict  = $result2["district"];
+                    $clientLocalNum  = $result2["localNum"];
+                    $clientReference = $result2["referencePoint"];
+                    $clientStreet    = $result2["street"];
+                    $clientCity      = $result2["city"];
+
+                    $query2->close();
+
+                    setcookie('username',      $name,            time() + $time);
+                    setcookie('useremail',     $email,           time() + $time);
+                    setcookie("userNumber",    $clientNumber,    time() + $time);
+                    setcookie("userAddress",   $clientDistrict,  time() + $time);
+                    setcookie("userLocalNum",  $clientLocalNum,  time() + $time);
+                    setcookie("userReference", $clientReference, time() + $time);
+                    setcookie("userStreet",    $clientStreet,    time() + $time);
+                    setcookie("userCity",      $clientCity,      time() + $time);
+
+                    header("Location: ../index.php");
+                    
+                    exit();
+                }else{
+                    return "errorPassoword";
+                }
+        }
+    }
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -24,8 +136,7 @@
     <link rel="stylesheet" href="../styles/general-style.css">
     <link rel="stylesheet" href="../styles/account-styles.css">
 
-    <title>Açaí Amazônia Ipatinga - Minha Conta</title>
-
+    <title>Açaí Amazônia Ipatinga - Login</title>
 </head>
 <body>
 
@@ -41,7 +152,7 @@
 
         <ul class="right-header">
             <li>
-                <a href="../account/account.php">
+                <a href="account/account.php">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                     </svg>
@@ -50,7 +161,7 @@
                 </a>
             </li>
             <li>
-                <a href="../products/products.php">
+                <a href="products/products.php">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349M3.75 21V9.349m0 0a3.001 3.001 0 0 0 3.75-.615A2.993 2.993 0 0 0 9.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 0 0 2.25 1.016c.896 0 1.7-.393 2.25-1.015a3.001 3.001 0 0 0 3.75.614m-16.5 0a3.004 3.004 0 0 1-.621-4.72l1.189-1.19A1.5 1.5 0 0 1 5.378 3h13.243a1.5 1.5 0 0 1 1.06.44l1.19 1.189a3 3 0 0 1-.621 4.72M6.75 18h3.75a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.75c0 .414.336.75.75.75Z" />
                     </svg>
@@ -59,7 +170,7 @@
                 </a>
             </li>
             <li>
-                 <a href="../cart/cart.php">
+                 <a href="cart/cart.php">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
                     </svg>
@@ -74,106 +185,57 @@
 
     <main>
         <section class="account-header">
-            <div class="account-header-location">
-                <ul>
-                    <li><a href="../index.php">Página Principal</a></li>
-                    <li>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                        </svg>
-                    </li>
-                    <li><a href="login.php">Página do Usuário</a></li>
-                </ul>
+            <ul>
+                <li><a href="../index.php">Página Principal</a></li>
+                <li><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                    </svg>
+                </li>
+                <li><a href="login.php">Página de Login</a></li>
+            </ul>
 
-                
-            </div>
-            <div class="account-header-button">
-                <button><a href="logout.php">Sair</a></button>
-            </div>
         </section>
-
-
+        
         <section class="account-forms">
             <div class="section-header-title">
-                <h1>Área do Usuário</h1>
-                <p>Edite <strong>Seus Dados</strong> individualmente aqui</p>
-                <p></p>
+                <h1>Área de Login</h1>
+                <p>Realize seu <strong>Login</strong> para <strong>Continuar Comprando</strong> em nosso site</p>
             </div>
-            <form action="" method="POST">
-                <div class="form-item">
-                    <label for="iname">Nome: </label>
-                    <div class="form-input">
-                        <input type="text" name="name" id="iname" maxlength="30" minlength="8" >
-                        <button>Editar</button>
-                    </div>
-                </div>
 
-                <div class="form-item">
-                    <label for="iemail">Email: </label>
-                    <div class="form-input">
-                        <input type="email" name="email" id="iemail" maxlength="50" >
-                        <button>Editar</button>
+            <div class="account-forms">
+                <form action="" method="post">
+                    <div class="form-item">
+                        <label for="iemail">Email: </label>
+                        <input type="email" name="email" id="iemail" maxlength="50" required>
                     </div>
-                </div>
 
-                <div class="form-item">
-                    <label for="inumber">Telefone de Contato:</label>
-                    <div class="form-input">
-                        <input type="text" name="phone" id="inumber" minlength="15" maxlength="16" pattern="\(\d{2}\) \d \d{4} \d{4}" placeholder="(XX) 9 8888 8888" >
-                        <button>Editar</button>
+                    <div class="form-item">
+                        <label for="ipassword">Senha: </label>
+                        <input type="password" name="password" id="ipassword" maxlength="30" required>
                     </div>
-                </div>
 
-                <div class="form-item">
-                    <label for="istreet">Rua: </label>
-                    <div class="form-input">
-                        <input type="text" name="street" id="istreet" maxlength="50" >
-                        <button>Editar</button>
+                    <div class="remember-user">
+                        <input type="checkbox" name="remember" id="iremember">
+                        <label for="iremember">Lembrar Usuário</label>
                     </div>
-                </div>
 
-                <div class="form-item">
-                    <label for="ihouseNum">Número: </label>
-                    <div class="form-input">
-                        <input type="number" name="houseNum" id="ihouseNum" max="99999999" >
-                        <button>Editar</button>
+                    <div>
+                        <button>Enviar</button>
                     </div>
-                </div class="form-item">
 
-                <div class="form-item">
-                    <label for="idistrict">Bairro: </label>
-                    <div class="form-input">
-                        <input type="text" name="district" id="idistrict" maxlength="40" >
-                        <button>Editar</button>
+                    <div class="account-main-footer"> 
+                        <a href="">Esqueceu a senha?</a>
+                        <a href="register.php">Ainda não está registrado?</a>
                     </div>
-                </div>
 
-                <div class="form-item">
-                    <label for="icity">Cidade: </label>
-                    <div class="form-input">
-                        <input type="text" name="city" id="icity" maxlength="40" >
-                        <button>Editar</button>
-                    </div>
-                </div>
+                    <!-- Exibir erro se existir -->
+                    <?php if(isset($loginError)) echo $loginError; ?>
 
-                <div class="form-item">
-                    <label for="ireference">Ponto de Referência: </label>
-                    <div class="form-input">
-                        <input type="text" name="reference" id="ireference" maxlength="50">
-                        <button>Editar</button>
-                    </div>
-                </div>
-
-                <div class="form-item">
-                    <label for="ipassword">Senha: </label>
-                    <div class="form-input">
-                        <input type="password" name="password" id="ipassword" maxlength="30" >
-                        <button>Editar</button>
-                    </div>
-                </div>
-
-            </form>
+                </form>
+            </div>
         </section>
+        
+
     </main>
 
     <footer>

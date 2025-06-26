@@ -1,8 +1,6 @@
 <?php 
     include "../databaseConnection.php";
     include "../generalPHP.php";
-    
-
 ?>
 
 <!DOCTYPE html>
@@ -11,12 +9,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="../styles/general-styles.css">
-    <link rel="stylesheet" href="../styles/products.css">
+    <link rel="stylesheet" href="../styles/general-style.css">
+    <link rel="stylesheet" href="../styles/products-style.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap" rel="stylesheet">
 
     <link rel="shortcut icon" href="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750080377/iconeAcai_mj7dqy.ico" type="image/x-icon">
     
@@ -26,7 +24,7 @@
 <body>
     
     <header>
-        <ul>
+        <ul class="left-header">
             <li class="acai-icon">
                 <a href="../index.php">
                     <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079683/acai-icon-white_fll4gt.png" class="item-translate" alt="Açaí Icon">
@@ -34,20 +32,23 @@
                 <p>Açaí Amazônia Ipatinga</p>
             </li>
         </ul>
+
         <ul class="right-header">
             <li>
                 <a href="../account/account.php">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                     </svg>
-                    <p>Sua Conta</p>
+
+                    <p><span>Minha</span> Conta</p>
                 </a>
             </li>
             <li>
-                <a href="products.php">
+                <a href="../products/products.php">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349M3.75 21V9.349m0 0a3.001 3.001 0 0 0 3.75-.615A2.993 2.993 0 0 0 9.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 0 0 2.25 1.016c.896 0 1.7-.393 2.25-1.015a3.001 3.001 0 0 0 3.75.614m-16.5 0a3.004 3.004 0 0 1-.621-4.72l1.189-1.19A1.5 1.5 0 0 1 5.378 3h13.243a1.5 1.5 0 0 1 1.06.44l1.19 1.189a3 3 0 0 1-.621 4.72M6.75 18h3.75a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.75c0 .414.336.75.75.75Z" />
                     </svg>
+
                     <p>Produtos</p>
                 </a>
             </li>
@@ -56,9 +57,10 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
                     </svg>
+
                     <p>Carrinho</p>
-                    <p class="numberItens">N</p>
                  </a>
+                 <p class="numberItens">N</p>
             </li>
         </ul>
 
@@ -71,7 +73,7 @@
         </section>
 
         <section class="products-header">
-            <div class="products-header-title">
+            <div class="section-header-title">
                 <h1>Nossos Produtos</h1>
                 <p>Adicione Produtos ao carrinho para realizar sua compra</p>
                 <p>*Preços podem ser modificados com o tempo</p>
@@ -88,17 +90,16 @@
                     <div class="search-input generic-button">
                         <input type="text" name="nameProd" id="inameProd" placeholder="Nome do Produto">
                         <button>Pesquisar</button>
-                    </div>              
+                    </div>          
                 </form>
 
                 <form method="get" class="products-search-item">
-                    <div  class="products-search-label">
+                    <div class="products-search-label">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
                         </svg>
                         <label for="ifilter">Filtrar Por</label>
                     </div>
-
                     <div class="search-input generic-button">
                         <select name="filter" id="ifilter">
                             <option value="idProd" selected>
@@ -208,7 +209,6 @@
             </div>
 
             <ul class="products-list">
-
                 <li class="products-item item-translate-alt">
                     <?php prodOutput("colheres");?>
                 </li>

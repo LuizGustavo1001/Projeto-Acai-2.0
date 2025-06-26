@@ -5,10 +5,13 @@
     
     function featureItens(){
         global $mysqli;
+
         $totalQuery = $mysqli->prepare("SELECT COUNT(*) FROM product");
         $totalQuery->execute();
+
         $totalResult = $totalQuery->get_result();
         $total = $totalResult->fetch_row()[0];
+
         $totalQuery->close();
 
         $randomIdVec = [];
@@ -29,32 +32,36 @@
             
             $query->bind_param("s", $randomIdVec[$j]);
             $query->execute();
+            
             $result = $query->get_result();
             $result = $result->fetch_assoc();
 
-            $name = $result['nameProd'];
-            $brand = $result['brand'];
-            $price = numfmt_format_currency($defaultMoney, $result['price'], "BRL");
+            $name      = $result['nameProd'];
+            $brand     = $result['brand'];
+
+            if($brand == "Other Brand"){
+                $brand = "Marca Não Cadastrada";
+            }
+
+            $price     = numfmt_format_currency($defaultMoney, $result['price'], "BRL");
             $priceDate = $result['priceDate'];
-            $image = $result['imageURL'];
+            $image     = $result['imageURL'];
 
             $name = matchNames($name); // atualizar o nome do produto (mais legível)
 
             $linkName = matchProductLinkName($result['nameProd']);
 
             echo "
-                <div class=\"feature-item item-translate-alt\">  
+                <li class=\"feature-item item-translate-alt\">  
                     <a href=\"products/product-item/$linkName.php\">
                         <img src=\"$image\" alt=\"Product Image\">
                         <p>$brand</p>
                         <h2>$name</h2>
                         <p class=\"price\">$price</p>
-                        <p>$priceDate</strong></p>
+                        <p>Preço Atualizado em: $priceDate</strong></p>
                     </a>
-                </div>
-        
+                </li>
             ";
-
         }
     }
 ?>
@@ -67,19 +74,21 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles/general-style.css">
+
+    <link rel="stylesheet" href="styles/index.css">
 
     <link rel="shortcut icon" href="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750080377/iconeAcai_mj7dqy.ico" type="image/x-icon">
 
-    <link rel="stylesheet" href="styles/general-styles.css">
-    <link rel="stylesheet" href="styles/index-style.css">
 
     <title>Açaí Amazônia Ipatinga</title>
 
 </head>
 <body>
     <header>
-        <ul>
+        <ul class="left-header">
             <li class="acai-icon">
                 <a href="index.php">
                     <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079683/acai-icon-white_fll4gt.png" class="item-translate" alt="Açaí Icon">
@@ -87,6 +96,7 @@
                 <p>Açaí Amazônia Ipatinga</p>
             </li>
         </ul>
+
         <ul class="right-header">
             <li>
                 <a href="account/account.php">
@@ -94,7 +104,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                     </svg>
 
-                    <p>Sua Conta</p>
+                    <p><span>Minha</span> Conta</p>
                 </a>
             </li>
             <li>
@@ -224,14 +234,14 @@
 
         <section class="feature-products">
             <div class="feature-title">
-                <h1>Produtos em Destaque</h1>
+                <h1 style="margin-top: 1em; ;margin-bottom: 2em; font-size: 2em; display: flex; align-items: center; justify-content: center;">Produtos em Destaque</h1>
             </div>
-            <div class="feature-box">
+            <ul class="feature-box">
                 <?php 
                     featureItens();
                 ?>
                 
-            </div>
+            </ul>
         </section>
 
     </main>

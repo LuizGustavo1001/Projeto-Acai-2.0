@@ -6,224 +6,19 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap" rel="stylesheet">
 
     <link rel="shortcut icon" href="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750080377/iconeAcai_mj7dqy.ico" type="image/x-icon">
 
-    <link rel="stylesheet" href="../styles/general-styles.css">
-    
-    <style>
-        main{
-            padding: 3%;
-
-            display: flex;
-            flex-direction: column;
-            gap: 2em;
-
-        }
-
-        .cart-header h1{
-            font-family: var(--secondary-font);
-            font-size: 2.5em;
-
-        }
-
-        .section-bg{
-            background: white;
-            box-shadow: 4px 4px 4px var(--shadow-clr);
-
-            padding: 1em;
-            border-radius: var(--border-radius);
-            
-            display: flex;
-            flex-direction: column;
-            gap: 1em;
-
-        }
-
-        .section-bg h1{
-            border-bottom: 1px solid var(--primary-clr);
-            padding-bottom: 0.3em;
-
-        }
-
-        .order-summary ul{
-            display: flex;
-            flex-direction: column;
-            gap: 0.5em;
-
-        }
-
-        .order-summary ul li{
-            display: flex;
-            gap: 0.3em;
-
-        }
-
-        .order-summary ul li span, .list-item-text li span{
-            color: lightslategrey;
-
-        }
-
-        .order-summary svg, .order-review svg{
-            width: 30px;
-            color: var(--secondary-clr);
-
-        }
-
-        .list-item-text{
-            font-size: 1.1em;
-
-            color: var(--secondary-clr);
-
-        }
-
-        .order-review ol{
-            display: flex;
-            flex-direction: column;
-            gap: 1em;
-
-        }
-
-        .order-review ol li{
-            display: flex;
-            justify-content: space-between;
-
-            background: var(--background-clr);
-
-            padding: 1em;
-            border-radius: var(--border-radius);
-
-        }
-
-        .order-review svg{
-            color: black;
-            align-self: baseline;
-
-        }
-
-        .order-review img{
-            width: 150px;
-            height: 150px;
-            border-radius: var(--border-radius);
-
-        }
-
-        .order-review strong{
-            font-size: 1.2em;
-        }
-
-        .order-review .price{
-            color: var(--secondary-clr);
-        }
-
-        .item-amount{
-            position: absolute;
-            background: var(--secondary-clr);
-            color: white;
-            width: 25px;
-            height: 25px;
-
-            display: flex;
-            justify-content: center;
-
-            border-radius: var(--border-radius-alt);
-
-            left: 8.5em;
-            top: -0.5em;
-
-        }
-
-        .button-submit button{
-            width: 100%;
-            justify-content: center;
-        }
-
-        .desktop-main{
-            display: none;
-
-        }
-
-        .order-info div svg{
-            width: 30px;
-        }
-
-        .order-info svg{
-                width: 60px;
-
-            }
-
-            .order-info-header, .order-info-header div{
-                display: flex;
-                align-items: center;
-            }
-
-            .order-info-header{
-                justify-content: space-between;
-
-            }
-
-            .order-info-content img{
-                width: 60px;
-                border-radius: var(--border-radius);
-
-            }
-
-            .order-info-content ol{
-                display: flex;
-                flex-direction: column;
-                gap: 1em;
-                
-
-            }
-            
-            .order-info-content ol li{
-                display: flex;
-                gap: 1em;
-                
-
-            }
-
-
-        @media(min-width: 1024px){
-            .mobile-main{
-                display: none;
-
-            }
-
-            .desktop-main{
-                display: block;
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-
-            }
-
-            .desktop-main section{
-                display: flex;
-                flex-direction: column;
-                gap: 2em;
-                justify-content: space-between;
-            }
-
-            .order-summary ol{
-                display: flex;
-                flex-direction: column;
-                gap: 2em;
-                margin-top: 1em;
-            }
-
-        }
-
-
-    </style>
+    <link rel="stylesheet" href="../styles/general-style.css">
+    <link rel="stylesheet" href="../styles/cart.css">
 
     <title>Açaí Amazônia Ipatinga - Carrinho</title>
 </head>
 <body>
 
     <header>
-        <ul>
+        <ul class="left-header">
             <li class="acai-icon">
                 <a href="../index.php">
                     <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079683/acai-icon-white_fll4gt.png" class="item-translate" alt="Açaí Icon">
@@ -231,6 +26,7 @@
                 <p>Açaí Amazônia Ipatinga</p>
             </li>
         </ul>
+
         <ul class="right-header">
             <li>
                 <a href="../account/account.php">
@@ -238,11 +34,11 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                     </svg>
 
-                    <p>Sua Conta</p>
+                    <p><span>Minha</span> Conta</p>
                 </a>
             </li>
             <li>
-                <a href="products/products.php">
+                <a href="../products/products.php">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349M3.75 21V9.349m0 0a3.001 3.001 0 0 0 3.75-.615A2.993 2.993 0 0 0 9.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 0 0 2.25 1.016c.896 0 1.7-.393 2.25-1.015a3.001 3.001 0 0 0 3.75.614m-16.5 0a3.004 3.004 0 0 1-.621-4.72l1.189-1.19A1.5 1.5 0 0 1 5.378 3h13.243a1.5 1.5 0 0 1 1.06.44l1.19 1.189a3 3 0 0 1-.621 4.72M6.75 18h3.75a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.75c0 .414.336.75.75.75Z" />
                     </svg>
@@ -251,21 +47,21 @@
                 </a>
             </li>
             <li>
-                <a href="cart/cart.php">
+                 <a href="cart.php">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
                     </svg>
 
                     <p>Carrinho</p>
-                </a>
-                <p class="numberItens">N</p>
+                 </a>
+                 <p class="numberItens">N</p>
             </li>
         </ul>
 
     </header>
 
     <main class="mobile-main">
-        <section class="cart-header">
+        <section class="cart-header section-header-title">
             <h1>Carrinho</h1>
             <p>
                 Caso Algum de seus Dados Pessoas abaixo estejam incorretos clique no botão 
@@ -357,120 +153,142 @@
                     <li class="list-item-text">
                         <ul>
                             <li><strong>Total:</strong></li>
-                            <li><strong>R$ 00,00</strong></li>
+                            <li class="priceTot"><strong>R$ 00,00</strong></li>
                         </ul>
                     </li>
                 </ol>
+
+                <button><a href="">Confirmar Pedido</a></button>
+
         </section>
 
-        <section class="button-submit">
-            <button>Confirmar Pedido</button>
-        </section>
 
     </main>
 
     <main class="desktop-main">
-        <section>
-            <div class="order-info section-bg">
-                <div class="order-info-header">
-                    <h1>Informações do Cliente</h1>
-                    <a href="../account/account.php">
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                            </svg>
-                            Editar
-                        </div>
-                    </a>
+        <section class="cart-header section-header-title">
+            <h1>Carrinho</h1>
+            <p>
+                Caso Algum de seus Dados Pessoas abaixo estejam incorretos clique no botão 
+                <strong>"Editar"</strong>
+            </p>
+        </section>
+
+        <section class="desktop-hero">
+            <div>
+                <div class="order-info section-bg">
+                    <div class="order-info-header">
+                        <h1>Informações do Cliente</h1>
+                        <a href="../account/account.php">
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                </svg>
+                                Editar
+                            </div>
+                        </a>
+                    </div>
+                
+                    <div class="order-info-content">
+                        <ol>
+                            <li>
+                                <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750274074/maps_v2qsgm.png" alt="">
+                                <ul class="list-item-text">
+                                    <li>Endereço:</li>
+                                    <li> <span>********</span> </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                                    <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
+                                </svg>
+                                <ul class="list-item-text">
+                                    <li>Cliente:</li>
+                                    <li> <span>*********</span> </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                                    <path fill-rule="evenodd" d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z" clip-rule="evenodd" />
+                                </svg>
+                                <ul class="list-item-text">
+                                    <li>Telefone:</li>
+                                    <li> <span>********</span> </li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
                 </div>
-            
-                <div class="order-info-content">
+                <div class="order-review section-bg">
+                    <h1>Revisão dos Itens</h1>
                     <ol>
                         <li>
-                            <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750274074/maps_v2qsgm.png" alt="">
-                            <ul class="list-item-text">
-                                <li>Endereço:</li>
-                                <li> <span>********</span> </li>
+                            <div style="position: relative; display: inline-block;">
+                                <div class="item-amount">Q</div>
+                                <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079853/caixa-acai_l7uokc.jpg" alt="">
+                            </div>
+                            <ul>
+                                <li><strong>Nome Produto</strong></li>
+                                <li class="price">R$ 00,00</li>
+                                <li class="price"><strong>Total: R$00,00</strong></li>
                             </ul>
-                        </li>
-                        <li>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                                <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
-                            </svg>
-                            <ul class="list-item-text">
-                                <li>Cliente:</li>
-                                <li> <span>*********</span> </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                                <path fill-rule="evenodd" d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z" clip-rule="evenodd" />
-                            </svg>
-                            <ul class="list-item-text">
-                                <li>Telefone:</li>
-                                <li> <span>********</span> </li>
-                            </ul>
+                            <a href="">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                </svg>
+                            </a>
                         </li>
                     </ol>
                 </div>
             </div>
 
-            <div class="order-review section-bg">
-                <h1>Revisão dos Itens</h1>  
-                <ol>
-                    <li>
-                        <div style="position: relative; display: inline-block;">
-                            <div class="item-amount">Q</div>
-                            <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079853/caixa-acai_l7uokc.jpg" alt="">
-                        </div>
-                        <ul>
-                            <li><strong>Nome Produto</strong></li>
-                            <li class="price">R$ 00,00</li>
-                            <li class="price"><strong>Total: R$00,00</strong></li>
-                        </ul>
-                        <a href="">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                            </svg>
-                        </a>
-                    </li>
-                </ol>
+            <div class="section-bg order-summary">
+                <div class="">
+                    <h1>Resumo do Pedido</h1>
+                    <ol>
+                        <li class="list-item-text">
+                            <ul>
+                                <li>Subtotal:</li>
+                                <li><span>R$ 00,00</span></li>
+                            </ul>
+                        </li>
+                        <li class="list-item-text">
+                            <ul>
+                                <li>Taxa de Entrega:</li>
+                                <li><span>R$ 00,00</span></li>
+                            </ul>
+                        </li>
+                        <li class="list-item-text">
+                            <ul>
+                                <li><strong>Total:</strong></li>
+                                <li><strong>R$ 00,00</strong></li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+                <div class="button-submit">
+                    <button>Confirmar Pedido</button>
+                </div>
             </div>
 
-        </section>
-
-        <section class="section-bg">
-            <div class="order-summary">
-                <h1>Resumo do Pedido</h1>
-                <ol>
-                    <li class="list-item-text">
-                        <ul>
-                            <li>Subtotal:</li>
-                            <li><span>R$ 00,00</span></li>
-                        </ul>
-                    </li>
-                    <li class="list-item-text">
-                        <ul>
-                            <li>Taxa de Entrega:</li>
-                            <li><span>R$ 00,00</span></li>
-                        </ul>
-                    </li>
-                    <li class="list-item-text">
-                        <ul>
-                            <li><strong>Total:</strong></li>
-                            <li><strong>R$ 00,00</strong></li>
-                        </ul>
-                    </li>
-                </ol>
-            </div>
-
-            <div class="button-submit">
-                <button>Confirmar Pedido</button>
-            </div>
         </section>
 
     </main>
 
+
+    <!--
+
+    <main class="desktop-main">
+        <section class="cart-header">
+            <h1>Carrinho</h1>
+            <p>
+                Caso Algum de seus Dados Pessoas abaixo estejam incorretos clique no botão 
+                <strong>"Editar"</strong>
+            </p>
+        </section>
+        
+    </main>
+-->
     <footer>
         <ul>
             <li>

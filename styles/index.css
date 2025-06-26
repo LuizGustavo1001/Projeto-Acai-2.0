@@ -1,0 +1,179 @@
+body{
+    background: var(--secondary-bg-clr);
+}
+
+
+.left-content{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+
+    text-align: center;
+    align-items: center;
+
+
+}
+
+.left-content h1{
+    font-size: 4em;
+
+    font-family: var(--secondary-font);
+
+}
+
+.left-content p{
+    font-size: 1.5em;
+
+}
+
+.left-content button{
+    margin-block: 3em;
+
+}
+
+.about-us-section ul{
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+
+}
+
+.about-us-section li{
+    padding: 1.5em 1em 1.5em 1em;
+
+    border-left: 3px solid var(--secondary-clr);
+    background: var(--tertiary-clr);
+
+    display: flex;
+    align-items: center;
+    gap: 1em;
+
+}
+
+.about-us-item-svg svg{
+    width: 50px;
+
+}
+
+.about-us-item-text h1, .about-us-item-svg svg{
+    color: var(--secondary-clr);
+}
+
+.about-us-item-text{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+
+}
+
+.feature-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1em;
+
+}
+
+.feature-box li{
+    background: var(--tertiary-clr);
+    padding: 1em;
+
+    width: 300px;
+    height: 450px;
+
+    border-radius: var(--border-radius);
+    border: 1px solid transparent;
+
+    transition:  var(--transition);
+
+}
+
+.feature-box li:hover{
+    border-color: var(--secondary-clr);
+
+}
+
+.feature-box li a{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.feature-box img{
+    width:280px;
+
+    border-bottom: 2px solid var(--primary-clr);
+    padding-bottom: 0.5em;
+
+}
+
+.feature-box li h2{
+    color: var(--primary-clr);
+
+}
+
+.feature-box .price{
+    font-size: 1.5em;
+    font-weight: bold;
+
+}
+
+
+
+
+@media(min-width: 1024px){
+    .main-section{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        margin-top: 3em;
+
+    }
+
+    .right-content{
+        background: url(https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079685/preview_pub93o.png) center center;
+
+        background-size: contain;
+        background-repeat: no-repeat;
+
+        width: 400px;
+        height: 400px;
+
+
+    }
+
+    .left-content button{
+        margin-bottom: 0em;
+
+    }
+
+    
+    .about-us-section ul{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+
+    .feature-box{
+        flex-direction: row;
+        justify-content: space-between;
+
+
+    }
+
+    .feature-box li{
+        width: 250px;
+
+    }
+
+    .feature-box img{
+        width:250px;
+    }
+
+
+}

@@ -1,8 +1,8 @@
 <?php 
-    $host = "localhost";
-    $db = "projeto_acai";
+    $host    = "localhost";
+    $db      = "projeto_acai";
     $usuario = "root";
-    $senha = "";
+    $senha   = "";
 
     $mysqli = new mysqli($host, $usuario, $senha, $db);
 
@@ -10,6 +10,5 @@
         echo "Falha ao conectar ao servidor: (" .$mysqli->connect_errno. ")" . $mysqli->connect_error;
     }
 
-?>
 
 
