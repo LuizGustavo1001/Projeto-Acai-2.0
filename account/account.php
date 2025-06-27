@@ -1,11 +1,11 @@
 <?php 
     include "../databaseConnection.php";
 
-    if(! isset($_COOKIE["useremail"])){
+    /* if(! isset($_COOKIE["useremail"])){
         header("location: login.php");
     }
 
-
+    */
 ?>
 
 
@@ -32,7 +32,7 @@
     <header>
         <ul class="left-header">
             <li class="acai-icon">
-                <a href="index.php">
+                <a href="../index.php">
                     <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079683/acai-icon-white_fll4gt.png" class="item-translate" alt="Açaí Icon">
                 </a>
                 <p>Açaí Amazônia Ipatinga</p>

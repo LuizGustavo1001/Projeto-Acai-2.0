@@ -31,7 +31,6 @@
 
 .account-forms form{
     background: var(--primary-bg-clr);
-    box-shadow:4px 4px 4px var(--shadow-clr);
     border-radius: var(--border-radius);
 
     padding: 1em;
@@ -74,7 +73,8 @@
 
 }
 
-.form-item input, .form-item select{
+.form-item input, 
+.form-item select{
     border:none;
 
 }
@@ -92,7 +92,6 @@
 
 .form-item:active,
 .form-item:focus-within{
-    box-shadow: 4px 4px 4px var(--shadow-clr);
     border-color: var(--secondary-clr);
 
 }
@@ -116,7 +115,8 @@
         padding: 2em 3em 2em 3em;
     }
 
-    .account-forms input, .account-forms select{
+    .account-forms input, 
+    .account-forms select{
         padding: 0.8em;
 
     }

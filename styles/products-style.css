@@ -32,13 +32,15 @@
 
 }
 
-.products-search-div input, .products-search-div select{
+.products-search-div input, 
+.products-search-div select{
     padding: 1.1em;
 
 }
 
 
-.products-search-div input:focus, .products-search-div select:focus{
+.products-search-div input:focus, 
+.products-search-div select:focus{
     border-color: var(--secondary-clr);
 
 }
@@ -130,7 +132,8 @@
 
 }
 
-.products-item img, .products-item hr{
+.products-item img, 
+.products-item hr{
     width: 50vw;
     margin: 0 auto;
 
@@ -166,7 +169,8 @@
 
     }
 
-    .products-search-div input, .products-search-div select{
+    .products-search-div input, 
+    .products-search-div select{
         padding: 1em;
 
     }

@@ -31,8 +31,6 @@
 
     border-radius: var(--border-radius);
 
-    box-shadow: 4px 4px 4px var(--shadow-clr);
-
     text-align: center;
 
 }
@@ -63,8 +61,6 @@
     margin-bottom: 2em;
     padding: 1em;
 
-    box-shadow: 4px 4px 4px var(--shadow-clr);
-
     border-radius: var(--border-radius);
 
 }
@@ -92,7 +88,7 @@
 }
 
 .forms-item:active,
-.forms-item:focus-within {
+.forms-item:focus-within{
     border: 1.5px solid var(--fifth-clr);
     background: var(--tertiary-clr);    
 
@@ -119,11 +115,11 @@
 @media(min-width: 1024px){
     section{
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
 
     }
 
-    .mobile-main {
+    .mobile-main{
         display: none;
 
     }
@@ -137,11 +133,10 @@
         width:550px;
 
         background: var(--primary-bg-clr);
-
-        padding: 1.5em;
-
         border-radius: var(--border-radius);
 
+        padding: 1.5em;
+       
     }
 
     .forms-text{
@@ -168,6 +163,11 @@
 
     }
 
+    .product-forms{
+        width: 100%;
+
+    }
+
     .product-forms-div h1 {
         font-size: 3em;
 
@@ -175,30 +175,37 @@
 
     .forms-item label{
         margin-bottom: 0.5em;
-        font-size: 1.1em;
+        font-size: 1.2em;
 
     }
+
 
     .forms-item{
         margin-block: 0.5em;
         flex-direction: row;
         justify-content: space-between;
+        align-items: center;
 
     }
 
     .forms-item input{
-        width: 120px;
+        width: 160px;
 
     }
 
     .forms-item select{
-        width: 150px;
+        width: 190px;
 
     }
 
     .product-price{
         color: var(--secondary-clr);
         font-size: 2em;
+
+    }
+
+    .product-forms button{
+        padding: 0.6em;
 
     }
     

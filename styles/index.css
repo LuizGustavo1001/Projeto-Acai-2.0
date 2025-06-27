@@ -11,7 +11,6 @@ body{
     text-align: center;
     align-items: center;
 
-
 }
 
 .left-content h1{
@@ -55,7 +54,8 @@ body{
 
 }
 
-.about-us-item-text h1, .about-us-item-svg svg{
+.about-us-item-text h1, 
+.about-us-item-svg svg{
     color: var(--secondary-clr);
 }
 
@@ -144,14 +144,12 @@ body{
         width: 400px;
         height: 400px;
 
-
     }
 
     .left-content button{
         margin-bottom: 0em;
 
     }
-
     
     .about-us-section ul{
         display: grid;
@@ -162,7 +160,6 @@ body{
     .feature-box{
         flex-direction: row;
         justify-content: space-between;
-
 
     }
 

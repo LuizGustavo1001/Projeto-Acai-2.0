@@ -21,9 +21,11 @@ main{
 
 }
 
-.section-bg h1{
+.order-info-header, 
+.order-review h1, 
+.order-summary h1{
     border-bottom: 1px solid var(--primary-clr);
-    padding-bottom: 0.3em;
+    padding-bottom: 0.5em;
 
 }
 
@@ -47,12 +49,14 @@ main{
 
 }
 
-.order-summary ul li span, .list-item-text li span{
+.order-summary ul li span, 
+.list-item-text li span{
     color: var(--fourth-clr);
 
 }
 
-.order-summary svg, .order-review svg{
+.order-summary svg, 
+.order-review svg{
     width: 30px;
     color: var(--secondary-clr);
 
@@ -147,7 +151,8 @@ main{
 
 }
 
-.order-info-header, .order-info-header div{
+.order-info-header,
+.order-info-header div{
     display: flex;
     align-items: center;
 }
@@ -191,6 +196,7 @@ main{
 .section-bg h1{
     font-family: var(--tertiary-font);
     font-size: 1.2em;
+
 }
 
 
@@ -214,7 +220,6 @@ main{
         margin-top: 2em;
 
     }
-
 
     .order-info{
         margin-bottom: 2em;

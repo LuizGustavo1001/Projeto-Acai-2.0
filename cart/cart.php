@@ -67,6 +67,7 @@
                 Caso Algum de seus Dados Pessoas abaixo estejam incorretos clique no botão 
                 <strong>"Editar"</strong>
             </p>
+            <p style="padding-top: 0.5em;">Clique em <strong>Confirmar Pedido</strong> para efetuá-lo</p>
         </section>
 
         <section class="order-info section-bg">
@@ -172,6 +173,7 @@
                 Caso Algum de seus Dados Pessoas abaixo estejam incorretos clique no botão 
                 <strong>"Editar"</strong>
             </p>
+            <p style="padding-top: 0.5em;">Clique em <strong>Confirmar Pedido</strong> para efetuá-lo</p>
         </section>
 
         <section class="desktop-hero">

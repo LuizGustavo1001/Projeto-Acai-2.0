@@ -72,12 +72,23 @@ a{
 
 }
 
-header, footer, .about-us-section li, .feature-box li, .header-feature img, .products-item{
+header,
+footer,
+.about-us-section li,
+.feature-box li,
+.header-feature img,
+.products-item,
+.product-main,
+.forms-text,
+.form-item:active,
+.form-item:focus-within,
+.account-forms form{
     box-shadow: 4px 4px 4px var(--shadow-clr);
     
 }
 
-header, footer{
+header, 
+footer{
     background: var(--primary-clr);
     padding: 1em;
 
@@ -93,7 +104,9 @@ header{
     
 }
 
-header, header a, footer{
+header,
+header a,
+footer{
     color: var(--tertiary-clr);
 
     transition: var(--transition);
@@ -105,12 +118,15 @@ header img{
 
 }
 
-header svg, footer svg, footer img{
+header svg, 
+footer svg, 
+footer img{
     width: 25px;
     
 }
 
-input, select{
+input, 
+select{
     padding: 1em;
     border-radius: 10px;
 
@@ -123,12 +139,14 @@ input, select{
     
 }
 
-input::placeholder, select{
+input::placeholder, 
+select{
     color: var(--placeholder-clr);
 
 }
 
-input:focus, select:focus {
+input:focus, 
+select:focus {
     background: transparent;
     border-color: transparent;
     outline: none;
@@ -207,7 +225,8 @@ input:focus, select:focus {
 
 }
 
-.item-translate, .item-translate-alt{
+.item-translate, 
+.item-translate-alt{
     transition: all, 0.3s
 
 }
@@ -253,7 +272,8 @@ footer ul li strong{
 
 }
 
-footer svg, img{
+footer svg, 
+footer img{
     width: 25px;
     color: var(--tertiary-clr);
 
@@ -319,9 +339,9 @@ button:hover a{
 
     }
 
-    header, footer{
+    header,
+    footer{
         padding-inline: 1.5em;
-        
 
     }
 
@@ -356,9 +376,9 @@ button:hover a{
 
     footer ul{
         display: flex;
-
         justify-content: space-between;
         font-size: 0.9em;
+
     }
     
     .section-header-title h1{
