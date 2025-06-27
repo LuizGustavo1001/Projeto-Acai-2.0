@@ -1,11 +1,19 @@
 <?php 
     include "../databaseConnection.php";
+    include "../generalPHP.php";
 
-    /* if(! isset($_COOKIE["useremail"])){
-        header("location: login.php");
+    if(! isset($_SESSION)){
+        session_start();
     }
 
-    */
+    if(! isset($_SESSION["userMail"])){
+        header("location: login.php");
+        exit();
+    }
+
+    checkSession();
+
+    
 ?>
 
 
@@ -88,7 +96,7 @@
                 
             </div>
             <div class="account-header-button">
-                <button><a href="logout.php">Sair</a></button>
+                <button><a href="../logout.php">Sair</a></button>
             </div>
         </section>
 
@@ -99,11 +107,11 @@
                 <p>Edite <strong>Seus Dados</strong> individualmente aqui</p>
                 <p></p>
             </div>
-            <form action="" method="POST">
+            <form action="" method="POST"> 
                 <div class="form-item">
                     <label for="iname">Nome: </label>
                     <div class="form-input">
-                        <input type="text" name="name" id="iname" maxlength="30" minlength="8" >
+                        <input type="text" name="name" id="iname" maxlength="30" minlength="8" placeholder="<?php echo $_SESSION['username']; ?>" >
                         <button>Editar</button>
                     </div>
                 </div>
@@ -111,7 +119,7 @@
                 <div class="form-item">
                     <label for="iemail">Email: </label>
                     <div class="form-input">
-                        <input type="email" name="email" id="iemail" maxlength="50" >
+                        <input type="email" name="email" id="iemail" maxlength="50" placeholder="<?php echo $_SESSION['userMail']; ?>" >
                         <button>Editar</button>
                     </div>
                 </div>
@@ -119,7 +127,7 @@
                 <div class="form-item">
                     <label for="inumber">Telefone de Contato:</label>
                     <div class="form-input">
-                        <input type="text" name="phone" id="inumber" minlength="15" maxlength="16" pattern="\(\d{2}\) \d \d{4} \d{4}" placeholder="(XX) 9 8888 8888" >
+                        <input type="text" name="phone" id="inumber" minlength="15" maxlength="16" pattern="\(\d{2}\) \d \d{4} \d{4}" placeholder="<?php echo $_SESSION['userPhone']; ?>" >
                         <button>Editar</button>
                     </div>
                 </div>
@@ -127,7 +135,7 @@
                 <div class="form-item">
                     <label for="istreet">Rua: </label>
                     <div class="form-input">
-                        <input type="text" name="street" id="istreet" maxlength="50" >
+                        <input type="text" name="street" id="istreet" maxlength="50" placeholder="<?php echo $_SESSION['userStreet']; ?>" >
                         <button>Editar</button>
                     </div>
                 </div>
@@ -135,15 +143,15 @@
                 <div class="form-item">
                     <label for="ihouseNum">Número: </label>
                     <div class="form-input">
-                        <input type="number" name="houseNum" id="ihouseNum" max="99999999" >
+                        <input type="number" name="houseNum" id="ihouseNum" max="99999999" placeholder="<?php echo $_SESSION['userLocalNum']; ?>">
                         <button>Editar</button>
                     </div>
-                </div class="form-item">
+                </div>
 
                 <div class="form-item">
                     <label for="idistrict">Bairro: </label>
                     <div class="form-input">
-                        <input type="text" name="district" id="idistrict" maxlength="40" >
+                        <input type="text" name="district" id="idistrict" maxlength="40" placeholder="<?php echo $_SESSION['userAddress']; ?>" >
                         <button>Editar</button>
                     </div>
                 </div>
@@ -151,7 +159,7 @@
                 <div class="form-item">
                     <label for="icity">Cidade: </label>
                     <div class="form-input">
-                        <input type="text" name="city" id="icity" maxlength="40" >
+                        <input type="text" name="city" id="icity" maxlength="40" placeholder="<?php echo $_SESSION['userCity']; ?>">
                         <button>Editar</button>
                     </div>
                 </div>
@@ -159,7 +167,7 @@
                 <div class="form-item">
                     <label for="ireference">Ponto de Referência: </label>
                     <div class="form-input">
-                        <input type="text" name="reference" id="ireference" maxlength="50">
+                        <input type="text" name="reference" id="ireference" maxlength="50" placeholder="<?php echo $_SESSION['userReference']; ?>">
                         <button>Editar</button>
                     </div>
                 </div>

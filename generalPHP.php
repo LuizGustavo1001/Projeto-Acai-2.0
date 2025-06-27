@@ -287,3 +287,74 @@ function matchProductLinkName($name){
     return $name;
 
 }
+
+
+function checkSession(){
+    if(isset($_SESSION['lastActivity'])){
+        $maxInactivity = 3600; // 1 hora
+
+        $elapsed = time() - $_SESSION['lastActivity'];
+
+        if($elapsed > $maxInactivity){
+            session_unset();
+            session_destroy();
+            header("Location: login.php?timeout=1");
+            exit;
+
+        }
+    }
+
+   
+
+}
+
+function add2Cart($prodName, $amount){
+
+    global $mysqli;
+
+    if(!isset($_SESSION['username'])){
+        header("Location: ../../account/login.php?unkUser=1");
+    }else{
+        $allowedNames = 
+        [
+            "acaiT10", "acaiT5", "acaiT1", "colher200", "colher500", "colher800", "cremeNinho10",
+            "cremeCupuacu10", "cremeMaracuja10", "cremeMorango10", "acaiZero10", "acaiNinho1", 
+            "acaiNinho250", "saborazziChocomalt", "saborazziCocada", "saborazziCookies",
+            "saborazziAvelaP", "saborazziAvelaT", "saborazziLeitinho", "saborazziPacoca",
+            "saborazziSkimoL", "saborazziSkimoB", "saborazziWafer", "polpaAbac", "polpaAbacHort",
+            "polpaAcrl", "polpaAcrlMamao", "polpaCacau", "polpaCaja", "polpaCaju", "polpaCupuacu",
+            "polpaGoiaba", "polpaGraviola", "polpaManga", "polpaMangaba", "polpaMaracuja", "polpaMorango",
+            "polpaUva", "morango1", "leiteEmPo1", "granola1.5", "granola1", "pacoca150", "farofaPacoca1", 
+            "amendoimTriturado1","ovomaltine1", "gotaChocolate1", "chocoball1", "jujuba500", "disquete1"
+        ];
+
+        if(in_array($prodName, $allowedNames)){
+            $query = $mysqli->prepare("SELECT idProd, price FROM product WHERE nameProd = ?");
+
+            $query->bind_param("s",$prodName);
+            $query->execute();
+
+            $result = $query->get_result();
+            $result = $result->fetch_assoc();
+
+            $totalPrice = $result["price"] * $amount;
+            $idProd = $result["idProd"];
+
+            $query->close();
+
+            $query = $mysqli->prepare(
+                "INSERT INTO product_order (idProd, amount, singlePrice, totPrice) VALUES
+                            (?, ?, ?, ?)"
+            );
+
+            $query->bind_param("iidd", $idProd, $amount, $result['price'], $totalPrice);
+
+            if($query->execute()){
+                echo "<p class=\"sucess-text\">Produto Adicionado com sucesso ao Carrinho</p>";
+
+            }
+        }
+    }
+
+    
+}

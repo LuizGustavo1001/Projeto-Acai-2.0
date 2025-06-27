@@ -6,19 +6,31 @@
     }
 
     // Processar login ANTES de qualquer saída HTML
-    if(isset($_POST["name"], $_POST["email"], $_POST["password"])){
+    if(isset($_POST["email"], $_POST["password"])){
         $result = login();
         if(isset($result)){
             switch($result){
                 case "errorLogin":
-                    $loginError = "Erro: Email não existente";
+                    $errorLogin = "<p class=\"errorText\">
+                                Erro: Email ou Senha <strong>Incorretos</strong>, tente novamente ou <strong>cadastre-se</strong> no link abaixo
+                            </p>";
                     break;
-
-                case "errorPassword":
-                    $loginError = "Erro: Senha Incorreta";
+                case "successLogin":
+                    header("Location: ../index.php");
+                    exit;
+                case "errorDB":
+                    $errorLogin = "<small>Erro ao executar a query</small>";
                     break;
             }
         }
+    }
+
+    if(isset($_GET["timeout"])){
+        $errorLogin = "<p class=\"errorText\">Erro: <strong>Sessão Expirada</strong>, realize seus Login novamente</p>";
+    }
+
+    if(isset($_GET["unkUser"])){
+        $errorLogin = "<p class=\"errorText\">Erro: <strong>Realize seu login</strong> para <strong>Adicionar Produtos</strong> ao carrinho</p>";
     }
 
     function login(){
@@ -27,94 +39,62 @@
         $email = $_POST["email"];
 
         $query = $mysqli->prepare("SELECT * FROM client_data WHERE clientMail = ?");
-
         $query->bind_param("s", $email);
         $query->execute();
 
         $result = $query->get_result();
-        $query-> close();
-
+        $query->close();
+        
         $emailExist = $result->num_rows;
 
         switch($emailExist){
-            case 0: // email não existente no banco de dados -> cadastrar
+            case 0: // email não existente no Banco de Dados
                 return "errorLogin";
-            
             default: // continuar login
-                $name           = $_POST["name"];
-                $password       = $_POST["password"];
-                $data           = $result->fetch_assoc();
-                $storedPassword = $data["clientPassword"];
+                $password = $_POST["password"];
 
-                if($storedPassword == $password){
-                    // passar a senha no banco de dados para hash
-                    $newHash = password_hash($password, PASSWORD_DEFAULT);
-
-                    $updateStmt = $mysqli->prepare("UPDATE client_data SET clientPasswords = ? WHERE clientMail = ?");
-                    $updateStmt->bind_param("ss", $newHash, $email);
-                    $updateStmt->execute();
-                    $updateStmt->close();
-
-                    $storedPassword = $newHash; // atualizar o valor da senha armazenada no Banco de Dados
-
-                }
+                $userData = $result->fetch_assoc();
+                $storedPassword = $userData["clientPassword"];
 
                 if(password_verify($password, $storedPassword)){
+                    // senha digitada e a mesma armazenada no Banco de Dados ao descriptografar
                     $rememberUser = isset($_POST["remember"]);
-                    if($rememberUser){
-                        $time = time() + 30 * 24 * 60 * 60; // 30 dias em segundos
+                    $time = $rememberUser ? (time() + 30 * 24 * 60 * 60) : (time() + 60 * 60 * 24); // 30 dias ou 1 dia em segundos
 
+                    $rescueData = $mysqli->prepare(
+                        "SELECT DISTINCT d.idClient, d.clientName, n.clientNumber, 
+                                                a.district, a.localNum, a.referencePoint, a.street, a.city 
+                                FROM client_data as d 
+                                    JOIN client_number as n ON d.idClient = n.idClient
+                                    JOIN client_address AS a ON d.idClient = a.idClient
+                                WHERE d.clientMail = ?
+                    ");
+
+                    $rescueData->bind_param("s", $email);
+
+                    if($rescueData->execute()){
+                        $user    = $rescueData->get_result()->fetch_assoc();
+
+                        $_SESSION["userId"] = $user["idClient"];
+                        $_SESSION["userPhone"] = $user["clientNumber"];
+                        $_SESSION["username"] = $user["clientName"];
+                        $_SESSION["userMail"] = $email;
+                        $_SESSION["userAddress"] = $user["district"];
+                        $_SESSION["userLocalNum"] = $user["localNum"];
+                        $_SESSION["userReference"] = $user["referencePoint"];
+                        $_SESSION["userStreet"] = $user["street"];
+                        $_SESSION["userCity"] = $user["city"];
+
+                        $_SESSION['lastActivity'] = time(); // marca o início da sessão
+                        
+                        return "successLogin";
+                    
                     }else{
-                        $time = time() + 60*60*24; // 1 dia em segundos
+                        return "errorDB";
                     }
 
-                    $rescueId = $mysqli->prepare("SELECT idClient FROM client_data WHERE clientMail = ?");
-                    $rescueId->bind_param("s", $email);
-                    $rescueId->execute();
-
-                    $rescueResult = $rescueId->get_result();
-                    $clientId = $rescueResult->fetch_assoc()["idClient"];
-
-                    $rescueId->close();
-
-                    $query2 = $mysqli->prepare("SELECT clientNumber FROM client_number WHERE idClient = ?");
-                    $query2->bind_param("i", $clientId);
-                    $query2->execute();
-
-                    $result2 = $query2->get_result();
-                    $clientNumber = $result2->fetch_assoc()["clientNumber"];
-
-                    $query2->close();
-
-                    $query2 = $mysqli->prepare("SELECT district, localNum, referencePoint, street, city FROM client_address WHERE idClient = ?");
-                    $query2->bind_param("i", $clientId);
-                    $query2->execute();
-
-                    $result2 = $query2->get_result();
-                    $result2 = $result2->fetch_assoc();
-
-                    $clientDistrict  = $result2["district"];
-                    $clientLocalNum  = $result2["localNum"];
-                    $clientReference = $result2["referencePoint"];
-                    $clientStreet    = $result2["street"];
-                    $clientCity      = $result2["city"];
-
-                    $query2->close();
-
-                    setcookie('username',      $name,            time() + $time);
-                    setcookie('useremail',     $email,           time() + $time);
-                    setcookie("userNumber",    $clientNumber,    time() + $time);
-                    setcookie("userAddress",   $clientDistrict,  time() + $time);
-                    setcookie("userLocalNum",  $clientLocalNum,  time() + $time);
-                    setcookie("userReference", $clientReference, time() + $time);
-                    setcookie("userStreet",    $clientStreet,    time() + $time);
-                    setcookie("userCity",      $clientCity,      time() + $time);
-
-                    header("Location: ../index.php");
-                    
-                    exit();
                 }else{
-                    return "errorPassoword";
+                    return "errorLogin";
                 }
         }
     }
@@ -204,9 +184,10 @@
 
             <div class="account-forms">
                 <form action="" method="post">
+                    <?php if (isset($errorLogin)) echo $errorLogin; ?>
                     <div class="form-item">
                         <label for="iemail">Email: </label>
-                        <input type="email" name="email" id="iemail" maxlength="50" required>
+                        <input type="email" name="email" id="iemail" maxlength="50" required value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
                     </div>
 
                     <div class="form-item">
@@ -227,10 +208,6 @@
                         <a href="">Esqueceu a senha?</a>
                         <a href="register.php">Ainda não está registrado?</a>
                     </div>
-
-                    <!-- Exibir erro se existir -->
-                    <?php if(isset($loginError)) echo $loginError; ?>
-
                 </form>
             </div>
         </section>

@@ -246,6 +246,18 @@ select:focus {
     
 }
 
+.successText{
+    color: green;
+    text-align: center;
+
+}
+
+.errorText{
+    color: rgb(167, 7, 7);
+    text-align: center;
+
+}
+
 
 footer ul{
     display: grid;

@@ -1,6 +1,10 @@
 <?php 
     include "../databaseConnection.php";
     include "../generalPHP.php";
+
+    checkSession();
+
+
 ?>
 
 <!DOCTYPE html>

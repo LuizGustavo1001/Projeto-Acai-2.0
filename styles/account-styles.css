@@ -76,6 +76,10 @@
 .form-item input, 
 .form-item select{
     border:none;
+    width: 100%;
+    box-sizing: border-box;
+
+    color: var(--placeholder-clr);
 
 }
 
