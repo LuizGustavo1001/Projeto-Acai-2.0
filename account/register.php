@@ -5,7 +5,6 @@
         session_start();
     }
 
-
     if(
         isset($_POST["name"], $_POST["email"], $_POST["phone"], $_POST["street"], $_POST["houseNum"], $_POST["district"], $_POST["city"], $_POST["password"])
     ){
@@ -87,69 +86,6 @@
         }
     }
 
-    /*
-    function addUser(){
-        global $mysqli;
-
-        if($resultEmail->num_rows != 0){ // email existente
-            return "emailExists";
-        }else{ // email não existente no banco de dados
-            $name      = $_POST['name'];
-            $number    = $_POST["phone"];
-            $street    = $_POST["street"];
-            $houseNum  = $_POST["houseNum"];
-            $district  = $_POST["district"];
-            $city      = $_POST["city"];
-            $reference = isset($_POST["reference"]) ? $_POST["reference"] : null;
-            $password  = password_hash($_POST['password'], PASSWORD_DEFAULT);
-
-            $query = $mysqli->prepare(
-                "INSERT INTO client_data (clientName, clientMail, clientPassword) VALUES (?,?,?);"
-            );
-
-            $query->bind_param("sss", $name, $email, $password);
-            
-            if($query->execute()){
-                $idClient = $mysqli->insert_id;
-
-                $query->close();
-
-                $query = $mysqli->prepare(
-                    "INSERT INTO client_number (idClient, clientNumber) VALUES (?, ?);"
-                );
-
-                $query->bind_param("is", $idClient, $number);
-
-                if($query->execute()){
-                    $query->close();
-
-                    $query = $mysqli->prepare(
-                        "INSERT INTO client_address 
-                                (idClient, district, localNum, referencePoint, street, city) VALUES
-                                    (?,?,?,?,?,?);"
-                    );
-                    
-                    $query->bind_param(
-                        "isssss", 
-                        $idClient, $district, $houseNum, $reference, $street, $city
-                    );
-
-                    if($query->execute()){
-                        echo "Usuário adicionado com sucesso";
-                    }else{
-                        echo "Erro ao adicionar endereço: " . $query->error;
-                    }
-                    $query->close();
-                }else{
-                    echo "Erro ao adicionar telefone: " . $query->error;
-                }
-            }else{
-                echo "Erro ao adicionar usuário: " . $query->error;
-            }
-        }
-        $verifyEmail->close();
-    }
-    */
 ?>
 
 

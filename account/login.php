@@ -73,17 +73,17 @@
                     $rescueData->bind_param("s", $email);
 
                     if($rescueData->execute()){
-                        $user    = $rescueData->get_result()->fetch_assoc();
+                        $user = $rescueData->get_result()->fetch_assoc();
 
-                        $_SESSION["userId"] = $user["idClient"];
-                        $_SESSION["userPhone"] = $user["clientNumber"];
-                        $_SESSION["username"] = $user["clientName"];
-                        $_SESSION["userMail"] = $email;
-                        $_SESSION["userAddress"] = $user["district"];
-                        $_SESSION["userLocalNum"] = $user["localNum"];
+                        $_SESSION["userId"]        = $user["idClient"];
+                        $_SESSION["userPhone"]     = $user["clientNumber"];
+                        $_SESSION["username"]      = $user["clientName"];
+                        $_SESSION["userMail"]      = $email;
+                        $_SESSION["userAddress"]   = $user["district"];
+                        $_SESSION["userLocalNum"]  = $user["localNum"];
                         $_SESSION["userReference"] = $user["referencePoint"];
-                        $_SESSION["userStreet"] = $user["street"];
-                        $_SESSION["userCity"] = $user["city"];
+                        $_SESSION["userStreet"]    = $user["street"];
+                        $_SESSION["userCity"]      = $user["city"];
 
                         $_SESSION['lastActivity'] = time(); // marca o início da sessão
                         
