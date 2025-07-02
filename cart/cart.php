@@ -12,6 +12,19 @@
         exit();
     }
 
+    function GetSubtotal(){
+        global $mysqli;
+
+        $stmt = $mysqli->prepare("SELECT SUM(totPrice) as subtotal FROM product_order WHERE idOrder = ?");
+        $stmt->bind_param("i", $_SESSION['idOrder']);
+
+        if($stmt->execute()){
+            $result = $stmt->get_result()->fetch_assoc();
+            $subtotal = $result["subtotal"] !== null ? number_format($result["subtotal"], 2, ',', '.') : '00,00';
+            echo "<span>R$ {$subtotal}</span>";
+        }
+    }
+
 
     checkSession();
 ?>
@@ -66,14 +79,14 @@
                 </a>
             </li>
             <li>
-                 <a href="cart.php">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
-                    </svg>
+                <a href="cart.php">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                </svg>
 
-                    <p>Carrinho</p>
-                 </a>
-                 <p class="numberItens">N</p>
+                <p>Carrinho</p>
+                </a>
+                <?php verifyCartAmount();?>
             </li>
         </ul>
 
@@ -105,29 +118,27 @@
             <div class="order-info-content">
                 <ol>
                     <li>
-                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750274074/maps_v2qsgm.png" alt="">
-                        <ul class="list-item-text">
-                            <li>Endereço:</li>
-                            <li>
-                                <span> 
-                                    <?php echo $_SESSION["street"] . ", " . $_SESSION["localNum"] . " - " . $_SESSION['city'] . "<br> <em>". $_SESSION["referencePoint"] . "</em>"?> 
-                                </span> 
-                                </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                            <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
-                        </svg>
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751475315/user_iqkn7x.png" alt="user icon">
                         <ul class="list-item-text">
                             <li>Cliente:</li>
-                            <li> <span><?php echo $_SESSION["clientName"]?> </span> </li>
+                            <li> <span><?php echo $_SESSION["clientName"]?></span> </li>
                         </ul>
                     </li>
+
                     <li>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                            <path fill-rule="evenodd" d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z" clip-rule="evenodd" />
-                        </svg>
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751475314/pin_zqdhx7.png" alt="maps pin icon">
+                        <ul class="list-item-text">
+                            <li>Endereço:</li>
+                            <li> 
+                                <span>
+                                    <?php echo $_SESSION["street"] . ", " . $_SESSION["localNum"] . " - " . $_SESSION['city'] . "<br> <em>". $_SESSION["referencePoint"] . "</em>"?> 
+                                </span> 
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751475315/phone_plvmle.png" alt="phone icon">
                         <ul class="list-item-text">
                             <li>Telefone:</li>
                             <li> <span><?php echo $_SESSION["clientNumber"]?></span> </li>
@@ -165,7 +176,7 @@
                     <li class="list-item-text">
                         <ul>
                             <li>Subtotal:</li>
-                            <li><span>R$ 00,00</span></li>
+                            <?php GetSubtotal();?>
                         </ul>
                     </li>
                     <li class="list-item-text">
@@ -217,7 +228,15 @@
                     <div class="order-info-content">
                         <ol>
                             <li>
-                                <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750274074/maps_v2qsgm.png" alt="">
+                                <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751475315/user_iqkn7x.png" alt="user icon">
+                                <ul class="list-item-text">
+                                    <li>Cliente:</li>
+                                    <li> <span><?php echo $_SESSION["clientName"]?></span> </li>
+                                </ul>
+                            </li>
+                            
+                            <li>
+                                <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751475314/pin_zqdhx7.png" alt="maps pin icon">
                                 <ul class="list-item-text">
                                     <li>Endereço:</li>
                                     <li> 
@@ -227,19 +246,9 @@
                                     </li>
                                 </ul>
                             </li>
+
                             <li>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                                    <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
-                                </svg>
-                                <ul class="list-item-text">
-                                    <li>Cliente:</li>
-                                    <li> <span><?php echo $_SESSION["clientName"]?></span> </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                                    <path fill-rule="evenodd" d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z" clip-rule="evenodd" />
-                                </svg>
+                                <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751475315/phone_plvmle.png" alt="phone icon">
                                 <ul class="list-item-text">
                                     <li>Telefone:</li>
                                     <li> <span><?php echo $_SESSION["clientNumber"]?></span> </li>
@@ -278,7 +287,7 @@
                         <li class="list-item-text">
                             <ul>
                                 <li>Subtotal:</li>
-                                <li><span>R$ 00,00</span></li>
+                                <?php GetSubtotal();?>
                             </ul>
                         </li>
                         <li class="list-item-text">

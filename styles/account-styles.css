@@ -1,7 +1,8 @@
 .account-header{
     display: flex;
     justify-content: space-between;
-    align-items: center; 
+    align-items: baseline;
+
 }
 
 .account-header ul{
@@ -25,18 +26,19 @@
     align-items: center;
     
     text-align: left;
+    
+    background: var(--primary-bg-clr);
+    width: 80vw;
+    margin: 0 auto;
 
+    border-radius: var(--border-radius);
+
+    padding-bottom: 1em;
 
 }
 
 .account-forms form{
-    background: var(--primary-bg-clr);
     border-radius: var(--border-radius);
-
-    padding: 1em;
-    
-    width: 80vw;
-
 
     display: flex;
     flex-direction: column;
@@ -46,13 +48,24 @@
 }
 
 .section-header-title{
+    padding-block: 1em;
     margin-bottom: 1em;
+    background: var(--primary-clr);
+    color: var(--tertiary-clr);
+
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+
+    width: 100%;
+
+    text-align: center;
 
 }
 
 .section-header-title h1{
     font-size: 2em;
     text-align: center;
+    margin-bottom: 0.5em;
 
 }
 
@@ -76,7 +89,7 @@
 .form-item input, 
 .form-item select{
     border:none;
-    width: 100%;
+    width: 70vw;
     box-sizing: border-box;
 
     color: var(--placeholder-clr);
@@ -113,15 +126,15 @@
 
 
 @media(min-width:1024px){
-    .account-forms form{
-        width: 500px;
-        
-        padding: 2em 3em 2em 3em;
+    .account-forms{
+        width: 50vw;
+
     }
 
     .account-forms input, 
     .account-forms select{
         padding: 0.8em;
+        width: 35vw;
 
     }
 

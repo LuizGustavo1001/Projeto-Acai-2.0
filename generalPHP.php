@@ -370,3 +370,30 @@ function verifyOrders(){ // verificar se há pedidos "fantasmas" no banco de dad
     */
 }
 
+
+function verifyCartAmount(){ // dar saída na quantidade de produtos no carrinho do cliente logado
+    global $mysqli;
+
+    if (! isset($_SESSION)) {
+        session_start();
+    }
+
+    if(isset($_SESSION["idOrder"])){
+        $stmt = $mysqli->prepare("SELECT COUNT(*) FROM product_order WHERE idOrder = ?");
+        $stmt->bind_param("i", $_SESSION["idOrder"]);
+        
+        if($stmt->execute()){
+            $result = $stmt->get_result()->fetch_assoc();
+
+            $cartAmount = $result["COUNT(*)"];
+
+            echo "<p class=\"numberItens\">$cartAmount</p>";
+
+        }else{
+            echo "erro ao executar o stmt";
+
+        }
+
+    }
+
+}

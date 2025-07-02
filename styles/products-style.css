@@ -121,6 +121,13 @@
 
     border-radius: var(--border-radius);
 
+    height: 150px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+
 }
 
 .products-item a{
@@ -141,7 +148,8 @@
 
 .products-item img{
     border-radius: var(--border-radius);
-
+    height: 50vw;
+    
 }
 
 .products-item h2{
@@ -205,6 +213,7 @@
     .products-item img{
         width: 220px;
         margin: 0 auto;
+        height: 220px;
 
     }
 
