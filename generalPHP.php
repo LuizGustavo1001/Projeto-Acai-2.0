@@ -291,6 +291,8 @@ function matchProductLinkName($name){
 
 function checkSession(){
     if(isset($_SESSION['lastActivity'])){
+
+
         $maxInactivity = 3600; // 1 hora
 
         $elapsed = time() - $_SESSION['lastActivity'];
@@ -303,8 +305,6 @@ function checkSession(){
 
         }
     }
-
-   
 
 }
 
@@ -358,3 +358,15 @@ function add2Cart($prodName, $amount){
 
     
 }
+
+function verifyOrders(){ // verificar se há pedidos "fantasmas" no banco de dados
+    // pedidos que não possuem produtos associados a eles, ou seja, pedidos que foram criados sem serem confirmados pelo usuário
+    /*
+    global $mysqli;
+
+    $stmt = $mysqli->prepare("DELETE FROM client_order WHERE orderDate < NOW() - INTERVAL 1 DAY AND orderHour < CURRENT_TIME() - INTERVAL 1 DAY AND idOrder NOT IN (SELECT idOrder FROM product_order);");
+    $stmt->execute();
+    $stmt->close();
+    */
+}
+

@@ -52,7 +52,7 @@ main{
 .order-summary ul li span, 
 .list-item-text li span{
     color: var(--fourth-clr);
-
+    margin-left: 0.5em;
 }
 
 .order-summary svg, 
@@ -163,7 +163,7 @@ main{
 }
 
 .order-info-content img{
-    width: 60px;
+    width: 70px;
     border-radius: var(--border-radius);
 
 }

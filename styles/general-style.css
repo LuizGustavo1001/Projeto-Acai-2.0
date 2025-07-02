@@ -345,6 +345,66 @@ button:hover a{
 
 }
 
+.hidden-box{
+    display: none;
+
+}
+
+.popup-box{
+    background :rgba(56, 0, 63, 0.42);
+    width: 400px;
+    height: 400px;
+    position: absolute;
+
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    border-radius: var(--border-radius);
+
+}
+
+.popup-div {
+    border-radius: var(--border-radius);
+    background: white;
+    
+    padding-bottom: 1em;
+
+    width: 300px;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+
+.popup-div h1{
+    background: var(--primary-clr);
+    color: var(--tertiary-clr);
+
+    padding: 0.5em;
+
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+    
+}
+
+.popup-div p{
+    padding: 1em;
+    font-size: 1.1em;
+
+}
+
+.popup-div button{
+    margin: 0 auto;
+    margin-top: 1em;
+    width: 90%;
+
+}
+
 @media(min-width: 1024px){
     body{
         padding: 1em 1.5em 1em 1.5em;
@@ -395,6 +455,17 @@ button:hover a{
     
     .section-header-title h1{
         font-size: 3em;
+
+    }
+
+    .popup-box{
+        background :rgba(56, 0, 63, 0.42);
+        width: 500px;
+        height: 500px;
+
+    }
+    .popup-div {
+        width: 400px;
 
     }
 

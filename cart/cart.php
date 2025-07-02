@@ -2,6 +2,17 @@
     include "../databaseConnection.php";
     include "../generalPHP.php";
 
+    if(! isset($_SESSION)){
+        session_start();
+
+    }
+
+    if(! isset($_SESSION["clientMail"])){
+        header("location: ../account/account.php");
+        exit();
+    }
+
+
     checkSession();
 ?>
 
@@ -97,7 +108,11 @@
                         <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750274074/maps_v2qsgm.png" alt="">
                         <ul class="list-item-text">
                             <li>Endereço:</li>
-                            <li> <span>********</span> </li>
+                            <li>
+                                <span> 
+                                    <?php echo $_SESSION["street"] . ", " . $_SESSION["localNum"] . " - " . $_SESSION['city'] . "<br> <em>". $_SESSION["referencePoint"] . "</em>"?> 
+                                </span> 
+                                </li>
                         </ul>
                     </li>
                     <li>
@@ -106,7 +121,7 @@
                         </svg>
                         <ul class="list-item-text">
                             <li>Cliente:</li>
-                            <li> <span>*********</span> </li>
+                            <li> <span><?php echo $_SESSION["clientName"]?> </span> </li>
                         </ul>
                     </li>
                     <li>
@@ -115,7 +130,7 @@
                         </svg>
                         <ul class="list-item-text">
                             <li>Telefone:</li>
-                            <li> <span>********</span> </li>
+                            <li> <span><?php echo $_SESSION["clientNumber"]?></span> </li>
                         </ul>
                     </li>
                 </ol>
@@ -205,7 +220,11 @@
                                 <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750274074/maps_v2qsgm.png" alt="">
                                 <ul class="list-item-text">
                                     <li>Endereço:</li>
-                                    <li> <span>********</span> </li>
+                                    <li> 
+                                        <span>
+                                            <?php echo $_SESSION["street"] . ", " . $_SESSION["localNum"] . " - " . $_SESSION['city'] . "<br> <em>". $_SESSION["referencePoint"] . "</em>"?> 
+                                        </span> 
+                                    </li>
                                 </ul>
                             </li>
                             <li>
@@ -214,7 +233,7 @@
                                 </svg>
                                 <ul class="list-item-text">
                                     <li>Cliente:</li>
-                                    <li> <span>*********</span> </li>
+                                    <li> <span><?php echo $_SESSION["clientName"]?></span> </li>
                                 </ul>
                             </li>
                             <li>
@@ -223,7 +242,7 @@
                                 </svg>
                                 <ul class="list-item-text">
                                     <li>Telefone:</li>
-                                    <li> <span>********</span> </li>
+                                    <li> <span><?php echo $_SESSION["clientNumber"]?></span> </li>
                                 </ul>
                             </li>
                         </ol>

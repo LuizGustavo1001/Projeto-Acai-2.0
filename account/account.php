@@ -6,14 +6,50 @@
         session_start();
     }
 
-    if(! isset($_SESSION["userMail"])){
+    if(! isset($_SESSION["clientMail"])){
         header("location: login.php");
         exit();
     }
 
     checkSession();
+/*
+    $allowedInputs = [
+        "clientName", "clientNumber", "district", "localNum",
+        "referencePoint", "street", "city"
+    ];
 
-    
+
+    for($i = 0 ; $i < sizeof($allowedInputs); $i++){
+        if(isset($_POST[$allowedInputs[$i]])){
+            if($_POST[$allowedInputs[$i]] != $_SESSION[$allowedInputs[$i]]){
+                // dados diferentes -> alterar no BD
+                if($allowedInputs[$i] == "clientName"){
+                    $dbTable = "client_data";  
+                }else if($allowedInputs[$i] == "clientNumber"){
+                    $dbTable = "client_number";
+                }else {
+                    $dbTable = "client_address";
+
+                }
+
+                $alterData = $mysqli->prepare("UPDATE $dbTable SET $allowedInputs[$i] = ? WHERE idClient = ?");
+
+                $alterData->bind_param("ss", $_POST[$allowedInputs[$i]], $_SESSION["idClient"]);
+
+                if($alterData->execute()){
+                    $_SESSION[$allowedInputs[$i]] = $_POST[$allowedInputs[$i]];
+
+                }
+
+                // se for alterar email ou senha -> pagina a parte (enviar email de confirmação)
+
+            }
+
+        }
+
+    }
+
+*/
 ?>
 
 
@@ -90,7 +126,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                         </svg>
                     </li>
-                    <li><a href="login.php">Página do Usuário</a></li>
+                    <li><a href="account.php">Página do Usuário</a></li>
                 </ul>
 
                 
@@ -102,84 +138,76 @@
 
 
         <section class="account-forms">
-            <div class="section-header-title">
+            <div class="section-header-title" style="text-align: center">
                 <h1>Área do Usuário</h1>
                 <p>Edite <strong>Seus Dados</strong> individualmente aqui</p>
-                <p></p>
+                <p>Ao clicar em <strong>"editar"</strong> todos os campos preenchidos serão <strong>verificados</strong> </p>
             </div>
             <form action="" method="POST"> 
                 <div class="form-item">
-                    <label for="iname">Nome: </label>
+                    <label for="iclientName">Nome: </label>
                     <div class="form-input">
-                        <input type="text" name="name" id="iname" maxlength="30" minlength="8" placeholder="<?php echo $_SESSION['username']; ?>" >
-                        <button>Editar</button>
+                        <input type="text" name="clientName" id="iclientName" maxlength="30" minlength="8" placeholder="<?php echo $_SESSION['clientName']; ?>" >
                     </div>
                 </div>
-
+    <!--
                 <div class="form-item">
-                    <label for="iemail">Email: </label>
+                    <label for="iclientMail">Email: </label>
                     <div class="form-input">
-                        <input type="email" name="email" id="iemail" maxlength="50" placeholder="<?php echo $_SESSION['userMail']; ?>" >
-                        <button>Editar</button>
+                        <input type="email" name="clientMail" id="iclientMail" maxlength="50" placeholder="<?php echo $_SESSION['clientMail']; ?>" >
                     </div>
                 </div>
-
+    -->
                 <div class="form-item">
-                    <label for="inumber">Telefone de Contato:</label>
+                    <label for="iclientNumber">Telefone de Contato:</label>
                     <div class="form-input">
-                        <input type="text" name="phone" id="inumber" minlength="15" maxlength="16" pattern="\(\d{2}\) \d \d{4} \d{4}" placeholder="<?php echo $_SESSION['userPhone']; ?>" >
-                        <button>Editar</button>
+                        <input type="text" name="clientNumber" id="iclientNumber" minlength="15" maxlength="16" pattern="\(\d{2}\) \d \d{4} \d{4}" placeholder="<?php echo $_SESSION['clientNumber']; ?>" >
                     </div>
                 </div>
 
                 <div class="form-item">
                     <label for="istreet">Rua: </label>
                     <div class="form-input">
-                        <input type="text" name="street" id="istreet" maxlength="50" placeholder="<?php echo $_SESSION['userStreet']; ?>" >
-                        <button>Editar</button>
+                        <input type="text" name="street" id="istreet" maxlength="50" placeholder="<?php echo $_SESSION['street']; ?>" >
                     </div>
                 </div>
 
                 <div class="form-item">
-                    <label for="ihouseNum">Número: </label>
+                    <label for="ilocalNum">Número: </label>
                     <div class="form-input">
-                        <input type="number" name="houseNum" id="ihouseNum" max="99999999" placeholder="<?php echo $_SESSION['userLocalNum']; ?>">
-                        <button>Editar</button>
+                        <input type="number" name="localNum" id="ilocalNum" max="99999999" placeholder="<?php echo $_SESSION['localNum']; ?>">
                     </div>
                 </div>
 
                 <div class="form-item">
-                    <label for="idistrict">Bairro: </label>
+                    <label for="iuserDistrict">Bairro: </label>
                     <div class="form-input">
-                        <input type="text" name="district" id="idistrict" maxlength="40" placeholder="<?php echo $_SESSION['userAddress']; ?>" >
-                        <button>Editar</button>
+                        <input type="text" name="district" id="iuserDistrict" maxlength="40" placeholder="<?php echo $_SESSION['district']; ?>" >
                     </div>
                 </div>
 
                 <div class="form-item">
-                    <label for="icity">Cidade: </label>
+                    <label for="iuserCity">Cidade: </label>
                     <div class="form-input">
-                        <input type="text" name="city" id="icity" maxlength="40" placeholder="<?php echo $_SESSION['userCity']; ?>">
-                        <button>Editar</button>
+                        <input type="text" name="userCity" id="iuserCity" maxlength="40" placeholder="<?php echo $_SESSION['city']; ?>">
                     </div>
                 </div>
 
                 <div class="form-item">
-                    <label for="ireference">Ponto de Referência: </label>
+                    <label for="ireferencePoint">Ponto de Referência: </label>
                     <div class="form-input">
-                        <input type="text" name="reference" id="ireference" maxlength="50" placeholder="<?php echo $_SESSION['userReference']; ?>">
-                        <button>Editar</button>
+                        <input type="text" name="referencePoint" id="ireferencePoint" maxlength="50" placeholder="<?php echo $_SESSION['referencePoint']; ?>">
                     </div>
                 </div>
-
+    <!--
                 <div class="form-item">
                     <label for="ipassword">Senha: </label>
                     <div class="form-input">
                         <input type="password" name="password" id="ipassword" maxlength="30" >
-                        <button>Editar</button>
                     </div>
                 </div>
-
+    -->
+                <button>Editar</button>
             </form>
         </section>
     </main>

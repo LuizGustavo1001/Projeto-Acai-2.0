@@ -18,9 +18,9 @@
 <p>
     - Inicialmente, projetada utilizando a linguagem <strong>PHP</strong> para conectar o <strong>Banco de Dados</strong>(BackEnd) com uma <strong>Página Web</strong>(FrontEnd)
 </p>
-<p>Gerenciamento de Usuários, seus Pedidos e envio para uma Planilha desses pedidos que forem Confirmados</p>
-<p>Para diferenciar cada usuário que utilizar o site, existe um sistema de Cadastro/Login com Captcha, incluindo: </p>
-<p>Possui soluções para usuários que tentarem acessar Páginas bloqueadas sem estarem cadastrados</p>
+<p>- Gerenciamento de Usuários, seus Pedidos e envio para uma Planilha desses pedidos que forem Confirmados</p>
+<p>- Para diferenciar cada usuário que utilizar o site, existe um sistema de Cadastro/Login com Captcha, incluindo: </p>
+<p>- Possui soluções para usuários que tentarem acessar Páginas bloqueadas sem estarem cadastrados</p>
 <ul>
     <li>Nome</li>
     <li>Email</li>

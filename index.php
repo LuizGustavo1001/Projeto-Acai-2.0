@@ -83,10 +83,28 @@
     <link rel="shortcut icon" href="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750080377/iconeAcai_mj7dqy.ico" type="image/x-icon">
 
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var popUpButton = document.querySelector(".popup-button");
+            if (popUpButton) {
+                popUpButton.addEventListener("click", () => {
+                    var popUpBox = document.querySelector(".popup-box");
+                    if (popUpBox) {
+                        popUpBox.classList.remove("show");
+                        popUpBox.classList.add("hidden-box");
+                    }
+                });
+            }
+        });
+    </script>
+
     <title>Açaí Amazônia Ipatinga</title>
 
 </head>
 <body>
+    
+    
+
     <header>
         <ul class="left-header">
             <li class="acai-icon">
@@ -131,6 +149,38 @@
     </header>
 
     <main>
+        <?php 
+            if(isset($_GET["orderConfirmed"])){
+                echo "
+                    <section class= \"popup-box show\">
+                        <div class=\"popup-div\">
+                            <div><h1>Pedido Confirmado</h1></div>
+                            <div>
+                                <p>Pedido no nome de <strong>$_SESSION[clientName]</strong> foi enviado para nossa central</p>
+                                <p>Clique no botão abaixo para fechar esta janela</p>
+                                <button class=\"popup-button\">Fechar</button>
+                            </div>
+                        </div>
+                    </section>
+                ";
+            }   
+
+            if(isset($_GET["loginSuccess"])){
+                echo "
+                    <section class= \"popup-box show\">
+                        <div class=\"popup-div\">
+                            <div><h1>Login Realizado com Sucesso</h1></div>
+                            <div>
+                                <p>Agora voce pode navegar pelo site e fazer compras em seu nome</p>
+                                <p>Clique no botão abaixo para fechar esta janela</p>
+                                <button class=\"popup-button\">Fechar</button>
+                            </div>
+                        </div>
+                    </section>
+                ";
+            }
+        ?>
+
         <section class="main-section">
             <div class="left-content">
                 <h1>

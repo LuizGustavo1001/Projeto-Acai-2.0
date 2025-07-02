@@ -5,6 +5,11 @@
         session_start();
     }
 
+    if( isset($_SESSION["userMail"])){
+        header("location: account.php");
+        exit();
+    }
+
     // Processar login ANTES de qualquer saída HTML
     if(isset($_POST["email"], $_POST["password"])){
         $result = login();
@@ -16,7 +21,7 @@
                             </p>";
                     break;
                 case "successLogin":
-                    header("Location: ../index.php");
+                    header("Location: ../index.php?loginSuccess=1");
                     exit;
                 case "errorDB":
                     $errorLogin = "<small>Erro ao executar a query</small>";
@@ -58,8 +63,6 @@
 
                 if(password_verify($password, $storedPassword)){
                     // senha digitada e a mesma armazenada no Banco de Dados ao descriptografar
-                    $rememberUser = isset($_POST["remember"]);
-                    $time = $rememberUser ? (time() + 30 * 24 * 60 * 60) : (time() + 60 * 60 * 24); // 30 dias ou 1 dia em segundos
 
                     $rescueData = $mysqli->prepare(
                         "SELECT DISTINCT d.idClient, d.clientName, n.clientNumber, 
@@ -73,21 +76,34 @@
                     $rescueData->bind_param("s", $email);
 
                     if($rescueData->execute()){
-                        $user = $rescueData->get_result()->fetch_assoc();
+                        $resultUser = $rescueData->get_result();
+                        if ($resultUser && $user = $resultUser->fetch_assoc()) {
 
-                        $_SESSION["userId"]        = $user["idClient"];
-                        $_SESSION["userPhone"]     = $user["clientNumber"];
-                        $_SESSION["username"]      = $user["clientName"];
-                        $_SESSION["userMail"]      = $email;
-                        $_SESSION["userAddress"]   = $user["district"];
-                        $_SESSION["userLocalNum"]  = $user["localNum"];
-                        $_SESSION["userReference"] = $user["referencePoint"];
-                        $_SESSION["userStreet"]    = $user["street"];
-                        $_SESSION["userCity"]      = $user["city"];
+                            $_SESSION["idClient"]       = $user["idClient"];
+                            $_SESSION["clientNumber"]   = $user["clientNumber"];
+                            $_SESSION["clientName"]     = $user["clientName"];
+                            $_SESSION["clientMail"]     = $email;
+                            $_SESSION["district"]       = $user["district"];
+                            $_SESSION["localNum"]       = $user["localNum"];
+                            $_SESSION["referencePoint"] = $user["referencePoint"];
+                            $_SESSION["street"]         = $user["street"];
+                            $_SESSION["city"]           = $user["city"];
+                            $_SESSION['lastActivity'] = time(); // marca o início da sessão
 
-                        $_SESSION['lastActivity'] = time(); // marca o início da sessão
-                        
-                        return "successLogin";
+                            // Insere novo pedido sem definir idOrder (auto_increment)
+                            $newOrder = $mysqli->prepare("INSERT INTO client_order (idClient) VALUES (?);");
+                            $newOrder->bind_param("i", $_SESSION["idClient"]);
+                            $newOrder->execute();
+                            // Recupera o idOrder gerado
+                            $_SESSION["idOrder"] = $mysqli->insert_id;
+                            $newOrder->close();
+
+                            //verifyOrders();
+                            
+                            return "successLogin";
+                        } else {
+                            return "errorDB";
+                        }
                     
                     }else{
                         return "errorDB";
@@ -185,6 +201,14 @@
             <div class="account-forms">
                 <form action="" method="post">
                     <?php if (isset($errorLogin)) echo $errorLogin; ?>
+                    <?php 
+                        if(isset($_GET["register"])) {
+                            echo "
+                            <p class =\"successText\">
+                                Credencias <strong>Cadastradas com Sucesso</strong>, <strong>realize seu Login</strong>
+                            </p>";
+                        }
+                    ?>
                     <div class="form-item">
                         <label for="iemail">Email: </label>
                         <input type="email" name="email" id="iemail" maxlength="50" required value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">

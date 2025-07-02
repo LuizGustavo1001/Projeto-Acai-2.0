@@ -5,6 +5,11 @@
         session_start();
     }
 
+    if( isset($_SESSION["clientMail"])){
+        header("location: account.php");
+        exit();
+    }
+
     if(
         isset($_POST["name"], $_POST["email"], $_POST["phone"], $_POST["street"], $_POST["houseNum"], $_POST["district"], $_POST["city"], $_POST["password"])
     ){
@@ -15,8 +20,8 @@
                     $registerMensage =  "<p class=\"errorText\">Email <strong>já cadastrado</strong>, tente novamente com <strong>outro Email</strong></p>";
                     break;
                 case "userAdd":
-                    $registerMensage = "<p class =\"successText\">Credencias <strong>Cadastradas com Sucesso</strong>, <strong>realize seu Login</strong></p>";
-                    break;
+                    header("location: login.php?register=1");
+                    exit();
             }
         }
     }
