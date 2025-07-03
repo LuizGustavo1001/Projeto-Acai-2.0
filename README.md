@@ -1,5 +1,5 @@
 # Projeto Açaí Amazônia Ipatinga
-<h2>Projeto de um site conectado a um Banco de Dados MySQL utilizando PHP como ponte</h2>
+<h2>Projeto de um site conectado a um Banco de Dados <em>MySQL</em> utilizando <em>PHP</em> como ponte entre <em>FrontEnd</em> e <em>BackEnd</em></h2>
 <h3>⬇️ Preview do Site</h3>
 
 <a href="https://www.figma.com/design/KG2g0vrnxkWhpYED4uM7DG/Projeto-A%C3%A7a%C3%AD?node-id=0-1&p=f&t=wKqWymchvS68Lj0V-0">
@@ -8,7 +8,7 @@
 
 <p>Sistema de Gerenciamento de Vendas para Clientes de produtos selecionados, adicionados ao carrinho e confirmados</p>
 <p>
-    Todas as imagens utilizadas na página web foram adicionadas à núvem por meio do serviço 
+    Todas as imagens utilizadas na página web foram adicionadas à nuvem por meio do serviço 
     <a href="https://cloudinary.com/">Cloudinary</a>
 </p>
 
@@ -18,9 +18,10 @@
 <p>
     - Inicialmente, projetada utilizando a linguagem <strong>PHP</strong> para conectar o <strong>Banco de Dados</strong>(BackEnd) com uma <strong>Página Web</strong>(FrontEnd)
 </p>
-<p>- Gerenciamento de Usuários, seus Pedidos e envio para uma Planilha desses pedidos que forem Confirmados</p>
-<p>- Para diferenciar cada usuário que utilizar o site, existe um sistema de Cadastro/Login com Captcha, incluindo: </p>
-<p>- Possui soluções para usuários que tentarem acessar Páginas bloqueadas sem estarem cadastrados</p>
+<p>- Gerenciamento de Usuários, seus Pedidos e envio para uma Planilha das solicitações que forem Confirmados</p>
+<p>- Possui soluções para usuários que tentarem acessar Páginas Bloqueadas sem cadastro efetuado</p>
+<p>- As sessões de cada usuário duram cerca de 1 hora. Após, será necessário realizar novamente a identificação</p>
+<p>- Para diferenciar cada usuário que utilizar o site, existe um sistema de Cadastro/Login com Captcha*, incluindo: </p>
 <ul>
     <li>Nome</li>
     <li>Email</li>
@@ -31,17 +32,18 @@
         <li>Número da Residência</li>
         <li>Bairro</li>
         <li>Cidade</li>
-        <li>Bairro</li>
         <li>Ponto de Referência</li>
     </ul>
     <li><strong>Senha</strong>*</li>
 </ul>
-
+<p>- Email recebido de forma limpa (removendo caracteres indesejados)</p>
 <p>
-    🔐 Senhas Criptografadas por meio da função <strong><em>password_hash()</em></strong> dentro do PHP, salvas dentro do Banco de Dados já criptografadas
+    - 🔐 Senhas Criptografadas por meio da função <strong><em>password_hash()</em></strong> dentro do PHP e salvas no Banco de Dados já criptografadas
 </p>
 
-<p>📱  Responsividade em dispositivos portáteis</p>
+<p>- 📱  Responsividade em dispositivos portáteis / menores</p>
+
+<hr>
 
 <h3>📂 Esquema de Pastas</h3>
     <pre>
@@ -55,6 +57,7 @@
         |-- dbConnection.php                    (Conectar o Banco de Dados com o FrontEnd)
         |-- GeneralPHP.php                      (Códigos PHP utilizados em mais de uma página)
         |-- index.php                           (Página Inicial)
+        |-- logout.php                          (Sistema para deslogar um usuário)
     </pre>
 <hr>
 
@@ -69,12 +72,12 @@
         <img src="readMe-images/dump.png" alt="Dump DataBase"></img>
     </li>
     <li>
-        Para verificar se o Banco de Dados foi realmente adicionado digite no navegador "localhost/phpmyadmin", se a relação "projeti_acai" existir
+        Para verificar se o Banco de Dados foi realmente adicionado digite no navegador "localhost/phpmyadmin", se a relação "projeto_acai" existir
         na aba esquerda da tela o Banco de Dados foi adicionado com sucesso <img src="readMe-images/phpmyadmin.png" alt="PHPMyAdmin Preview"></img>
     </li>
     <li>Adicione a Pasta do projeto a pasta "htdocs" dentro de xampp (C:\xampp\htdocs)</li>
     <li>
-        Digite no Navegador "http://localhost/PHPEstudos/siteAcai-2.0"
+        Digite no Navegador "http://localhost/siteAcai-2.0"
         <img src="readMe-images/local.png" alt=""></img>
     </li>
 </ol>
