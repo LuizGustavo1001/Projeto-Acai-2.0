@@ -65,7 +65,8 @@
     <li>Baixe o <a href="https://www.youtube.com/watch?v=a5ul8o76Hqw&t=13s">MySQLWorkBench</a></li>
     <li>Abra o arquivo "DumpProjeto_acai.sql" e Clone o Banco de Dados (Dump)</li>
     <li>
-        Adicione o Banco de Dados ao seu Servidor Local clicando no símbolo demonstrado abaixo <br> <img src="readMe-images/dump.png" alt="Dump DataBase"></img>
+        Adicione o Banco de Dados ao seu Servidor Local clicando no símbolo demonstrado abaixo <br> 
+        <img src="readMe-images/dump.png" alt="Dump DataBase"></img>
     </li>
     <li>
         Para verificar se o Banco de Dados foi realmente adicionado digite no navegador "localhost/phpmyadmin", se a relação "projeti_acai" existir
@@ -73,7 +74,8 @@
     </li>
     <li>Adicione a Pasta do projeto a pasta "htdocs" dentro de xampp (C:\xampp\htdocs)</li>
     <li>
-        Digite no Navegador "http://localhost/PHPEstudos/siteAcai-2.0"<img src="readMe-images/local.png" alt=""></img>
+        Digite no Navegador "http://localhost/PHPEstudos/siteAcai-2.0"
+        <img src="readMe-images/local.png" alt=""></img>
     </li>
 </ol>
 
@@ -82,5 +84,10 @@
 
 <h3>📋 Para fazer: </h3>
 <ul>
-    <li>Terminar API</li>
+    <li>Link Página de Produtos com Página do Carrinho</li>
+    <li>PHP Página do Carrinho</li>
+    <li>Pesquisas/Filtros da Página de Produtos</li>
+    <li>Página de Mudança de Credenciais + Página especial para email e senha(enviar email de confirmação)</li>
+    <li>Link Planilha Excel/Google Planilhas</li>
+    <li>Mudanças na Página de logout (enviar p/ pagina certa)</li>
 </ul>
