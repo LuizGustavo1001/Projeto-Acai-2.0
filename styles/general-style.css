@@ -81,8 +81,8 @@ footer,
 .product-main,
 .forms-text,
 .form-item:active,
-.form-item:focus-within,
-.account-forms{
+.form-item:focus-within
+{
     box-shadow: 4px 4px 4px var(--shadow-clr);
     
 }
@@ -102,6 +102,12 @@ header{
     align-items: center;
 
     
+}
+
+header ul{
+    display: flex;
+    align-items: center;
+
 }
 
 header,
@@ -211,9 +217,9 @@ select:focus {
 .numberItens{
     background: var(--secondary-clr);
 
-    position: absolute;
-    top: 2.5em;
-    right: 1.5em;
+    position: relative;
+    top: -4em;
+    left: 3.2em;
 
     width: 20px;
     height: 20px;
@@ -410,6 +416,33 @@ button:hover a{
 
 }
 
+
+.products-list-title, .feature-list-title{
+    background: url(https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079686/title-background-1_orh8zk.png) center center;
+    background-repeat: no-repeat;
+
+    margin-block: 2em;
+
+}
+
+.products-list-title h1, .feature-list-title h1{
+    width: 60%;
+    margin: 0 auto;
+
+}
+
+.products-list-title h1{
+    background: var(--tertiary-clr);
+
+}
+
+.feature-list-title h1{
+    background: var(--secondary-bg-clr);
+    width: 60%;
+    
+}
+
+
 @media(min-width: 1024px){
     body{
         padding: 1em 1.5em 1em 1.5em;
@@ -429,10 +462,12 @@ button:hover a{
 
     .right-header span{
         display: block;
+
     }
 
     .acai-icon{
         padding-right: 1.5em;
+
     }
 
     .left-header li{
@@ -446,10 +481,10 @@ button:hover a{
     }
 
     .numberItens{
-        top: 1.5em;
-        right: 2.5em;
+        top: -4em;
+        left: 3.5em;
 
-    }
+       }
 
     footer ul{
         display: flex;
@@ -465,6 +500,11 @@ button:hover a{
 
     .popup-div {
         width: 400px;
+
+    }
+
+    .feature-list-title h1{
+        width: 30%;
 
     }
 

@@ -59,23 +59,7 @@
 
 }
 
-
-.products-list-title{
-    background: url(https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079686/title-background-1_orh8zk.png) center center;
-    background-repeat: no-repeat;
-
-    margin-block: 2em;
-
-    color: var(--fifth-clr);
-
-}
-
 .products-list-title h1{
-    background: var(--tertiary-clr);
-    width: 60%;
-
-    margin: 0 auto;
-
     text-align: center;
     font-size: 2em;
 
@@ -87,6 +71,8 @@
     display: flex;
     flex-direction: column;
     gap: 2em;
+
+    margin-bottom:5em;
 
 }
 

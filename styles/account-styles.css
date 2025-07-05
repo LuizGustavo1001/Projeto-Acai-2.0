@@ -1,146 +1,141 @@
-.account-header{
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
+    main{
+        margin-bottom: 5em;
 
-}
+    }
 
-.account-header ul{
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
+    .account-header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 3em;
+        
+    }
 
-    margin-bottom: 2em;
+    .account-header ul{
+        display: flex;
+        gap: 0.5em;
+        align-items: top;
+        margin-block: 1.5em;
 
-}
+    }
 
-.account-header svg{
-    width: 10px;
-    color: var(--secondary-clr);
+    .account-header svg{
+        color: var(--secondary-clr);
+        width: 20px;
 
-}
+    }
 
-.account-forms{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    
-    text-align: left;
-    
-    background: var(--primary-bg-clr);
-    width: 80vw;
-    margin: 0 auto;
-
-    border-radius: var(--border-radius);
-
-    padding-bottom: 1em;
-
-}
-
-.account-forms form{
-    border-radius: var(--border-radius);
-
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-
-
-}
-
-.section-header-title{
-    padding-block: 1em;
-    margin-bottom: 1em;
-    background: var(--primary-clr);
-    color: var(--tertiary-clr);
-
-    border-top-left-radius: var(--border-radius);
-    border-top-right-radius: var(--border-radius);
-
-    width: 100%;
-
-    text-align: center;
-
-}
-
-.section-header-title h1{
-    font-size: 2em;
-    text-align: center;
-    margin-bottom: 0.5em;
-
-}
-
-.form-item{
-    background: var(--tertiary-clr);
-    border: 1px solid var(--primary-clr);
-    padding: 0.3em;
-
-    border-radius: var(--border-radius);
-
-    display: flex;
-    flex-direction: column;
-
-    transition: var(--transition);
-
-    cursor: pointer;
-
-
-}
-
-.form-item input, 
-.form-item select{
-    border:none;
-    width: 70vw;
-    box-sizing: border-box;
-
-    color: var(--placeholder-clr);
-
-}
-
-.form-item label{
-    font-weight: bold;
-    cursor: pointer;
-
-}
-
-.form-item span{
-    color: var(--secondary-clr);
-
-}
-
-.form-item:active,
-.form-item:focus-within{
-    border-color: var(--secondary-clr);
-
-}
-
-.account-forms button{
-    width: 100%;
-
-}
-
-.account-main-footer{
-    display: flex;
-    justify-content: space-between;
-
-}
-
-
-@media(min-width:1024px){
     .account-forms{
-        width: 50vw;
+        display: flex;
+        flex-direction: column;
+        gap: 2em;
 
     }
 
-    .account-forms input, 
-    .account-forms select{
-        padding: 0.8em;
-        width: 35vw;
+    form{
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
 
     }
 
-    .section-header-title h1{
-        font-size: 2.5em;
+    form button{
+        width: 100%;
+        padding: 0.7em;
 
     }
 
-}
+    .form-item{
+        border: 1px solid var(--primary-clr);
+        padding: 0.5em;
+
+        display: flex;
+        flex-direction: column;
+
+        border-radius: var(--border-radius);
+
+        transition: var(--transition);
+
+        cursor: pointer;
+
+    }
+
+    .form-item:hover,
+    .form-item:active,
+    .form-item:focus-within{
+        border-color: var(--secondary-clr);
+
+    }
+
+    .form-item label{
+        font-weight: bold;
+
+        cursor: pointer;
+
+    }
+
+    .form-item input, 
+    .form-item select{
+        border: none;
+        padding: 0.5em;
+        background: transparent;
+
+    }
+
+    .form-item input::placeholder{
+        color: var(--fourth-clr);
+
+    }
+
+    .account-main-footer{
+        display: flex;
+        justify-content: space-between;
+
+    }
+    
+
+
+    @media(min-width: 1024px){
+        .right-header{
+            gap: 3em;
+
+        }
+
+        body{
+            padding: 0;
+            margin: 0;
+        }
+
+        main{
+            margin-bottom: 7em;
+            
+        }
+
+        .account-hero{
+            display: flex;
+            justify-content: space-between;
+            gap: 1em;
+
+        }
+
+        .account-left-div{
+            width: 55%;
+
+        }
+
+        .account-right-div{
+            width:45%;
+        }
+
+        .account-left-div{
+            padding: 1em;
+
+        }
+
+        footer ul{
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+
+        }
+
+    }

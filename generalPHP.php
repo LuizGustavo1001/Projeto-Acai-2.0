@@ -289,9 +289,8 @@ function matchProductLinkName($name){
 }
 
 
-function checkSession(){
+function checkSession($local){
     if(isset($_SESSION['lastActivity'])){
-
 
         $maxInactivity = 3600; // 1 hora
 
@@ -300,12 +299,16 @@ function checkSession(){
         if($elapsed > $maxInactivity){
             session_unset();
             session_destroy();
-            header("Location: login.php?timeout=1");
-            exit;
+            match($local){
+                "all-product" => $local = "../account/login.php",
+                "cart"        => $local = "../account/login.php",
+                default       => $local = "login.php"
+            };
 
+            header("Location: $local?timeout=1");
+            exit;
         }
     }
-
 }
 
 function add2Cart($prodName, $amount){
@@ -374,26 +377,25 @@ function verifyOrders(){ // verificar se há pedidos "fantasmas" no banco de dad
 function verifyCartAmount(){ // dar saída na quantidade de produtos no carrinho do cliente logado
     global $mysqli;
 
-    if (! isset($_SESSION)) {
+    if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
 
     if(isset($_SESSION["idOrder"])){
-        $stmt = $mysqli->prepare("SELECT COUNT(*) FROM product_order WHERE idOrder = ?");
+        $stmt = $mysqli->prepare("SELECT COUNT(*) as itemCount FROM product_order WHERE idOrder = ?");
         $stmt->bind_param("i", $_SESSION["idOrder"]);
         
         if($stmt->execute()){
-            $result = $stmt->get_result()->fetch_assoc();
-
-            $cartAmount = $result["COUNT(*)"];
-
-            echo "<p class=\"numberItens\">$cartAmount</p>";
-
+            $result = $stmt->get_result();
+            if ($result) {
+                $row = $result->fetch_assoc();
+                $cartAmount = $row["itemCount"];
+                echo "<p class=\"numberItens\">$cartAmount</p>";
+            } else {
+                echo "<p class=\"numberItens\">0</p>";
+            }
         }else{
             echo "erro ao executar o stmt";
-
         }
-
     }
-
 }

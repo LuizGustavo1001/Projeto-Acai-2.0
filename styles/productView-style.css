@@ -179,12 +179,11 @@
 
     }
 
-
     .forms-item{
         margin-block: 0.5em;
         flex-direction: row;
         justify-content: space-between;
-        align-items: center;
+        align-items: baseline;
 
     }
 

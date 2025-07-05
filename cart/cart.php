@@ -10,6 +10,7 @@
     if(! isset($_SESSION["clientMail"])){
         header("location: ../account/account.php");
         exit();
+
     }
 
     function GetSubtotal(){
@@ -22,11 +23,71 @@
             $result = $stmt->get_result()->fetch_assoc();
             $subtotal = $result["subtotal"] !== null ? number_format($result["subtotal"], 2, ',', '.') : '00,00';
             echo "<span>R$ {$subtotal}</span>";
+        }else{
+            header("location: ../errorPage.php");
         }
     }
 
+    function GetCartProd(){
+        global $mysqli;
 
-    checkSession();
+        $stmt = $mysqli->prepare("SELECT * FROM product_order WHERE idOrder = ?");
+        $stmt->bind_param("i", $_SESSION['idOrder']);
+        
+        if($stmt->execute()){
+            $result = $stmt->get_result();
+
+            $amount = $result->num_rows;
+            switch($amount){
+                case 0:
+                    echo "<small style=\"text-align:center\">Nenhum Produto no Seu Carrinho ainda</small>";
+                    break;
+                
+                default:
+                    while($row = $result->fetch_assoc()) {
+                        $rescueProd = $mysqli->prepare("SELECT * FROM product WHERE idProd = ?");
+                        $rescueProd->bind_param("i" ,$row["idProd"]);
+                        $totalPrice = $row["totPrice"];
+                        
+                        if($rescueProd->execute()){
+                            $prodResult = $rescueProd->get_result();
+                            $prodData = $prodResult->fetch_assoc();
+
+                            $prodName = matchNames($prodData["nameProd"]);
+
+                            echo "
+                                <li>
+                                <div style=\"position: relative; display: inline-block;\">
+                                    <div class=\"item-amount\">" . $row["amount"] ."</div>
+                                    <img src=\"https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079853/caixa-acai_l7uokc.jpg\">
+                                </div>
+                                <ul>
+                                    <li><strong>". $prodName . "</strong></li>
+                                    <li class=\"price\"> ". 
+                                    numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $prodData["price"]  , "BRL") .
+                                    " </li>
+                                    <li class=\"price\"> ". 
+                                    numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $totalPrice  , "BRL") .
+                                    " </li>
+                                </ul>
+                                <a href=\"\">
+                                    <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"size-6\">
+                                        <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0\" />
+                                    </svg>
+                                </a>
+                            </li>
+                            ";
+                        }else{
+                            header("location: ../errorPage.php");
+                        }
+                    }
+            }
+        }else{
+            header("location: ../errorPage.php");
+        }
+    }
+
+    checkSession("cart");
 ?>
 
 
@@ -120,7 +181,7 @@
                     <li>
                         <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751475315/user_iqkn7x.png" alt="user icon">
                         <ul class="list-item-text">
-                            <li>Cliente:</li>
+                            <li><strong>Cliente:</strong></li>
                             <li> <span><?php echo $_SESSION["clientName"]?></span> </li>
                         </ul>
                     </li>
@@ -128,7 +189,7 @@
                     <li>
                         <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751475314/pin_zqdhx7.png" alt="maps pin icon">
                         <ul class="list-item-text">
-                            <li>Endereço:</li>
+                            <li><strong>Endereço:</strong></li>
                             <li> 
                                 <span>
                                     <?php echo $_SESSION["street"] . ", " . $_SESSION["localNum"] . " - " . $_SESSION['city'] . "<br> <em>". $_SESSION["referencePoint"] . "</em>"?> 
@@ -140,7 +201,7 @@
                     <li>
                         <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751475315/phone_plvmle.png" alt="phone icon">
                         <ul class="list-item-text">
-                            <li>Telefone:</li>
+                            <li><strong>Telefone:</strong></li>
                             <li> <span><?php echo $_SESSION["clientNumber"]?></span> </li>
                         </ul>
                     </li>
@@ -151,22 +212,7 @@
         <section class="order-review section-bg">
             <h1>Revisão dos Itens</h1>  
             <ol>
-                <li>
-                    <div style="position: relative; display: inline-block;">
-                        <div class="item-amount">Q</div>
-                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079853/caixa-acai_l7uokc.jpg" alt="">
-                    </div>
-                    <ul>
-                        <li><strong>Nome Produto</strong></li>
-                        <li class="price">R$ 00,00</li>
-                        <li class="price"><strong>Total: R$00,00</strong></li>
-                    </ul>
-                    <a href="">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                        </svg>
-                    </a>
-                </li>
+                <?php GetCartProd();?>
             </ol>
         </section>
 
@@ -230,7 +276,7 @@
                             <li>
                                 <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751475315/user_iqkn7x.png" alt="user icon">
                                 <ul class="list-item-text">
-                                    <li>Cliente:</li>
+                                    <li><strong>Cliente:</strong></li>
                                     <li> <span><?php echo $_SESSION["clientName"]?></span> </li>
                                 </ul>
                             </li>
@@ -238,7 +284,7 @@
                             <li>
                                 <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751475314/pin_zqdhx7.png" alt="maps pin icon">
                                 <ul class="list-item-text">
-                                    <li>Endereço:</li>
+                                    <li><strong>Endereço:</strong></li>
                                     <li> 
                                         <span>
                                             <?php echo $_SESSION["street"] . ", " . $_SESSION["localNum"] . " - " . $_SESSION['city'] . "<br> <em>". $_SESSION["referencePoint"] . "</em>"?> 
@@ -250,7 +296,7 @@
                             <li>
                                 <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751475315/phone_plvmle.png" alt="phone icon">
                                 <ul class="list-item-text">
-                                    <li>Telefone:</li>
+                                    <li><strong>Telefone:</strong></li>
                                     <li> <span><?php echo $_SESSION["clientNumber"]?></span> </li>
                                 </ul>
                             </li>
@@ -260,22 +306,7 @@
                 <div class="order-review section-bg">
                     <h1>Revisão dos Itens</h1>
                     <ol>
-                        <li>
-                            <div style="position: relative; display: inline-block;">
-                                <div class="item-amount">Q</div>
-                                <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079853/caixa-acai_l7uokc.jpg" alt="">
-                            </div>
-                            <ul>
-                                <li><strong>Nome Produto</strong></li>
-                                <li class="price">R$ 00,00</li>
-                                <li class="price"><strong>Total: R$00,00</strong></li>
-                            </ul>
-                            <a href="">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                </svg>
-                            </a>
-                        </li>
+                        <?php GetCartProd();?>
                     </ol>
                 </div>
             </div>
@@ -313,20 +344,6 @@
 
     </main>
 
-
-    <!--
-
-    <main class="desktop-main">
-        <section class="cart-header">
-            <h1>Carrinho</h1>
-            <p>
-                Caso Algum de seus Dados Pessoas abaixo estejam incorretos clique no botão 
-                <strong>"Editar"</strong>
-            </p>
-        </section>
-        
-    </main>
--->
     <footer>
         <ul>
             <li>

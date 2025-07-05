@@ -7,6 +7,10 @@ main{
 
 }
 
+.mobile-main{
+    margin-bottom: 5em;
+
+}
 
 .section-bg{
     background: var(--primary-bg-clr);
@@ -208,6 +212,7 @@ main{
 
     .desktop-main{
         display: block;
+        margin-bottom: 3em;
 
     }
 

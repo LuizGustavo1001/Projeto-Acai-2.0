@@ -7,61 +7,64 @@
         global $mysqli;
 
         $totalQuery = $mysqli->prepare("SELECT COUNT(*) FROM product");
-        $totalQuery->execute();
 
-        $totalResult = $totalQuery->get_result();
-        $total = $totalResult->fetch_row()[0];
+        if($totalQuery->execute()){
+            $totalResult = $totalQuery->get_result();
+            $total = $totalResult->fetch_row()[0];
+            $totalQuery->close();
 
-        $totalQuery->close();
+            $randomIdVec = [];
 
-        $randomIdVec = [];
-
-        while (count($randomIdVec) < 4) {
-            $randomId = rand(1, $total);
-            if (!in_array($randomId, $randomIdVec)) {
-                $randomIdVec[] = $randomId;
-            }
-        }
-
-        $defaultMoney = numfmt_create("pt-BR", NumberFormatter::CURRENCY);
-
-        for($j = 0; $j < 4; $j++){
-            $query = $mysqli->prepare(
-                "SELECT nameProd, brand, price, priceDate, imageURL FROM product WHERE idProd = ?"
-            );
-            
-            $query->bind_param("s", $randomIdVec[$j]);
-            $query->execute();
-            
-            $result = $query->get_result();
-            $result = $result->fetch_assoc();
-
-            $name      = $result['nameProd'];
-            $brand     = $result['brand'];
-
-            if($brand == "Other Brand"){
-                $brand = "Marca Não Cadastrada";
+            while (count($randomIdVec) < 4) {
+                $randomId = rand(1, $total);
+                if (!in_array($randomId, $randomIdVec)) {
+                    $randomIdVec[] = $randomId;
+                }
             }
 
-            $price     = numfmt_format_currency($defaultMoney, $result['price'], "BRL");
-            $priceDate = $result['priceDate'];
-            $image     = $result['imageURL'];
+            $defaultMoney = numfmt_create("pt-BR", NumberFormatter::CURRENCY);
 
-            $name = matchNames($name); // atualizar o nome do produto (mais legível)
+            for($j = 0; $j < 4; $j++){
+                $query = $mysqli->prepare(
+                    "SELECT nameProd, brand, price, priceDate, imageURL FROM product WHERE idProd = ?"
+                );
+                
+                $query->bind_param("s", $randomIdVec[$j]);
+                if($query->execute()){
+                
+                    $result = $query->get_result()->fetch_assoc();
 
-            $linkName = matchProductLinkName($result['nameProd']);
+                    $name      = $result['nameProd'];
+                    $brand     = $result['brand'];
 
-            echo "
-                <li class=\"feature-item item-translate-alt\">  
-                    <a href=\"products/product-item/$linkName.php\">
-                        <img src=\"$image\" alt=\"Product Image\">
-                        <p>$brand</p>
-                        <h2>$name</h2>
-                        <p class=\"price\">$price</p>
-                        <p>Preço Atualizado em: $priceDate</strong></p>
-                    </a>
-                </li>
-            ";
+                    if($brand == "Other Brand"){
+                        $brand = "Marca Não Cadastrada";
+                    }
+
+                    $price     = numfmt_format_currency($defaultMoney, $result['price'], "BRL");
+                    $priceDate = $result['priceDate'];
+                    $image     = $result['imageURL'];
+                    $name = matchNames($name); // atualizar o nome do produto (mais legível)
+                    $linkName = matchProductLinkName($result['nameProd']);
+
+                    echo "
+                        <li class=\"feature-item item-translate-alt\">  
+                            <a href=\"products/product-item/$linkName.php\">
+                                <img src=\"$image\" alt=\"Product Image\">
+                                <p>$brand</p>
+                                <h2>$name</h2>
+                                <p class=\"price\">$price</p>
+                                <p>Preço Atualizado em: $priceDate</strong></p>
+                            </a>
+                        </li>
+                    ";
+                }else{
+                    header("location: errorPage.php");
+                }
+                
+            }
+        }else{
+            header("location: errorPage.php");
         }
     }
 ?>
@@ -77,7 +80,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="styles/general-style.css">
-
     <link rel="stylesheet" href="styles/index.css">
 
     <link rel="shortcut icon" href="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750080377/iconeAcai_mj7dqy.ico" type="image/x-icon">
@@ -133,7 +135,7 @@
                 </a>
             </li>
             
-            <li>
+            <li >
                 <a href="cart/cart.php">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
@@ -202,14 +204,15 @@
             <div class="right-content" style="margin-top: 5vh;"></div>
         </section>
 
-        <section class="about-us-section" style="margin-top: 6em;">
-            <h1 style="margin-bottom: 2em; font-size: 2em; display: flex; align-items: center; justify-content: center;">
-                Sobre Nós
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6" style="width: 40px">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3" />
-                </svg>
-
-            </h1>
+        <section class="about-us-section " style="margin-top: 6em;">
+            <div class="feature-list-title">
+                <h1 style="margin-bottom: 2em; font-size: 2em; display: flex; align-items: center; justify-content: center;">
+                    Sobre Nós
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6" style="width: 40px">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3" />
+                    </svg>
+                </h1>
+            </div>
             <ul>
                 <li class="about-us-item">
                     <div class="about-us-item-svg">
@@ -274,16 +277,20 @@
                             Atendemos e Entregamos em toda Região do  <strong>**** ** ***</strong>, <strong>**** ** *** ****</strong>, <strong></strong> e <strong>Região</strong>.
                         </p>
                         <p>Realizamos entregas tanto para <strong>Sua Loja</strong> como para <strong>Consumo Próprio</strong>*.</p>
-                        <p>* Entrega em Domicílio Apenas em <strong>********</strong>.</p>
+                        
                     </div>
                 </li>
             </ul>
 
+            <p style="text-align: center; margin-top: 1em;">
+                * Entrega em Domicílio Apenas em <strong>********</strong>.
+            </p>
+
         </section>
 
         <section class="feature-products">
-            <div class="feature-title">
-                <h1 style="margin-top: 1em; ;margin-bottom: 2em; font-size: 2em; display: flex; align-items: center; justify-content: center;">Produtos em Destaque</h1>
+            <div class="feature-title feature-list-title">
+                <h1 style="margin-block: 2em; ;margin-bottom: 2em; font-size: 2em; text-align: center;">Produtos em <br> Destaque</h1>
             </div>
             <ul class="feature-box">
                 <?php 

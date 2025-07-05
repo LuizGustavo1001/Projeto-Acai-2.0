@@ -1,64 +1,35 @@
 <?php 
+
+    session_start();
     include "../databaseConnection.php";
     include "../generalPHP.php";
 
-    if(! isset($_SESSION)){
-        session_start();
-    }
-
-    if(! isset($_SESSION["clientMail"])){
-        header("location: login.php");
-        exit();
-
-    }
-
-    checkSession("account");
-
-    if(isset($_GET["logout"])){
-        session_destroy(); 
-        header("location: login.php?logout=1");
+    if(! isset($_SESSION["userMail"])){ // entrando na página sem solicitar um token
+        header("location: password.php");
         exit;
+    }else{
+        if(isset($_POST["password"])){
+            $newPassword = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
-    }
+            $stmt = $mysqli->prepare("
+                UPDATE client_data 
+                SET clientPassword = ?
+                WHERE clientMail = ?
+            ");
 
-/*
-    $allowedInputs = [
-        "clientName", "clientNumber", "district", "localNum",
-        "referencePoint", "street", "city"
-    ];
+            $stmt->bind_param("ss", $newPassword, $_SESSION["userMail"]);
+            if($stmt->execute()){
+                $stmt->close();
 
-
-    for($i = 0 ; $i < sizeof($allowedInputs); $i++){
-        if(isset($_POST[$allowedInputs[$i]])){
-            if($_POST[$allowedInputs[$i]] != $_SESSION[$allowedInputs[$i]]){
-                // dados diferentes -> alterar no BD
-                if($allowedInputs[$i] == "clientName"){
-                    $dbTable = "client_data";  
-                }else if($allowedInputs[$i] == "clientNumber"){
-                    $dbTable = "client_number";
-                }else {
-                    $dbTable = "client_address";
-
-                }
-
-                $alterData = $mysqli->prepare("UPDATE $dbTable SET $allowedInputs[$i] = ? WHERE idClient = ?");
-
-                $alterData->bind_param("ss", $_POST[$allowedInputs[$i]], $_SESSION["idClient"]);
-
-                if($alterData->execute()){
-                    $_SESSION[$allowedInputs[$i]] = $_POST[$allowedInputs[$i]];
-
-                }
-
-                // se for alterar email ou senha -> pagina a parte (enviar email de confirmação)
-
+                unset($_SESSION["userMail"]);
+                header("location: login.php?newPassword=1");
+                exit;
+            }else{
+                header("location: ../errorPage.php");
             }
-
         }
-
     }
 
-*/
 ?>
 
 
@@ -79,7 +50,7 @@
 
     <style>
         .account-right-div{
-            background: url(https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751727599/accountBg_xgmzw6.png) right center;
+            background: url(https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751724099/newPassword_zwuuss.png) center center;
             background-size: cover;
             background-repeat: no-repeat;
 
@@ -87,7 +58,7 @@
 
     </style>
 
-    <title>Açaí Amazônia Ipatinga - Minha Conta</title>
+    <title>Açaí Amazônia Ipatinga - Recuperar Senha</title>
 
 </head>
 <body>
@@ -139,101 +110,62 @@
 
             <main>
                 <section class="account-header">
-                    <div class="account-header-location">
-                        <ul>
-                            <li><a href="../index.php">Página Principal</a></li>
-                            <li>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <ul>
+                        <li><a href="../index.php">Página Principal</a></li>
+                        <li><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                            </svg>
+                        </li>
+
+                        <li><a href="login.php">Página de Login</a></li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                                </svg>
-                            </li>
-                            <li><a href="account.php">Página do Usuário</a></li>
-                        </ul>
+                            </svg>
+                        </li>
 
-                        
-                    </div>
-                    <div class="account-header-button">
-                        <a href="account.php?logout=1">
-                            <button>Sair</button>
-                        </a>
+                        <li><a href="password.php">Recuperação de Senha</a></li>
+                    </ul>
 
-                    </div>
                 </section>
-
 
                 <section class="account-forms">
                     <div class="section-header-title">
-                        <h1>Área do Usuário</h1>
-                        <p>Edite <strong>Seus Dados</strong> individualmente aqui</p>
-                        <p>Ao clicar em <strong>"editar"</strong> todos os campos preenchidos serão <strong>verificados</strong> </p>
+                        <h1>Recuperação de Senha</h1>
+                        <p>
+                            Insira sua <strong>Nova Senha</strong> no espaço abaixo <br> para alterá-la permanentemente.
+                        </p>
                     </div>
-                    <form action="" method="POST"> 
-                        <div class="form-item">
-                            <label for="iclientName">Nome: </label>
-                            <div class="form-input">
-                                <input type="text" name="clientName" id="iclientName" maxlength="30" minlength="8" placeholder="<?php echo $_SESSION['clientName']; ?>" >
-                            </div>
-                        </div>
-            <!--
-                        <div class="form-item">
-                            <label for="iclientMail">Email: </label>
-                            <div class="form-input">
-                                <input type="email" name="clientMail" id="iclientMail" maxlength="50" placeholder="<?php echo $_SESSION['clientMail']; ?>" >
-                            </div>
-                        </div>
-            -->
-                        <div class="form-item">
-                            <label for="iclientNumber">Telefone de Contato:</label>
-                            <div class="form-input">
-                                <input type="text" name="clientNumber" id="iclientNumber" minlength="15" maxlength="16" pattern="\(\d{2}\) \d \d{4} \d{4}" placeholder="<?php echo $_SESSION['clientNumber']; ?>" >
-                            </div>
-                        </div>
+                    <form action="" method="post">
+                        <?php 
+                            if(isset($_GET["wrongToken"])) {
+                                echo "
+                                    <p class=\"errorText\">
+                                        Erro: <strong>Token Inserido</strong> Incorreto <br>
+                                        Tente Novamente com outro Token.
+                                    </p>
+                                ";
+
+                            }
+                        ?>
 
                         <div class="form-item">
-                            <label for="istreet">Rua: </label>
-                            <div class="form-input">
-                                <input type="text" name="street" id="istreet" maxlength="50" placeholder="<?php echo $_SESSION['street']; ?>" >
-                            </div>
+                            <label for="ipassword">Nova Senha: </label>
+                            <input type="password" name="password" id="ipassword" maxlength="50" placeholder="Digite Sua nova Senha Aqui" required>
                         </div>
 
-                        <div class="form-item">
-                            <label for="ilocalNum">Número: </label>
-                            <div class="form-input">
-                                <input type="number" name="localNum" id="ilocalNum" max="99999999" placeholder="<?php echo $_SESSION['localNum']; ?>">
-                            </div>
+                        <div>
+                            <button>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                                </svg>
+                                Enviar
+                            </button>
                         </div>
-
-                        <div class="form-item">
-                            <label for="iuserDistrict">Bairro: </label>
-                            <div class="form-input">
-                                <input type="text" name="district" id="iuserDistrict" maxlength="40" placeholder="<?php echo $_SESSION['district']; ?>" >
-                            </div>
-                        </div>
-
-                        <div class="form-item">
-                            <label for="iuserCity">Cidade: </label>
-                            <div class="form-input">
-                                <input type="text" name="userCity" id="iuserCity" maxlength="40" placeholder="<?php echo $_SESSION['city']; ?>">
-                            </div>
-                        </div>
-
-                        <div class="form-item">
-                            <label for="ireferencePoint">Ponto de Referência: </label>
-                            <div class="form-input">
-                                <input type="text" name="referencePoint" id="ireferencePoint" maxlength="50" placeholder="<?php echo $_SESSION['referencePoint']; ?>">
-                            </div>
-                        </div>
-            <!--
-                        <div class="form-item">
-                            <label for="ipassword">Senha: </label>
-                            <div class="form-input">
-                                <input type="password" name="password" id="ipassword" maxlength="30" >
-                            </div>
-                        </div>
-            -->
-                        <button>Editar</button>
+                        
                     </form>
                 </section>
+
             </main>
 
             <footer>
@@ -297,13 +229,14 @@
                 </ul>
             </footer>
         </div>
-
+        
         <div class="account-right-div">
 
         </div>
     </section>
 
     
+
     
 </body>
 </html>

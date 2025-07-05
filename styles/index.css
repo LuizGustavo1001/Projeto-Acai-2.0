@@ -100,12 +100,13 @@ body{
     flex-direction: column;
     gap: 0.5em;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 
 }
 
 .feature-box img{
     width:280px;
+    height: 280px;
 
     border-bottom: 2px solid var(--primary-clr);
     padding-bottom: 0.5em;
@@ -170,6 +171,8 @@ body{
 
     .feature-box img{
         width:250px;
+        height: 250px;
+
     }
 
 

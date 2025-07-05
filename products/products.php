@@ -2,8 +2,7 @@
     include "../databaseConnection.php";
     include "../generalPHP.php";
 
-    checkSession();
-
+    checkSession("all-product");
 
 ?>
 
