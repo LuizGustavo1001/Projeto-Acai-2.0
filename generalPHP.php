@@ -312,10 +312,9 @@ function checkSession($local){
 }
 
 function add2Cart($prodName, $amount){
-
     global $mysqli;
 
-    if(!isset($_SESSION['username'])){
+    if(!isset($_SESSION['clientName'])){
         header("Location: ../../account/login.php?unkUser=1");
     }else{
         $allowedNames = 
@@ -346,14 +345,17 @@ function add2Cart($prodName, $amount){
             $query->close();
 
             $query = $mysqli->prepare(
-                "INSERT INTO product_order (idProd, amount, singlePrice, totPrice) VALUES
-                            (?, ?, ?, ?)"
+                "
+                    INSERT INTO product_order (idOrder, idProd, amount, singlePrice, totPrice) VALUES
+                        (?, ?, ?, ?, ?)
+                "
             );
 
-            $query->bind_param("iidd", $idProd, $amount, $result['price'], $totalPrice);
+            $query->bind_param("iiidd", $_SESSION["idOrder"], $idProd, $amount, $result['price'], $totalPrice);
 
             if($query->execute()){
-                echo "<p class=\"sucess-text\">Produto Adicionado com sucesso ao Carrinho</p>";
+                $urlName = matchProductLinkName($prodName);
+                header("Location: $urlName.php?prodAdd=1");
 
             }
         }

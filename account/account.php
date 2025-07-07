@@ -4,6 +4,7 @@
 
     if(! isset($_SESSION)){
         session_start();
+
     }
 
     if(! isset($_SESSION["clientMail"])){
@@ -21,44 +22,34 @@
 
     }
 
-/*
-    $allowedInputs = [
-        "clientName", "clientNumber", "district", "localNum",
-        "referencePoint", "street", "city"
-    ];
+    $allowedInputs = ["clientName", "clientNumber", "district", "localNum", "referencePoint", "street", "city"];
 
-
-    for($i = 0 ; $i < sizeof($allowedInputs); $i++){
-        if(isset($_POST[$allowedInputs[$i]])){
-            if($_POST[$allowedInputs[$i]] != $_SESSION[$allowedInputs[$i]]){
-                // dados diferentes -> alterar no BD
-                if($allowedInputs[$i] == "clientName"){
-                    $dbTable = "client_data";  
-                }else if($allowedInputs[$i] == "clientNumber"){
-                    $dbTable = "client_number";
-                }else {
-                    $dbTable = "client_address";
-
+    for($i = 0; $i < sizeof($allowedInputs); $i++){
+        for($j = 0; $j < sizeof($allowedInputs); $j++){
+            if(isset($_POST[$allowedInputs[$i]])){
+                $newValue = trim($_POST[$allowedInputs[$i]]);
+                if($newValue !== "" && $newValue != $_SESSION[$allowedInputs[$i]] && $allowedInputs[$i] == $allowedInputs[$j]){
+                    $dbTable = "";
+                    match($allowedInputs[$i]){
+                        "clientName" => $dbTable = "client_data",
+                        "clientNumber" => $dbTable = "client_number",
+                        default         => $dbTable = "client_address"
+                    };
+                    $changeData = $mysqli->prepare(
+                        "UPDATE $dbTable SET $allowedInputs[$i] = ? WHERE idClient = ?;"
+                    );
+                    $changeData->bind_param("ss", $newValue, $_SESSION["idClient"]);
+                    if($changeData->execute()){
+                        $_SESSION[$allowedInputs[$i]] = $newValue;
+                    }else{
+                        header("location: ../errorPage.php");
+                        exit();
+                    }
                 }
-
-                $alterData = $mysqli->prepare("UPDATE $dbTable SET $allowedInputs[$i] = ? WHERE idClient = ?");
-
-                $alterData->bind_param("ss", $_POST[$allowedInputs[$i]], $_SESSION["idClient"]);
-
-                if($alterData->execute()){
-                    $_SESSION[$allowedInputs[$i]] = $_POST[$allowedInputs[$i]];
-
-                }
-
-                // se for alterar email ou senha -> pagina a parte (enviar email de confirmação)
-
             }
-
         }
-
+        
     }
-
-*/
 ?>
 
 
@@ -213,7 +204,7 @@
                         <div class="form-item">
                             <label for="iuserCity">Cidade: </label>
                             <div class="form-input">
-                                <input type="text" name="userCity" id="iuserCity" maxlength="40" placeholder="<?php echo $_SESSION['city']; ?>">
+                                <input type="text" name="city" id="iuserCity" maxlength="40" placeholder="<?php echo $_SESSION['city']; ?>">
                             </div>
                         </div>
 

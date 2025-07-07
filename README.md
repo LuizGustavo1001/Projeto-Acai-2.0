@@ -87,10 +87,10 @@
 
 <h3>📋 Para fazer: </h3>
 <ul>
-    <li>Link Página de Produtos com Página do Carrinho</li>
+    <li>✅ Link Página de Produtos com Página do Carrinho</li>
     <li>PHP Página do Carrinho</li>
     <li>Pesquisas/Filtros da Página de Produtos</li>
-    <li>Página de Mudança de Credenciais + Página especial para email e senha(enviar email de confirmação)</li>
+    <li>✅ Página de Mudança de Credenciais + ❗ Página especial para email e ❗ senha(enviar email de confirmação)</li>
     <li>Link Planilha Excel/Google Planilhas</li>
     <li>✅ Mudanças na Página de logout (enviar p/ pagina certa)</li>
     <li>✅ Página "Esqueceu a Senha"</li>

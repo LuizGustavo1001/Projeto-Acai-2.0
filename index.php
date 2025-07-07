@@ -84,21 +84,8 @@
 
     <link rel="shortcut icon" href="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750080377/iconeAcai_mj7dqy.ico" type="image/x-icon">
 
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var popUpButton = document.querySelector(".popup-button");
-            if (popUpButton) {
-                popUpButton.addEventListener("click", () => {
-                    var popUpBox = document.querySelector(".popup-box");
-                    if (popUpBox) {
-                        popUpBox.classList.remove("show");
-                        popUpBox.classList.add("hidden-box");
-                    }
-                });
-            }
-        });
-    </script>
+    <script src="scripts/generalScripts.js"></script>
+    
 
     <title>Açaí Amazônia Ipatinga</title>
 

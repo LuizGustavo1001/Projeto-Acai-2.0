@@ -223,12 +223,12 @@
 
                         <div class="form-item">
                             <label for="ihouseNum">Número da Residência:  <span>*</span></label>
-                            <input type="number" name="houseNum" id="ihouseNum" max="99999999" placeholder="Nome da Residência Aqui" required>
+                            <input type="number" name="houseNum" id="ihouseNum" max="99999999" placeholder="Número  da Residência Aqui" required>
                         </div>
 
                         <div class="form-item">
                             <label for="idistrict">Bairro:  <span>*</span></label>
-                            <input type="text" name="district" id="idistrict" maxlength="40" placeholder="Nome da Residência Aqui" required>
+                            <input type="text" name="district" id="idistrict" maxlength="40" placeholder="Nome do Bairro Aqui" required>
                         </div>
 
                         <div class="form-item">

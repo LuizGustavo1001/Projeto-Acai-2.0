@@ -138,4 +138,10 @@
 
         }
 
+        .form-item input, 
+        .form-item select{
+           width: 100%;
+
+        }
+
     }

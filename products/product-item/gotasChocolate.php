@@ -8,9 +8,14 @@
     include "../../generalPHP.php";
 
     // Processar o formulário ANTES de qualquer saída HTML
-    if(isset($_GET['size']) AND isset($_GET["amount-product"])){
-        add2Cart($_GET['size'], $_GET['amount-product']);
+    if(isset($_GET['size']) && isset($_GET['amount-product']) && isset($_GET['formType'])){
+        if($_GET['formType'] === 'mobile'){
+            add2Cart($_GET['size'], $_GET['amount-product']);
+        } else if($_GET['formType'] === 'desktop'){
+            add2Cart($_GET['size'], $_GET['amount-product']);
+        }
     }
+
 
 ?>
 
@@ -29,6 +34,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&display=swap" rel="stylesheet"> 
 
     <link rel="shortcut icon" href="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750080377/iconeAcai_mj7dqy.ico" type="image/x-icon">
+
+    <script src="../../scripts/generalScripts.js"></script>
 
     <?php
         // Definir os preços usando a função prodPrice do PHP
@@ -63,7 +70,21 @@
 
 </head>
 <body>
-
+    <?php 
+        if(isset($_GET["prodAdd"])){
+            echo
+            "<section class= \"popup-box show\">
+                    <div class=\"popup-div\">
+                        <div><h1>Carrinho Atualizado</h1></div>
+                        <div>
+                            <p>Produto Adicionado com sucesso ao Carrinho</p>
+                            <p>Clique no botão abaixo para fechar esta janela</p>
+                            <button class=\"popup-button\">Fechar</button>
+                        </div>
+                    </div>
+            </section>";
+        }
+    ?>
     <header>
         <ul class="left-header">
             <li class="acai-icon">
@@ -144,6 +165,8 @@
                     </div>
                 </div>
 
+                <input type="hidden" name="formType" value="mobile">
+
                 <button type="submit">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
@@ -188,7 +211,9 @@
                             <input type="number" name="amount-product" id="iamount-product" value="1" max="150" min="1">
                         </div>
                     </div>
-
+        
+                    <input type="hidden" name="formType" value="desktop">
+                    
                     <button type="submit">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
