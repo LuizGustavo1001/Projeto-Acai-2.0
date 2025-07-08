@@ -34,16 +34,20 @@
                         "clientName" => $dbTable = "client_data",
                         "clientNumber" => $dbTable = "client_number",
                         default         => $dbTable = "client_address"
+                        
                     };
                     $changeData = $mysqli->prepare(
                         "UPDATE $dbTable SET $allowedInputs[$i] = ? WHERE idClient = ?;"
+
                     );
                     $changeData->bind_param("ss", $newValue, $_SESSION["idClient"]);
                     if($changeData->execute()){
                         $_SESSION[$allowedInputs[$i]] = $newValue;
+
                     }else{
                         header("location: ../errorPage.php");
                         exit();
+
                     }
                 }
             }

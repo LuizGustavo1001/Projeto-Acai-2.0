@@ -1,5 +1,6 @@
 <?php
 
+
 function prodOutput($prodName){ // dar saída nos produtos cadastrados no banco de dados
         global $mysqli;
 
@@ -10,6 +11,8 @@ function prodOutput($prodName){ // dar saída nos produtos cadastrados no banco 
             "farofaPacoca1", "amendoimTriturado1", "ovomaltine1", "gotaChocolate1", "chocoball1", 
             "jujuba500", "disquete1", "saborazzi", "polpas"
         ];
+                                  // Z-A              A-Z          maior-menor   menor-maior
+        $allowedFilters = ["id", "alphabet_desc", "alphabet_asc", "price_desc", "price_asc"];
         
         if(in_array($prodName, $allowedNames)){
             if( // produtos com multiplas versões
@@ -19,7 +22,6 @@ function prodOutput($prodName){ // dar saída nos produtos cadastrados no banco 
                 $prodName == "polpas" or 
                 $prodName == "colheres"
                 ){ 
-
                 $prodName = match($prodName){
                     "acaiT"         => "acaiT%",
                     "saborazzi"     => "saborazzi%",
@@ -51,38 +53,34 @@ function prodOutput($prodName){ // dar saída nos produtos cadastrados no banco 
             $result = $query->get_result();
 
             if($result->num_rows > 0){ //verificar se algum produto foi encontrado com o fitro selecionado
-                while($row = $result->fetch_assoc()) {
+                while ($row = $result->fetch_assoc()) {
+                    $linkName = matchProductLinkName($row['nameProd']);
+                    $imageURL = htmlspecialchars($row['imageURL']);
+                    $brand = htmlspecialchars($row['brand']);
+                    $name = matchNamesAlt($row['nameProd']);
+                    $price = numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $row['price'], "BRL");
+                    $priceDate = htmlspecialchars($row['priceDate']);
 
-                $name     = $row['nameProd'];
-                $linkName = matchProductLinkName($row['nameProd']);
-                $name     = matchNamesAlt($name);
-
-                if($row['brand'] == "Other Brand"){
-                    $row['brand'] = "Outra Marca";
-                }
-
-                echo '
-                    <a href="product-item/' . $linkName . '.php">
-                        <img src="' . $row['imageURL'] . '" alt="' . $name . ' Image">
-                        <hr>
-                        <div>
-                            <p>' . $row['brand'] . '</p>
-                            <h2>' . $name . '</h2>
-                            <p class=\"price\">
-                                <em>A partir de</em>: 
-                                <span style="font-size: 1.3em;">' .
-                                numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $row['price'], "BRL") .
-                                '</span>
-                            </p>
-                            <p style="color: var(--primary-clr)">
-                                <small>
-                                    Preço Atualizado em:
-                                    <strong> ' . $row['priceDate'] . '</strong>
-                                </small>
-                            </p>
-                        </div>
-                    </a>
-                ';
+                    echo "
+                        <a href=\"product-item/{$linkName}.php\">
+                            <img src=\"{$imageURL}\" alt=\"{$name} Image\">
+                            <hr>
+                            <div>
+                                <p>{$brand}</p>
+                                <h2>{$name}</h2>
+                                <p class=\"price\">
+                                    <em>A partir de</em>: 
+                                    <span style=\"font-size: 1.3em;\">{$price}</span>
+                                </p>
+                                <p style=\"color: var(--primary-clr)\">
+                                    <small>
+                                        Preço Atualizado em:
+                                        <strong>{$priceDate}</strong>
+                                    </small>
+                                </p>
+                            </div>
+                        </a>
+                    ";
                 }
             }
             else {
@@ -90,6 +88,84 @@ function prodOutput($prodName){ // dar saída nos produtos cadastrados no banco 
             }
         }
     }
+
+function prodSearchOutput($prodName){
+    global $mysqli;
+
+    $query = $mysqli->prepare("
+        SELECT nameProd, price, priceDate, brand, imageURL
+        FROM product 
+        WHERE nameProd LIKE ?
+    ");
+
+    $likeProdName = "%{$prodName}%";
+    $query->bind_param("s", $likeProdName);
+
+
+    if($query->execute()){
+        $result = $query->get_result();
+        $amount = $result->num_rows;
+
+        switch($amount){
+            case 0:
+                echo "
+                    <div style=\"font-weight: normal;\">
+                        <h1> 
+                            Nenhum Produto Encontrado com o Nome:
+                            <strong style=\"color: var(--secondary-clr)\">$prodName</strong>
+                        </h1>
+                    </div>
+                ";
+                break;
+            
+            default:
+                echo "
+                    <div style=\"font-weight: normal;\">
+                        <h1> 
+                            Produtos Encontrados com o filtro:
+                            <strong style=\"color: var(--secondary-clr)\">$prodName</strong>
+                        </h1>
+                    </div>
+
+                    <ul class=\"products-list\"> 
+                ";
+
+                while ($row = $result->fetch_assoc()) {
+                    $linkName = matchProductLinkName($row['nameProd']);
+                    $imageURL = htmlspecialchars($row['imageURL']);
+                    $brand = htmlspecialchars($row['brand']);
+                    $name = matchNames($row['nameProd']);
+                    $price = numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $row['price'], "BRL");
+                    $priceDate = htmlspecialchars($row['priceDate']);
+
+                    echo "
+                        <li class=\"products-item item-translate-alt\">
+                            <a href=\"product-item/{$linkName}.php\">
+                                <img src=\"{$imageURL}\" alt=\"{$name} Image\">
+                                <hr>
+                                <div>
+                                    <p>{$brand}</p>
+                                    <h2>{$name}</h2>
+                                    <p class=\"price\">
+                                        <span style=\"font-size: 1.3em;\">{$price}</span>
+                                    </p>
+                                    <p style=\"color: var(--primary-clr)\">
+                                        <small>
+                                            Preço Atualizado em:
+                                            <strong>{$priceDate}</strong>
+                                        </small>
+                                    </p>
+                                </div>
+                            </a>
+                        </li>
+                    ";
+                }
+
+                echo "</ul>";
+            break;
+        }
+    }
+}
 
 function matchNames($name){
     match($name){

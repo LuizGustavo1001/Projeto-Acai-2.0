@@ -129,30 +129,38 @@
         </section>
 
         <section class="products-main">
+            <?php 
+                if(isset($_GET["nameProd"])){
+                    echo prodSearchOutput($_GET["nameProd"]);
+                }
+            ?>
+            
+
             <div class="products-list-title">
                 <h1>Cremes</h1>
             </div>
 
             <ul class="products-list">
                 <li class="products-item item-translate-alt">
-                    <?php prodOutput("acaiT");?>
+                    <?php prodOutput("acaiT"); ?>
                 </li>
 
                 <li class="products-item item-translate-alt">
-                    <?php prodOutput("cremeFrutado");?>
+                    <?php prodOutput("cremeFrutado"); ?>
                 </li>
 
                 <li class="products-item item-translate-alt">
-                    <?php prodOutput("saborazzi");?>
+                    <?php prodOutput("saborazzi"); ?>
                 </li>
                 
                 <li class="products-item item-translate-alt">
-                    <?php prodOutput("acaiZero10");?>
+                    <?php prodOutput("acaiZero10"); ?>
                 </li>
 
                 <li class="products-item item-translate-alt">
-                    <?php prodOutput("acaiNinho1");?>
+                    <?php prodOutput("acaiNinho1"); ?>
                 </li>
+                
             </ul>
 
             <div class="products-list-title">
@@ -160,7 +168,7 @@
             </div>
 
             <ul class="products-list">
-
+                
                 <li class="products-item item-translate-alt">
                     <?php prodOutput("granola1.5");?>
                 </li>
@@ -204,7 +212,7 @@
                 <li class="products-item item-translate-alt">
                     <?php prodOutput("disquete1");?>
                 </li>
-
+            
             </ul>
 
             <div class="products-list-title">
@@ -212,6 +220,7 @@
             </div>
 
             <ul class="products-list">
+                
                 <li class="products-item item-translate-alt">
                     <?php prodOutput("colheres");?>
                 </li>
@@ -219,6 +228,7 @@
                 <li class="products-item item-translate-alt">
                     <?php prodOutput("polpas");?>
                 </li>
+
             </ul>
         </section>
     </main>
