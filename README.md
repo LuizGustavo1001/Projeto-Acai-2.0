@@ -55,6 +55,8 @@
         |-- scripts                             (JavaScript utilizado nas páginas)
         |-- styles                              (Folhas de Estilo utilizadas nas páginas)
         |-- dbConnection.php                    (Conectar o Banco de Dados com o FrontEnd)
+        |-- DumpProjeto_acai.sql                (Cópia do Banco de Dados utilizado)
+        |-- errorPage.php                       (Página de Erro Geral)
         |-- GeneralPHP.php                      (Códigos PHP utilizados em mais de uma página)
         |-- index.php                           (Página Inicial)
         |-- logout.php                          (Sistema para deslogar um usuário)
@@ -88,8 +90,8 @@
 <h3>📋 Para fazer: </h3>
 <ul>
     <li>✅ Link Página de Produtos com Página do Carrinho</li>
-    <li>PHP Página do Carrinho</li>
-    <li>Pesquisas/Filtros da Página de Produtos</li>
+    <li>PHP Página do Carrinho (concluir Pedido)</li>
+    <li>✅ Filtros/❗ Pesquisas na Página de Produtos</li>
     <li>✅ Página de Mudança de Credenciais + ❗ Página especial para email e ❗ senha(enviar email de confirmação)</li>
     <li>Link Planilha Excel/Google Planilhas</li>
     <li>✅ Mudanças na Página de logout (enviar p/ pagina certa)</li>

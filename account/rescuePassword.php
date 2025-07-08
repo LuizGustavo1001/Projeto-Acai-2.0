@@ -2,10 +2,13 @@
     include "../databaseConnection.php";
     include "../generalPHP.php";
 
+    
+
     if(! isset($_SESSION)){
         session_start();
     }
     
+
     if(! isset($_SESSION["passwordToken"])){ // entrando na página sem solicitar um token
         header("location: password.php");
 
@@ -55,6 +58,8 @@
             }
         }
     }
+
+    echo $_SESSION["passwordToken"];    
 
 ?>
 

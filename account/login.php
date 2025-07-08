@@ -105,12 +105,14 @@
                                     return "successLogin";
                                 }else{
                                     header("location: ../errorPage.php");
+                                    exit();
                                 } 
                             }else{
                                 return "errorDB";
                             }
                         }else{
                             header("location: ../errorPage.php");
+                            exit();
                         }
                     }else{
                         return "errorLogin";
@@ -221,20 +223,17 @@
                                 </p>";
                             }
                         ?>
+                        
                         <div class="form-item">
                             <label for="iemail">Email: </label>
                             <input type="email" name="email" id="iemail" maxlength="50" required value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
                         </div>
+
                         <div class="form-item">
                             <label for="ipassword">Senha: </label>
                             <input type="password" name="password" id="ipassword" maxlength="30" required>
                         </div>
-                    <!--
-                        <div class="remember-user">
-                            <input type="checkbox" name="remember" id="iremember">
-                            <label for="iremember">Lembrar Usuário</label>
-                        </div>
-                    -->
+
                         <div>
                             <button>
                                 Entrar
