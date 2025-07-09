@@ -42,34 +42,15 @@
         $email->Body .= "<p>Seu Token de Verificação de Email para Redefinir de Senha: <strong><h2>$token</h2></strong></p>";
         $email->Body .= "<p>Insira o Token acima na área destinada no site abaixo</p>";
         $email->Body .= "
-            <p>O Token é válido por apenas <strong>1 Hora</strong>, após esse tempo é necessário solicitar outro</p>
+            <p>O Token é válido até <strong>Fechar a Página do Token</strong> no site, após isso é necessário solicitar outro</p>
         ";
         $email->Body .= "<p>Atenciosamente, <strong>Equipe Açaí Amazônia Ipatinga</strong></p>";
         $email->Body .= "<p>Este é um email automático, não responda.</p>";
         $email->AltBody = "Açaí da Amazônia\n Seu Token de Verificação de Email: $token";
 
         if($email->send()){ // email enviado com sucesso
-            global $mysqli; 
-            date_default_timezone_set('America/Sao_Paulo'); // definir fuso horário local 
-            
-            $stmt = $mysqli->prepare(" 
-                INSERT INTO rescuepassword (rescueToken, dayLimit, hourLimit, emailReciever) 
-                VALUES (?,?,?,?) 
-            ");
-
-            $limitTime = date("H:i", strtotime("+1 hours"));
-            $limitDay = date("Y-m-d"); 
-
-            $stmt->bind_param("ssss", $token, $limitDay, $limitTime, $emailReciever);
-
-            if($stmt->execute()){
-                $stmt->close();
-                $_SESSION["passwordToken"] = $token; 
-
-                header("location: rescuePassword.php"); 
-            }else{
-                header("location: ../errorPage.php");
-            }
+            $_SESSION["passwordToken"] = $token;
+            header("location: rescuePassword.php"); 
             
         }else {
             echo "Email não enviado";

@@ -1,65 +1,27 @@
 <?php 
     include "../databaseConnection.php";
-    include "../generalPHP.php";
-
-    
 
     if(! isset($_SESSION)){
         session_start();
+
     }
-    
 
     if(! isset($_SESSION["passwordToken"])){ // entrando na página sem solicitar um token
-        header("location: password.php");
+       header("location: password.php");
 
     }else{
-        if (!isset($_SESSION["userMail"])) {
-            header("location: password.php");
-            exit();
-        }
-        if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["token"])) {
-            $token = $_POST["token"];
-            $stmt = $mysqli->prepare("
-                SELECT rescueToken FROM rescuepassword 
-                WHERE rescueToken = ?
-            ");
+        if(isset($_POST["token"])){
+            if($_SESSION["passwordToken"] == $_POST["token"]){
+                unset($_SESSION["passwordToken"]);
+                header("location: newPassword.php");
+                exit();
 
-            $stmt->bind_param("s", $token);
-            if($stmt->execute()){
-                $amount = $stmt->get_result()->num_rows;
-                $stmt->close();
-
-                switch($amount){
-                    case 0: { // token não consta no Banco de Dados
-                        header("location: rescuePassword.php?wrongToken=1");
-                        exit();
-                    }
-                    default:{ // token consta no Banco de Dados
-                        // remover o token do banco de dados 
-                        $stmtDelete = $mysqli->prepare("
-                            DELETE FROM rescuepassword 
-                            WHERE rescueToken = ?
-                        ");
-
-                        $stmtDelete->bind_param("s", $token);
-                        if($stmtDelete->execute()){
-                            $stmtDelete->close();
-
-                            unset($_SESSION["passwordToken"]);
-                            header("location: newPassword.php");
-                            exit();
-                        }else{
-                            header("location: ../errorPage.php");
-                        } 
-                    }
-                }
             }else{
-                header("location: ../errorPage.php");
+                header("location: rescuePassword.php?wrongToken=1");
+                exit();
             }
         }
     }
-
-    echo $_SESSION["passwordToken"];    
 
 ?>
 
@@ -131,7 +93,6 @@
 
                             <p>Carrinho</p>
                         </a>
-                        <?php verifyCartAmount();?>
                     </li>
                 </ul>
 
@@ -162,11 +123,9 @@
                     <div class="section-header-title">
                         <h1>Código para Verificação de Email</h1>
                         <p>
-                            Insira o Código enviado para o Email 
-                            <br> 
-                            <strong ><?php echo $_SESSION["userMail"]?></strong> 
-                            <br> 
-                            abaixo para alterar sua senha
+                            Insira o <strong>Código</strong> enviado para o Email  
+                            <strong style="color: var(--secondary-clr)" ><?php echo $_SESSION["userMail"]?></strong> 
+                            abaixo para <strong>alterar sua senha</strong>
                         </p>
                     </div>
                     <form action="" method="post">

@@ -21,7 +21,7 @@
 <p>- Gerenciamento de Usuários, seus Pedidos e envio para uma Planilha das solicitações que forem Confirmados</p>
 <p>- Possui soluções para usuários que tentarem acessar Páginas Bloqueadas sem cadastro efetuado</p>
 <p>- As sessões de cada usuário duram cerca de 1 hora. Após, será necessário realizar novamente a identificação</p>
-<p>- Para diferenciar cada usuário que utilizar o site, existe um sistema de Cadastro/Login com Captcha*, incluindo: </p>
+<p>- Para diferenciar cada usuário que utilizar o site, existe um sistema de Cadastro/Login, incluindo: </p>
 <ul>
     <li>Nome</li>
     <li>Email</li>
@@ -68,7 +68,7 @@
     <li>Baixe o <a href="https://www.youtube.com/watch?v=0Y9OZ0vc1SU&t=213s">XAMPP</a></li>
     <li>Ative os módulos <strong>Apache</strong> e <strong>MySQL dentro do XAMPP</strong></li>
     <li>Baixe o <a href="https://www.youtube.com/watch?v=a5ul8o76Hqw&t=13s">MySQLWorkBench</a></li>
-    <li>Abra o arquivo "DumpProjeto_acai.sql" e Clone o Banco de Dados (Dump)</li>
+    <li>Abra o arquivo "DumpProjeto_acai.sql", copie o código dentro dele e Clone o Banco de Dados dentro do MySQL (Dump)</li>
     <li>
         Adicione o Banco de Dados ao seu Servidor Local clicando no símbolo demonstrado abaixo <br> 
         <img src="readMe-images/dump.png" alt="Dump DataBase"></img>

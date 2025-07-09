@@ -190,33 +190,6 @@ LOCK TABLES `product_order` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `rescuepassword`
---
-
-DROP TABLE IF EXISTS `rescuepassword`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `rescuepassword` (
-  `idRescue` int(11) NOT NULL AUTO_INCREMENT,
-  `rescueToken` varchar(6) NOT NULL,
-  `dayLimit` date NOT NULL,
-  `hourLimit` time NOT NULL,
-  `emailReciever` varchar(50) NOT NULL,
-  PRIMARY KEY (`idRescue`),
-  UNIQUE KEY `rescueToken` (`rescueToken`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `rescuepassword`
---
-
-LOCK TABLES `rescuepassword` WRITE;
-/*!40000 ALTER TABLE `rescuepassword` DISABLE KEYS */;
-/*!40000 ALTER TABLE `rescuepassword` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Dumping routines for database 'projeto_acai'
 --
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

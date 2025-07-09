@@ -133,7 +133,7 @@
                     <div class="section-header-title">
                         <h1>Recuperação de Senha</h1>
                         <p>
-                            Insira sua <strong>Nova Senha</strong> no espaço abaixo <br> para alterá-la permanentemente.
+                            Insira sua <strong>Nova Senha</strong> no espaço abaixo para alterá-la permanentemente.
                         </p>
                     </div>
                     <form action="" method="post">

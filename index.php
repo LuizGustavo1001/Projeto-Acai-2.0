@@ -1,7 +1,6 @@
 <?php 
     include "databaseConnection.php";
     include "generalPHP.php";
-
     
     function featureItens(){
         global $mysqli;

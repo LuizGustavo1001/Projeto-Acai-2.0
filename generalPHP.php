@@ -1,5 +1,9 @@
 <?php
 
+if(isset($_SESSION["passwordToken"])){
+    unset($_SESSION["passwordToken"]);
+
+}
 
 function prodOutput($prodName){ // dar saída nos produtos cadastrados no banco de dados
         global $mysqli;
