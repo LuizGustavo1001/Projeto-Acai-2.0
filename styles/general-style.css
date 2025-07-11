@@ -152,7 +152,7 @@ select{
 }
 
 input:focus, 
-select:focus {
+select:focus{
     background: transparent;
     border-color: transparent;
     outline: none;
@@ -418,7 +418,7 @@ button:hover a{
 
 
 .products-list-title, .feature-list-title{
-    background: url(https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079686/title-background-1_orh8zk.png) center center;
+    background: url(https://res.cloudinary.com/dw2eqq9kk/image/upload/v1752197874/title-background_ferzbk.png) center center;
     background-repeat: no-repeat;
 
     margin-block: 2em;
@@ -426,8 +426,19 @@ button:hover a{
 }
 
 .products-list-title h1, .feature-list-title h1{
-    width: 60%;
+    background: var(--secondary-clr);
+    width: 50%;
     margin: 0 auto;
+    border-radius: 50px;
+    color: var(--tertiary-clr);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    padding: 0.2em;
+
+    font-size: 1.5em;
 
 }
 
@@ -440,6 +451,32 @@ button:hover a{
     background: var(--secondary-bg-clr);
     width: 60%;
     
+}
+
+.index-title{
+    background: url("https://res.cloudinary.com/dw2eqq9kk/image/upload/v1752197874/title-background_ferzbk.png") center center;
+    background-repeat: no-repeat;
+    text-align: center;
+    
+    margin-block: 3em;
+
+}
+
+.index-title h1{
+    background: var(--secondary-clr);
+    width: 50%;
+    margin: 0 auto;
+    border-radius: 50px;
+    color: var(--tertiary-clr);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    padding: 0.2em;
+
+    font-size: 1.5em;
+
 }
 
 
@@ -508,5 +545,9 @@ button:hover a{
 
     }
 
+    .index-title h1{
+        width: 20%;
+        font-size: 2em;
+    }
 
 }

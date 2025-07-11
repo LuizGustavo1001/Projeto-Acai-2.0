@@ -136,7 +136,7 @@
             ?>
             
 
-            <div class="products-list-title">
+            <div class="index-title">
                 <h1>Cremes</h1>
             </div>
 
@@ -163,7 +163,7 @@
                 
             </ul>
 
-            <div class="products-list-title">
+            <div class="index-title">
                 <h1>Adicionais</h1>
             </div>
 
@@ -215,7 +215,7 @@
             
             </ul>
 
-            <div class="products-list-title">
+            <div class="index-title">
                 <h1>Outros</h1>
             </div>
 

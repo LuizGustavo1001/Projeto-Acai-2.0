@@ -84,6 +84,86 @@
     <link rel="shortcut icon" href="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750080377/iconeAcai_mj7dqy.ico" type="image/x-icon">
 
     <script src="scripts/generalScripts.js"></script>
+
+    <style>
+        .header-search{
+            display: none;
+
+        }
+
+        .index-title{
+            background: url("https://res.cloudinary.com/dw2eqq9kk/image/upload/v1752197874/title-background_ferzbk.png") center center;
+            background-repeat: no-repeat;
+            text-align: center;
+            
+            margin-block: 3em;
+
+        }
+
+        .index-title h1{
+            background: var(--secondary-clr);
+            width: 50%;
+            margin: 0 auto;
+            border-radius: 50px;
+            color: var(--tertiary-clr);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5em;
+            padding: 0.2em;
+
+            font-size: 1.5em;
+
+        }
+
+        @media(min-width: 1024px){
+            .header-search{
+                display: block;
+                display: flex;
+                width: 30vw;
+                justify-content: space-between;
+                align-items: center;
+                background: var(--tertiary-clr);
+                
+
+                border-radius: var(--border-radius);
+                cursor: pointer;
+                
+            }
+
+            .header-search input{
+                width: 100%;
+                border: none;
+                background: transparent;
+                color: var(--primary-clr);
+                font-weight: bold;
+
+                padding: 1em;
+              
+            }
+
+            .header-search input::placeholder{
+                color: var(--fourth-clr);
+                
+            }
+
+            .header-search button{
+                background: transparent;
+                color: var(--primary-clr);
+                padding: 0.5em;
+
+            }
+
+            .index-title h1{
+                width: 20%;
+                font-size: 2em;
+            }
+            
+
+        }
+
+    </style>
     
 
     <title>Açaí Amazônia Ipatinga</title>
@@ -101,6 +181,16 @@
             </li>
         </ul>
 
+        <form method="get" class="header-search">
+            <input type="text" name="nameProd" placeholder="Nome do Produto aqui"> 
+            <button>Pesquisar</button>
+            <?php 
+                if(isset($_GET["nameProd"])){
+                    header("location: products/products.php?nameProd=" . $_GET["nameProd"]);
+                }
+            ?>
+        </form>
+        
         <ul class="right-header">
             <li>
                 <a href="account/account.php">
@@ -191,8 +281,8 @@
         </section>
 
         <section class="about-us-section " style="margin-top: 6em;">
-            <div class="feature-list-title">
-                <h1 style="margin-bottom: 2em; font-size: 2em; display: flex; align-items: center; justify-content: center;">
+            <div class="index-title">
+                <h1>
                     Sobre Nós
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6" style="width: 40px">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3" />
@@ -275,8 +365,8 @@
         </section>
 
         <section class="feature-products">
-            <div class="feature-title feature-list-title">
-                <h1 style="margin-block: 2em; ;margin-bottom: 2em; font-size: 2em; text-align: center;">Produtos em <br> Destaque</h1>
+            <div class="index-title feature-list-title">
+                <h1>Produtos em <br> Destaque</h1>
             </div>
             <ul class="feature-box">
                 <?php 
