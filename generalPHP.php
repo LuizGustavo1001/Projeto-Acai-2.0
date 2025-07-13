@@ -448,16 +448,34 @@ function add2Cart($prodName, $amount){
 
     
 }
-
-function verifyOrders(){ // verificar se há pedidos "fantasmas" no banco de dados
-    // pedidos que não possuem produtos associados a eles, ou seja, pedidos que foram criados sem serem confirmados pelo usuário
-    /*
+function verifyOrders(){ // remover pedidos que não foram confirmados a mais de um dia
     global $mysqli;
 
-    $stmt = $mysqli->prepare("DELETE FROM client_order WHERE orderDate < NOW() - INTERVAL 1 DAY AND orderHour < CURRENT_TIME() - INTERVAL 1 DAY AND idOrder NOT IN (SELECT idOrder FROM product_order);");
+    // Seleciona os pedidos com mais de 1 dia e sem produtos associados
+    $stmt = $mysqli->prepare("
+        SELECT co.idOrder 
+        FROM client_order AS co
+        LEFT JOIN product_order AS po ON co.idOrder = po.idOrder
+        WHERE co.orderDate < (NOW() - INTERVAL 1 DAY)
+        AND po.idOrder IS NULL
+    ");
+
     $stmt->execute();
+    $result = $stmt->get_result();
+
+    while ($row = $result->fetch_assoc()) {
+        $idOrder = $row["idOrder"];
+
+        // Deleta o pedido (não há produtos associados, então não precisa deletar da product_order)
+        $deleteOrder = $mysqli->prepare("DELETE FROM client_order WHERE idOrder = ?");
+
+        $deleteOrder->bind_param("i", $idOrder);
+        $deleteOrder->execute();
+        $deleteOrder->close();
+        
+    }
+
     $stmt->close();
-    */
 }
 
 

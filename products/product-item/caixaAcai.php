@@ -7,7 +7,6 @@
     include "../prodPrice.php";
     include "../../generalPHP.php";
 
-    // Processar o formulário ANTES de qualquer saída HTML
    if(isset($_GET['size']) && isset($_GET['amount-product']) && isset($_GET['formType'])){
         if($_GET['formType'] === 'mobile'){
             add2Cart($_GET['size'], $_GET['amount-product']);
@@ -45,24 +44,31 @@
     ?>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const priceElement = document.querySelector('.product-price');
-            const sizeSelect = document.getElementById('isize');
+        document.addEventListener('DOMContentLoaded', function () {
+            const priceElements = document.querySelectorAll('.product-price-value');
+            const sizeSelectors = document.querySelectorAll('.product-size-selector');
 
-            // Preços vindos do PHP
             const prices = {
-                acai10l: "<?= $preco10l; ?>",
-                acai5l: "<?= $preco5l; ?>",
-                acai1l: "<?= $preco1l; ?>"
+                acaiT10: "<?= $preco10l; ?>",
+                acaiT5:  "<?= $preco5l; ?>",
+                acaiT1:  "<?= $preco1l; ?>"
             };
 
-            function updatePrice() {
-                const selectedSize = sizeSelect.value;
-                priceElement.textContent = prices[selectedSize] || 'Preço indisponível';
+            function updatePrices() {
+                sizeSelectors.forEach((selector, index) => {
+                    const selectedSize = selector.value;
+                    const priceText = prices[selectedSize] || 'Preço indisponível';
+                    if (priceElements[index]) {
+                        priceElements[index].textContent = priceText;
+                    }
+                });
             }
 
-            updatePrice();
-            sizeSelect.addEventListener('change', updatePrice);
+            updatePrices();
+
+            sizeSelectors.forEach(selector => {
+                selector.addEventListener('change', updatePrices);
+            });
         });
     </script>
 
@@ -147,7 +153,7 @@
 
                 <div class="product-main-text">
                     <h1>Caixa de Açaí</h1>
-                    <p class="product-price"> ---- </p>
+                    <p class="product-price-value"> ---- </p>
                 </div>
             </div>
 
@@ -155,11 +161,11 @@
                 <div class="forms-text">
                     <div class="forms-item product-size">
                         <label for="isize">Tamanho: </label>
-                        <select name="size" id="isize">
-                            <option value="acaiT10">10 litros</option>
-                            <option value="acaiT5">5 litros</option>
-                            <option value="acaiT1">1 litro</option>
-                        </select>
+                            <select name="size" id="isize" class="product-size-selector">
+                                <option value="acaiT10">10 litros</option>
+                                <option value="acaiT5">5 litros</option>
+                                <option value="acaiT1">1 litro</option>
+                            </select>
                     </div>
                     <div class="forms-item product-amount">
                         <label for="iamount-product">Quantidade: </label>
@@ -198,13 +204,13 @@
 
             <div class="product-forms-div">
                 <h1>Caixa de Açaí</h1>
-                <p class="product-price"> ---- </p>
+                <p class="product-price-value"> ---- </p>
 
                 <form method="get" class="product-forms">
                     <div class="forms-text">
                         <div class="forms-item product-size">
                             <label for="isize">Tamanho: </label>
-                            <select name="size" id="isize">
+                            <select name="size" id="isize" class="product-size-selector">
                                 <option value="acaiT10">10 litros</option>
                                 <option value="acaiT5">5 litros</option>
                                 <option value="acaiT1">1 litro</option>

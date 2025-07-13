@@ -1,93 +1,180 @@
 <?php 
     include "../databaseConnection.php";
     include "../generalPHP.php";
+    require '../composer/vendor/autoload.php';
 
-    if(! isset($_SESSION)){
-        session_start();
+    
+     //                           BIBLIOTECA PARA POSSIBILITAR A PLANILHA
 
-    }
+    use PhpOffice\PhpSpreadsheet\Spreadsheet;
+    use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+    use PhpOffice\PhpSpreadsheet\IOFactory;
+
+    //                           BIBLIOTECA PARA POSSIBILITAR A PLANILH
 
     if(! isset($_SESSION["clientMail"])){
         header("location: ../account/account.php");
         exit();
 
-    }
+    }else{
+        $query = $mysqli->prepare("
+            SELECT *, SUM(totPrice)
+            FROM product_order
+            WHERE idOrder = ?
+            GROUP BY idProd; 
+        ");
 
-    function GetSubtotal(){
-        global $mysqli;
+        $query->bind_param("i", $_SESSION["idOrder"]);
 
-        $stmt = $mysqli->prepare("SELECT SUM(totPrice) as subtotal FROM product_order WHERE idOrder = ?");
-        $stmt->bind_param("i", $_SESSION['idOrder']);
+        if($query->execute()){
+            $result = $query->get_result();
+            $amount  = $result->num_rows;
 
-        if($stmt->execute()){
-            $result = $stmt->get_result()->fetch_assoc();
-            $subtotal = $result["subtotal"] !== null ? number_format($result["subtotal"], 2, ',', '.') : '00,00';
-            echo "<span>R$ {$subtotal}</span>";
-        }else{
-            header("location: ../errorPage.php");
-        }
-    }
-
-    function GetCartProd(){
-        global $mysqli;
-
-        $stmt = $mysqli->prepare("SELECT * FROM product_order WHERE idOrder = ?");
-        $stmt->bind_param("i", $_SESSION['idOrder']);
-        
-        if($stmt->execute()){
-            $result = $stmt->get_result();
-
-            $amount = $result->num_rows;
             switch($amount){
                 case 0:
-                    echo "<small style=\"text-align:center\">Nenhum Produto no Seu Carrinho ainda</small>";
                     break;
                 
                 default:
-                    while($row = $result->fetch_assoc()) {
-                        $rescueProd = $mysqli->prepare("SELECT * FROM product WHERE idProd = ?");
-                        $rescueProd->bind_param("i" ,$row["idProd"]);
-                        $totalPrice = $row["totPrice"];
-                        
-                        if($rescueProd->execute()){
-                            $prodResult = $rescueProd->get_result();
-                            $prodData = $prodResult->fetch_assoc();
+                    $subtotalPrice = $mysqli->prepare("SELECT SUM(totPrice) as total FROM product_order WHERE idOrder = ?");
+                    $subtotalPrice->bind_param("i", $_SESSION["idOrder"]);
+                    $subtotalPrice->execute();
+                    $resultPrice = $subtotalPrice->get_result();
+                    $resultPrice = $resultPrice->fetch_assoc();
 
-                            $prodName = matchNames($prodData["nameProd"]);
-
-                            echo "
-                                <li>
-                                <div style=\"position: relative; display: inline-block;\">
-                                    <div class=\"item-amount\">" . $row["amount"] ."</div>
-                                    <img src=\"https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079853/caixa-acai_l7uokc.jpg\">
-                                </div>
-                                <ul>
-                                    <li><strong>". $prodName . "</strong></li>
-                                    <li class=\"price\"> ". 
-                                    numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $prodData["price"]  , "BRL") .
-                                    " </li>
-                                    <li class=\"price\"> ". 
-                                    numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $totalPrice  , "BRL") .
-                                    " </li>
-                                </ul>
-                                <a href=\"\">
-                                    <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"size-6\">
-                                        <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0\" />
-                                    </svg>
-                                </a>
-                            </li>
-                            ";
-                        }else{
-                            header("location: ../errorPage.php");
-                        }
-                    }
+                    $_SESSION["subTotal"] = $resultPrice["total"];
+                    //$_SESSION["totalPrice"] = $_SESSION["subTotal"] + 0.00; // frete
+                
+                    break;
             }
-        }else{
-            header("location: ../errorPage.php");
+        }
+
+        function GetCartProd(){
+            global $mysqli;
+
+            $stmt = $mysqli->prepare("
+                SELECT *
+                FROM product_order 
+                WHERE idOrder = ?
+            ");
+
+            $stmt->bind_param("i", $_SESSION['idOrder']);
+            
+            if($stmt->execute()){
+                $result = $stmt->get_result();
+                $amount = $result->num_rows;
+                
+                switch($amount){
+                    case 0:
+                        echo "<small style=\"text-align:center\">Nenhum Produto no Seu Carrinho ainda</small>";
+                        break;
+                    
+                    default:
+                        while($row = $result->fetch_assoc()) {
+                            $rescueProd = $mysqli->prepare("SELECT * FROM product WHERE idProd = ?");
+                            $rescueProd->bind_param("i" ,$row["idProd"]);
+                            $totalPrice = $row["totPrice"];
+                            
+                            if($rescueProd->execute()){
+                                $prodResult = $rescueProd->get_result();
+                                $prodData = $prodResult->fetch_assoc();
+
+                                $prodName = matchNames($prodData["nameProd"]);
+
+                                echo "
+                                    <li>
+                                    <div style=\"position: relative; display: inline-block;\">
+                                        <div class=\"item-amount\">" . $row["amount"] ."</div>
+                                        <img src=" . $prodData["imageURL"] .  ">
+                                    </div>
+                                    <ul>
+                                        <li><strong>". $prodName . "</strong></li>
+                                        <li> Quantidade: ". $row["amount"] . "</li>
+                                        <li class=\"price\"> Total: " 
+                                        .numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $totalPrice  , "BRL") ." 
+                                        </li>
+                                        
+                                    </ul>
+                                    <a href=\"\">
+                                        <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"size-6\">
+                                            <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0\" />
+                                        </svg>
+                                    </a>
+                                </li>
+                                ";
+                            }else{
+                                header("location: ../errorPage.php");
+                            }
+                        }
+                }
+            }else{
+                header("location: ../errorPage.php");
+            }
+        }
+
+        if (isset($_GET["orderConfirmed"]) AND isset($_SESSION["subTotal"])){ // confirmar pedido
+            $arquivo = 'planilha.xlsx';
+            $spreadsheet = IOFactory::load($arquivo);
+            $worksheet = $spreadsheet->getActiveSheet();
+
+            $Address = $_SESSION["street"]  . ", " . $_SESSION["localNum"] . ", " .
+                    $_SESSION["district"] . " - " . $_SESSION["city"];
+
+            $initialLine = 8;
+
+            for ($line = $initialLine; $line <= 1000; $line++){
+                $value = $worksheet->getCell("A$line")->getValue();
+                if (empty($value)) {
+                    $lastLine = $line;
+                    break;
+                }
+            }
+
+            $rescueProd = $mysqli->prepare("
+                SELECT p.nameProd as name, o.amount as amount, o.totPrice as totPrice
+                FROM product AS p JOIN product_order AS o ON p.idProd = o.idProd
+                WHERE idOrder = ?;
+            ");
+            $rescueProd->bind_param("i", $_SESSION["idOrder"]);
+
+            $rescueProd->execute();
+            $rescueProd = $rescueProd->get_result();
+            
+            $allProd = "";
+
+            while($row = $rescueProd->fetch_assoc()){
+                $allProd .= "(" . $row["name"] . " / ". $row["amount"] . " / " . $row["totPrice"] . ")\n";
+            }
+
+            $worksheet->setCellValue("A{$lastLine}", $_SESSION["clientName"]);
+            $worksheet->setCellValue("B{$lastLine}", $Address);
+            $worksheet->setCellValue("C{$lastLine}", $_SESSION["referencePoint"]);
+            $worksheet->setCellValue("D{$lastLine}", $_SESSION["clientNumber"]);
+            $worksheet->setCellValue("E{$lastLine}", $allProd);
+            $worksheet->setCellValue("F{$lastLine}", "R$ 00,00");
+            $worksheet->setCellValue("G{$lastLine}", $_SESSION["subTotal"]);
+
+            $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+            $writer->save($arquivo);
+
+            $removeOrder = $mysqli->prepare("
+                DELETE FROM product_order
+                WHERE idOrder = ?;
+            ");
+            
+            $removeOrder->bind_param("i" ,$_SESSION["idOrder"]);
+
+            if($removeOrder->execute()){
+                header("location: ../index.php?orderConfirmed=1");
+            }else{
+                echo "aaaaaa";  
+            }
+            
+
         }
     }
 
     checkSession("cart");
+
 ?>
 
 
@@ -222,7 +309,15 @@
                     <li class="list-item-text">
                         <ul>
                             <li>Subtotal:</li>
-                            <?php GetSubtotal();?>
+                            <?php 
+                                if(isset($_SESSION["subTotal"])){
+                                    echo 
+                                    numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $_SESSION["subTotal"]  , "BRL");
+                                }else{
+                                    echo "R$ 00.00";
+                                }
+                            
+                            ?>
                         </ul>
                     </li>
                     <li class="list-item-text">
@@ -234,12 +329,20 @@
                     <li class="list-item-text">
                         <ul>
                             <li><strong>Total:</strong></li>
-                            <li class="priceTot"><strong>R$ 00,00</strong></li>
+                            <?php 
+                                if(isset($_SESSION["subTotal"])){
+                                    echo 
+                                    numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $_SESSION["subTotal"]  , "BRL");
+                                }else{
+                                    echo "R$ 00.00";
+                                }
+                            
+                            ?>
                         </ul>
                     </li>
                 </ol>
 
-                <button><a href="">Confirmar Pedido</a></button>
+                <button><a href="cart.php?orderConfirmed=1">Confirmar Pedido</a></button>
 
         </section>
 
@@ -318,7 +421,15 @@
                         <li class="list-item-text">
                             <ul>
                                 <li>Subtotal:</li>
-                                <?php GetSubtotal();?>
+                                <?php 
+                                    if(isset($_SESSION["subTotal"])){
+                                        echo 
+                                        numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $_SESSION["subTotal"]  , "BRL");
+                                    }else{
+                                        echo "R$ 00.00";
+                                    }
+                                
+                                ?>
                             </ul>
                         </li>
                         <li class="list-item-text">
@@ -330,13 +441,20 @@
                         <li class="list-item-text">
                             <ul>
                                 <li><strong>Total:</strong></li>
-                                <li><strong>R$ 00,00</strong></li>
+                                <?php 
+                                    if(isset($_SESSION["subTotal"])){
+                                        echo 
+                                        numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $_SESSION["subTotal"]  , "BRL");
+                                    }else{
+                                        echo "R$ 00.00";
+                                    }
+                                ?>
                             </ul>
                         </li>
                     </ol>
                 </div>
                 <div class="button-submit">
-                    <button>Confirmar Pedido</button>
+                    <button><a href="cart.php?orderConfirmed=1">Confirmar Pedido</a></button>
                 </div>
             </div>
 

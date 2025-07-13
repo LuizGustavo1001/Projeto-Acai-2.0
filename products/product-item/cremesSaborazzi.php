@@ -7,14 +7,14 @@
     include "../prodPrice.php";
     include "../../generalPHP.php";
 
-    // Processar o formulário ANTES de qualquer saída HTML
-    if(isset($_GET['flavor']) && isset($_GET['amount-product']) && isset($_GET['formType'])){
+   if(isset($_GET['size']) && isset($_GET['amount-product']) && isset($_GET['formType'])){
         if($_GET['formType'] === 'mobile'){
-            add2Cart($_GET['flavor'], $_GET['amount-product']);
+            add2Cart($_GET['size'], $_GET['amount-product']);
         } else if($_GET['formType'] === 'desktop'){
-            add2Cart($_GET['flavor'], $_GET['amount-product']);
+            add2Cart($_GET['size'], $_GET['amount-product']);
         }
     }
+
 
 ?>
 
@@ -39,30 +39,52 @@
 
     <?php
         // Definir os preços usando a função prodPrice do PHP
-        $preco10l = returnPrice('acaiT10');
-        $preco5l = returnPrice('acaiT5');
-        $preco1l = returnPrice('acaiT1');
+        $price1   = returnPrice('saborazziAvelaP');
+        $price2   = returnPrice('saborazziAvelaT');
+        $price3   = returnPrice('saborazziChocomalt');
+        $price4   = returnPrice('saborazziCocada');
+        $price5   = returnPrice('saborazziCookies');
+        $price6   = returnPrice('saborazziLeitinho');
+        $price7   = returnPrice('saborazziPacoca');
+        $price8   = returnPrice('saborazziSkimoB');
+        $price9   = returnPrice('saborazziSkimoL');
+        $price10  = returnPrice('saborazziWafer');
+
     ?>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const priceElement = document.querySelector('.product-price');
-            const sizeSelect = document.getElementById('isize');
+        document.addEventListener('DOMContentLoaded', function () {
+            const priceElements = document.querySelectorAll('.product-price-value');
+            const sizeSelectors = document.querySelectorAll('.product-size-selector');
 
-            // Preços vindos do PHP
             const prices = {
-                acai10l: "<?= $preco10l; ?>",
-                acai5l: "<?= $preco5l; ?>",
-                acai1l: "<?= $preco1l; ?>"
+                saborazziAvelaP:    "<?= $price1; ?>",
+                saborazziAvelaT:    "<?= $price2; ?>",
+                saborazziChocomalt: "<?= $price3; ?>",
+                saborazziCocada:    "<?= $price4; ?>",
+                saborazziCookies:   "<?= $price5; ?>",
+                saborazziLeitinho:  "<?= $price6; ?>",
+                saborazziPacoca:    "<?= $price7; ?>",
+                saborazziSkimoB:    "<?= $price8; ?>",
+                saborazziSkimoL:    "<?= $price9; ?>",
+                saborazziWafer:     "<?= $price10; ?>",
             };
 
-            function updatePrice() {
-                const selectedSize = sizeSelect.value;
-                priceElement.textContent = prices[selectedSize] || 'Preço indisponível';
+            function updatePrices() {
+                sizeSelectors.forEach((selector, index) => {
+                    const selectedSize = selector.value;
+                    const priceText = prices[selectedSize] || 'Preço indisponível';
+                    if (priceElements[index]) {
+                        priceElements[index].textContent = priceText;
+                    }
+                });
             }
 
-            updatePrice();
-            sizeSelect.addEventListener('change', updatePrice);
+            updatePrices();
+
+            sizeSelectors.forEach(selector => {
+                selector.addEventListener('change', updatePrices);
+            });
         });
     </script>
 
@@ -147,15 +169,15 @@
 
                 <div class="product-main-text">
                     <h1>Cremes Saborazzi <small><sup>&copy;</sup></small> - 5kg</h1>
-                    <p class="product-price"> ---- </p>
+                    <p class="product-price-value"> ---- </p>
                 </div>
             </div>
 
             <form method="get" class="product-forms">
                 <div class="forms-text">
                     <div class="forms-item product-size">
-                        <label for="iflavor">Sabores: </label>
-                        <select name="flavor" id="iflavor">
+                        <label for="isize">Sabores: </label>
+                        <select name="size" id="isize" class="product-size-selector">
                             <option value="saborazziChocomalt">Chocomaltine</option>
                             <option value="saborazziCocada">Cocada Cremosa</option>
                             <option value="saborazziCookies">Cookies Brancos</option>
@@ -205,13 +227,13 @@
 
             <div class="product-forms-div">
                 <h1>Cremes Saborazzi <small><sup>&copy;</sup></small> - 5kg</h1>
-                <p class="product-price"> ---- </p>
+                <p class="product-price-value"> ---- </p>
 
                 <form method="get" class="product-forms">
                     <div class="forms-text">
                         <div class="forms-item product-size">
-                            <label for="iflavor">Sabores: </label>
-                            <select name="flavor" id="iflavor">
+                            <label for="isize">Sabores: </label>
+                            <select name="size" id="isize" class="product-size-selector">
                                 <option value="saborazziChocomalt">Chocomaltine</option>
                                 <option value="saborazziCocada">Cocada Cremosa</option>
                                 <option value="saborazziCookies">Cookies Brancos</option>

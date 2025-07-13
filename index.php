@@ -84,88 +84,7 @@
     <link rel="shortcut icon" href="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750080377/iconeAcai_mj7dqy.ico" type="image/x-icon">
 
     <script src="scripts/generalScripts.js"></script>
-
-    <style>
-        .header-search{
-            display: none;
-
-        }
-
-        .index-title{
-            background: url("https://res.cloudinary.com/dw2eqq9kk/image/upload/v1752197874/title-background_ferzbk.png") center center;
-            background-repeat: no-repeat;
-            text-align: center;
-            
-            margin-block: 3em;
-
-        }
-
-        .index-title h1{
-            background: var(--secondary-clr);
-            width: 50%;
-            margin: 0 auto;
-            border-radius: 50px;
-            color: var(--tertiary-clr);
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5em;
-            padding: 0.2em;
-
-            font-size: 1.5em;
-
-        }
-
-        @media(min-width: 1024px){
-            .header-search{
-                display: block;
-                display: flex;
-                width: 30vw;
-                justify-content: space-between;
-                align-items: center;
-                background: var(--tertiary-clr);
-                
-
-                border-radius: var(--border-radius);
-                cursor: pointer;
-                
-            }
-
-            .header-search input{
-                width: 100%;
-                border: none;
-                background: transparent;
-                color: var(--primary-clr);
-                font-weight: bold;
-
-                padding: 1em;
-              
-            }
-
-            .header-search input::placeholder{
-                color: var(--fourth-clr);
-                
-            }
-
-            .header-search button{
-                background: transparent;
-                color: var(--primary-clr);
-                padding: 0.5em;
-
-            }
-
-            .index-title h1{
-                width: 20%;
-                font-size: 2em;
-            }
-            
-
-        }
-
-    </style>
     
-
     <title>Açaí Amazônia Ipatinga</title>
 
 </head>
@@ -182,7 +101,7 @@
         </ul>
 
         <form method="get" class="header-search">
-            <input type="text" name="nameProd" placeholder="Nome do Produto aqui"> 
+            <input type="text" name="nameProd" placeholder="Nome do Produto aqui" required> 
             <button>Pesquisar</button>
             <?php 
                 if(isset($_GET["nameProd"])){
@@ -240,6 +159,10 @@
                         </div>
                     </section>
                 ";
+                if(isset($_SESSION["subTotal"])){
+                    unset($_SESSION["subTotal"]);
+                }
+                verifyOrders();
             }   
 
             if(isset($_GET["loginSuccess"])){

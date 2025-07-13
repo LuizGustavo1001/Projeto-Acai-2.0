@@ -38,30 +38,34 @@
 
     <?php
         // Definir os preços usando a função prodPrice do PHP
-        $preco10l = returnPrice('acaiT10');
-        $preco5l = returnPrice('acaiT5');
-        $preco1l = returnPrice('acaiT1');
+        $price1 = returnPrice('acaiNinho1');
+        $price2 = returnPrice('acaiNinho250');
     ?>
-
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const priceElement = document.querySelector('.product-price');
-            const sizeSelect = document.getElementById('isize');
+        document.addEventListener('DOMContentLoaded', function () {
+            const priceElements = document.querySelectorAll('.product-price-value');
+            const sizeSelectors = document.querySelectorAll('.product-size-selector');
 
-            // Preços vindos do PHP
             const prices = {
-                acai10l: "<?= $preco10l; ?>",
-                acai5l: "<?= $preco5l; ?>",
-                acai1l: "<?= $preco1l; ?>"
+                acaiNinho1: "<?= $price1; ?>",
+                acaiNinho250: "<?= $price2; ?>",
             };
 
-            function updatePrice() {
-                const selectedSize = sizeSelect.value;
-                priceElement.textContent = prices[selectedSize] || 'Preço indisponível';
+            function updatePrices() {
+                sizeSelectors.forEach((selector, index) => {
+                    const selectedSize = selector.value;
+                    const priceText = prices[selectedSize] || 'Preço indisponível';
+                    if (priceElements[index]) {
+                        priceElements[index].textContent = priceText;
+                    }
+                });
             }
 
-            updatePrice();
-            sizeSelect.addEventListener('change', updatePrice);
+            updatePrices();
+
+            sizeSelectors.forEach(selector => {
+                selector.addEventListener('change', updatePrices);
+            });
         });
     </script>
 
@@ -146,7 +150,7 @@
 
                 <div class="product-main-text">
                     <h1>Açaí c/ Ninho</h1>
-                    <p class="product-price"> ---- </p>
+                    <p class="product-price-value"> ---- </p>
                 </div>
             </div>
 
@@ -154,7 +158,7 @@
                 <div class="forms-text">
                     <div class="forms-item product-size">
                         <label for="isize-desktop">Tamanho: </label>
-                        <select name="size" id="isize-desktop">
+                        <select name="size" id="isize-desktop" class="product-size-selector">
                             <option value="acaiNinho1">1 litros</option>
                             <option value="acaiNinho250">250ml</option>
                         </select>
@@ -197,13 +201,13 @@
 
             <div class="product-forms-div">
                 <h1>Açaí c/ Ninho</h1>
-                <p class="product-price"> ---- </p>
+                <p class="product-price-value"> ---- </p>
 
                 <form method="get" class="product-forms">
                     <div class="forms-text">
                         <div class="forms-item product-size">
                             <label for="isize">Tamanho: </label>
-                            <select name="size" id="isize">
+                            <select name="size" id="isize" class="product-size-selector">
                                 <option value="acaiNinho1">1 litros</option>
                                 <option value="acaiNinho250">250ml</option>
                             </select>

@@ -37,30 +37,33 @@
 
     <?php
         // Definir os preços usando a função prodPrice do PHP
-        $preco10l = returnPrice('acaiT10');
-        $preco5l = returnPrice('acaiT5');
-        $preco1l = returnPrice('acaiT1');
+        $price = returnPrice('disquete1');
     ?>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const priceElement = document.querySelector('.product-price');
-            const sizeSelect = document.getElementById('isize');
+        document.addEventListener('DOMContentLoaded', function () {
+            const priceElements = document.querySelectorAll('.product-price-value');
+            const sizeSelectors = document.querySelectorAll('.product-size-selector');
 
-            // Preços vindos do PHP
             const prices = {
-                acai10l: "<?= $preco10l; ?>",
-                acai5l: "<?= $preco5l; ?>",
-                acai1l: "<?= $preco1l; ?>"
+                disquete1: "<?= $price; ?>",
             };
 
-            function updatePrice() {
-                const selectedSize = sizeSelect.value;
-                priceElement.textContent = prices[selectedSize] || 'Preço indisponível';
+            function updatePrices() {
+                sizeSelectors.forEach((selector, index) => {
+                    const selectedSize = selector.value;
+                    const priceText = prices[selectedSize] || 'Preço indisponível';
+                    if (priceElements[index]) {
+                        priceElements[index].textContent = priceText;
+                    }
+                });
             }
 
-            updatePrice();
-            sizeSelect.addEventListener('change', updatePrice);
+            updatePrices();
+
+            sizeSelectors.forEach(selector => {
+                selector.addEventListener('change', updatePrices);
+            });
         });
     </script>
 
@@ -145,7 +148,7 @@
 
                 <div class="product-main-text">
                     <h1>Disqueti - 1kg</h1>
-                    <p class="product-price"> ---- </p>
+                    <p class="product-price-value"> ---- </p>
                 </div>
             </div>
 
@@ -153,7 +156,7 @@
                 <div class="forms-text">
                     <div class="forms-item product-size">
                         <label for="isize">Tamanho: </label>
-                        <select name="size" id="isize">
+                        <select name="size" id="isize" class="product-size-selector">
                             <option value="disquete1">1 kg</option>
                         </select>
                     </div>
@@ -194,13 +197,13 @@
 
             <div class="product-forms-div">
                 <h1>Disqueti - 1kg</h1>
-                <p class="product-price"> ---- </p>
+                <p class="product-price-value"> ---- </p>
 
                 <form method="get" class="product-forms">
                     <div class="forms-text">
                         <div class="forms-item product-size">
                             <label for="isize">Tamanho: </label>
-                            <select name="size" id="isize">
+                            <select name="size" id="isize" class="product-size-selector">
                                 <option value="disquete1">1 kg</option>
                             </select>
                         </div>
