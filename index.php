@@ -240,6 +240,9 @@
                         </div>
                     </section>
                 ";
+                if(isset($_SESSION["subTotal"])){
+                    unset($_SESSION["subTotal"]);
+                }
             }   
 
             if(isset($_GET["loginSuccess"])){
