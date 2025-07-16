@@ -74,16 +74,16 @@
     <li>Abra o arquivo "DumpProjeto_acai.sql", copie o código dentro dele e Clone o Banco de Dados dentro do MySQL (Dump)</li>
     <li>
         Adicione o Banco de Dados ao seu Servidor Local clicando no símbolo demonstrado abaixo <br> 
-        <img src="readMe-images/dump.png" alt="Dump DataBase"></img>
+        <img src="public/readMe-images/dump.png" alt="Dump DataBase"></img>
     </li>
     <li>
         Para verificar se o Banco de Dados foi realmente adicionado digite no navegador "localhost/phpmyadmin", se a relação "projeto_acai" existir
-        na aba esquerda da tela o Banco de Dados foi adicionado com sucesso <img src="readMe-images/phpmyadmin.png" alt="PHPMyAdmin Preview"></img>
+        na aba esquerda da tela o Banco de Dados foi adicionado <img src="public/readMe-images/phpmyadmin.png" alt="PHPMyAdmin Preview"></img>
     </li>
     <li>Adicione a Pasta do projeto a pasta "htdocs" dentro de xampp (C:\xampp\htdocs)</li>
     <li>
         Digite no Navegador "http://localhost/siteAcai-2.0"
-        <img src="readMe-images/local.png" alt=""></img>
+        <img src="public/readMe-images/local.png" alt="local Preview"></img>
     </li>
 </ol>
 
