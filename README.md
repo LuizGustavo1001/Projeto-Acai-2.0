@@ -48,18 +48,21 @@
 <h3>📂 Esquema de Pastas</h3>
     <pre>
         |
-        |-- account                             (Página do Usuário)
-        |-- cart                                (Página do Carrinho)
-        |-- products                            (Página de Produtos)
-        |-- readMe-images                       (Imagens Utilizadas no ReadMe.md)
-        |-- scripts                             (JavaScript utilizado nas páginas)
-        |-- styles                              (Folhas de Estilo utilizadas nas páginas)
-        |-- dbConnection.php                    (Conectar o Banco de Dados com o FrontEnd)
-        |-- DumpProjeto_acai.sql                (Cópia do Banco de Dados utilizado)
-        |-- errorPage.php                       (Página de Erro Geral)
-        |-- GeneralPHP.php                      (Códigos PHP utilizados em mais de uma página)
-        |-- index.php                           (Página Inicial)
-        |-- logout.php                          (Sistema para deslogar um usuário)
+        |-- composer                                (Pasta Bibliotecas Utilizadas)
+        |-- public                                  (Site Propriamente Dito)
+        |   |
+        |   |-- account                             (Página do Usuário)
+        |   |-- cart                                (Página do Carrinho)
+        |   |-- products                            (Página de Produtos)
+        |   |-- readMe-images                       (Imagens Utilizadas no ReadMe.md)
+        |   |-- scripts                             (JavaScript utilizado nas páginas)
+        |   |-- styles                              (Folhas de Estilo utilizadas nas páginas)
+        |   |-- errorPage.php                       (Página de Erro Geral)
+        |   |-- GeneralPHP.php                      (Códigos PHP utilizados em mais de uma página)
+        |   |-- index.php                           (Página Inicial)
+        |
+        |-- dbConnection.php                        (Conectar o Banco de Dados com o FrontEnd)
+        |-- dumpProjeto_acai.sql                    (Cópia do Banco de Dados utilizado)   
     </pre>
 <hr>
 
