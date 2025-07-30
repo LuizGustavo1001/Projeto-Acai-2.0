@@ -1,6 +1,6 @@
 <?php 
     $host    = "localhost";
-    $db      = "projeto_acai";
+    $db      = "acai_admin";
     $usuario = "root";
     $senha   = "";
 

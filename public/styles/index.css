@@ -3,7 +3,6 @@ body{
     
 }
 
-
 .left-content{
     display: flex;
     flex-direction: column;
@@ -104,6 +103,15 @@ body{
     align-items: center;
     justify-content: space-between;
 
+}
+
+.feature-box div{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1em;
+    
+    
 }
 
 .feature-box img{

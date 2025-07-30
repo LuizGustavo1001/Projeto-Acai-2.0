@@ -329,7 +329,7 @@
                     </li>
                     <li class="list-item-text">
                         <ul>
-                            <li><strong>Total:</strong></li>
+                            <li style="color: var(--secondary-clr)"><strong>Total:</strong></li>
                             <?php 
                                 if(isset($_SESSION["subTotal"])){
                                     echo 
@@ -443,7 +443,7 @@
                         </li>
                         <li class="list-item-text">
                             <ul>
-                                <li><strong>Total:</strong></li>
+                                <li style="color: var(--secondary-clr)"><strong>Total:</strong></li>
                                 <?php 
                                     if(isset($_SESSION["subTotal"])){
                                         echo 

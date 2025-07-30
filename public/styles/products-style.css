@@ -38,7 +38,6 @@
 
 }
 
-
 .products-search-div input:focus, 
 .products-search-div select:focus{
     border-color: var(--secondary-clr);
@@ -125,6 +124,10 @@
 
 }
 
+.products-item hr{
+    border-color: var(--secondary-clr);
+}
+
 .products-item img, 
 .products-item hr{
     width: 50vw;
@@ -204,7 +207,7 @@
     }
 
     .products-item hr{
-        width: 50%;
+        width: 70%;
 
     }
 

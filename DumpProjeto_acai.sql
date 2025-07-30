@@ -1,8 +1,6 @@
-CREATE DATABASE  IF NOT EXISTS `projeto_acai` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
-USE `projeto_acai`;
--- MySQL dump 10.13  Distrib 8.0.41, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: projeto_acai
+-- Host: 127.0.0.1    Database: acai_admin
 -- ------------------------------------------------------
 -- Server version	5.5.5-10.4.32-MariaDB
 
@@ -25,15 +23,15 @@ DROP TABLE IF EXISTS `client_address`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `client_address` (
-  `idClient` int(11) NOT NULL,
+  `idClient` int(11) NOT NULL AUTO_INCREMENT,
   `district` varchar(40) NOT NULL,
   `localNum` varchar(8) NOT NULL,
   `referencePoint` varchar(50) DEFAULT NULL,
   `street` varchar(50) NOT NULL,
   `city` varchar(40) NOT NULL,
   PRIMARY KEY (`idClient`),
-  CONSTRAINT `client_address_ibfk_1` FOREIGN KEY (`idClient`) REFERENCES `client_data` (`idClient`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  CONSTRAINT `client_address_ibfk_1` FOREIGN KEY (`idClient`) REFERENCES `client_data` (`idClient`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +40,7 @@ CREATE TABLE `client_address` (
 
 LOCK TABLES `client_address` WRITE;
 /*!40000 ALTER TABLE `client_address` DISABLE KEYS */;
-INSERT INTO `client_address` VALUES (1,'Cerejeiras','111','adasda','R. das Pétalas','Pinheiros');
+INSERT INTO `client_address` VALUES (1,'Ipês','111','Ponto de Referência','R. das Pétalas','Pinheiros');
 /*!40000 ALTER TABLE `client_address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -68,7 +66,7 @@ CREATE TABLE `client_data` (
 
 LOCK TABLES `client_data` WRITE;
 /*!40000 ALTER TABLE `client_data` DISABLE KEYS */;
-INSERT INTO `client_data` VALUES (1,'Farofilson Bananilson','farofa@gmail.com','$2y$10$x25JPJffTMoH1VdIUvzsr.nyjtYu1IYmmKM2gvTa97dt3kY4JqUle');
+INSERT INTO `client_data` VALUES (1,'Farilson Bananilson','farofa@gmail.com','$2y$10$m5qAWPqswV.6BsCH2Jn3e.RQqdAe6ChIB8tmMxKGiziI6ctTc7Egu');
 /*!40000 ALTER TABLE `client_data` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -82,9 +80,8 @@ DROP TABLE IF EXISTS `client_number`;
 CREATE TABLE `client_number` (
   `idClient` int(11) NOT NULL,
   `clientNumber` varchar(20) NOT NULL,
-  PRIMARY KEY (`idClient`),
-  UNIQUE KEY `clientNumber` (`clientNumber`),
-  CONSTRAINT `client_number_ibfk_1` FOREIGN KEY (`idClient`) REFERENCES `client_data` (`idClient`)
+  PRIMARY KEY (`idClient`,`clientNumber`),
+  CONSTRAINT `client_number_ibfk_1` FOREIGN KEY (`idClient`) REFERENCES `client_data` (`idClient`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -94,7 +91,7 @@ CREATE TABLE `client_number` (
 
 LOCK TABLES `client_number` WRITE;
 /*!40000 ALTER TABLE `client_number` DISABLE KEYS */;
-INSERT INTO `client_number` VALUES (1,'(33) 9 1231 7658');
+INSERT INTO `client_number` VALUES (1,'(31) 9 7402 2443');
 /*!40000 ALTER TABLE `client_number` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -108,12 +105,12 @@ DROP TABLE IF EXISTS `client_order`;
 CREATE TABLE `client_order` (
   `idOrder` int(11) NOT NULL AUTO_INCREMENT,
   `idClient` int(11) NOT NULL,
-  `orderDate` date DEFAULT curdate(),
-  `orderHour` time DEFAULT curtime(),
-  `orderStmt` enum('Finished','Pending') DEFAULT 'Pending',
-  PRIMARY KEY (`idOrder`),
+  `orderDate` date NOT NULL,
+  `orderHour` time NOT NULL,
+  `orderStmt` enum('Finished','Pending') NOT NULL DEFAULT 'Pending',
+  PRIMARY KEY (`idOrder`,`idClient`),
   KEY `idClient` (`idClient`),
-  CONSTRAINT `client_order_ibfk_1` FOREIGN KEY (`idClient`) REFERENCES `client_data` (`idClient`)
+  CONSTRAINT `client_order_ibfk_1` FOREIGN KEY (`idClient`) REFERENCES `client_data` (`idClient`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -123,7 +120,7 @@ CREATE TABLE `client_order` (
 
 LOCK TABLES `client_order` WRITE;
 /*!40000 ALTER TABLE `client_order` DISABLE KEYS */;
-INSERT INTO `client_order` VALUES (1,1,'2025-07-08','12:35:34','Pending');
+INSERT INTO `client_order` VALUES (1,1,'0000-00-00','00:00:00','Pending');
 /*!40000 ALTER TABLE `client_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -135,17 +132,16 @@ DROP TABLE IF EXISTS `product`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `product` (
-  `idProd` int(11) NOT NULL,
+  `idProd` int(11) NOT NULL AUTO_INCREMENT,
   `nameProd` varchar(40) NOT NULL,
   `price` decimal(6,2) NOT NULL,
-  `condProd` tinyint(1) NOT NULL,
-  `brand` varchar(30) DEFAULT 'Other Brand',
+  `condProd` tinyint(4) NOT NULL,
+  `brand` varchar(30) NOT NULL DEFAULT 'Other Brand',
   `priceDate` date DEFAULT NULL,
   `imageURL` varchar(200) NOT NULL DEFAULT 'https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079685/LogoAcai_x1zv8k.png',
   `prodType` varchar(15) NOT NULL DEFAULT 'Other',
-  PRIMARY KEY (`idProd`),
-  UNIQUE KEY `nameProd` (`nameProd`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  PRIMARY KEY (`idProd`,`nameProd`)
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -166,17 +162,15 @@ DROP TABLE IF EXISTS `product_order`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `product_order` (
-  `idProdOrd` int(11) NOT NULL AUTO_INCREMENT,
-  `idOrder` int(11) NOT NULL,
+  `idOrder` int(11) NOT NULL AUTO_INCREMENT,
   `idProd` int(11) NOT NULL,
   `amount` int(11) NOT NULL,
-  `singlePrice` decimal(6,2) NOT NULL DEFAULT 0.00,
-  `totPrice` decimal(12,2) NOT NULL DEFAULT 0.00,
-  PRIMARY KEY (`idProdOrd`),
-  KEY `idOrder` (`idOrder`),
+  `singlePrice` decimal(6,2) DEFAULT 0.00,
+  `totPrice` decimal(10,2) DEFAULT 0.00,
+  PRIMARY KEY (`idOrder`,`idProd`),
   KEY `idProd` (`idProd`),
-  CONSTRAINT `product_order_ibfk_1` FOREIGN KEY (`idOrder`) REFERENCES `client_order` (`idOrder`),
-  CONSTRAINT `product_order_ibfk_2` FOREIGN KEY (`idProd`) REFERENCES `product` (`idProd`)
+  CONSTRAINT `product_order_ibfk_1` FOREIGN KEY (`idProd`) REFERENCES `product` (`idProd`) ON DELETE CASCADE,
+  CONSTRAINT `product_order_ibfk_2` FOREIGN KEY (`idOrder`) REFERENCES `client_order` (`idOrder`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -190,7 +184,11 @@ LOCK TABLES `product_order` WRITE;
 UNLOCK TABLES;
 
 --
--- Dumping routines for database 'projeto_acai'
+-- Dumping events for database 'acai_admin'
+--
+
+--
+-- Dumping routines for database 'acai_admin'
 --
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -202,4 +200,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-08 12:37:01
+-- Dump completed on 2025-07-30 11:38:02

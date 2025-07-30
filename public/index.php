@@ -50,10 +50,12 @@
                         <li class=\"feature-item item-translate-alt\">  
                             <a href=\"products/product-item/$linkName.php\">
                                 <img src=\"$image\" alt=\"Product Image\">
-                                <p>$brand</p>
-                                <h2>$name</h2>
-                                <p class=\"price\">$price</p>
-                                <p>Preço Atualizado em: $priceDate</strong></p>
+                                <div>
+                                    <p>$brand</p>
+                                    <h2>$name</h2>
+                                    <p class=\"price\">$price</p>
+                                    <p>Preço Atualizado em: $priceDate</strong></p>
+                                </div>
                             </a>
                         </li>
                     ";
