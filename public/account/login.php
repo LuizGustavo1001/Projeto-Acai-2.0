@@ -88,8 +88,13 @@
                                 $_SESSION['lastActivity']   = time(); // marca o início da sessão
 
                                 // Insere novo pedido sem definir idOrder (auto_increment)
-                                $newOrder = $mysqli->prepare("INSERT INTO client_order (idClient) VALUES (?);");
-                                $newOrder->bind_param("i", $_SESSION["idClient"]);
+                                
+                                date_default_timezone_set('America/Sao_Paulo');
+                                $currentDate = date("Y-m-d");
+                                $currentHour = date("H:i:s");
+
+                                $newOrder = $mysqli->prepare("INSERT INTO client_order (idClient, orderDate, orderHour) VALUES (?, ?, ?);");
+                                $newOrder->bind_param("iss", $_SESSION["idClient"], $currentDate,  $currentHour);
                                 if($newOrder->execute()){
                                     // Recupera o idOrder gerado
                                     $_SESSION["idOrder"] = $mysqli->insert_id;
@@ -140,7 +145,6 @@
             background: url(https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751727177/loginBg_gqxl8c.png) center center;
             background-size: cover;
             background-repeat: no-repeat;
-
 
         }   
 
