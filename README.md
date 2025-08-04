@@ -77,7 +77,7 @@
         <img src="public/readMe-images/dump.png" alt="Dump DataBase"></img>
     </li>
     <li>
-        Para verificar se o Banco de Dados foi realmente adicionado digite no navegador "localhost/phpmyadmin", se a relação "acai_admin" existir
+        Para verificar se o Banco de Dados foi realmente adicionado digite no navegador "localhost/phpmyadmin", se a relação "projeto_acai" existir
         na aba esquerda da tela o Banco de Dados foi adicionado <img src="public/readMe-images/phpmyadmin.png" alt="PHPMyAdmin Preview"></img>
     </li>
     <li>Adicione a Pasta do projeto a pasta "htdocs" dentro de xampp (C:\xampp\htdocs)</li>
