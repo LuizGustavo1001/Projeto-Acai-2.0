@@ -16,12 +16,12 @@
 
 <h3>🗄️ API <small>(em desenvolvimento)</small></h3>
 <p>
-    - Inicialmente, projetada utilizando a linguagem <strong>PHP</strong> para conectar o <strong>Banco de Dados</strong>(BackEnd) com uma <strong>Página Web</strong>(FrontEnd)
+    - Inicialmente, projetada utilizando a linguagem <strong>PHP</strong> como ponte entre o <strong>Banco de Dados</strong>(BackEnd) e a <strong>Página Web</strong>(FrontEnd)
 </p>
 <p>- Gerenciamento de Usuários, seus Pedidos e envio para uma Planilha das solicitações que forem Confirmados</p>
 <p>- Possui soluções para usuários que tentarem acessar Páginas Bloqueadas sem cadastro efetuado</p>
 <p>- As sessões de cada usuário duram cerca de 1 hora. Após, será necessário realizar novamente a identificação</p>
-<p>- Para diferenciar cada usuário que utilizar o site, existe um sistema de Cadastro/Login, incluindo: </p>
+<p>- Para diferenciar cada usuário que utilize o site, há um sistema de Cadastro/Login, incluindo: </p>
 <ul>
     <li>Nome</li>
     <li>Email</li>
@@ -69,20 +69,20 @@
 <h3>🖥️ Rodar o projeto</h3>
 <ol>
     <li>Baixe o <a href="https://www.youtube.com/watch?v=0Y9OZ0vc1SU&t=213s">XAMPP</a></li>
-    <li>Ative os módulos <strong>Apache</strong> e <strong>MySQL dentro do XAMPP</strong></li>
-    <li>Baixe o <a href="https://www.youtube.com/watch?v=a5ul8o76Hqw&t=13s">MySQLWorkBench</a></li>
+    <li>Ative os módulos <strong>Apache</strong> e <strong>MySQL</strong> dentro do <strong>XAMPP</strong></li>
+    <li>Baixe o <a href="https://www.youtube.com/watch?v=a5ul8o76Hqw&t=13s">MySQL WorkBench</a> ou outro aplicativo gerenciador de Banco de Dados</li>
     <li>Abra o arquivo "DumpProjeto_acai.sql", copie o código dentro dele e Clone o Banco de Dados dentro do MySQL (Dump)</li>
     <li>
         Adicione o Banco de Dados ao seu Servidor Local clicando no símbolo demonstrado abaixo <br> 
-        <img src="public/readMe-images/dump.png" alt="Dump DataBase"></img>
+        <img src="public/readMe-images/dump.png" alt="Dump DataBase Preview"></img>
     </li>
     <li>
-        Para verificar se o Banco de Dados foi realmente adicionado digite no navegador "localhost/phpmyadmin", se a relação "acai_admin" existir
-        na aba esquerda da tela o Banco de Dados foi adicionado <img src="public/readMe-images/phpmyadmin.png" alt="PHPMyAdmin Preview"></img>
+        Para verificar se o Banco de Dados foi realmente adicionado, digite no navegador "localhost/phpmyadmin". Se a relação <strong>"acai_admin"</strong> existir
+        na aba esquerda da tela ➡️ Adicionado com Sucesso <img src="public/readMe-images/phpmyadmin.png" alt="PHPMyAdmin Preview"></img>
     </li>
-    <li>Adicione a Pasta do projeto a pasta "htdocs" dentro de xampp (C:\xampp\htdocs)</li>
+    <li>Adicione a Pasta do Projeto ao Diretório <strong>"htdocs"</strong> dentro de <strong>Xampp</strong> (C:\xampp\htdocs)</li>
     <li>
-        Digite no Navegador "http://localhost/siteAcai-2.0"
+        Para acessar o site, Digite no Navegador "http://localhost/siteAcai-2.0/public"
         <img src="public/readMe-images/local.png" alt="local Preview"></img>
     </li>
 </ol>
@@ -97,9 +97,10 @@
     <li>Filtros na Página de Produtos</li>
     <li>✅ Pesquisas na Página de Produtos</li>
     <li>✅ Página de Mudança de Credenciais</li>
-    <li>Página especial para email</li>
-    <li>Senha(enviar email de confirmação)</li>
+    <li>Página especial para email (enviar email de confirmação)</li>
+    <li>Página especial para Senha (enviar email de confirmação)</li>
     <li>✅ Mudanças na Página de logout (enviar p/ pagina certa)</li>
     <li>✅ Página "Esqueceu a Senha"</li>
     <li>Verificação de Existencia de Email e Número de Telefone</li>
+    <li>API de Pagamentos</li>
 </ul>

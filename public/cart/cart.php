@@ -204,7 +204,7 @@
                 <a href="../index.php">
                     <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079683/acai-icon-white_fll4gt.png" class="item-translate" alt="Açaí Icon">
                 </a>
-                <p>Açaí Amazônia Ipatinga</p>
+                <p>Açaí e Polpas Amazônia</p>
             </li>
         </ul>
 
@@ -328,8 +328,8 @@
                         </ul>
                     </li>
                     <li class="list-item-text">
-                        <ul>
-                            <li style="color: var(--secondary-clr)"><strong>Total:</strong></li>
+                        <ul style="color: var(--secondary-clr); font-weight: bold;">
+                            <li>Total:</li>
                             <?php 
                                 if(isset($_SESSION["subTotal"])){
                                     echo 
@@ -442,8 +442,8 @@
                             </ul>
                         </li>
                         <li class="list-item-text">
-                            <ul>
-                                <li style="color: var(--secondary-clr)"><strong>Total:</strong></li>
+                            <ul style="color: var(--secondary-clr); font-weight: bold;">
+                                <li>Total:</li>
                                 <?php 
                                     if(isset($_SESSION["subTotal"])){
                                         echo 

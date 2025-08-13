@@ -32,7 +32,7 @@
                 <a href="../index.php">
                     <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079683/acai-icon-white_fll4gt.png" class="item-translate" alt="Açaí Icon">
                 </a>
-                <p>Açaí Amazônia Ipatinga</p>
+                <p>Açaí e Polpas Amazônia</p>
             </li>
         </ul>
 

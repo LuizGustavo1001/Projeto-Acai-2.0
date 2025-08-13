@@ -119,9 +119,9 @@ body{
 }
 
 .feature-box img{
-    width:280px;
-    height: 280px;
-
+    width: 50vw;
+    height: 48vw;
+    
     border-bottom: 2px solid var(--primary-clr);
     padding-bottom: 0.5em;
 
@@ -181,7 +181,7 @@ body{
     }
 
     .right-content{
-        background: url(https://res.cloudinary.com/dw2eqq9kk/image/upload/v1752066991/preview-alt_amuitt.png) center center;
+        background: url(https://res.cloudinary.com/dw2eqq9kk/image/upload/v1755095738/preview_mrnjei.png) center center;
 
         background-size: contain;
         background-repeat: no-repeat;
@@ -215,8 +215,9 @@ body{
     }
 
     .feature-box img{
-        width:250px;
-        height: 250px;
+        width: 250px;
+        margin: 0 auto;
+        height: 240px;
 
     }
 

@@ -87,7 +87,7 @@
 
     <script src="scripts/generalScripts.js"></script>
     
-    <title>Açaí Amazônia Ipatinga</title>
+    <title>Açaí e Polpas Amazônia</title>
 
 </head>
 <body>
@@ -98,7 +98,7 @@
                 <a href="index.php">
                     <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079683/acai-icon-white_fll4gt.png" class="item-translate" alt="Açaí Icon">
                 </a>
-                <p>Açaí Amazônia Ipatinga</p>
+                <p>Açaí e Polpas Amazônia</p>
             </li>
         </ul>
 
@@ -187,6 +187,8 @@
             <div class="left-content">
                 <h1>
                     Açaí
+                    e
+                    Polpas
                     <br>
                     <span style="color: #cc0088">Amazônia</span>
                 </h1>
@@ -223,7 +225,7 @@
                     </div>
                     <div class="about-us-item-text">
                         <h1>Quem Somos?</h1>
-                        <p>Açaí Amazônia Ipatinga, distribuidora de <strong>Cremes e Polpas de Açaí</strong>.</p>
+                        <p>Açaí e Polpas Amazônia, distribuidora de <strong>Cremes e Polpas Variadas</strong>.</p>
                         <p>
                             Vendemos também
                             <strong>Picolés</strong>, <strong>Sorvetes</strong>, <strong>Adicionais Variados para Açaí e Sorvete</strong>
@@ -284,7 +286,7 @@
             </ul>
 
             <p style="text-align: center; margin-top: 1em;">
-                * Entrega em Domicílio Apenas em <strong>********</strong>.
+                <strong>* </strong>Entregas Domiciliares Apenas em <strong>********</strong>.
             </p>
 
         </section>
@@ -349,7 +351,7 @@
             </li>
 
             <li style="color: rgb(238, 224, 250); opacity: 0.8;">
-                2025 &copy; Açaí Amazônia Ipatinga. <br> Todos os direitos reservados
+                2025 &copy; Açaí e Polpas Amazônia. <br> Todos os direitos reservados
             </li>
             <li>
                 <strong>
