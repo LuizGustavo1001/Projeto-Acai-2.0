@@ -43,9 +43,9 @@
             $email->Body .= "
                 <p>O Token é válido até <strong>Fechar a Página do Token</strong> no site, após isso é necessário solicitar outro</p>
             ";
-            $email->Body .= "<p>Atenciosamente, <strong>Equipe Açaí Amazônia Ipatinga</strong></p>";
+            $email->Body .= "<p>Atenciosamente, <strong>Equipe Açaí e Polpas Amazônia</strong></p>";
             $email->Body .= "<p>Este é um email automático, não responda.</p>";
-            $email->AltBody = "Açaí da Amazônia\n Seu Token de Verificação de Email: $token";
+            $email->AltBody = "Açaí e Polpas Amazônia\n Seu Token de Verificação de Email: $token";
 
             if($email->send()){ // email enviado com sucesso
                 $_SESSION["passwordToken"] = $token;

@@ -20,8 +20,6 @@ function prodOutput($prodName){ // dar saída nos produtos cadastrados no banco 
             "farofaPacoca1", "amendoimTriturado1", "ovomaltine1", "gotaChocolate1", "chocoball1", 
             "jujuba500", "disquete1", "saborazzi", "polpas"
         ];
-                                  // Z-A              A-Z          maior-menor   menor-maior
-        $allowedFilters = ["id", "alphabet_desc", "alphabet_asc", "price_desc", "price_asc"];
         
         if(in_array($prodName, $allowedNames)){
             if( // produtos com multiplas versões
@@ -63,12 +61,12 @@ function prodOutput($prodName){ // dar saída nos produtos cadastrados no banco 
 
             if($result->num_rows > 0){ //verificar se algum produto foi encontrado com o fitro selecionado
                 while ($row = $result->fetch_assoc()) {
-                    $linkName = matchProductLinkName($row['nameProd']);
-                    $imageURL = htmlspecialchars($row['imageURL']);
-                    $brand = htmlspecialchars($row['brand']);
-                    $name = matchNamesAlt($row['nameProd']);
-                    $price = numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $row['price'], "BRL");
-                    $priceDate = htmlspecialchars($row['priceDate']);
+                    $linkName       = matchProductLinkName      ($row['nameProd']);
+                    $imageURL       = htmlspecialchars          ($row['imageURL']);
+                    $brand          = htmlspecialchars          ($row['brand']);
+                    $name           = matchNamesAlt             ($row['nameProd']);
+                    $price          = numfmt_format_currency    (numfmt_create("pt-BR", NumberFormatter::CURRENCY), $row['price'], "BRL");
+                    $priceDate      = htmlspecialchars          ($row['priceDate']);
 
                     echo "
                         <a href=\"product-item/{$linkName}.php\">
@@ -96,7 +94,8 @@ function prodOutput($prodName){ // dar saída nos produtos cadastrados no banco 
                 echo "<p><em>Nenhum produto encontrado</em></p>";
             }
         }
-    }
+}
+
 
 function prodSearchOutput($prodName){
     global $mysqli;
