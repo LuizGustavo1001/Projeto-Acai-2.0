@@ -22,6 +22,7 @@
                     break;
                 case "successLogin":
                     header("Location: ../index.php?loginSuccess=1");
+                    verifyOrders();
                     exit;
                 case "errorDB":
                     $errorLogin = "<small>Erro ao executar a query</small>";
@@ -136,7 +137,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap" rel="stylesheet">
 
-    <link rel="shortcut icon" href="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750080377/iconeAcai_mj7dqy.ico" type="image/x-icon">
+    <?php faviconOut(); ?>
 
     <link rel="stylesheet" href="../styles/general-style.css">
     <link rel="stylesheet" href="../styles/account-styles.css">
@@ -151,7 +152,7 @@
 
     </style>
 
-    <title>Açaí Amazônia Ipatinga - Login</title>
+    <title>Açaí e Polpas Amazônia - Login</title>
 </head>
 <body>
     <section class="account-hero">

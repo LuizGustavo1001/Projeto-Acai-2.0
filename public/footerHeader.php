@@ -1,9 +1,12 @@
 <?php 
 
+function faviconOut(){
+    echo "
+        <link rel=\"shortcut icon\" href=\"https://res.cloudinary.com/dw2eqq9kk/image/upload/v1755358113/acai-icon_jsrexi_t30xv5.png\" type=\"image/x-icon\">
+    ";
+}
+
 function headerOut($local){
-    // 0-> mesma pasta que esse arquivo
-    // 1-> 1 pasta a mais que esse arquivo
-    // 2-> 2 pastas a mais que esse arquivo
 
     echo "
         <header>
@@ -81,12 +84,18 @@ function headerOut($local){
 
                         <p>Carrinho</p>
                     </a>
-                    <?php verifyCartAmount();?>
+                    
+                
+
+    ";
+
+    echo verifyCartAmount();
+    echo "
                 </li>
             </ul>
         </header>
-
     ";
+
 }
 
 function footerOut(){

@@ -5,6 +5,31 @@
 
     checkSession("all-product");
 
+    function categoryItens($type){
+        global $mysqli;
+
+        $allowedTypes = ["Cream", "Additional", "Other"];
+        if(in_array($type, $allowedTypes)){
+            $query = $mysqli->prepare("SELECT nameProd FROM product WHERE prodType = ?");
+            $query->bind_param("s", $type);
+            
+            if($query->execute()){
+                $vector = [];
+                $result = $query->get_result();
+                while($row = $result->fetch_assoc()){
+                    $nameProd = matchProductName($row["nameProd"]);
+                    $vector[] = $nameProd;
+                }
+                
+                $vector = array_unique($vector); // remover duplicatas
+
+                foreach($vector as $name){
+                    getProductByName($name, "");
+                }
+            }
+        }
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -20,9 +45,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap" rel="stylesheet">
 
-    <link rel="shortcut icon" href="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750080377/iconeAcai_mj7dqy.ico" type="image/x-icon">
+    <?php faviconOut(); ?>
     
-    <title>Açaí Amazônia - Produtos</title>
+    <title>Açaí e Polpas Amazônia - Produtos</title>
     
 </head>
 <body>
@@ -94,33 +119,13 @@
                     echo prodSearchOutput($_GET["nameProd"]);
                 }
             ?>
-            
 
             <div class="index-title">
                 <h1>Cremes</h1>
             </div>
 
             <ul class="products-list">
-                <li class="products-item item-translate-alt">
-                    <?php prodOutput("acaiT"); ?>
-                </li>
-
-                <li class="products-item item-translate-alt">
-                    <?php prodOutput("cremeFrutado"); ?>
-                </li>
-
-                <li class="products-item item-translate-alt">
-                    <?php prodOutput("saborazzi"); ?>
-                </li>
-                
-                <li class="products-item item-translate-alt">
-                    <?php prodOutput("acaiZero10"); ?>
-                </li>
-
-                <li class="products-item item-translate-alt">
-                    <?php prodOutput("acaiNinho1"); ?>
-                </li>
-                
+                <?php categoryItens("Cream");?>
             </ul>
 
             <div class="index-title">
@@ -128,51 +133,7 @@
             </div>
 
             <ul class="products-list">
-                
-                <li class="products-item item-translate-alt">
-                    <?php prodOutput("granola1.5");?>
-                </li>
-
-                <li class="products-item item-translate-alt">
-                    <?php prodOutput("granola1");?>
-                </li>
-
-                <li class="products-item item-translate-alt">
-                    <?php prodOutput("morango1");?>
-                </li>
-
-                <li class="products-item item-translate-alt">
-                    <?php prodOutput("leiteEmPo1");?>
-                </li>
-
-                <li class="products-item item-translate-alt">
-                    <?php prodOutput("pacoca150");?>
-                </li>
-
-                <li class="products-item item-translate-alt">
-                    <?php prodOutput("farofaPacoca1");?>
-                </li>
-
-                <li class="products-item item-translate-alt">
-                    <?php prodOutput("amendoimTriturado1");?>
-                </li>
-
-                <li class="products-item item-translate-alt">
-                    <?php prodOutput("gotaChocolate1");?>
-                </li>
-
-                <li class="products-item item-translate-alt">
-                    <?php prodOutput("chocoball1");?>
-                </li>
-
-                <li class="products-item item-translate-alt">
-                    <?php prodOutput("jujuba500");?>
-                </li>
-
-                <li class="products-item item-translate-alt">
-                    <?php prodOutput("disquete1");?>
-                </li>
-            
+                <?php categoryItens("Additional");?>            
             </ul>
 
             <div class="index-title">
@@ -180,15 +141,7 @@
             </div>
 
             <ul class="products-list">
-                
-                <li class="products-item item-translate-alt">
-                    <?php prodOutput("colheres");?>
-                </li>
-
-                <li class="products-item item-translate-alt">
-                    <?php prodOutput("polpas");?>
-                </li>
-
+                <?php categoryItens("Other");?>
             </ul>
         </section>
     </main>

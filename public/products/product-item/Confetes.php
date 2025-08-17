@@ -3,7 +3,7 @@
     include "../../generalPHP.php";
     include "../prodPrice.php";
     include "../../footerHeader.php";
-    
+
 ?>
 
 
@@ -20,13 +20,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&display=swap" rel="stylesheet"> 
 
-    <link rel="shortcut icon" href="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750080377/iconeAcai_mj7dqy.ico" type="image/x-icon">
-
+    <?php faviconOut(); ?>
     <script src="../../scripts/generalScripts.js"></script>
 
     <?php
         // Definir os preços usando a função prodPrice do PHP
-        $price = returnPrice('gotaChocolate1');
+        $price = returnPrice('disquete1');
     ?>
 
     <script>
@@ -35,7 +34,7 @@
             const sizeSelectors = document.querySelectorAll('.product-size-selector');
 
             const prices = {
-                gotaChocolate1: "<?= $price; ?>",
+                disquete1: "<?= $price; ?>",
             };
 
             function updatePrices() {
@@ -56,7 +55,7 @@
         });
     </script>
 
-    <title>Açaí Amazônia - Produtos</title>
+    <title>Açaí e Polpas Amazônia - Produtos</title>
 
 </head>
 <body>
@@ -78,6 +77,7 @@
 
     <?php headerOut(2)?>
     
+
     <main class="mobile-main">
         <div>
             <a href="../products.php" class="back-button">
@@ -91,11 +91,11 @@
         <section class="product-hero">
             <div class="product-main">
                 <div class="product-main-img">
-                    <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750264190/LogoAcai_x1zv8k.png" alt="Product Image">
+                    <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1755353352/acai_doaqvb.png" alt="Product Image">
                 </div>
 
                 <div class="product-main-text">
-                    <h1>Gotas de Chocolate - 1kg</h1>
+                    <h1>Confetes Coloridos - 1kg</h1>
                     <p class="product-price-value"> ---- </p>
                 </div>
             </div>
@@ -105,7 +105,7 @@
                     <div class="forms-item product-size">
                         <label for="isize">Tamanho: </label>
                         <select name="size" id="isize" class="product-size-selector">
-                            <option value="gotaChocolate1">1 kg</option>
+                            <option value="disquete1">1 kg</option>
                         </select>
                     </div>
                     <div class="forms-item product-amount">
@@ -140,19 +140,19 @@
 
         <section>
             <div class="product-main-img">
-                <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750264190/LogoAcai_x1zv8k.png" alt="Product Image">
+                <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1755353352/acai_doaqvb.png" alt="Product Image">
             </div>
 
             <div class="product-forms-div">
-               <h1>Gotas de Chocolate - 1kg</h1>
-            <p class="product-price-value"> ---- </p>
+                <h1>Confetes Coloridos - 1kg</h1>
+                <p class="product-price-value"> ---- </p>
 
                 <form method="get" class="product-forms">
                     <div class="forms-text">
                         <div class="forms-item product-size">
                             <label for="isize">Tamanho: </label>
                             <select name="size" id="isize" class="product-size-selector">
-                                <option value="gotaChocolate1">1 kg</option>
+                                <option value="disquete1">1 kg</option>
                             </select>
                         </div>
                         <div class="forms-item product-amount">
@@ -160,9 +160,9 @@
                             <input type="number" name="amount-product" id="iamount-product" value="1" max="150" min="1">
                         </div>
                     </div>
-        
+
                     <input type="hidden" name="formType" value="desktop">
-                    
+
                     <button type="submit">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />

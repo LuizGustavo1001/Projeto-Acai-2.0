@@ -17,53 +17,27 @@
 
             while (count($randomIdVec) < 4) {
                 $randomId = rand(1, $total);
-                if (!in_array($randomId, $randomIdVec)) {
+                if (! in_array($randomId, $randomIdVec)) {
                     $randomIdVec[] = $randomId;
                 }
             }
 
-            $defaultMoney = numfmt_create("pt-BR", NumberFormatter::CURRENCY);
-
             for($j = 0; $j < 4; $j++){
-                $query = $mysqli->prepare(
-                    "SELECT nameProd, brand, price, priceDate, imageURL FROM product WHERE idProd = ?"
-                );
+                $getName = $mysqli->prepare("SELECT nameProd FROM product WHERE idProd = ?");
+                $getName->bind_param("i", $randomIdVec[$j]);
                 
-                $query->bind_param("s", $randomIdVec[$j]);
-                if($query->execute()){
-                
-                    $result = $query->get_result()->fetch_assoc();
+                if($getName->execute()){
+                    $result = $getName->get_result();
+                    $name = $result->fetch_row();
 
-                    $name      = $result['nameProd'];
-                    $brand     = $result['brand'];
+                    getProductByName(matchProductLinkName($name[0]), "index");
 
-                    if($brand == "Other Brand"){
-                        $brand = "Marca Não Cadastrada";
-                    }
-
-                    $price     = numfmt_format_currency($defaultMoney, $result['price'], "BRL");
-                    $priceDate = $result['priceDate'];
-                    $image     = $result['imageURL'];
-                    $name = matchNames($name); // atualizar o nome do produto (mais legível)
-                    $linkName = matchProductLinkName($result['nameProd']);
-
-                    echo "
-                        <li class=\"feature-item item-translate-alt\">  
-                            <a href=\"products/product-item/$linkName.php\">
-                                <img src=\"$image\" alt=\"Product Image\">
-                                <div>
-                                    <p>$brand</p>
-                                    <h2>$name</h2>
-                                    <p class=\"price\">$price</p>
-                                    <p>Preço Atualizado em: $priceDate</strong></p>
-                                </div>
-                            </a>
-                        </li>
-                    ";
+                    $getName->close();
                 }else{
+                    $getName->close();
                     header("location: errorPage.php");
+                    exit;
                 }
-                
             }
         }else{
             header("location: errorPage.php");
@@ -84,9 +58,15 @@
     <link rel="stylesheet" href="styles/general-style.css">
     <link rel="stylesheet" href="styles/index.css">
 
-    <link rel="shortcut icon" href="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750080377/iconeAcai_mj7dqy.ico" type="image/x-icon">
+    <?php faviconOut(); ?>
 
     <script src="scripts/generalScripts.js"></script>
+
+    <style>
+        .products-list{
+            grid-template-columns: repeat(4, 1fr);
+        }
+    </style>
     
     <title>Açaí e Polpas Amazônia</title>
 
@@ -244,7 +224,7 @@
             <div class="index-title feature-list-title">
                 <h1>Destaques</h1>
             </div>
-            <ul class="feature-box">
+            <ul class="products-list">
                 <?php 
                     featureItens();
                 ?>

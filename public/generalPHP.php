@@ -10,66 +10,86 @@ if(isset($_SESSION["passwordToken"])){
 
 }
 
-function prodOutput($prodName){ // dar saída nos produtos cadastrados no banco de dados
-        global $mysqli;
+function getProductByName($prodName, $page){
+    global $mysqli;
+    $allowedNames =
+    [
+        "caixaAcai", "colheres", "cremesFrutados", "acaiZero10", "acaiNinho", 
+        "morango1", "leiteEmPo1", "granola1.5", "granola1", "pacoca150", 
+        "farofaPacoca1", "amendoimTriturado1", "ovomaltine1", "gotaChocolate1", "chocoball1", 
+        "jujuba500", "disquete1", "cremesSaborazzi", "polpas"
+    ];
 
-        $allowedNames = 
-        [
-            "acaiT", "colheres", "cremeFrutado", "acaiZero10", "acaiNinho1", 
-            "acaiNinho250", "morango1", "leiteEmPo1", "granola1.5", "granola1", "pacoca150", 
-            "farofaPacoca1", "amendoimTriturado1", "ovomaltine1", "gotaChocolate1", "chocoball1", 
-            "jujuba500", "disquete1", "saborazzi", "polpas"
-        ];
-        
-        if(in_array($prodName, $allowedNames)){
-            if( // produtos com multiplas versões
-                $prodName == "acaiT" or 
-                $prodName == "cremeFrutado" or 
-                $prodName == "saborazzi" or 
-                $prodName == "polpas" or 
-                $prodName == "colheres"
-                ){ 
-                $prodName = match($prodName){
-                    "acaiT"         => "acaiT%",
-                    "saborazzi"     => "saborazzi%",
-                    "cremeFrutado"  => "creme%",
-                    "polpas"        => "polpa%",
-                    "colheres"      => "colher%",
-                    default         => $prodName
+    if(in_array($prodName, $allowedNames)){
+        if( $prodName == "caixaAcai"        || 
+            $prodName == "cremesFrutados"   || 
+            $prodName == "colheres"         || 
+            $prodName == "cremesSaborazzi"  ||
+            $prodName == "acaiNinho"        ||
+            $prodName == "polpas"
+        ){
+            $prodName = match($prodName){
+                    "caixaAcai"         => "acaiT%",
+                    "cremesSaborazzi"   => "saborazzi%",
+                    "cremesFrutados"    => "creme%",
+                    "polpas"            => "polpa%",
+                    "colheres"          => "colher%",
+                    "acaiNinho"         => "acaiNinho%",
+                    default             => $prodName
 
                 };
-
-                $query = $mysqli->prepare
-                    (" SELECT nameProd, price, priceDate, brand, imageURL 
-                        FROM product
-                        WHERE price = (
-                            SELECT MIN(p.price) 
-                            FROM product AS p 
-                            WHERE p.nameProd LIKE ?
-                        )
-                        LIMIT 1;"
-                    );
-
-            }else{ // produtos com apenas 1 versão
-                $query = $mysqli->prepare("SELECT nameProd, price, priceDate, brand, imageURL FROM product WHERE nameProd = ?");
-            }
-
-            $query->bind_param("s", $prodName);
-            $query->execute();
-
+            $query = $mysqli->prepare("
+                    SELECT nameProd, brand, imageURL, price, priceDate
+                    FROM product
+                    WHERE price = (
+                        SELECT MIN(p.price)
+                        FROM product AS p 
+                        WHERE p.nameProd LIKE ?
+                    )
+                    LIMIT 1;
+            ");
+            
+        }else{
+            $query = $mysqli->prepare("
+                SELECT nameProd, brand, imageURL, price, priceDate
+                FROM product
+                WHERE nameProd = ?
+                LIMIT 1;
+            ");
+        }
+        $query->bind_param("s", $prodName);
+        if($query->execute()){
             $result = $query->get_result();
+            if($result->num_rows <= 0){
+                echo "
+                    <li class=\"products-item item-translate-alt\">
+                        <a>
+                            <p><em>Nenhum produto encontrado com o nome selecionado</em></p>
+                        </a>
+                    </li>
+                ";
+            }else{
+                $row = $result->fetch_assoc();
 
-            if($result->num_rows > 0){ //verificar se algum produto foi encontrado com o fitro selecionado
-                while ($row = $result->fetch_assoc()) {
-                    $linkName       = matchProductLinkName      ($row['nameProd']);
-                    $imageURL       = htmlspecialchars          ($row['imageURL']);
-                    $brand          = htmlspecialchars          ($row['brand']);
-                    $name           = matchNamesAlt             ($row['nameProd']);
-                    $price          = numfmt_format_currency    (numfmt_create("pt-BR", NumberFormatter::CURRENCY), $row['price'], "BRL");
-                    $priceDate      = htmlspecialchars          ($row['priceDate']);
+                $linkName       = matchProductLink          ($row['nameProd']);
+                $link           = "product-item/" . $linkName . ".php";
+                $imageURL       = htmlspecialchars          ($row['imageURL']);
+                $brand          = htmlspecialchars          ($row['brand']);
+                $name           = matchDisplayNamesAlt      ($row['nameProd']);
+                $price          = numfmt_format_currency    (numfmt_create("pt-BR", NumberFormatter::CURRENCY), $row['price'], "BRL");
+                $priceDate      = htmlspecialchars          ($row['priceDate']);
 
-                    echo "
-                        <a href=\"product-item/{$linkName}.php\">
+                if($brand == "Other Brand"){
+                    $brand = "Marca Não Cadastrada";
+                }
+                
+                if($page == "index"){
+                    $link = "products/product-item/" . $linkName . ".php";
+                }
+
+                echo "
+                    <li class=\"products-item item-translate-alt\">
+                        <a href=\"{$link}\">
                             <img src=\"{$imageURL}\" alt=\"{$name} Image\">
                             <hr>
                             <div>
@@ -87,17 +107,29 @@ function prodOutput($prodName){ // dar saída nos produtos cadastrados no banco 
                                 </p>
                             </div>
                         </a>
-                    ";
-                }
+                    </li>
+                ";
             }
-            else {
-                echo "<p><em>Nenhum produto encontrado</em></p>";
-            }
+            
+            $query->close();
+        }else{
+            $query->close();
+            header("location: errorPage.php");
+            exit;
         }
+    }else{
+       echo "
+        <li class=\"products-item item-translate-alt\">
+                <a>
+                    <p><em>Nenhum produto encontrado com o nome selecionado -> <strong>" . $prodName . " </strong></em></p>
+                </a>
+            </li>
+        ";
+
+    }
 }
 
-
-function prodSearchOutput($prodName){
+function prodSearchOutput($prodName){ // search bar result
     global $mysqli;
 
     $query = $mysqli->prepare("
@@ -109,7 +141,6 @@ function prodSearchOutput($prodName){
     $likeProdName = "%{$prodName}%";
     $query->bind_param("s", $likeProdName);
 
-
     if($query->execute()){
         $result = $query->get_result();
         $amount = $result->num_rows;
@@ -120,7 +151,7 @@ function prodSearchOutput($prodName){
                     <div style=\"font-weight: normal;\">
                         <h1> 
                             Nenhum Produto Encontrado com o Nome:
-                            <strong style=\"color: var(--secondary-clr)\">$prodName</strong>
+                            <strong style=\"color: var(--secondary-clr)\"><em>$prodName</em></strong>
                         </h1>
                     </div>
                 ";
@@ -131,7 +162,7 @@ function prodSearchOutput($prodName){
                     <div style=\"font-weight: normal;\">
                         <h1> 
                             Produtos Encontrados com o filtro:
-                            <strong style=\"color: var(--secondary-clr)\">$prodName</strong>
+                            <strong style=\"color: var(--secondary-clr)\"><em>$prodName</em></strong>
                         </h1>
                     </div>
 
@@ -139,235 +170,212 @@ function prodSearchOutput($prodName){
                 ";
 
                 while ($row = $result->fetch_assoc()) {
-                    $linkName = matchProductLinkName($row['nameProd']);
-                    $imageURL = htmlspecialchars($row['imageURL']);
-                    $brand = htmlspecialchars($row['brand']);
-                    $name = matchNames($row['nameProd']);
-                    $price = numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $row['price'], "BRL");
-                    $priceDate = htmlspecialchars($row['priceDate']);
-
-                    echo "
-                        <li class=\"products-item item-translate-alt\">
-                            <a href=\"product-item/{$linkName}.php\">
-                                <img src=\"{$imageURL}\" alt=\"{$name} Image\">
-                                <hr>
-                                <div>
-                                    <p>{$brand}</p>
-                                    <h2>{$name}</h2>
-                                    <p class=\"price\">
-                                        <span style=\"font-size: 1.3em;\">{$price}</span>
-                                    </p>
-                                    <p style=\"color: var(--primary-clr)\">
-                                        <small>
-                                            Preço Atualizado em:
-                                            <strong>{$priceDate}</strong>
-                                        </small>
-                                    </p>
-                                </div>
-                            </a>
-                        </li>
-                    ";
+                    getProductByName(matchProductName($row["nameProd"]), "product");
                 }
-
                 echo "</ul>";
             break;
         }
     }
 }
 
-function matchNames($name){
-    match($name){
-        "acaiT10"               => $name = "Caixa de Açaí - 10l",
-        "acaiT5"                => $name = "Caixa de Açaí - 5l",
-        "acaiT1"                => $name = "Caixa de Açaí - 1l",
-        "colher200"             => $name = "Colher Longa P/Açaí - 200 Unidades",
-        "colher500"             => $name = "Colher Reforçada P/Açaí - 500 Unidades",
-        "colher800"             => $name = "Colher P/Sorvete - 800 unidades",
-        "cremeCupuacu10"        => $name = "Creme de Cupuaçu - 10l",
-        "cremeMorango10"        => $name = "Creme de Morango - 10l",
-        "cremeNinho10"          => $name = "Creme de Ninho - 10l",
-        "cremeMaracuja10"       => $name = "Creme de Maracujá - 10l",
-        "acaiZero10"            => $name = "Caixa de Açaí Zero - 10l",
-        "acaiNinho1"            => $name = "Açaí c/ Ninho - 1l",
-        "acaiNinho250"          => $name = "Açaí c/ Ninho - 250ml",
-        "morango1"              => $name = "Morango Congelado - 1kg",
-        "leiteEmPo1"            => $name = "Leite em Pó - 1 kg",
-        "granola1.5"            => $name = "Granola Tia Sônia<sup>&copy</sup> - 1.5kg",
-        "granola1"              => $name = "Granola Genérica - 1kg",
-        "pacoca150"             => $name = "Caixa de Paçoca - 150 unidades",
-        "farofaPacoca1"         => $name = "Farofa de Paçoca - 1kg",
-        "amendoimTriturado1"    => $name = "Amendoim Triturado - 1kg",
-        "ovomaltine1"           => $name = "Ovomaltine<sup>&copy</sup> - 750g",
-        "gotaChocolate1"        => $name = "Gotas de Chocolate - 1kg",
-        "chocoball1"            => $name = "Chocoball - 1kg",
-        "jujuba500"             => $name = "Jujuba - 500g",
-        "disquete1"             => $name = "Disqueti - 1kg",
-        "saborazziChocomalt"    => $name = "Creme Chocomaltine - 5kg ",
-        "saborazziCocada"       => $name = "Creme Cocada Cremosa - 5kg ",
-        "saborazziCookies"      => $name = "Creme Cookies Brancos - 5kg ",
-        "saborazziAvelaP"       => $name = "Creme Avelã <em>Premium</em> - 5kg ",
-        "saborazziAvelaT"       => $name = "Creme Avelã <em>Tradicional</em> - 5kg ",
-        "saborazziLeitinho"     => $name = "Creme Leitinho - 5kg ",
-        "saborazziPacoca"       => $name = "Creme Paçoca Cremosa  - 5kg",
-        "saborazziSkimoL"       => $name = "Creme Skimo ao Leite - 5kg",
-        "saborazziSkimoB"       => $name = "Creme Skimo  Branco - 5kg",
-        "saborazziWafer"        => $name = "Creme Wafer Cremoso - 5kg",
-        "polpaAbac"             => $name = "Polpa de Abacaxi - Unidade",
-        "polpaAbacHort"         => $name = "Polpa de Abacaxi c/Hortelã - Unidade",
-        "polpaAcai"             => $name = "Polpa de Açaí - Unidade",
-        "polpaAcrl"             => $name = "Polpa de Acerola - Unidade",
-        "polpaAcrlMamao"        => $name = "Polpa de Acerola c/Mamão - Unidade",
-        "polpaCacau"            => $name = "Polpa de Cacau - Unidade",
-        "polpaCaja"             => $name = "Polpa de Caja - Unidade",
-        "polpaCaju"             => $name = "Polpa de Caju - Unidade",
-        "polpaCupuacu"          => $name = "Polpa de Cupuaçú - Unidade",
-        "polpaGoiaba"           => $name = "Polpa de Goiaba - Unidade",
-        "polpaGraviola"         => $name = "Polpa de Graviola - Unidade",
-        "polpaMamao"            => $name = "Polpa de Mamão - Unidade",
-        "polpaMamaoMrcj"        => $name = "Polpa de Mamão c/ Maracujá - Unidade",
-        "polpaManga"            => $name = "Polpa de Manga - Unidade",
-        "polpaMangaba"          => $name = "Polpa de Mangaba - Unidade",
-        "polpaMaracuja"         => $name = "Polpa de Maracujá - Unidade",
-        "polpaMorango"          => $name = "Polpa de Morango - Unidade",
-        "polpaPitanga"          => $name = "Polpa de Pitanga - Unidade",
-        "polpaTangerina"        => $name = "Polpa de Tangerina - Unidade",
-        "polpaUmbu"             => $name = "Polpa de Umbu - Unidade",
-        "polpaUva"              => $name = "Polpa de Uva - Unidade",
-        default                 => $name = "Produto Desconhecido",
+function matchDisplayNames($name){ // Products names that the user see
+    return match($name){
+        // Açaí
+        "acaiT10"               => "Caixa de Açaí - 10l",
+        "acaiT5"                => "Caixa de Açaí - 5l",
+        "acaiT1"                => "Caixa de Açaí - 1l",
+        "acaiZero10"            => "Caixa de Açaí Zero - 10l",
+        "acaiNinho1"            => "Açaí c/ Ninho - 1l",
+        "acaiNinho250"          => "Açaí c/ Ninho - 250ml",
 
+        // Cremes frutados
+        "cremeCupuacu10"        => "Creme de Cupuaçu - 10l",
+        "cremeMorango10"        => "Creme de Morango - 10l",
+        "cremeNinho10"          => "Creme de Ninho - 10l",
+        "cremeMaracuja10"       => "Creme de Maracujá - 10l",
+
+        // Outros produtos
+        "colher200"             => "Colher Longa P/Açaí - 200 Unidades",
+        "colher500"             => "Colher Reforçada P/Açaí - 500 Unidades",
+        "colher800"             => "Colher P/Sorvete - 800 unidades",
+        "morango1"              => "Morango Congelado - 1kg",
+        "leiteEmPo1"            => "Leite em Pó - 1 kg",
+        "granola1.5"            => "Granola Tia Sônia<sup>&copy</sup> - 1.5kg",
+        "granola1"              => "Granola Genérica - 1kg",
+        "pacoca150"             => "Caixa de Paçoca - 150 unidades",
+        "farofaPacoca1"         => "Farofa de Paçoca - 1kg",
+        "amendoimTriturado1"    => "Amendoim Triturado - 1kg",
+        "ovomaltine1"           => "Ovomaltine<sup>&copy</sup> - 750g",
+        "gotaChocolate1"        => "Gotas de Chocolate - 1kg",
+        "chocoball1"            => "Chocoball - 1kg",
+        "jujuba500"             => "Jujuba - 500g",
+        "disquete1"             => "Disqueti - 1kg",
+
+        // Cremes Saborazzi
+        "saborazziChocomalt"    => "Creme Chocomaltine - 5kg ",
+        "saborazziCocada"       => "Creme Cocada Cremosa - 5kg ",
+        "saborazziCookies"      => "Creme Cookies Brancos - 5kg ",
+        "saborazziAvelaP"       => "Creme Avelã <em>Premium</em> - 5kg ",
+        "saborazziAvelaT"       => "Creme Avelã <em>Tradicional</em> - 5kg ",
+        "saborazziLeitinho"     => "Creme Leitinho - 5kg ",
+        "saborazziPacoca"       => "Creme Paçoca Cremosa  - 5kg",
+        "saborazziSkimoL"       => "Creme Skimo ao Leite - 5kg",
+        "saborazziSkimoB"       => "Creme Skimo  Branco - 5kg",
+        "saborazziWafer"        => "Creme Wafer Cremoso - 5kg",
+
+        // Polpas
+        "polpaAbac"             => "Polpa de Abacaxi - Unidade",
+        "polpaAbacHort"         => "Polpa de Abacaxi c/Hortelã - Unidade",
+        "polpaAcai"             => "Polpa de Açaí - Unidade",
+        "polpaAcrl"             => "Polpa de Acerola - Unidade",
+        "polpaAcrlMamao"        => "Polpa de Acerola c/Mamão - Unidade",
+        "polpaCacau"            => "Polpa de Cacau - Unidade",
+        "polpaCaja"             => "Polpa de Caja - Unidade",
+        "polpaCaju"             => "Polpa de Caju - Unidade",
+        "polpaCupuacu"          => "Polpa de Cupuaçú - Unidade",
+        "polpaGoiaba"           => "Polpa de Goiaba - Unidade",
+        "polpaGraviola"         => "Polpa de Graviola - Unidade",
+        "polpaMamao"            => "Polpa de Mamão - Unidade",
+        "polpaMamaoMrcj"        => "Polpa de Mamão c/ Maracujá - Unidade",
+        "polpaManga"            => "Polpa de Manga - Unidade",
+        "polpaMangaba"          => "Polpa de Mangaba - Unidade",
+        "polpaMaracuja"         => "Polpa de Maracujá - Unidade",
+        "polpaMorango"          => "Polpa de Morango - Unidade",
+        "polpaPitanga"          => "Polpa de Pitanga - Unidade",
+        "polpaTangerina"        => "Polpa de Tangerina - Unidade",
+        "polpaUmbu"             => "Polpa de Umbu - Unidade",
+        "polpaUva"              => "Polpa de Uva - Unidade",
+
+        // Default
+        default                 => "Produto Desconhecido",
+        
     };
-
-    return $name;
 
 }
 
-function matchNamesAlt($name){
-    match($name){
-        "acaiT10"               => $name = "Caixa de Açaí",
-        "acaiT5"                => $name = "Caixa de Açaí",
-        "acaiT1"                => $name = "Caixa de Açaí",
-        "colher200"             => $name = "Colheres p/ Açaí e Sorvete",
-        "colher500"             => $name = "Colheres p/ Açaí e Sorvete",
-        "colher800"             => $name = "Colheres p/ Açaí e Sorvete",
-        "cremeCupuacu10"        => $name = "Cremes Frutados - 10l",
-        "cremeMorango10"        => $name = "Cremes Frutados - 10l",
-        "cremeNinho10"          => $name = "Cremes Frutados - 10l",
-        "cremeMaracuja10"       => $name = "Cremes Frutados - 10l",
-        "acaiZero10"            => $name = "Açaí Zero - 10l",
-        "acaiNinho1"            => $name = "Açaí c/ Ninho",
-        "acaiNinho250"          => $name = "Açaí c/ Ninho",
-        "morango1"              => $name = "Morango Congelado - 1 kg",
-        "leiteEmPo1"            => $name = "Leite em Pó - 1 kg",
-        "granola1.5"            => $name = "Granola Tia Sônia<sup>&copy</sup> - 1.5 kg",
-        "granola1"              => $name = "Granola Genérica - 1 kg",
-        "pacoca150"             => $name = "Caixa de Paçoca - 150 unidades",
-        "farofaPacoca1"         => $name = "Farofa de Paçoca - 1 kg",
-        "amendoimTriturado1"    => $name = "Amendoim Triturado - 1 kg",
-        "ovomaltine1"           => $name = "Ovomaltine<sup>&copy</sup> - 750 g",
-        "gotaChocolate1"        => $name = "Gotas de Chocolate - 1 kg",
-        "chocoball1"            => $name = "Chocoball - 1 kg",
-        "jujuba500"             => $name = "Jujuba - 500 g",
-        "disquete1"             => $name = "Disqueti - 1 kg",
-        "saborazziChocomalt"    => $name = "Cremes Saborazzi<sup>&copy</sup> - 5kg ",
-        "saborazziCocada"       => $name = "Cremes Saborazzi<sup>&copy</sup> - 5kg ",
-        "saborazziCookies"      => $name = "Cremes Saborazzi<sup>&copy</sup> - 5kg ",
-        "saborazziAvelaP"       => $name = "Cremes Saborazzi<sup>&copy</sup> - 5kg ",
-        "saborazziAvelaT"       => $name = "Cremes Saborazzi<sup>&copy</sup> - 5kg ",
-        "saborazziLeitinho"     => $name = "Cremes Saborazzi<sup>&copy</sup> - 5kg ",
-        "saborazziPacoca"       => $name = "Cremes Saborazzi<sup>&copy</sup>  - 5kg",
-        "saborazziSkimoL"       => $name = "Cremes Saborazzi<sup>&copy</sup> - 5kg",
-        "saborazziSkimoB"       => $name = "Cremes Saborazzi<sup>&copy</sup> - 5kg",
-        "saborazziWafer"        => $name = "Cremes Saborazzi<sup>&copy</sup> - 5kg",
-        "polpaAbac"             => $name = "Polpas de Frutas - Unidade",
-        "polpaAbacHort"         => $name = "Polpas de Frutas - Unidade",
-        "polpaAcai"             => $name = "Polpas de Frutas - Unidade",
-        "polpaAcrl"             => $name = "Polpas de Frutas - Unidade",
-        "polpaAcrlMamao"        => $name = "Polpas de Frutas - Unidade",
-        "polpaCacau"            => $name = "Polpas de Frutas - Unidade",
-        "polpaCaja"             => $name = "Polpas de Frutas - Unidade",
-        "polpaCaju"             => $name = "Polpas de Frutas - Unidade",
-        "polpaCupuacu"          => $name = "Polpas de Frutas - Unidade",
-        "polpaGoiaba"           => $name = "Polpas de Frutas - Unidade",
-        "polpaGraviola"         => $name = "Polpas de Frutas - Unidade",
-        "polpaMamao"            => $name = "Polpas de Frutas - Unidade",
-        "polpaMamaoMrcj"        => $name = "Polpas de Frutas - Unidade",
-        "polpaManga"            => $name = "Polpas de Frutas - Unidade",
-        "polpaMangaba"          => $name = "Polpas de Frutas - Unidade",
-        "polpaMaracuja"         => $name = "Polpas de Frutas - Unidade",
-        "polpaMorango"          => $name = "Polpas de Frutas - Unidade",
-        "polpaPitanga"          => $name = "Polpas de Frutas - Unidade",
-        "polpaTangerina"        => $name = "Polpas de Frutas - Unidade",
-        "polpaUmbu"             => $name = "Polpas de Frutas - Unidade",
-        "polpaUva"              => $name = "Polpas de Frutas - Unidade",
-        default                 => $name = "Produto Desconhecido",
+function matchDisplayNamesAlt($name){ // Products names that the user see
+    return match($name){
+        // Açaí
+        "acaiT10", "acaiT5", "acaiT1"        => "Caixa de Açaí",
+        "acaiZero10"                         => "Açaí Zero - 10l",
+        "acaiNinho1", "acaiNinho250"         => "Açaí c/ Ninho",
 
+        // Utensílios
+        "colher200", "colher500", "colher800"=> "Colheres p/ Açaí e Sorvete",
+
+        // Cremes frutados
+        "cremeCupuacu10", "cremeMorango10",
+        "cremeNinho10", "cremeMaracuja10"    => "Cremes Frutados - 10l",
+
+        // Outros produtos
+        "morango1"                           => "Morango Congelado - 1 kg",
+        "leiteEmPo1"                         => "Leite em Pó - 1 kg",
+        "granola1.5"                         => "Granola Tia Sônia<sup>&copy</sup> - 1.5 kg",
+        "granola1"                           => "Granola Genérica - 1 kg",
+        "pacoca150"                          => "Caixa de Paçoca - 150 unidades",
+        "farofaPacoca1"                      => "Farofa de Paçoca - 1 kg",
+        "amendoimTriturado1"                 => "Amendoim Triturado - 1 kg",
+        "ovomaltine1"                        => "Ovomaltine<sup>&copy</sup> - 750 g",
+        "gotaChocolate1"                     => "Gotas de Chocolate - 1 kg",
+        "chocoball1"                         => "Chocoball - 1 kg",
+        "jujuba500"                          => "Jujuba - 500 g",
+        "disquete1"                          => "Disqueti - 1 kg",
+
+        // Cremes Saborazzi
+        "saborazziChocomalt", "saborazziCocada", "saborazziCookies",
+        "saborazziAvelaP", "saborazziAvelaT", "saborazziLeitinho",
+        "saborazziPacoca", "saborazziSkimoL", "saborazziSkimoB",
+        "saborazziWafer"                     => "Cremes Saborazzi<sup>&copy</sup> - 5kg",
+
+        // Polpas
+        "polpaAbac", "polpaAbacHort", "polpaAcai", "polpaAcrl", "polpaAcrlMamao",
+        "polpaCacau", "polpaCaja", "polpaCaju", "polpaCupuacu", "polpaGoiaba",
+        "polpaGraviola", "polpaMamao", "polpaMamaoMrcj", "polpaManga",
+        "polpaMangaba", "polpaMaracuja", "polpaMorango", "polpaPitanga",
+        "polpaTangerina", "polpaUmbu", "polpaUva" => "Polpas de Frutas - Unidade",
+
+        // Default
+        default                               => "Produto Desconhecido",
     };
-    return $name;
 
 }
 
-function matchProductLinkName($name){
-    match($name){
-        "acaiT10"               => $name = "caixaAcai",
-        "acaiT5"                => $name = "caixaAcai",
-        "acaiT1"                => $name = "caixaAcai",
-        "colher200"             => $name = "colheres",
-        "colher500"             => $name = "colheres",
-        "colher800"             => $name = "colheres",
-        "cremeCupuacu10"        => $name = "cremesFrutados",
-        "cremeMorango10"        => $name = "cremesFrutados",
-        "cremeNinho10"          => $name = "cremesFrutados",
-        "cremeMaracuja10"       => $name = "cremesFrutados",
-        "acaiZero10"            => $name = "acaiZero",
-        "acaiNinho1"            => $name = "AcaiNinho",
-        "acaiNinho250"          => $name = "AcaiNinho",
-        "morango1"              => $name = "morango",
-        "leiteEmPo1"            => $name = "leiteEmPo",
-        "granola1.5"            => $name = "granolaTiaSonia",
-        "granola1"              => $name = "GranolaTradicional",
-        "pacoca150"             => $name = "pacoca",
-        "farofaPacoca1"         => $name = "farofaPacoca",
-        "amendoimTriturado1"    => $name = "amendoim",
-        "ovomaltine1"           => $name = "ovomaltine",
-        "gotaChocolate1"        => $name = "gotasChocolate",
-        "chocoball1"            => $name = "chocoball",
-        "jujuba500"             => $name = "jujuba",
-        "disquete1"             => $name = "disqueti",
-        "saborazziChocomalt"    => $name = "cremesSaborazzi",
-        "saborazziCocada"       => $name = "cremesSaborazzi",
-        "saborazziCookies"      => $name = "cremesSaborazzi",
-        "saborazziAvelaP"       => $name = "cremesSaborazzi",
-        "saborazziAvelaT"       => $name = "cremesSaborazzi",
-        "saborazziLeitinho"     => $name = "cremesSaborazzi",
-        "saborazziPacoca"       => $name = "cremesSaborazzi",
-        "saborazziSkimoL"       => $name = "cremesSaborazzi",
-        "saborazziSkimoB"       => $name = "cremesSaborazzi",
-        "saborazziWafer"        => $name = "cremesSaborazzi",
-        "polpaAbac"             => $name = "polpas",
-        "polpaAbacHort"         => $name = "polpas",
-        "polpaAcai"             => $name = "polpas",
-        "polpaAcrl"             => $name = "polpas",
-        "polpaAcrlMamao"        => $name = "polpas",
-        "polpaCacau"            => $name = "polpas",
-        "polpaCaja"             => $name = "polpas",
-        "polpaCaju"             => $name = "polpas",
-        "polpaCupuacu"          => $name = "polpas",
-        "polpaGoiaba"           => $name = "polpas",
-        "polpaGraviola"         => $name = "polpas",
-        "polpaMamao"            => $name = "polpas",
-        "polpaMamaoMrcj"        => $name = "polpas",
-        "polpaManga"            => $name = "polpas",
-        "polpaMangaba"          => $name = "polpas",
-        "polpaMaracuja"         => $name = "polpas",
-        "polpaMorango"          => $name = "polpas",
-        "polpaPitanga"          => $name = "polpas",
-        "polpaTangerina"        => $name = "polpas",
-        "polpaUmbu"             => $name = "polpas",
-        "polpaUva"              => $name = "polpas",
-        default                 => $name = "desconhecido",
+function matchProductName($name){ // Products names for the searching process
+    return match($name){
+        "acaiT10", "acaiT5", "acaiT1"                => "caixaAcai",
+        "acaiZero10"                                 => "acaiZero10",
+        "acaiNinho1", "acaiNinho250"                 => "acaiNinho",
+        
+        "colher200", "colher500", "colher800"        => "colheres",
+        
+        "cremeCupuacu10", "cremeMorango10",
+        "cremeNinho10", "cremeMaracuja10"            => "cremesFrutados",
 
+        "morango1"                                   => "morango1",
+        "leiteEmPo1"                                 => "leiteEmPo1",
+        "granola1.5"                                 => "granola1.5",
+        "granola1"                                   => "granola1",
+        "pacoca150"                                  => "pacoca150",
+        "farofaPacoca1"                              => "farofaPacoca1",
+        "amendoimTriturado1"                         => "amendoimTriturado1",
+        "ovomaltine1"                                => "ovomaltine1",
+        "gotaChocolate1"                             => "gotaChocolate1",
+        "chocoball1"                                 => "chocoball1",
+        "jujuba500"                                  => "jujuba500",
+        "disquete1"                                  => "disquete1",
+
+        "saborazziChocomalt", "saborazziCocada", "saborazziCookies",
+        "saborazziAvelaP", "saborazziAvelaT", "saborazziLeitinho",
+        "saborazziPacoca", "saborazziSkimoL", "saborazziSkimoB",
+        "saborazziWafer"                             => "cremesSaborazzi",
+
+        "polpaAbac", "polpaAbacHort", "polpaAcai", "polpaAcrl", "polpaAcrlMamao",
+        "polpaCacau", "polpaCaja", "polpaCaju", "polpaCupuacu", "polpaGoiaba",
+        "polpaGraviola", "polpaMamao", "polpaMamaoMrcj", "polpaManga",
+        "polpaMangaba", "polpaMaracuja", "polpaMorango", "polpaPitanga",
+        "polpaTangerina", "polpaUmbu", "polpaUva"    => "polpas",
+
+        default                                      => "desconhecido",
     };
-    return $name;
+}
+
+function matchProductLink($name){ // Page Name for each product
+    return match($name){
+        "acaiT10", "acaiT5", "acaiT1"                => "caixaAcai",
+        "acaiZero10"                                 => "acaiZero",
+        "acaiNinho1", "acaiNinho250"                 => "acaiNinho",
+        
+        "colher200", "colher500", "colher800"        => "colheres",
+        
+        "cremeCupuacu10", "cremeMorango10",
+        "cremeNinho10", "cremeMaracuja10"            => "cremesFrutados",
+
+        "morango1"                                   => "morango",
+        "leiteEmPo1"                                 => "leiteEmPo",
+        "granola1.5"                                 => "granolaTiaSonia",
+        "granola1"                                   => "granolaTradicional",
+        "pacoca150"                                  => "pacoca",
+        "farofaPacoca1"                              => "farofaPacoca",
+        "amendoimTriturado1"                         => "amendoim",
+        "ovomaltine1"                                => "ovomaltine",
+        "gotaChocolate1"                             => "gotaChocolate",
+        "chocoball1"                                 => "chocoball",
+        "jujuba500"                                  => "jujuba",
+        "disquete1"                                  => "confetes",
+
+        "saborazziChocomalt", "saborazziCocada", "saborazziCookies",
+        "saborazziAvelaP", "saborazziAvelaT", "saborazziLeitinho",
+        "saborazziPacoca", "saborazziSkimoL", "saborazziSkimoB",
+        "saborazziWafer"                             => "cremesSaborazzi",
+
+        "polpaAbac", "polpaAbacHort", "polpaAcai", "polpaAcrl", "polpaAcrlMamao",
+        "polpaCacau", "polpaCaja", "polpaCaju", "polpaCupuacu", "polpaGoiaba",
+        "polpaGraviola", "polpaMamao", "polpaMamaoMrcj", "polpaManga",
+        "polpaMangaba", "polpaMaracuja", "polpaMorango", "polpaPitanga",
+        "polpaTangerina", "polpaUmbu", "polpaUva"    => "polpas",
+
+        default                                      => "desconhecido",
+    };
 
 }
 
@@ -403,7 +411,7 @@ function verifyOrders(){ // remover pedidos que não foram confirmados a mais de
         SELECT co.idOrder 
         FROM client_order AS co
         LEFT JOIN product_order AS po ON co.idOrder = po.idOrder
-        WHERE co.orderDate < (NOW() - INTERVAL 1 DAY)
+        WHERE co.orderDate < (NOW() - INTERVAL 2 DAY)
         AND po.idOrder IS NULL
     ");
 

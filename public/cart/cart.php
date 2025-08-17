@@ -8,8 +8,6 @@
     
     //                           BIBLIOTECA PLANILHA
 
-    //use PhpOffice\PhpSpreadsheet\Spreadsheet;
-    //use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
     use PhpOffice\PhpSpreadsheet\IOFactory;
 
     //                           BIBLIOTECA PLANILHA
@@ -20,33 +18,33 @@
 
     }else{
         $query = $mysqli->prepare("
-            SELECT *, SUM(totPrice)
+            SELECT *
             FROM product_order
             WHERE idOrder = ?
-            GROUP BY idProd; 
+            GROUP BY idProd;
         ");
-
+        
         $query->bind_param("i", $_SESSION["idOrder"]);
-
+        
         if($query->execute()){
             $result = $query->get_result();
             $amount  = $result->num_rows;
+        }
 
-            switch($amount){
-                case 0:
-                    break;
-                
-                default:
-                    $subtotalPrice = $mysqli->prepare("SELECT SUM(totPrice) as total FROM product_order WHERE idOrder = ?");
-                    $subtotalPrice->bind_param("i", $_SESSION["idOrder"]);
-                    $subtotalPrice->execute();
-                    $resultPrice = $subtotalPrice->get_result();
-                    $resultPrice = $resultPrice->fetch_assoc();
+        function getCartTotal($clientOrder){
+            global $mysqli;
 
-                    $_SESSION["subTotal"] = $resultPrice["total"];
-                    //$_SESSION["totalPrice"] = $_SESSION["subTotal"] + 0.00; // frete
-                
-                    break;
+            $stmt = $mysqli->prepare("
+                SELECT SUM(totPrice) AS totalPrice
+                FROM product_order 
+                WHERE idOrder = ?
+            ");
+            $stmt->bind_param("i", $clientOrder);
+            if($stmt->execute()){
+                $result = $stmt->get_result();
+                $price = $result->fetch_assoc();
+                echo numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $price["totalPrice"] , "BRL");
+
             }
         }
 
@@ -80,26 +78,28 @@
                                 $prodResult = $rescueProd->get_result();
                                 $prodData = $prodResult->fetch_assoc();
 
-                                $prodName = matchNames($prodData["nameProd"]);
+                                $prodName = matchDisplayNames($prodData["nameProd"]);
 
                                 echo "
                                     <li>
                                     <div style=\"position: relative; display: inline-block;\">
-                                        <div class=\"item-amount\">" . $row["amount"] ."</div>
+                                        <div class=\"item-amount\"><abbr title=\"Quantidade de Itens Adicionados\">" . $row["amount"] ."</abbr></div>
                                         <img src=" . $prodData["imageURL"] .  ">
                                     </div>
                                     <ul>
                                         <li><strong>". $prodName . "</strong></li>
                                         <li> Quantidade: ". $row["amount"] . "</li>
-                                        <li class=\"price\"> Total: " 
+                                        <li class=\"price\"> Total: "
                                         .numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $totalPrice  , "BRL") ." 
                                         </li>
                                         
                                     </ul>
-                                    <a href=\"\">
-                                        <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"size-6\">
-                                            <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0\" />
-                                        </svg>
+                                    <a href=\"removeProduct.php?name=" . $prodData["nameProd"] . "\">
+                                        <abbr title=\"Remover Item do Carrinho\">
+                                            <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"size-6\">
+                                                <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0\" />
+                                            </svg>
+                                        </abbr>
                                     </a>
                                 </li>
                                 ";
@@ -113,7 +113,7 @@
             }
         }
 
-        if (isset($_GET["orderConfirmed"]) AND isset($_SESSION["subTotal"])){ // confirmar pedido
+        if (isset($_GET["orderConfirmed"])){ // confirmar pedido
             $arquivo = 'planilha.xlsx';
             $spreadsheet = IOFactory::load($arquivo);
             $worksheet = $spreadsheet->getActiveSheet();
@@ -153,7 +153,7 @@
             $worksheet->setCellValue("D{$lastLine}", $_SESSION["clientNumber"]);
             $worksheet->setCellValue("E{$lastLine}", $allProd);
             $worksheet->setCellValue("F{$lastLine}", "R$ 00,00");
-            $worksheet->setCellValue("G{$lastLine}", $_SESSION["subTotal"]);
+            $worksheet->setCellValue("G{$lastLine}", getCartTotal($_SESSION["idOrder"]));
 
             $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
             $writer->save($arquivo);
@@ -190,12 +190,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap" rel="stylesheet">
 
-    <link rel="shortcut icon" href="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750080377/iconeAcai_mj7dqy.ico" type="image/x-icon">
+    <?php faviconOut(); ?>
 
     <link rel="stylesheet" href="../styles/general-style.css">
     <link rel="stylesheet" href="../styles/cart.css">
 
-    <title>Açaí Amazônia Ipatinga - Carrinho</title>
+    <title>Açaí e Polpas Amazônia - Carrinho</title>
 </head>
 <body>
 
@@ -271,13 +271,7 @@
                         <ul>
                             <li>Subtotal:</li>
                             <?php 
-                                if(isset($_SESSION["subTotal"])){
-                                    echo 
-                                    numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $_SESSION["subTotal"]  , "BRL");
-                                }else{
-                                    echo "R$ 00.00";
-                                }
-                            
+                                getCartTotal($_SESSION["idOrder"]);
                             ?>
                         </ul>
                     </li>
@@ -291,13 +285,7 @@
                         <ul style="color: var(--secondary-clr); font-weight: bold;">
                             <li>Total:</li>
                             <?php 
-                                if(isset($_SESSION["subTotal"])){
-                                    echo 
-                                    numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $_SESSION["subTotal"]  , "BRL");
-                                }else{
-                                    echo "R$ 00.00";
-                                }
-                            
+                                getCartTotal($_SESSION["idOrder"]);
                             ?>
                         </ul>
                     </li>
@@ -385,13 +373,7 @@
                             <ul>
                                 <li>Subtotal:</li>
                                 <?php 
-                                    if(isset($_SESSION["subTotal"])){
-                                        echo 
-                                        numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $_SESSION["subTotal"]  , "BRL");
-                                    }else{
-                                        echo "R$ 00.00";
-                                    }
-                                
+                                    getCartTotal($_SESSION["idOrder"]);
                                 ?>
                             </ul>
                         </li>
@@ -405,12 +387,7 @@
                             <ul style="color: var(--secondary-clr); font-weight: bold;">
                                 <li>Total:</li>
                                 <?php 
-                                    if(isset($_SESSION["subTotal"])){
-                                        echo 
-                                        numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $_SESSION["subTotal"]  , "BRL");
-                                    }else{
-                                        echo "R$ 00.00";
-                                    }
+                                    getCartTotal($_SESSION["idOrder"]);
                                 ?>
                             </ul>
                         </li>
