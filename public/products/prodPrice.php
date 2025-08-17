@@ -25,7 +25,7 @@ function add2Cart($prodName, $amount){
             "polpaAcrl", "polpaAcrlMamao", "polpaCacau", "polpaCaja", "polpaCaju", "polpaCupuacu",
             "polpaGoiaba", "polpaGraviola", "polpaManga", "polpaMangaba", "polpaMaracuja", "polpaMorango",
             "polpaUva", "morango1", "leiteEmPo1", "granola1.5", "granola1", "pacoca150", "farofaPacoca1", 
-            "amendoimTriturado1","ovomaltine1", "gotaChocolate1", "chocoball1", "jujuba500", "disquete1"
+            "amendoimTriturado1","ovomaltine1", "gotasChocolate1", "chocoball1", "jujuba500", "confete1"
         ];
 
         if(in_array($prodName, $allowedNames)){
@@ -52,7 +52,7 @@ function add2Cart($prodName, $amount){
             $query->bind_param("iiidd", $_SESSION["idOrder"], $idProd, $amount, $result['price'], $totalPrice);
 
             if($query->execute()){
-                $urlName = matchProductLinkName($prodName);
+                $urlName = matchProductLink($prodName);
                 header("Location: $urlName.php?prodAdd=1");
 
             }
@@ -74,7 +74,7 @@ function returnPrice($nameProd){
         "polpaAcrl", "polpaAcrlMamao", "polpaCacau", "polpaCaja", "polpaCaju", "polpaCupuacu",
         "polpaGoiaba", "polpaGraviola", "polpaManga", "polpaMangaba", "polpaMaracuja", "polpaMorango",
         "polpaUva", "morango1", "leiteEmPo1", "granola1.5", "granola1", "pacoca150", "farofaPacoca1",
-        "amendoimTriturado1","ovomaltine1", "gotaChocolate1", "chocoball1", "jujuba500","disquete1"
+        "amendoimTriturado1","ovomaltine1", "gotasChocolate1", "chocoball1", "jujuba500","confete1"
     ];
 
     if(in_array($nameProd, $allowedNames)){ // verificar se o nome para pesquisa é um dos produtos cadastrados

@@ -30,7 +30,7 @@
                     $result = $getName->get_result();
                     $name = $result->fetch_row();
 
-                    getProductByName(matchProductLinkName($name[0]), "index");
+                    getProductByName(matchProductName($name[0]), "index");
 
                     $getName->close();
                 }else{

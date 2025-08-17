@@ -16,8 +16,8 @@ function getProductByName($prodName, $page){
     [
         "caixaAcai", "colheres", "cremesFrutados", "acaiZero10", "acaiNinho", 
         "morango1", "leiteEmPo1", "granola1.5", "granola1", "pacoca150", 
-        "farofaPacoca1", "amendoimTriturado1", "ovomaltine1", "gotaChocolate1", "chocoball1", 
-        "jujuba500", "disquete1", "cremesSaborazzi", "polpas"
+        "farofaPacoca1", "amendoimTriturado1", "ovomaltine1", "gotasChocolate1", "chocoball1", 
+        "jujuba500", "confete1", "cremesSaborazzi", "polpas"
     ];
 
     if(in_array($prodName, $allowedNames)){
@@ -206,10 +206,10 @@ function matchDisplayNames($name){ // Products names that the user see
         "farofaPacoca1"         => "Farofa de Paçoca - 1kg",
         "amendoimTriturado1"    => "Amendoim Triturado - 1kg",
         "ovomaltine1"           => "Ovomaltine<sup>&copy</sup> - 750g",
-        "gotaChocolate1"        => "Gotas de Chocolate - 1kg",
+        "gotasChocolate1"       => "Gotas de Chocolate - 1kg",
         "chocoball1"            => "Chocoball - 1kg",
         "jujuba500"             => "Jujuba - 500g",
-        "disquete1"             => "Disqueti - 1kg",
+        "confete1"              => "Confetes Coloridos - 1kg",
 
         // Cremes Saborazzi
         "saborazziChocomalt"    => "Creme Chocomaltine - 5kg ",
@@ -256,100 +256,117 @@ function matchDisplayNames($name){ // Products names that the user see
 function matchDisplayNamesAlt($name){ // Products names that the user see
     return match($name){
         // Açaí
-        "acaiT10", "acaiT5", "acaiT1"        => "Caixa de Açaí",
-        "acaiZero10"                         => "Açaí Zero - 10l",
-        "acaiNinho1", "acaiNinho250"         => "Açaí c/ Ninho",
+        "acaiT10", "acaiT5", "acaiT1"                       => "Caixa de Açaí",
+        "acaiZero10"                                        => "Açaí Zero - 10l",
+        "acaiNinho1", "acaiNinho250"                        => "Açaí c/ Ninho",
 
         // Utensílios
-        "colher200", "colher500", "colher800"=> "Colheres p/ Açaí e Sorvete",
+        "colher200", "colher500", "colher800"               => "Colheres p/ Açaí e Sorvete",
 
         // Cremes frutados
         "cremeCupuacu10", "cremeMorango10",
-        "cremeNinho10", "cremeMaracuja10"    => "Cremes Frutados - 10l",
+        "cremeNinho10", "cremeMaracuja10"                   => "Cremes Frutados - 10l",
 
         // Outros produtos
-        "morango1"                           => "Morango Congelado - 1 kg",
-        "leiteEmPo1"                         => "Leite em Pó - 1 kg",
-        "granola1.5"                         => "Granola Tia Sônia<sup>&copy</sup> - 1.5 kg",
-        "granola1"                           => "Granola Genérica - 1 kg",
-        "pacoca150"                          => "Caixa de Paçoca - 150 unidades",
-        "farofaPacoca1"                      => "Farofa de Paçoca - 1 kg",
-        "amendoimTriturado1"                 => "Amendoim Triturado - 1 kg",
-        "ovomaltine1"                        => "Ovomaltine<sup>&copy</sup> - 750 g",
-        "gotaChocolate1"                     => "Gotas de Chocolate - 1 kg",
-        "chocoball1"                         => "Chocoball - 1 kg",
-        "jujuba500"                          => "Jujuba - 500 g",
-        "disquete1"                          => "Disqueti - 1 kg",
+        "morango1"                                          => "Morango Congelado - 1 kg",
+        "leiteEmPo1"                                        => "Leite em Pó - 1 kg",
+        "granola1.5"                                        => "Granola Tia Sônia<sup>&copy</sup> - 1.5 kg",
+        "granola1"                                          => "Granola Genérica - 1 kg",
+        "pacoca150"                                         => "Caixa de Paçoca - 150 unidades",
+        "farofaPacoca1"                                     => "Farofa de Paçoca - 1 kg",
+        "amendoimTriturado1"                                => "Amendoim Triturado - 1 kg",
+        "ovomaltine1"                                       => "Ovomaltine<sup>&copy</sup> - 750 g",
+        "gotasChocolate1"                                   => "Gotas de Chocolate - 1 kg",
+        "chocoball1"                                        => "Chocoball - 1 kg",
+        "jujuba500"                                         => "Jujuba - 500 g",
+        "confete1"                                          => "Confetes - 1 kg",
 
         // Cremes Saborazzi
-        "saborazziChocomalt", "saborazziCocada", "saborazziCookies",
-        "saborazziAvelaP", "saborazziAvelaT", "saborazziLeitinho",
-        "saborazziPacoca", "saborazziSkimoL", "saborazziSkimoB",
-        "saborazziWafer"                     => "Cremes Saborazzi<sup>&copy</sup> - 5kg",
+        "saborazziChocomalt", "saborazziCocada", 
+        "saborazziCookies","saborazziAvelaP", 
+        "saborazziAvelaT", "saborazziLeitinho",
+        "saborazziPacoca", "saborazziSkimoL", 
+        "saborazziSkimoB","saborazziWafer"                  => "Cremes Saborazzi<sup>&copy</sup> - 5kg",
 
         // Polpas
-        "polpaAbac", "polpaAbacHort", "polpaAcai", "polpaAcrl", "polpaAcrlMamao",
-        "polpaCacau", "polpaCaja", "polpaCaju", "polpaCupuacu", "polpaGoiaba",
-        "polpaGraviola", "polpaMamao", "polpaMamaoMrcj", "polpaManga",
-        "polpaMangaba", "polpaMaracuja", "polpaMorango", "polpaPitanga",
-        "polpaTangerina", "polpaUmbu", "polpaUva" => "Polpas de Frutas - Unidade",
+        "polpaAbac", "polpaAbacHort", "polpaAcai", 
+        "polpaAcrl", "polpaAcrlMamao","polpaCacau", 
+        "polpaCaja", "polpaCaju", "polpaCupuacu", 
+        "polpaGoiaba","polpaGraviola", "polpaMamao",
+        "polpaMamaoMrcj", "polpaManga","polpaMangaba", 
+        "polpaMaracuja", "polpaMorango", "polpaPitanga",
+        "polpaTangerina", "polpaUmbu", "polpaUva"           => "Polpas de Frutas - Unidade",
 
         // Default
-        default                               => "Produto Desconhecido",
+        default                                             => "Produto Desconhecido",
     };
-
 }
 
 function matchProductName($name){ // Products names for the searching process
     return match($name){
-        "acaiT10", "acaiT5", "acaiT1"                => "caixaAcai",
-        "acaiZero10"                                 => "acaiZero10",
-        "acaiNinho1", "acaiNinho250"                 => "acaiNinho",
+        // Açaí
+        "acaiT10", "acaiT5", "acaiT1"                   => "caixaAcai",
+        "acaiZero10"                                    => "acaiZero10",
+        "acaiNinho1", "acaiNinho250"                    => "acaiNinho",
         
-        "colher200", "colher500", "colher800"        => "colheres",
+        // Colheres
+        "colher200", "colher500", "colher800"           => "colheres",
         
+        // Cremes Frutados
         "cremeCupuacu10", "cremeMorango10",
-        "cremeNinho10", "cremeMaracuja10"            => "cremesFrutados",
+        "cremeNinho10", "cremeMaracuja10"               => "cremesFrutados",
 
-        "morango1"                                   => "morango1",
-        "leiteEmPo1"                                 => "leiteEmPo1",
-        "granola1.5"                                 => "granola1.5",
-        "granola1"                                   => "granola1",
-        "pacoca150"                                  => "pacoca150",
-        "farofaPacoca1"                              => "farofaPacoca1",
-        "amendoimTriturado1"                         => "amendoimTriturado1",
-        "ovomaltine1"                                => "ovomaltine1",
-        "gotaChocolate1"                             => "gotaChocolate1",
-        "chocoball1"                                 => "chocoball1",
-        "jujuba500"                                  => "jujuba500",
-        "disquete1"                                  => "disquete1",
+        /*
+        "morango1"                                      => "morango1",
+        "leiteEmPo1"                                    => "leiteEmPo1",
+        "granola1.5"                                    => "granola1.5",
+        "granola1"                                      => "granola1",
+        "pacoca150"                                     => "pacoca150",
+        "farofaPacoca1"                                 => "farofaPacoca1",
+        "amendoimTriturado1"                            => "amendoimTriturado1",
+        "ovomaltine1"                                   => "ovomaltine1",
+        "gotasChocolate1"                               => "gotasChocolate1",
+        "chocoball1"                                    => "chocoball1",
+        "jujuba500"                                     => "jujuba500",
+        "confete1"                                      => "confete1",
+        */
 
-        "saborazziChocomalt", "saborazziCocada", "saborazziCookies",
-        "saborazziAvelaP", "saborazziAvelaT", "saborazziLeitinho",
-        "saborazziPacoca", "saborazziSkimoL", "saborazziSkimoB",
-        "saborazziWafer"                             => "cremesSaborazzi",
+        // Cremes Saborazzi
+        "saborazziChocomalt", "saborazziCocada", 
+        "saborazziCookies","saborazziAvelaP", 
+        "saborazziAvelaT", "saborazziLeitinho",
+        "saborazziPacoca", "saborazziSkimoL", 
+        "saborazziSkimoB","saborazziWafer"              => "cremesSaborazzi",
 
-        "polpaAbac", "polpaAbacHort", "polpaAcai", "polpaAcrl", "polpaAcrlMamao",
-        "polpaCacau", "polpaCaja", "polpaCaju", "polpaCupuacu", "polpaGoiaba",
-        "polpaGraviola", "polpaMamao", "polpaMamaoMrcj", "polpaManga",
-        "polpaMangaba", "polpaMaracuja", "polpaMorango", "polpaPitanga",
-        "polpaTangerina", "polpaUmbu", "polpaUva"    => "polpas",
+        // Polpas
+        "polpaAbac", "polpaAbacHort", "polpaAcai", 
+        "polpaAcrl", "polpaAcrlMamao","polpaCacau", 
+        "polpaCaja", "polpaCaju", "polpaCupuacu", 
+        "polpaGoiaba","polpaGraviola", "polpaMamao", 
+        "polpaMamaoMrcj", "polpaManga","polpaMangaba", 
+        "polpaMaracuja", "polpaMorango","polpaPitanga",
+        "polpaTangerina", "polpaUmbu", "polpaUva"       => "polpas",
 
-        default                                      => "desconhecido",
+        // Default
+        default                                         => $name,
     };
 }
 
 function matchProductLink($name){ // Page Name for each product
     return match($name){
+        // Açaí
         "acaiT10", "acaiT5", "acaiT1"                => "caixaAcai",
         "acaiZero10"                                 => "acaiZero",
         "acaiNinho1", "acaiNinho250"                 => "acaiNinho",
         
+        // Colheres
         "colher200", "colher500", "colher800"        => "colheres",
         
+        // Cremes Frutados
         "cremeCupuacu10", "cremeMorango10",
         "cremeNinho10", "cremeMaracuja10"            => "cremesFrutados",
 
+        // Outros Produtos
         "morango1"                                   => "morango",
         "leiteEmPo1"                                 => "leiteEmPo",
         "granola1.5"                                 => "granolaTiaSonia",
@@ -358,22 +375,25 @@ function matchProductLink($name){ // Page Name for each product
         "farofaPacoca1"                              => "farofaPacoca",
         "amendoimTriturado1"                         => "amendoim",
         "ovomaltine1"                                => "ovomaltine",
-        "gotaChocolate1"                             => "gotaChocolate",
+        "gotasChocolate1"                            => "gotasChocolate",
         "chocoball1"                                 => "chocoball",
         "jujuba500"                                  => "jujuba",
-        "disquete1"                                  => "confetes",
+        "confete1"                                   => "confetes",
 
+        // Cremes Saborazzi
         "saborazziChocomalt", "saborazziCocada", "saborazziCookies",
         "saborazziAvelaP", "saborazziAvelaT", "saborazziLeitinho",
         "saborazziPacoca", "saborazziSkimoL", "saborazziSkimoB",
         "saborazziWafer"                             => "cremesSaborazzi",
 
+        // Polpas
         "polpaAbac", "polpaAbacHort", "polpaAcai", "polpaAcrl", "polpaAcrlMamao",
         "polpaCacau", "polpaCaja", "polpaCaju", "polpaCupuacu", "polpaGoiaba",
         "polpaGraviola", "polpaMamao", "polpaMamaoMrcj", "polpaManga",
         "polpaMangaba", "polpaMaracuja", "polpaMorango", "polpaPitanga",
         "polpaTangerina", "polpaUmbu", "polpaUva"    => "polpas",
 
+        // Default
         default                                      => "desconhecido",
     };
 

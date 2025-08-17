@@ -5,12 +5,22 @@
 
     checkSession("all-product");
 
-    function categoryItens($type){
+    function categoryItens($type, $filter){
         global $mysqli;
 
         $allowedTypes = ["Cream", "Additional", "Other"];
         if(in_array($type, $allowedTypes)){
-            $query = $mysqli->prepare("SELECT nameProd FROM product WHERE prodType = ?");
+            $query = $query = $mysqli->prepare("SELECT nameProd FROM product WHERE prodType = ?");
+
+            match($filter){
+                "nameAsc"       => $query = $mysqli->prepare("SELECT nameProd FROM product WHERE prodType = ? ORDER BY nameProd asc"),
+                "nameDesc"      => $query = $mysqli->prepare("SELECT nameProd FROM product WHERE prodType = ? ORDER BY nameProd desc"),
+                "priceAsc"      => $query = $mysqli->prepare("SELECT nameProd FROM product WHERE prodType = ? ORDER BY price asc"),
+                "priceDesc"     => $query = $mysqli->prepare("SELECT nameProd FROM product WHERE prodType = ? ORDER BY price desc"),
+                default         => $query = $mysqli->prepare("SELECT nameProd FROM product WHERE prodType = ?"),
+            };
+
+            //$query = $mysqli->prepare("SELECT nameProd FROM product WHERE prodType = ?");
             $query->bind_param("s", $type);
             
             if($query->execute()){
@@ -28,7 +38,7 @@
                 }
             }
         }
-    }
+    };
 
 ?>
 
@@ -65,6 +75,7 @@
                 <h1>Nossos Produtos</h1>
                 <p>Adicione Produtos ao carrinho para realizar sua compra</p>
                 <p>*Preços podem ser modificados com o tempo</p>
+                <p><em><strong>AVISO:</strong> Até o presente momento, os filtros por ordem alfabética podem não aparecer corretamente,<br>uma vez que os nomes no Banco de Dados se diferem dos reais</em></p>
             </div>
             
             <div class="products-search-div">
@@ -93,16 +104,16 @@
                             <option value="idProd" selected>
                                 Id
                             </option>
-                            <option value="nameAsc">
+                            <option value="nameDesc">
                                 Ordem Alfabética(A-Z)
                             </option>
-                            <option value="nameDesc">
+                            <option value="nameAsc">
                                 Ordem Alfabética(Z-A)
                             </option>
-                            <option value="priceAsc">
+                            <option value="priceDesc">
                                 Maior Preço
                             </option>
-                            <option value="priceDesc">
+                            <option value="priceAsc">
                                 Menor Preço
                             </option>
                         </select>
@@ -125,7 +136,15 @@
             </div>
 
             <ul class="products-list">
-                <?php categoryItens("Cream");?>
+                <?php 
+                    if(isset($_GET["filter"])){
+                        categoryItens("Cream", $_GET["filter"]);
+                    }else{
+                        categoryItens("Cream", "noFilter");
+                    }
+                ?>
+                
+                <?php ?>
             </ul>
 
             <div class="index-title">
@@ -133,7 +152,13 @@
             </div>
 
             <ul class="products-list">
-                <?php categoryItens("Additional");?>            
+                <?php 
+                    if(isset($_GET["filter"])){
+                        categoryItens("Additional", $_GET["filter"]);
+                    }else{
+                        categoryItens("Additional", "noFilter");
+                    }
+                ?>          
             </ul>
 
             <div class="index-title">
@@ -141,7 +166,13 @@
             </div>
 
             <ul class="products-list">
-                <?php categoryItens("Other");?>
+                <?php 
+                    if(isset($_GET["filter"])){
+                        categoryItens("Other", $_GET["filter"]);
+                    }else{
+                        categoryItens("Other", "noFilter");
+                    }
+                ?> 
             </ul>
         </section>
     </main>
