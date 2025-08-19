@@ -125,14 +125,7 @@
                                 <input type="text" name="clientName" id="iclientName" maxlength="30" minlength="8" placeholder="<?php echo $_SESSION['clientName']; ?>" >
                             </div>
                         </div>
-            <!--
-                        <div class="form-item">
-                            <label for="iclientMail">Email: </label>
-                            <div class="form-input">
-                                <input type="email" name="clientMail" id="iclientMail" maxlength="50" placeholder="<?php echo $_SESSION['clientMail']; ?>" >
-                            </div>
-                        </div>
-            -->
+
                         <div class="form-item">
                             <label for="iclientNumber">Telefone de Contato:</label>
                             <div class="form-input">
@@ -174,14 +167,20 @@
                                 <input type="text" name="referencePoint" id="ireferencePoint" maxlength="50" placeholder="<?php echo $_SESSION['referencePoint']; ?>">
                             </div>
                         </div>
-            <!--
-                        <div class="form-item">
-                            <label for="ipassword">Senha: </label>
-                            <div class="form-input">
-                                <input type="password" name="password" id="ipassword" maxlength="30" >
-                            </div>
-                        </div>
-            -->
+
+                        <ul style="display: flex; justify-content: space-between; border: none">
+                            <li style="padding: 1em; background: var(--primary-clr);border-radius: var(--border-radius)">
+                                <a href="changes/newPassword.php" style="color: white;">
+                                    Alterar Senha
+                                </a>
+                            </li>
+                            <li style="padding: 1em; background: var(--primary-clr);border-radius: var(--border-radius)">
+                                <a href="changes/newEmail.php" style="color: white;">
+                                    Alterar Email
+                                </a>
+                            </li>
+                        </ul>
+
                         <button>Editar</button>
                     </form>
                 </section>

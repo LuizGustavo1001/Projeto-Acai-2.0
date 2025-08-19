@@ -97,8 +97,8 @@
     <li>‼️Filtros na Página de Produtos</li>
     <li>✅ Pesquisas na Página de Produtos</li>
     <li>✅ Página de Mudança de Credenciais</li>
-    <li>Página especial para email (enviar email de confirmação)</li>
-    <li>Página especial para Senha (enviar email de confirmação)</li>
+    <li>✅ Página especial para email</li>
+    <li>✅ Página especial para Senha</li>
     <li>✅ Mudanças na Página de logout (enviar p/ pagina certa)</li>
     <li>✅ Página "Esqueceu a Senha"</li>
     <li>Verificação de Existencia de Email e Número de Telefone</li>

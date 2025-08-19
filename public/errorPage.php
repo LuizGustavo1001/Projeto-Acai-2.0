@@ -23,6 +23,11 @@
             <em>Algum erro ocorreu no Sistema Interno, tente novamente mais tarde ou entre em contato com nosso suporte</em>
         </p>
         <a href="index.php" style="margin-top: 2em; text-decoration: underline;">Página Principal</a>
+        <?php 
+            echo var_dump($_POST);
+
+        ?>
+
     </main>
     
 </body>

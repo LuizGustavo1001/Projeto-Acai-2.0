@@ -181,8 +181,11 @@
                         <?php if (isset($errorLogin)) echo $errorLogin; ?>
                         <?php
                             if(isset($_GET["newPassword"])){
-                                echo "<p class=\"successText\">Senha Alterada com sucesso</p>";
+                                echo "<p class=\"successText\">Senha <strong>Alterada com sucesso</strong> <br> Realize seu Login</p>";
+                            }else if(isset($_GET["newEmail"])){
+                                echo "<p class = \"successText\">Email <strong>Alterado com sucesso</strong> <br> Realize seu Login</p>";
                             }
+                            
                             if(isset($_GET["register"])) {
                                 echo "
                                 <p class =\"successText\">

@@ -411,9 +411,10 @@ function checkSession($local){
             session_unset();
             session_destroy();
             match($local){
-                "all-product" => $local = "../account/login.php",
-                "cart"        => $local = "../account/login.php",
-                default       => $local = "login.php"
+                "all-product"   => $local = "../account/login.php",
+                "cart"          => $local = "../account/login.php",
+                "insideAccount" => $local = "../login.php",
+                default         => $local = "login.php"
             };
 
             header("Location: $local?timeout=1");
