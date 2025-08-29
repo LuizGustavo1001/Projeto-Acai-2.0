@@ -1,4 +1,4 @@
-# Projeto Açaí Amazônia Ipatinga
+# Projeto Açaí e Polpas Amazônia
 <h2>Projeto de um site conectado a um Banco de Dados <em>MySQL</em> utilizando <em>PHP</em> como ponte entre <em>FrontEnd</em> e <em>BackEnd</em></h2>
 <h3>⬇️ Preview do Site</h3>
 
@@ -14,7 +14,7 @@
 
 <hr>
 
-<h3>🗄️ API <small>(em desenvolvimento)</small></h3>
+<h3>🗄️ API</h3>
 <p>
     - Inicialmente, projetada utilizando a linguagem <strong>PHP</strong> como ponte entre o <strong>Banco de Dados</strong>(BackEnd) e a <strong>Página Web</strong>(FrontEnd)
 </p>
@@ -55,8 +55,8 @@
         |   |-- cart                                (Página do Carrinho)
         |   |-- products                            (Página de Produtos)
         |   |-- readMe-images                       (Imagens Utilizadas no ReadMe.md)
-        |   |-- scripts                             (JavaScript utilizado nas páginas)
-        |   |-- styles                              (Folhas de Estilo utilizadas nas páginas)
+        |   |-- JS                                  (JavaScript utilizado nas páginas)
+        |   |-- CSS                                 (Folhas de Estilo utilizadas nas páginas)
         |   |-- errorPage.php                       (Página de Erro Geral)
         |   |-- GeneralPHP.php                      (Códigos PHP utilizados em mais de uma página)
         |   |-- index.php                           (Página Inicial)
@@ -68,25 +68,61 @@
 
 <h3>🖥️ Rodar o projeto</h3>
 <ol>
-    <li>Baixe o <a href="https://www.youtube.com/watch?v=0Y9OZ0vc1SU&t=213s">XAMPP</a></li>
-    <li>Ative os módulos <strong>Apache</strong> e <strong>MySQL</strong> dentro do <strong>XAMPP</strong></li>
-    <li>Baixe o <a href="https://www.youtube.com/watch?v=a5ul8o76Hqw&t=13s">MySQL WorkBench</a> ou outro aplicativo gerenciador de Banco de Dados</li>
-    <li>Abra o arquivo "DumpProjeto_acai.sql", copie o código dentro dele e Clone o Banco de Dados dentro do MySQL (Dump)</li>
     <li>
-        Adicione o Banco de Dados ao seu Servidor Local clicando no símbolo demonstrado abaixo <br> 
-        <img src="public/readMe-images/dump.png" alt="Dump DataBase Preview"></img>
+        🪟 Windows
+        <ul>
+            <li>Baixe o <a href="https://www.youtube.com/watch?v=0Y9OZ0vc1SU&t=213s">XAMPP</a></li>
+            <li>Ative os módulos <strong>Apache</strong> e <strong>MySQL</strong> dentro do <strong>XAMPP</strong></li>
+            <li>Baixe o <a href="https://www.youtube.com/watch?v=a5ul8o76Hqw&t=13s">MySQL WorkBench</a> ou outro aplicativo gerenciador de Banco de Dados</li>
+            <li>Abra o arquivo "DumpProjeto_acai.sql", copie o código dentro dele e Clone o Banco de Dados dentro do MySQL (Dump)</li>
+            <li>
+                Adicione o Banco de Dados ao seu Servidor Local clicando no símbolo demonstrado abaixo <br> 
+                <img src="public/readMe-images/dump.png" alt="Dump DataBase Preview"></img>
+            </li>
+            <li>
+                Para verificar se o Banco de Dados foi realmente adicionado, digite no navegador "localhost/phpmyadmin". <br>
+                Se a relação <strong>"acai_admin"</strong> existir na aba esquerda da tela ➡️ Adicionado com Sucesso <br>
+                <img src="public/readMe-images/phpmyadmin.png" alt="PHPMyAdmin Preview"></img>
+            </li>
+            <li>Adicione a Pasta do Projeto ao Diretório <strong>"htdocs"</strong> dentro de <strong>Xampp</strong> <pre>(C:\xampp\htdocs)</pre></li>
+            <li>
+                Para acessar o site, Digite no Navegador <pre>http://localhost/siteAcai-2.0/public</pre>
+                <img src="public/readMe-images/local.png" alt="local Preview"></img>
+            </li>
+        </ul>
     </li>
     <li>
-        Para verificar se o Banco de Dados foi realmente adicionado, digite no navegador "localhost/phpmyadmin". Se a relação <strong>"acai_admin"</strong> existir
-        na aba esquerda da tela ➡️ Adicionado com Sucesso <img src="public/readMe-images/phpmyadmin.png" alt="PHPMyAdmin Preview"></img>
+        🐧 Linux
+        <ul>
+            <li>Instale o <a href="https://youtu.be/Uuw4KPiVATc?si=8L49cPxz9CTX09NE&t=211">MySQL WorkBench</a> ou outro aplicativo gerenciador de Banco de Dados</li>
+            <li>Instale o <a href="https://www.youtube.com/watch?v=XoKUkdmfTZQ">XAMPP</a></li>
+            <li>Ative os módulos <strong>Apache Web Server</strong> e <strong>MySQL Database</strong> de 2 maneiras: </li>
+                <ol>
+                    <li>Ativando os módulos pelo terminal <br> <pre>sudo /opt/lampp/lampp start</pre></li>
+                    <li>Ativando pela interface gráfica <br> <pre>cd /opt/lampp</pre> <pre>sudo ./manager-linux-x64.run</pre></li>
+                </ol>
+            <li>
+                Adicione o Banco de Dados ao seu Servidor Local clicando no símbolo demonstrado abaixo <br> 
+                <img src="public/readMe-images/dump.png" alt="Dump DataBase Preview"></img>
+            </li>
+            <li>
+                Para verificar se o Banco de Dados foi realmente adicionado, digite no navegador "localhost/phpmyadmin" ou "127.0.0.1/phpmyadmin". <br>
+                Se a relação <strong>"acai_admin"</strong> existir na aba esquerda da tela ➡️ Adicionado com Sucesso <br>
+                <img src="public/readMe-images/phpmyadmin.png" alt="PHPMyAdmin Preview"></img>
+            </li>
+            <li>Adicione a Pasta do Projeto ao Diretório <strong>"htdocs"</strong> dentro de <strong>Xampp</strong> <pre>(/opt/lampp/htdocs)</pre></li>
+            <li>
+                Para acessar o site, Digite no Navegador <pre>http://localhost/siteAcai-2.0/public</pre>
+                <img src="public/readMe-images/local.png" alt="local Preview"></img>
+            </li>
+        </ul>
     </li>
-    <li>Adicione a Pasta do Projeto ao Diretório <strong>"htdocs"</strong> dentro de <strong>Xampp</strong> (C:\xampp\htdocs)</li>
-    <li>
-        Para acessar o site, Digite no Navegador "http://localhost/siteAcai-2.0/public"
-        <img src="public/readMe-images/local.png" alt="local Preview"></img>
-    </li>
+
 </ol>
 
+<strong>
+    <p>OBS: Os videos citados acima estão aqui apenas para facilitar a retirada de dúvidas em relação a como rodar o projeto</p>
+</strong>
 <hr>
 
 

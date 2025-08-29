@@ -192,8 +192,8 @@
 
     <?php faviconOut(); ?>
 
-    <link rel="stylesheet" href="../styles/general-style.css">
-    <link rel="stylesheet" href="../styles/cart.css">
+    <link rel="stylesheet" href="../CSS/general-style.css">
+    <link rel="stylesheet" href="../CSS/cart.css">
 
     <title>Açaí e Polpas Amazônia - Carrinho</title>
 </head>

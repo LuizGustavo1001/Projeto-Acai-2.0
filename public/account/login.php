@@ -139,8 +139,8 @@
 
     <?php faviconOut(); ?>
 
-    <link rel="stylesheet" href="../styles/general-style.css">
-    <link rel="stylesheet" href="../styles/account-styles.css">
+    <link rel="stylesheet" href="../CSS/general-style.css">
+    <link rel="stylesheet" href="../CSS/account-styles.css">
 
     <style>
         .account-right-div{
