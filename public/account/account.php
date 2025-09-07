@@ -3,7 +3,7 @@
     include "../generalPHP.php";
     include "../footerHeader.php";
     
-    if(! isset($_SESSION["clientMail"])){
+    if(! isset($_SESSION["userMail"])){
         header("location: login.php");
         exit();
 
@@ -122,14 +122,14 @@
                         <div class="form-item">
                             <label for="iclientName">Nome: </label>
                             <div class="form-input">
-                                <input type="text" name="clientName" id="iclientName" maxlength="30" minlength="8" placeholder="<?php echo $_SESSION['clientName']; ?>" >
+                                <input type="text" name="clientName" id="iclientName" maxlength="30" minlength="8" placeholder="<?php echo $_SESSION['userName']; ?>" >
                             </div>
                         </div>
 
                         <div class="form-item">
                             <label for="iclientNumber">Telefone de Contato:</label>
                             <div class="form-input">
-                                <input type="text" name="clientNumber" id="iclientNumber" minlength="15" maxlength="16" pattern="\(\d{2}\) \d \d{4} \d{4}" placeholder="<?php echo $_SESSION['clientNumber']; ?>" >
+                                <input type="text" name="clientNumber" id="iclientNumber" minlength="15" maxlength="16" pattern="\(\d{2}\) \d \d{4} \d{4}" placeholder="<?php echo $_SESSION['userPhone']; ?>" >
                             </div>
                         </div>
 

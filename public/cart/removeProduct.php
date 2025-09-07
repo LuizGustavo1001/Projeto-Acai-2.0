@@ -17,10 +17,10 @@
     if(in_array($_GET["name"], $allowedProducts)){
         $query = $mysqli->prepare("
             DELETE FROM product_order 
-            WHERE idProd = (
-                SELECT idProd 
+            WHERE idProduct = (
+                SELECT idProduct 
                 FROM product
-                WHERE nameProd = ?
+                WHERE nameProduct = ?
             )
             LIMIT 1;
         ");

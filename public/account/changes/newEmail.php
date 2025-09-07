@@ -3,7 +3,7 @@
     include "../../generalPHP.php";
     include "../../footerHeader.php";
 
-    if(! isset($_SESSION["clientMail"])){
+    if(! isset($_SESSION["userMail"])){
         header("location: ../login.php");
         exit();
 
@@ -14,41 +14,41 @@
     if(isset($_POST["email"]) && isset($_POST["newEmail"])){
         $sanitizedEmail = filter_var( $_POST["email"], FILTER_SANITIZE_EMAIL);
         
-
         $stmt = $mysqli->prepare("SELECT clientMail FROM client_data WHERE idClient = ?");
         $stmt->bind_param("i", $_SESSION["idClient"]);
 
         if($stmt->execute()){
             $sanitizedNewEmail = filter_var($_POST["newEmail"], FILTER_SANITIZE_EMAIL);
+            $domain = substr(strrchr($sanitizedNewEmail, "@"), 1);
+            if(checkdnsrr($domain, "MX")){
+                $result = $result->fetch_assoc();
 
-            $result = $stmt->get_result();
-            $stmt->close();
-
-            $result = $result->fetch_assoc();
-
-            if($result["clientMail"] != $sanitizedEmail){
-                header("location: newEmail.php?wrongEmail");
-                exit;
-            }else if($sanitizedNewEmail == $sanitizedMail){
-                header("location: newEmail.php?sameEmail");
-                exit;
-            }else{
-                $updateEmail = $mysqli->prepare("
-                    UPDATE client_data
-                    SET clientMail = ?
-                    WHERE idClient = ?
-                ");
-
-                $updateEmail->bind_param("si", $sanitizedNewEmail, $_SESSION["idClient"]);
-                if($updateEmail->execute()){
-                    $updateEmail->close();
-                    session_destroy();
-
-                    header("location: ../login.php?newEmail");
+                if($result["clientMail"] != $sanitizedEmail){
+                    header("location: newEmail.php?wrongEmail=1");
+                    exit;
+                }else if($sanitizedNewEmail == $sanitizedMail){
+                    header("location: newEmail.php?sameEmail=1");
                     exit;
                 }else{
-                    header("location: ../../errorPage.php");
+                    $updateEmail = $mysqli->prepare("
+                        UPDATE client_data
+                        SET clientMail = ?
+                        WHERE idClient = ?
+                    ");
+
+                    $updateEmail->bind_param("si", $sanitizedNewEmail, $_SESSION["idClient"]);
+                    if($updateEmail->execute()){
+                        $updateEmail->close();
+                        session_destroy();
+
+                        header("location: ../login.php?newEmail");
+                        exit;
+                    }else{
+                        header("location: ../../errorPage.php");
+                    }
                 }
+            }else{
+                header("location: newEmail.php?wrongEmail=1");
             }
         }else{
             header("location: ../../errorPage.php");

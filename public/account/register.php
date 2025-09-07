@@ -4,81 +4,84 @@
     include "../footerHeader.php";
 
 
-    if( isset($_SESSION["clientMail"])){
+    if( isset($_SESSION["userMail"])){
         header("location: account.php");
         exit();
         
     }
 
-    if(
-        isset($_POST["name"], $_POST["email"], 
-        $_POST["phone"], $_POST["street"], $_POST["houseNum"], 
-        $_POST["district"], $_POST["city"], $_POST["password"])
-    ){
-        $result = addUser();
-        if(isset($result)){
-            switch($result){
-                case "emailExists":
-                    $registerMensage =  "<p class=\"errorText\">Email <strong>já cadastrado</strong>, tente novamente com <strong>outro Email</strong></p>";
-                    break;
-
-                case "userAdd":
-                    header("location: login.php?register=1");
-                    exit();
-            }
-        }
+    if(isset($_GET["userAdd"])){
+        header("location: login.php?registered=1");
+        exit();
     }
 
+    if(isset($_POST["name"], $_POST["email"], $_POST["phone"], 
+        $_POST["street"], $_POST["houseNum"], $_POST["district"], 
+        $_POST["city"], $_POST["reference"], $_POST["password"])){
+        addUser();
+
+    }                   
+    
     function addUser(){
         global $mysqli;
 
-        $email = $_POST["email"];
-
-        $verifyEmail = $mysqli->prepare("SELECT  clientMail FROM client_data WHERE clientMail = ?");
-        $verifyEmail->bind_param("s", $email);
-
-        if($verifyEmail->execute()){
+        $inputEmail = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
+        
+        $verifyEmail = $mysqli->prepare("
+            SELECT clientMail 
+            FROM client_data 
+            WHERE clientMail = ?
+        ");
+        $verifyEmail->bind_param("s", $inputEmail);
+        
+         if($verifyEmail->execute()){
             $resultEmail = $verifyEmail->get_result();
             $verifyEmail->close();
-
+            
             switch($resultEmail->num_rows){
-                case 0: // email não existente -> continuar registro
-                    $name      = $_POST['name'];
-                    $number    = $_POST["phone"];
-                    $street    = $_POST["street"];
-                    $houseNum  = $_POST["houseNum"];
-                    $district  = $_POST["district"];
-                    $city      = $_POST["city"];
-                    $reference = isset($_POST["reference"]) ? $_POST["reference"] : null;
-                    $password  = password_hash($_POST['password'], PASSWORD_DEFAULT);
+                case 0:
+                    $domain = substr(strrchr($inputEmail, "@"), 1);
+                    if(checkdnsrr($domain, "MX")){
+                        // verificar se o domínio do email existe
+                        $name      = mb_convert_case($_POST['name'], MB_CASE_TITLE, "UTF-8");
+                        $number    = $_POST["phone"];
+                        $street    = $_POST["street"];
+                        $houseNum  = $_POST["houseNum"];
+                        $district  = mb_convert_case($_POST["district"], MB_CASE_TITLE, "UTF-8");
+                        $city      = mb_convert_case($_POST["city"], MB_CASE_TITLE, "UTF-8");
+                        $reference = isset($_POST["reference"]) ? $_POST["reference"] : null;
+                        $password  = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-                    $insertData = $mysqli->prepare(
-                        "INSERT INTO client_data (clientName, clientMail, clientPassword) VALUES (?, ?, ?)"
-                    );
-                    $insertData->bind_param("sss", $name, $email, $password);
-
-                    if($insertData->execute()){ // adicionar o cliet_number
-                        $idClient = $mysqli->insert_id; // recuperar o ultimo id inserido no Banco de Dados
-                        $insertData->close();
-
-                        $insertPhone = $mysqli->prepare(
-                            "INSERT INTO client_number (idClient, clientNumber) VALUES (?, ?)"
+                        $insertData = $mysqli->prepare(
+                            "INSERT INTO client_data (clientName, clientMail, clientPassword) VALUES (?, ?, ?)"
                         );
-                        $insertPhone->bind_param("is", $idClient, $number);
+                        $insertData->bind_param("sss", $name, $inputEmail, $password);
 
-                        if($insertPhone->execute()){
-                            $insertPhone->close();
+                        if($insertData->execute()){ // adicionar o cliet_number
+                            $idClient = $mysqli->insert_id; // recuperar o ultimo id inserido no Banco de Dados
+                            $insertData->close();
 
-                            $insertAddress = $mysqli->prepare(
-                                "INSERT INTO client_address (idClient, district, localNum, referencePoint, street, city) VALUES (?, ?, ?, ?, ?, ?)"
+                            $insertPhone = $mysqli->prepare(
+                                "INSERT INTO client_phone (idClient, clientPhone) VALUES (?, ?)"
                             );
+                            $insertPhone->bind_param("is", $idClient, $number);
 
-                            $insertAddress->bind_param("isisss",
-                                $idClient, $district, $houseNum, $reference, $street, $city
-                            );
+                            if($insertPhone->execute()){
+                                $insertPhone->close();
 
-                            if($insertAddress->execute()){
-                                return "userAdd";
+                                $insertAddress = $mysqli->prepare(
+                                    "INSERT INTO client_address (idClient, district, localNum, referencePoint, street, city) VALUES (?, ?, ?, ?, ?, ?)"
+                                );
+                                $insertAddress->bind_param("isssss", $idClient, $district, $houseNum, $reference, $street, $city);
+
+                                if($insertAddress->execute()){
+                                    $insertAddress->close();
+                                    
+                                    header("location: register.php?userAdd=1");
+                                   
+                                }else{
+                                    header("location: ../errorPage.php");
+                                }
                             }else{
                                 header("location: ../errorPage.php");
                             }
@@ -86,16 +89,19 @@
                             header("location: ../errorPage.php");
                         }
                     }else{
-                        header("location: ../errorPage.php");
+                        header("location: register.php?invalidDomain=1");
+                        exit();
                     }
-                default: // erro: email já existente
-                    return "emailExists";
+                    break;
+                default:
+                    header("location: register.php?emailExists=1");
+                    exit();
             }
         }else{
             header("location: ../errorPage.php");
-        }        
+            exit();
+        }
     }
-
 ?>
 
 
@@ -157,8 +163,24 @@
                         <h1>Área de Registro</h1>
                         <p><strong>Registre-se</strong> para <strong>Continuar Comprando</strong> em nosso site</p>
                     </div>
-                    <form action="" method="post">
-                        <?php if(isset($registerMensage)) echo $registerMensage; ?>
+                    <?php 
+                        if(isset($_GET["invalidDomain"])){
+                            echo "
+                                <p class=\"errorText\">
+                                    Erro: Domínio do Email Digitado <strong>É Inválido</strong>, tente novamente com outro domínio ou <strong>cadastre-se</strong> no link abaixo
+                                </p>
+                            ";
+                        }
+                        if(isset($_GET["emailExists"])){
+                            echo "
+                                <p class=\"errorText\">
+                                    Email <strong>já cadastrado</strong>, tente novamente com <strong>Outro Endereço de Email</strong>
+                                </p>
+                            ";
+                        }
+                        
+                    ?>
+                    <form method="post">
                         <div class="form-item">
                             <label for="iname">Nome:  <span>*</span></label>
                             <input type="text" name="name" id="iname" maxlength="30" minlength="8" placeholder="Nome Completo" required>

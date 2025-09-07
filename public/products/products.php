@@ -10,27 +10,25 @@
 
         $allowedTypes = ["Cream", "Additional", "Other"];
         if(in_array($type, $allowedTypes)){
-            $query = $query = $mysqli->prepare("SELECT nameProd FROM product WHERE prodType = ?");
+            $query = $query = $mysqli->prepare("SELECT nameProduct FROM product WHERE typeProduct = ?");
 
             match($filter){
-                "nameAsc"       => $query = $mysqli->prepare("SELECT nameProd FROM product WHERE prodType = ? ORDER BY nameProd asc"),
-                "nameDesc"      => $query = $mysqli->prepare("SELECT nameProd FROM product WHERE prodType = ? ORDER BY nameProd desc"),
-                "priceAsc"      => $query = $mysqli->prepare("SELECT nameProd FROM product WHERE prodType = ? ORDER BY price asc"),
-                "priceDesc"     => $query = $mysqli->prepare("SELECT nameProd FROM product WHERE prodType = ? ORDER BY price desc"),
-                default         => $query = $mysqli->prepare("SELECT nameProd FROM product WHERE prodType = ?"),
+                "nameAsc"       => $query = $mysqli->prepare("SELECT nameProduct FROM product WHERE typeProduct = ? ORDER BY nameProduct  asc"),
+                "nameDesc"      => $query = $mysqli->prepare("SELECT nameProduct FROM product WHERE typeProduct = ? ORDER BY nameProduct  desc"),
+                "priceAsc"      => $query = $mysqli->prepare("SELECT nameProduct FROM product WHERE typeProduct = ? ORDER BY priceProduct asc"),
+                "priceDesc"     => $query = $mysqli->prepare("SELECT nameProduct FROM product WHERE typeProduct = ? ORDER BY priceProduct desc"),
+                default         => $query = $mysqli->prepare("SELECT nameProduct FROM product WHERE typeProduct = ?"),
             };
 
-            //$query = $mysqli->prepare("SELECT nameProd FROM product WHERE prodType = ?");
             $query->bind_param("s", $type);
             
             if($query->execute()){
                 $vector = [];
                 $result = $query->get_result();
                 while($row = $result->fetch_assoc()){
-                    $nameProd = matchProductName($row["nameProd"]);
+                    $nameProd = matchProductName($row["nameProduct"]);
                     $vector[] = $nameProd;
                 }
-                
                 $vector = array_unique($vector); // remover duplicatas
 
                 foreach($vector as $name){

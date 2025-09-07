@@ -138,5 +138,6 @@
     <li>✅ Mudanças na Página de logout (enviar p/ pagina certa)</li>
     <li>✅ Página "Esqueceu a Senha"</li>
     <li>Verificação de Existencia de Email e Número de Telefone</li>
+    <li>Página do Administrador</li>
     <li>API de Pagamentos</li>
 </ul>

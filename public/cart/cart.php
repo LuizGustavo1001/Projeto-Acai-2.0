@@ -4,174 +4,161 @@
     include "../footerHeader.php";
     
     require '../../composer/vendor/autoload.php';
-
     
     //                           BIBLIOTECA PLANILHA
-
     use PhpOffice\PhpSpreadsheet\IOFactory;
-
     //                           BIBLIOTECA PLANILHA
 
-    if(! isset($_SESSION["clientMail"])){
+    function getCartTotal($clientOrder){
+        global $mysqli;
+
+        $stmt = $mysqli->prepare("
+            SELECT SUM(totPrice) AS totalPrice
+            FROM product_order 
+            WHERE idOrder = ?
+        ");
+        $stmt->bind_param("i", $clientOrder);
+        if($stmt->execute()){
+            $result = $stmt->get_result();
+            $price = $result->fetch_assoc();
+            echo numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $price["totalPrice"] , "BRL");
+        }
+    }
+
+    function GetCartProd(){
+        global $mysqli;
+
+        $stmt = $mysqli->prepare("
+            SELECT *
+            FROM product_order 
+            WHERE idOrder = ?
+        ");
+
+        $stmt->bind_param("i", $_SESSION['idOrder']);
+        
+        if($stmt->execute()){
+            $result = $stmt->get_result();
+            $amount = $result->num_rows;
+            
+            switch($amount){
+                case 0:
+                    echo "<small style=\"text-align:center\">Nenhum Produto no Seu Carrinho ainda</small>";
+                    break;
+                
+                default:
+                    while($row = $result->fetch_assoc()) {
+                        $rescueProd = $mysqli->prepare("SELECT nameProduct, imageURL FROM product WHERE idProduct = ?");
+                        $rescueProd->bind_param("i" ,$row["idProduct"]);
+                        $totalPrice = $row["totPrice"];
+                        
+                        if($rescueProd->execute()){
+                            $prodResult = $rescueProd->get_result();
+                            $prodData = $prodResult->fetch_assoc();
+
+                            $prodName = matchDisplayNames($prodData["nameProduct"]);
+
+                            echo "
+                                <li>
+                                <div style=\"position: relative; display: inline-block;\">
+                                    <div class=\"item-amount\"><abbr title=\"Quantidade de Itens Adicionados\">" . $row["amount"] ."</abbr></div>
+                                    <img src=" . $prodData["imageURL"] .  ">
+                                </div>
+                                <ul>
+                                    <li><strong>". $prodName . "</strong></li>
+                                    <li> Quantidade: ". $row["amount"] . "</li>
+                                    <li class=\"price\"> Total: "
+                                    .numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $totalPrice  , "BRL") ." 
+                                    </li>
+                                    
+                                </ul>
+                                <a href=\"removeProduct.php?name=" . $prodData["nameProduct"] . "\">
+                                    <abbr title=\"Remover Item do Carrinho\">
+                                        <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"size-6\">
+                                            <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0\" />
+                                        </svg>
+                                    </abbr>
+                                </a>
+                            </li>
+                            ";
+                        }else{
+                            header("location: ../errorPage.php");
+                            exit();
+                        }
+                    }
+            }
+        }else{
+            header("location: ../errorPage.php");
+            exit();
+        }
+    }
+
+    if(! isset($_SESSION["userMail"])){
         header("location: ../account/account.php");
         exit();
+    }
 
-    }else{
-        $query = $mysqli->prepare("
-            SELECT *
-            FROM product_order
-            WHERE idOrder = ?
-            GROUP BY idProd;
+    // adicionar o produto à planilha
+    if (isset($_GET["orderConfirmed"])){ // confirmar pedido
+        $arquivo = 'planilha.xlsx';
+        $spreadsheet = IOFactory::load($arquivo);
+        $worksheet = $spreadsheet->getActiveSheet();
+
+        $Address = $_SESSION["street"]  . ", " . $_SESSION["localNum"] . ", " .
+                $_SESSION["district"] . " - " . $_SESSION["city"];
+
+        $currentDate = date("Y-m-d");
+        $currentHour = date("H:i:s");
+
+        $initialLine = 8;
+
+        for ($line = $initialLine; $line <= 1000; $line++){
+            $value = $worksheet->getCell("A$line")->getValue();
+            if (empty($value)) {
+                $lastLine = $line;
+                break;
+            }
+        }
+
+        $rescueProd = $mysqli->prepare("
+            SELECT p.nameProduct as name, o.amount as amount, o.totPrice as totPrice
+            FROM product AS p JOIN product_order AS o ON p.idProduct = o.idProduct
+            WHERE idOrder = ?;
+        ");
+        $rescueProd->bind_param("i", $_SESSION["idOrder"]);
+
+        $rescueProd->execute();
+        $rescueProd = $rescueProd->get_result();
+        
+        $allProd = "";
+
+        while($row = $rescueProd->fetch_assoc()){
+            $allProd .= "(" . $row["name"] . " / ". $row["amount"] . " / " . $row["totPrice"] . ")\n";
+        }
+
+        $worksheet->setCellValue("A{$lastLine}", $_SESSION["userName"]);
+        $worksheet->setCellValue("B{$lastLine}", $Address);
+        $worksheet->setCellValue("C{$lastLine}", $_SESSION["referencePoint"]);
+        $worksheet->setCellValue("D{$lastLine}", $_SESSION["userPhone"]);
+        $worksheet->setCellValue("E{$lastLine}", $allProd);
+        $worksheet->setCellValue("F{$lastLine}", "R$ 00,00");
+        $worksheet->setCellValue("G{$lastLine}", getCartTotal($_SESSION["idOrder"]));
+        $worksheet->setCellValue("H{$lastLine}", "{$currentDate} {$currentHour}");
+
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save($arquivo);
+
+        $removeOrder = $mysqli->prepare("
+            DELETE FROM product_order
+            WHERE idOrder = ?;
         ");
         
-        $query->bind_param("i", $_SESSION["idOrder"]);
-        
-        if($query->execute()){
-            $result = $query->get_result();
-            $amount  = $result->num_rows;
-        }
+        $removeOrder->bind_param("i" ,$_SESSION["idOrder"]);
 
-        function getCartTotal($clientOrder){
-            global $mysqli;
-
-            $stmt = $mysqli->prepare("
-                SELECT SUM(totPrice) AS totalPrice
-                FROM product_order 
-                WHERE idOrder = ?
-            ");
-            $stmt->bind_param("i", $clientOrder);
-            if($stmt->execute()){
-                $result = $stmt->get_result();
-                $price = $result->fetch_assoc();
-                echo numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $price["totalPrice"] , "BRL");
-
-            }
-        }
-
-        function GetCartProd(){
-            global $mysqli;
-
-            $stmt = $mysqli->prepare("
-                SELECT *
-                FROM product_order 
-                WHERE idOrder = ?
-            ");
-
-            $stmt->bind_param("i", $_SESSION['idOrder']);
-            
-            if($stmt->execute()){
-                $result = $stmt->get_result();
-                $amount = $result->num_rows;
-                
-                switch($amount){
-                    case 0:
-                        echo "<small style=\"text-align:center\">Nenhum Produto no Seu Carrinho ainda</small>";
-                        break;
-                    
-                    default:
-                        while($row = $result->fetch_assoc()) {
-                            $rescueProd = $mysqli->prepare("SELECT * FROM product WHERE idProd = ?");
-                            $rescueProd->bind_param("i" ,$row["idProd"]);
-                            $totalPrice = $row["totPrice"];
-                            
-                            if($rescueProd->execute()){
-                                $prodResult = $rescueProd->get_result();
-                                $prodData = $prodResult->fetch_assoc();
-
-                                $prodName = matchDisplayNames($prodData["nameProd"]);
-
-                                echo "
-                                    <li>
-                                    <div style=\"position: relative; display: inline-block;\">
-                                        <div class=\"item-amount\"><abbr title=\"Quantidade de Itens Adicionados\">" . $row["amount"] ."</abbr></div>
-                                        <img src=" . $prodData["imageURL"] .  ">
-                                    </div>
-                                    <ul>
-                                        <li><strong>". $prodName . "</strong></li>
-                                        <li> Quantidade: ". $row["amount"] . "</li>
-                                        <li class=\"price\"> Total: "
-                                        .numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $totalPrice  , "BRL") ." 
-                                        </li>
-                                        
-                                    </ul>
-                                    <a href=\"removeProduct.php?name=" . $prodData["nameProd"] . "\">
-                                        <abbr title=\"Remover Item do Carrinho\">
-                                            <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"size-6\">
-                                                <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0\" />
-                                            </svg>
-                                        </abbr>
-                                    </a>
-                                </li>
-                                ";
-                            }else{
-                                header("location: ../errorPage.php");
-                            }
-                        }
-                }
-            }else{
-                header("location: ../errorPage.php");
-            }
-        }
-
-        if (isset($_GET["orderConfirmed"])){ // confirmar pedido
-            $arquivo = 'planilha.xlsx';
-            $spreadsheet = IOFactory::load($arquivo);
-            $worksheet = $spreadsheet->getActiveSheet();
-
-            $Address = $_SESSION["street"]  . ", " . $_SESSION["localNum"] . ", " .
-                    $_SESSION["district"] . " - " . $_SESSION["city"];
-
-            $initialLine = 8;
-
-            for ($line = $initialLine; $line <= 1000; $line++){
-                $value = $worksheet->getCell("A$line")->getValue();
-                if (empty($value)) {
-                    $lastLine = $line;
-                    break;
-                }
-            }
-
-            $rescueProd = $mysqli->prepare("
-                SELECT p.nameProd as name, o.amount as amount, o.totPrice as totPrice
-                FROM product AS p JOIN product_order AS o ON p.idProd = o.idProd
-                WHERE idOrder = ?;
-            ");
-            $rescueProd->bind_param("i", $_SESSION["idOrder"]);
-
-            $rescueProd->execute();
-            $rescueProd = $rescueProd->get_result();
-            
-            $allProd = "";
-
-            while($row = $rescueProd->fetch_assoc()){
-                $allProd .= "(" . $row["name"] . " / ". $row["amount"] . " / " . $row["totPrice"] . ")\n";
-            }
-
-            $worksheet->setCellValue("A{$lastLine}", $_SESSION["clientName"]);
-            $worksheet->setCellValue("B{$lastLine}", $Address);
-            $worksheet->setCellValue("C{$lastLine}", $_SESSION["referencePoint"]);
-            $worksheet->setCellValue("D{$lastLine}", $_SESSION["clientNumber"]);
-            $worksheet->setCellValue("E{$lastLine}", $allProd);
-            $worksheet->setCellValue("F{$lastLine}", "R$ 00,00");
-            $worksheet->setCellValue("G{$lastLine}", getCartTotal($_SESSION["idOrder"]));
-
-            $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
-            $writer->save($arquivo);
-
-            $removeOrder = $mysqli->prepare("
-                DELETE FROM product_order
-                WHERE idOrder = ?;
-            ");
-            
-            $removeOrder->bind_param("i" ,$_SESSION["idOrder"]);
-
-            if($removeOrder->execute()){
-                header("location: ../index.php?orderConfirmed=1");
-            }else{
-                echo "aaaaaa";  
-            }
-            
-
+        if($removeOrder->execute()){
+            header("location: ../index.php?orderConfirmed=1");
+        }else{
+            header("location: ../errorPage.php");
+            exit();
         }
     }
 
@@ -230,7 +217,7 @@
                         <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751475315/user_iqkn7x.png" alt="user icon">
                         <ul class="list-item-text">
                             <li><strong>Cliente:</strong></li>
-                            <li> <span><?php echo $_SESSION["clientName"]?></span> </li>
+                            <li> <span><?php echo $_SESSION["userName"]?></span> </li>
                         </ul>
                     </li>
 
@@ -250,7 +237,7 @@
                         <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751475315/phone_plvmle.png" alt="phone icon">
                         <ul class="list-item-text">
                             <li><strong>Telefone:</strong></li>
-                            <li> <span><?php echo $_SESSION["clientNumber"]?></span> </li>
+                            <li> <span><?php echo $_SESSION["userPhone"]?></span> </li>
                         </ul>
                     </li>
                 </ol>
@@ -331,7 +318,7 @@
                                 <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751475315/user_iqkn7x.png" alt="user icon">
                                 <ul class="list-item-text">
                                     <li><strong>Cliente:</strong></li>
-                                    <li> <span><?php echo $_SESSION["clientName"]?></span> </li>
+                                    <li> <span><?php echo $_SESSION["userName"]?></span> </li>
                                 </ul>
                             </li>
                             
@@ -351,7 +338,7 @@
                                 <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751475315/phone_plvmle.png" alt="phone icon">
                                 <ul class="list-item-text">
                                     <li><strong>Telefone:</strong></li>
-                                    <li> <span><?php echo $_SESSION["clientNumber"]?></span> </li>
+                                    <li> <span><?php echo $_SESSION["userPhone"]?></span> </li>
                                 </ul>
                             </li>
                         </ol>

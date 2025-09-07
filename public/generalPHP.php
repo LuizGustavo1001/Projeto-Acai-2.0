@@ -39,21 +39,21 @@ function getProductByName($prodName, $page){
 
                 };
             $query = $mysqli->prepare("
-                    SELECT nameProd, brand, imageURL, price, priceDate
+                    SELECT nameProduct, brandProduct, imageURL, priceProduct, priceDate
                     FROM product
-                    WHERE price = (
-                        SELECT MIN(p.price)
+                    WHERE priceProduct = (
+                        SELECT MIN(p.priceProduct)
                         FROM product AS p 
-                        WHERE p.nameProd LIKE ?
+                        WHERE p.nameProduct LIKE ?
                     )
                     LIMIT 1;
             ");
             
         }else{
             $query = $mysqli->prepare("
-                SELECT nameProd, brand, imageURL, price, priceDate
+                SELECT nameProduct, brandProduct, imageURL, priceProduct, priceDate
                 FROM product
-                WHERE nameProd = ?
+                WHERE nameProduct = ?
                 LIMIT 1;
             ");
         }
@@ -71,12 +71,12 @@ function getProductByName($prodName, $page){
             }else{
                 $row = $result->fetch_assoc();
 
-                $linkName       = matchProductLink          ($row['nameProd']);
+                $linkName       = matchProductLink          ($row['nameProduct']);
                 $link           = "product-item/" . $linkName . ".php";
                 $imageURL       = htmlspecialchars          ($row['imageURL']);
-                $brand          = htmlspecialchars          ($row['brand']);
-                $name           = matchDisplayNamesAlt      ($row['nameProd']);
-                $price          = numfmt_format_currency    (numfmt_create("pt-BR", NumberFormatter::CURRENCY), $row['price'], "BRL");
+                $brand          = htmlspecialchars          ($row['brandProduct']);
+                $name           = matchDisplayNamesAlt      ($row['nameProduct']);
+                $price          = numfmt_format_currency    (numfmt_create("pt-BR", NumberFormatter::CURRENCY), $row['priceProduct'], "BRL");
                 $priceDate      = htmlspecialchars          ($row['priceDate']);
 
                 if($brand == "Other Brand"){
@@ -133,7 +133,7 @@ function prodSearchOutput($prodName){ // search bar result
     global $mysqli;
 
     $query = $mysqli->prepare("
-        SELECT nameProd, price, priceDate, brand, imageURL
+        SELECT nameProduct, priceProduct, priceDate, brandProduct, imageURL
         FROM product 
         WHERE nameProd LIKE ?
     ");
@@ -170,7 +170,7 @@ function prodSearchOutput($prodName){ // search bar result
                 ";
 
                 while ($row = $result->fetch_assoc()) {
-                    getProductByName(matchProductName($row["nameProd"]), "product");
+                    getProductByName(matchProductName($row["nameProduct"]), "product");
                 }
                 echo "</ul>";
             break;
@@ -429,10 +429,10 @@ function verifyOrders(){ // remover pedidos que não foram confirmados a mais de
 
     // Seleciona os pedidos com mais de 1 dia e sem produtos associados
     $stmt = $mysqli->prepare("
-        SELECT co.idOrder 
-        FROM client_order AS co
-        LEFT JOIN product_order AS po ON co.idOrder = po.idOrder
-        WHERE co.orderDate < (NOW() - INTERVAL 2 DAY)
+        SELECT od.idOrder 
+        FROM order_data AS od
+        LEFT JOIN product_order AS po ON od.idOrder = po.idOrder
+        WHERE od.orderDate < (NOW() - INTERVAL 2 DAY)
         AND po.idOrder IS NULL
     ");
 
@@ -443,7 +443,7 @@ function verifyOrders(){ // remover pedidos que não foram confirmados a mais de
         $idOrder = $row["idOrder"];
 
         // Deleta o pedido (não há produtos associados, então não precisa deletar da product_order)
-        $deleteOrder = $mysqli->prepare("DELETE FROM client_order WHERE idOrder = ?");
+        $deleteOrder = $mysqli->prepare("DELETE FROM order_data WHERE idOrder = ?");
 
         $deleteOrder->bind_param("i", $idOrder);
         $deleteOrder->execute();

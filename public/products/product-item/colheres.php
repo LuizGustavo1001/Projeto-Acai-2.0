@@ -77,6 +77,18 @@
                         </div>
                     </div>
             </section>";
+        }else if(isset($_GET["outOfOrder"])){
+            echo
+            "<section class= \"popup-box show\">
+                    <div class=\"popup-div\">
+                        <div><h1>Carrinho Não Atualizado</h1></div>
+                        <div>
+                            <p>Produto Selecionado está em Falta</p>
+                            <p>Clique no botão abaixo para fechar esta janela</p>
+                            <button class=\"popup-button\">Fechar</button>
+                        </div>
+                    </div>
+            </section>";
         }
     ?>
 

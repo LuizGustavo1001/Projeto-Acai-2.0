@@ -3,126 +3,153 @@
     include "../generalPHP.php";
     include "../footerHeader.php";
 
+    $currentDate = date("Y-m-d");
+    $currentHour = date("H:i:s");
+
     if(isset($_SESSION["clientMail"])){
         header("location: account.php");
         exit();
         
     }
 
-    // Processar login ANTES de qualquer saída HTML
-    if(isset($_POST["email"], $_POST["password"])){
-        $result = login();
-        if(isset($result)){
-            switch($result){
-                case "errorLogin":
-                    $errorLogin = "
-                            <p class=\"errorText\">
-                                Erro: Email ou Senha <strong>Incorretos</strong>, tente novamente ou <strong>cadastre-se</strong> no link abaixo
-                            </p>";
-                    break;
-                case "successLogin":
-                    header("Location: ../index.php?loginSuccess=1");
-                    verifyOrders();
-                    exit;
-                case "errorDB":
-                    $errorLogin = "<small>Erro ao executar a query</small>";
-                    break;
-            }
-        }
-    }
-
-    if(isset($_GET["timeout"])){
-        $errorLogin = "<p class=\"errorText\">Erro: <strong>Sessão Expirada</strong>, realize seus Login novamente</p>";
-    }
-
-    if(isset($_GET["unkUser"])){
-        $errorLogin = "<p class=\"errorText\">Erro: <strong>Realize seu login</strong> para <strong>Adicionar Produtos</strong> ao carrinho</p>";
+    if(isset($_POST["email"])){
+        login();
     }
 
     function login(){
         global $mysqli;
 
-        $email = filter_var( $_POST["email"], FILTER_SANITIZE_EMAIL);
+        $inputEmail = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
 
-        $query = $mysqli->prepare("SELECT * FROM client_data WHERE clientMail = ?");
-        $query->bind_param("s", $email);
-        if($query->execute()){
-            $result = $query->get_result();
-            $query->close();
-            
-            $emailExist = $result->num_rows;
-
-            switch($emailExist){
-                case 0: // email não existente no Banco de Dados
-                    return "errorLogin";
-                default: // continuar login
-                    $password = $_POST["password"];
-
-                    $userData = $result->fetch_assoc();
-                    $storedPassword = $userData["clientPassword"];
-
-                    if(password_verify($password, $storedPassword)){
-                        // senha digitada e a mesma armazenada no Banco de Dados ao descriptografar
-
-                        $rescueData = $mysqli->prepare(
-                            "SELECT DISTINCT d.idClient, d.clientName, n.clientNumber, 
-                                                    a.district, a.localNum, a.referencePoint, a.street, a.city 
-                                    FROM client_data as d 
-                                        JOIN client_number as n ON d.idClient = n.idClient
-                                        JOIN client_address AS a ON d.idClient = a.idClient
-                                    WHERE d.clientMail = ?
-                        ");
-
-                        $rescueData->bind_param("s", $email);
-
-                        if($rescueData->execute()){
-                            $resultUser = $rescueData->get_result();
-                            if($user = $resultUser->fetch_assoc()){
-                                $_SESSION["idClient"]       = $user["idClient"];
-                                $_SESSION["clientNumber"]   = $user["clientNumber"];
-                                $_SESSION["clientName"]     = $user["clientName"];
-                                $_SESSION["clientMail"]     = $email;
-                                $_SESSION["district"]       = $user["district"];
-                                $_SESSION["localNum"]       = $user["localNum"];
-                                $_SESSION["referencePoint"] = $user["referencePoint"];
-                                $_SESSION["street"]         = $user["street"];
-                                $_SESSION["city"]           = $user["city"];
-                                $_SESSION['lastActivity']   = time(); // marca o início da sessão
-
-                                // Insere novo pedido sem definir idOrder (auto_increment)
-                                
-                                date_default_timezone_set('America/Sao_Paulo');
-                                $currentDate = date("Y-m-d");
-                                $currentHour = date("H:i:s");
-
-                                $newOrder = $mysqli->prepare("INSERT INTO client_order (idClient, orderDate, orderHour) VALUES (?, ?, ?);");
-                                $newOrder->bind_param("iss", $_SESSION["idClient"], $currentDate,  $currentHour);
-                                if($newOrder->execute()){
-                                    // Recupera o idOrder gerado
-                                    $_SESSION["idOrder"] = $mysqli->insert_id;
-                                    $newOrder->close();
-
-                                    //verifyOrders();
-                                    
-                                    return "successLogin";
-                                }else{
-                                    header("location: ../errorPage.php");
-                                    exit();
-                                } 
-                            }else{
-                                return "errorDB";
-                            }
-                        }else{
-                            header("location: ../errorPage.php");
-                            exit();
-                        }
-                    }else{
-                        return "errorLogin";
-                    }
-            }
-        }else{
-            header("location: ../errorPage.php");
+        if(! filter_var($inputEmail, FILTER_VALIDATE_EMAIL)){
+            header("location: login.php?invalidEmail=1");
+            exit();
         }
+
+        $inputPassword = $_POST["password"];
+        $storedPassword = null;
+        $userType = null;
+        $userId = null;
+
+        // tentar buscar como admin
+        $query = $mysqli->prepare("
+            SELECT idAdmin AS idUser, adminMail AS userMail, adminPassword AS userPassword
+            FROM admin_data 
+            WHERE adminMail = ?
+        ");
+        $query->bind_param("s", $inputEmail);
+        $query->execute();
+        $result = $query->get_result();
+
+        if($row = $result->fetch_assoc()){
+            $userType       = "admin";
+            $userId         = $row["idUser"];
+            $storedPassword = $row["userPassword"];
+        }
+        $query->close();
+
+        // tentar como cliente
+        if(! $userType){ 
+            $query = $mysqli->prepare("
+                SELECT idClient AS idUser, clientMail AS userMail, clientPassword AS userPassword
+                FROM client_data
+                WHERE clientMail = ?;
+            ");
+            $query->bind_param("s", $inputEmail);
+            $query->execute();
+            $result = $query->get_result();
+
+            if($row = $result->fetch_assoc()){
+                $userType       = "client";
+                $userId         = $row["idUser"];
+                $storedPassword = $row["userPassword"];
+            }
+            $query->close();
+        }
+
+        // nenhum usuário foi encontrado
+        if(! $userType){ 
+            header("location: login.php?errorLogin=1");
+            exit();
+        }
+
+        // verificar senha
+        if(!password_verify($inputPassword, $storedPassword)){
+            header("location: login.php?errorLogin=1");
+            exit();
+        }
+
+        // buscar dados completos do usuário
+        match($userType){
+            "admin" =>  $rescueData = $mysqli->prepare("
+                            SELECT ad.idAdmin AS idUser, ad.adminName AS userName, n.adminPhone AS userPhone, 
+                                    a.district, a.localNum, a.referencePoint, a.street, a.city 
+                            FROM admin_data AS ad
+                                JOIN admin_phone AS n ON ad.idAdmin = n.idAdmin
+                                JOIN admin_address AS a ON ad.idAdmin = a.idAdmin
+                            WHERE ad.adminMail = ?"
+                        ),
+            default => $rescueData = $mysqli->prepare("
+                            SELECT d.idClient AS idUser, d.clientName AS userName, n.clientPhone AS userPhone, 
+                                    a.district, a.localNum, a.referencePoint, a.street, a.city 
+                            FROM client_data AS d
+                                JOIN client_phone AS n ON d.idClient = n.idClient
+                                JOIN client_address AS a ON d.idClient = a.idClient
+                            WHERE d.clientMail = ?"
+                    ),
+
+        };
+        $rescueData->bind_param("s", $inputEmail);
+        if( !$rescueData->execute()){
+            die("Erro SQL: " . $mysqli->error);
+        }
+        //$rescueData->execute();
+        $result = $rescueData->get_result();
+        $user = $result->fetch_assoc();
+        $rescueData->close();
+
+        if(! $user){
+            header("location: ../errorPage.php");
+            exit();
+        }
+
+        // criando sessão
+        $_SESSION["idUser"]         = $user["idUser"];
+        $_SESSION["userPhone"]     = $user["userPhone"];
+        $_SESSION["userName"]       = $user["userName"];
+        $_SESSION["userMail"]       = $inputEmail;
+        $_SESSION["district"]       = $user["district"];
+        $_SESSION["localNum"]       = $user["localNum"];
+        $_SESSION["referencePoint"] = $user["referencePoint"];
+        $_SESSION["street"]         = $user["street"];
+        $_SESSION["city"]           = $user["city"];
+        $_SESSION['lastActivity']   = time(); // marca o início da sessão
+
+        // criando pedido, caso seja um cliente
+        if($userType == "client"){
+            $currentDate = date("Y-m-d");
+            $currentHour = date("H:i:s");
+
+            $newOrder = $mysqli->prepare("INSERT INTO order_data (idClient, orderDate, orderHour) VALUES (?, ?, ?);");
+            $newOrder->bind_param("iss", $_SESSION["idUser"], $currentDate,  $currentHour);
+
+            if($newOrder->execute()){
+                $_SESSION["idOrder"] = $mysqli->insert_id;
+                $newOrder->close();
+
+                verifyOrders();
+
+                header("Location: ../index.php?loginSuccess=1");
+                exit();
+                
+                
+            }else{
+                header("location: ../errorPage.php");
+                exit();
+            }
+        }
+        header("Location: ../index.php?loginSuccess=1");
+        exit();
     }
 
 ?>
@@ -177,20 +204,62 @@
                         <h1>Área de Login</h1>
                         <p>Realize seu <strong>Login</strong> para <strong>Continuar Comprando</strong> em nosso site</p>
                     </div>
-                    <form action="" method="post">
-                        <?php if (isset($errorLogin)) echo $errorLogin; ?>
-                        <?php
-                            if(isset($_GET["newPassword"])){
-                                echo "<p class=\"successText\">Senha <strong>Alterada com sucesso</strong> <br> Realize seu Login</p>";
-                            }else if(isset($_GET["newEmail"])){
-                                echo "<p class = \"successText\">Email <strong>Alterado com sucesso</strong> <br> Realize seu Login</p>";
-                            }
-                            
-                            if(isset($_GET["register"])) {
+                    <form method="post">
+                        <?php 
+                            if(isset($_GET["errorLogin"])){
                                 echo "
-                                <p class =\"successText\">
-                                    Credencias <strong>Cadastradas com Sucesso</strong>, <strong>realize seu Login</strong>
-                                </p>";
+                                    <p class=\"errorText\">
+                                        Erro: Email ou Senha <strong>Incorretos</strong>, tente novamente ou <strong>cadastre-se</strong> no link abaixo
+                                    </p>
+                                ";
+
+                            }
+
+                            if(isset($_GET["timeout"])){
+                                echo "
+                                    <p class=\"errorText\">
+                                        Erro: <strong>Sessão Expirada</strong>, realize seus Login novamente
+                                    </p>
+                                ";
+
+                            }
+
+                            if(isset($_GET["unkUser"])){
+                                echo "
+                                    <p class=\"errorText\">
+                                        Erro: <strong>Realize seu login</strong> para <strong>Adicionar Produtos</strong> ao carrinho
+                                    </p>
+                                ";
+
+                            }
+
+                            if(isset($_GET["registered"])){
+                                echo "
+                                    <p class =\"successText\">
+                                        Credencias <strong>Cadastradas com Sucesso</strong>, <strong>realize seu Login</strong>
+                                    </p>
+                                ";
+                            }
+
+                            if(isset($_GET["newEmail"])){
+                                echo "
+                                    <p class = \"successText\">
+                                        Email <strong>Alterado com sucesso</strong> 
+                                        <br> 
+                                        Realize seu Login
+                                    </p>
+                                ";
+
+                            }
+
+                            if(isset($_GET["newPassword"])){
+                                echo "
+                                    <p class=\"successText\">
+                                        Senha <strong>Alterada com sucesso</strong> 
+                                        <br> 
+                                        Realize seu Login
+                                    </p>
+                                ";
                             }
                         ?>
                         
@@ -228,9 +297,5 @@
         
         </div>
     </section>
-    
-
-    
-    
 </body>
 </html>

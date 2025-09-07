@@ -6,7 +6,7 @@
     function featureItens(){
         global $mysqli;
 
-        $totalQuery = $mysqli->prepare("SELECT COUNT(*) FROM product");
+        $totalQuery = $mysqli->prepare("SELECT COUNT(*) FROM product;");
 
         if($totalQuery->execute()){
             $totalResult = $totalQuery->get_result();
@@ -23,7 +23,7 @@
             }
 
             for($j = 0; $j < 4; $j++){
-                $getName = $mysqli->prepare("SELECT nameProd FROM product WHERE idProd = ?");
+                $getName = $mysqli->prepare("SELECT nameProduct FROM product WHERE idProduct = ?");
                 $getName->bind_param("i", $randomIdVec[$j]);
                 
                 if($getName->execute()){
@@ -83,7 +83,7 @@
                         <div class=\"popup-div\">
                             <div><h1>Pedido Confirmado</h1></div>
                             <div>
-                                <p>Pedido no nome de <strong>$_SESSION[clientName]</strong> foi enviado para nossa central</p>
+                                <p>Pedido no nome de <strong>$_SESSION[userMail]</strong> foi enviado para nossa central</p>
                                 <p>Clique no botão abaixo para fechar esta janela</p>
                                 <button class=\"popup-button\">Fechar</button>
                             </div>

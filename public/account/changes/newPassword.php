@@ -3,7 +3,7 @@
     include "../../generalPHP.php";
     include "../../footerHeader.php";
 
-    if(! isset($_SESSION["clientMail"])){
+    if(! isset($_SESSION["userMail"])){
         header("location: ../login.php");
         exit();
 
