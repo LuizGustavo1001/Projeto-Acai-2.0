@@ -11,9 +11,11 @@
     <link rel="stylesheet" href="CSS/general-style.css">
     <link rel="stylesheet" href="CSS/index.css">
 
+    <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
+
     <link rel="shortcut icon" href="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750080377/iconeAcai_mj7dqy.ico" type="image/x-icon">
 
-    <title>Açaí Amazônia Ipatinga</title>
+    <title>Açaí e Polpas Amazônia</title>
 
 </head>
 <body>

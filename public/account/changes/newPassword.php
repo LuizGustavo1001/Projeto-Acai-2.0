@@ -9,6 +9,12 @@
 
     }
 
+     if (isset($_SESSION["isAdmin"])) {
+        header("location: ../../mannager/admin.php?adminNotAllowed=1");
+        exit();
+
+    }
+
     checkSession("insideAccount");
 
     if(isset($_POST["password"]) && isset($_POST["newPassword"])){
@@ -72,6 +78,8 @@
 
     <link rel="stylesheet" href="../../CSS/general-style.css">
     <link rel="stylesheet" href="../../CSS/account-styles.css">
+
+    <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script><link rel="stylesheet
 
     <style>
         .account-right-div{

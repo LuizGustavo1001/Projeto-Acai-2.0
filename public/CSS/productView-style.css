@@ -1,3 +1,13 @@
+main{
+    height: 100vh;
+    
+}
+
+main section{
+    padding-top: 10vh;
+    
+}
+
 .back-button{
     display: flex;
     align-items: center;

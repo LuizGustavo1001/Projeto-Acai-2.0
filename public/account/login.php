@@ -6,6 +6,12 @@
     $currentDate = date("Y-m-d");
     $currentHour = date("H:i:s");
 
+    if (isset($_SESSION["isAdmin"])) {
+        header("location: ../mannager/admin.php?adminNotAllowed=1");
+        exit();
+
+    }
+
     if(isset($_SESSION["clientMail"])){
         header("location: account.php");
         exit();
@@ -82,28 +88,26 @@
         // buscar dados completos do usuário
         match($userType){
             "admin" =>  $rescueData = $mysqli->prepare("
-                            SELECT ad.idAdmin AS idUser, ad.adminName AS userName, n.adminPhone AS userPhone, 
-                                    a.district, a.localNum, a.referencePoint, a.street, a.city 
+                            SELECT ad.idAdmin AS idUser, ad.adminName AS userName, ad.adminPhone AS userPhone, 
+                                    a.district, a.localNum, a.referencePoint, a.street, a.city, a.state 
                             FROM admin_data AS ad
-                                JOIN admin_phone AS n ON ad.idAdmin = n.idAdmin
                                 JOIN admin_address AS a ON ad.idAdmin = a.idAdmin
                             WHERE ad.adminMail = ?"
                         ),
             default => $rescueData = $mysqli->prepare("
-                            SELECT d.idClient AS idUser, d.clientName AS userName, n.clientPhone AS userPhone, 
-                                    a.district, a.localNum, a.referencePoint, a.street, a.city 
-                            FROM client_data AS d
-                                JOIN client_phone AS n ON d.idClient = n.idClient
+                            SELECT d.idClient as idUser, d.clientName AS userName, d.clientPhone AS userPhone, 
+                                    a.district, a.city, a.street, a.localNum, a.referencePoint, a.state
+                            FROM client_data AS d 
                                 JOIN client_address AS a ON d.idClient = a.idClient
                             WHERE d.clientMail = ?"
                     ),
 
         };
         $rescueData->bind_param("s", $inputEmail);
-        if( !$rescueData->execute()){
+        if(! $rescueData->execute()){
             die("Erro SQL: " . $mysqli->error);
         }
-        //$rescueData->execute();
+
         $result = $rescueData->get_result();
         $user = $result->fetch_assoc();
         $rescueData->close();
@@ -115,7 +119,7 @@
 
         // criando sessão
         $_SESSION["idUser"]         = $user["idUser"];
-        $_SESSION["userPhone"]     = $user["userPhone"];
+        $_SESSION["userPhone"]      = $user["userPhone"];
         $_SESSION["userName"]       = $user["userName"];
         $_SESSION["userMail"]       = $inputEmail;
         $_SESSION["district"]       = $user["district"];
@@ -123,6 +127,7 @@
         $_SESSION["referencePoint"] = $user["referencePoint"];
         $_SESSION["street"]         = $user["street"];
         $_SESSION["city"]           = $user["city"];
+        $_SESSION["state"]          = $user["state"];
         $_SESSION['lastActivity']   = time(); // marca o início da sessão
 
         // criando pedido, caso seja um cliente
@@ -138,18 +143,17 @@
                 $newOrder->close();
 
                 verifyOrders();
-
                 header("Location: ../index.php?loginSuccess=1");
                 exit();
-                
-                
             }else{
                 header("location: ../errorPage.php");
                 exit();
             }
+        }else{
+            $_SESSION["isAdmin"]    = true;
+            header("location: ../mannager/admin.php");
+            exit();
         }
-        header("Location: ../index.php?loginSuccess=1");
-        exit();
     }
 
 ?>
@@ -168,6 +172,8 @@
 
     <link rel="stylesheet" href="../CSS/general-style.css">
     <link rel="stylesheet" href="../CSS/account-styles.css">
+
+    <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
 
     <style>
         .account-right-div{

@@ -15,6 +15,8 @@
 
     <link rel="stylesheet" href="../../CSS/general-style.css">
     <link rel="stylesheet" href="../../CSS/productView-style.css">
+    
+    <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

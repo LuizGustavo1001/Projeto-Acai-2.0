@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="../../CSS/general-style.css">
     <link rel="stylesheet" href="../../CSS/productView-style.css">
 
+    <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&display=swap" rel="stylesheet"> 

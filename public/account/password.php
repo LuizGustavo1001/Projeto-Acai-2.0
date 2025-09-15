@@ -3,6 +3,11 @@
     include "../generalPHP.php";
     include "../footerHeader.php";
 
+    if (isset($_SESSION["isAdmin"])) {
+        header("location: ../mannager/admin.php?adminNotAllowed=1");
+        exit();
+
+    }
     
     if(isset($_SESSION["userMail"])){
         header("location: login.php");
@@ -53,6 +58,8 @@
 
     <link rel="stylesheet" href="../CSS/general-style.css">
     <link rel="stylesheet" href="../CSS/account-styles.css">
+
+    <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
 
     <style>
         .account-right-div{

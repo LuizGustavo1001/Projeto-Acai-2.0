@@ -3,6 +3,11 @@
     include "../generalPHP.php";
     include "../footerHeader.php";
 
+    if (isset($_SESSION["isAdmin"])) {
+        header("location: ../mannager/admin.php?adminNotAllowed=1");
+        exit();
+
+    }
 
     if( isset($_SESSION["userMail"])){
         header("location: account.php");
@@ -44,7 +49,7 @@
                     if(checkdnsrr($domain, "MX")){
                         // verificar se o domínio do email existe
                         $name      = mb_convert_case($_POST['name'], MB_CASE_TITLE, "UTF-8");
-                        $number    = $_POST["phone"];
+                        $phone    = $_POST["phone"];
                         $street    = $_POST["street"];
                         $houseNum  = $_POST["houseNum"];
                         $district  = mb_convert_case($_POST["district"], MB_CASE_TITLE, "UTF-8");
@@ -53,46 +58,36 @@
                         $password  = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
                         $insertData = $mysqli->prepare(
-                            "INSERT INTO client_data (clientName, clientMail, clientPassword) VALUES (?, ?, ?)"
+                            "INSERT INTO client_data (clientName, clientMail, clientPassword, clientPhone) VALUES (?, ?, ?, ?)"
                         );
-                        $insertData->bind_param("sss", $name, $inputEmail, $password);
+                        $insertData->bind_param("ssss", $name, $inputEmail, $password, $phone);
 
                         if($insertData->execute()){ // adicionar o cliet_number
                             $idClient = $mysqli->insert_id; // recuperar o ultimo id inserido no Banco de Dados
                             $insertData->close();
 
-                            $insertPhone = $mysqli->prepare(
-                                "INSERT INTO client_phone (idClient, clientPhone) VALUES (?, ?)"
+                            $insertAddress = $mysqli->prepare(
+                                "INSERT INTO client_address (idClient, district, localNum, referencePoint, street, city) VALUES (?, ?, ?, ?, ?, ?)"
                             );
-                            $insertPhone->bind_param("is", $idClient, $number);
+                            $insertAddress->bind_param("isssss", $idClient, $district, $houseNum, $reference, $street, $city);
 
-                            if($insertPhone->execute()){
-                                $insertPhone->close();
-
-                                $insertAddress = $mysqli->prepare(
-                                    "INSERT INTO client_address (idClient, district, localNum, referencePoint, street, city) VALUES (?, ?, ?, ?, ?, ?)"
-                                );
-                                $insertAddress->bind_param("isssss", $idClient, $district, $houseNum, $reference, $street, $city);
-
-                                if($insertAddress->execute()){
-                                    $insertAddress->close();
-                                    
-                                    header("location: register.php?userAdd=1");
-                                   
-                                }else{
-                                    header("location: ../errorPage.php");
-                                }
+                            if($insertAddress->execute()){
+                                $insertAddress->close();
+                                
+                                header("location: register.php?userAdd=1");
+                                exit();
                             }else{
                                 header("location: ../errorPage.php");
+                                exit();
                             }
                         }else{
                             header("location: ../errorPage.php");
+                            exit();
                         }
                     }else{
                         header("location: register.php?invalidDomain=1");
                         exit();
                     }
-                    break;
                 default:
                     header("location: register.php?emailExists=1");
                     exit();
@@ -119,6 +114,8 @@
 
     <link rel="stylesheet" href="../CSS/general-style.css">
     <link rel="stylesheet" href="../CSS/account-styles.css">
+
+    <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
 
     <style>
         .account-right-div{
@@ -214,6 +211,39 @@
                         <div class="form-item">
                             <label for="icity">Cidade:  <span>*</span></label>
                             <input type="text" name="city" id="icity" maxlength="40" placeholder="Nome da Cidade Aqui" required>
+                        </div>
+
+                        <div class="form-item">
+                            <label for="istate"></label>
+                            <select name="state" id="istate">
+                                <option value="AC">Acre</option>
+                                <option value="AL">Alagoas</option>
+                                <option value="AP">Amapá</option>
+                                <option value="AM">Amazonas</option>
+                                <option value="BA">Bahia</option>
+                                <option value="CE">Ceará</option>
+                                <option value="DF">Distrito Federal</option>
+                                <option value="ES">Espírito Santo</option>
+                                <option value="GO">Goiás</option>
+                                <option value="MA">Maranhão</option>
+                                <option value="MT">Mato Grosso</option>
+                                <option value="MS">Mato Grosso do Sul</option>
+                                <option value="MG">Minas Gerais</option>
+                                <option value="PA">Pará</option>
+                                <option value="PB">Paraíba</option>
+                                <option value="PR">PARANÁ</option>
+                                <option value="PE">Pernambuco</option>
+                                <option value="PI">Piauí</option>
+                                <option value="RJ">Rio de Janeiro</option>
+                                <option value="RN">Rio Grande do Norte</option>
+                                <option value="RS">Rio Grande do Sul</option>
+                                <option value="RO">Rondônia</option>
+                                <option value="RR">Roraima</option>
+                                <option value="SC">Santa Catarina</option>
+                                <option value="SP">São Paulo</option>
+                                <option value="SE">Sergipe</option>
+                                <option value="TO">Tocantins</option>
+                            </select>
                         </div>
 
                         <div class="form-item">

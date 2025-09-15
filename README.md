@@ -53,16 +53,18 @@
         |   |
         |   |-- account                             (Página do Usuário)
         |   |-- cart                                (Página do Carrinho)
-        |   |-- products                            (Página de Produtos)
-        |   |-- readMe-images                       (Imagens Utilizadas no ReadMe.md)
-        |   |-- JS                                  (JavaScript utilizado nas páginas)
         |   |-- CSS                                 (Folhas de Estilo utilizadas nas páginas)
+        |   |-- JS                                  (JavaScript utilizado nas páginas)
+        |   |-- mannager                            (Página de Gerenciamento p/ Administradores)
+        |   |-- products                            (Página de Produtos)
+        |   |-- readMe-images                       (Imagens Utilizadas no README.md)
         |   |-- errorPage.php                       (Página de Erro Geral)
+        |   |-- footerHeader.php                    (Código PHP para imprimir o cabeçalho e rodapé de cada página)
         |   |-- GeneralPHP.php                      (Códigos PHP utilizados em mais de uma página)
         |   |-- index.php                           (Página Inicial)
         |
         |-- dbConnection.php                        (Conectar o Banco de Dados com o FrontEnd)
-        |-- dumpProjeto_acai.sql                    (Cópia do Banco de Dados utilizado)   
+        |-- dumpProjetoAcai.sql                     (Cópia do Banco de Dados utilizado)   
     </pre>
 <hr>
 

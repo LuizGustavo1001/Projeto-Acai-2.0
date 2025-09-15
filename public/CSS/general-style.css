@@ -7,7 +7,6 @@
     --tertiary-clr:#FFFFFF;
     --fourth-clr: #555555;
     --fifth-clr: #A00093;
-
     --link-hover-clr: #ecb1e7;
 
     --placeholder-clr: #9a6b94;
@@ -134,6 +133,7 @@ footer img{
     width: 25px;
     
 }
+
 
 input, 
 select{

@@ -1,5 +1,6 @@
     main{
         margin-bottom: 5em;
+        height: 100vh;
 
     }
 
@@ -108,7 +109,6 @@
 
         main{
             margin-bottom: 7em;
-            height: 100vh;
             
         }
 

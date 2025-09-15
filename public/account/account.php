@@ -2,6 +2,12 @@
     include "../../databaseConnection.php";
     include "../generalPHP.php";
     include "../footerHeader.php";
+
+    if (isset($_SESSION["isAdmin"])) {
+        header("location: ../mannager/admin.php?adminNotAllowed=1");
+        exit();
+
+    }
     
     if(! isset($_SESSION["userMail"])){
         header("location: login.php");
@@ -67,6 +73,8 @@
 
     <link rel="stylesheet" href="../CSS/general-style.css">
     <link rel="stylesheet" href="../CSS/account-styles.css">
+
+    <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
 
     <style>
         .account-right-div{
@@ -157,8 +165,41 @@
                         <div class="form-item">
                             <label for="iuserCity">Cidade: </label>
                             <div class="form-input">
-                                <input type="text" name="city" id="iuserCity" maxlength="40" placeholder="<?php echo $_SESSION['city']; ?>">
+                                <input type="text" name="city" id="iuserCity" maxlength="40" placeholder="<?php echo $_SESSION['state']; ?>">
                             </div>
+                        </div>
+
+                        <div class="form-item">
+                            <label for="istate">Estado</label>
+                            <select name="state" id="istate">
+                                <option value="AC" <?php optionSelect("state","AC") ?>>Acre</option>
+                                <option value="AL" <?php optionSelect("state","AL") ?>>Alagoas</option>
+                                <option value="AP" <?php optionSelect("state","AP") ?>>Amapá</option>
+                                <option value="AM" <?php optionSelect("state","AM") ?>>Amazonas</option>
+                                <option value="BA" <?php optionSelect("state","BA") ?>>Bahia</option>
+                                <option value="CE" <?php optionSelect("state","CE") ?>>Ceará</option>
+                                <option value="DF" <?php optionSelect("state","DF") ?>>Distrito Federal</option>
+                                <option value="ES" <?php optionSelect("state","ES") ?>>Espírito Santo</option>
+                                <option value="GO" <?php optionSelect("state","GO") ?>>Goiás</option>
+                                <option value="MA" <?php optionSelect("state","MA") ?>>Maranhão</option>
+                                <option value="MT" <?php optionSelect("state","MT") ?>>Mato Grosso</option>
+                                <option value="MS" <?php optionSelect("state","MS") ?>>Mato Grosso do Sul</option>
+                                <option value="MG" <?php optionSelect("state","MG") ?>>Minas Gerais</option>
+                                <option value="PA" <?php optionSelect("state","PA") ?>>Pará</option>
+                                <option value="PB" <?php optionSelect("state","PB") ?>>Paraíba</option>
+                                <option value="PR" <?php optionSelect("state","PR") ?>>PARANÁ</option>
+                                <option value="PE" <?php optionSelect("state","PE") ?>>Pernambuco</option>
+                                <option value="PI" <?php optionSelect("state","PI") ?>>Piauí</option>
+                                <option value="RJ" <?php optionSelect("state","RJ") ?>>Rio de Janeiro</option>
+                                <option value="RN" <?php optionSelect("state","RN") ?>>Rio Grande do Norte</option>
+                                <option value="RS" <?php optionSelect("state","RS") ?>>Rio Grande do Sul</option>
+                                <option value="RO" <?php optionSelect("state","RO") ?>>Rondônia</option>
+                                <option value="RR" <?php optionSelect("state","RR") ?>>Roraima</option>
+                                <option value="SC" <?php optionSelect("state","SC") ?>>Santa Catarina</option>
+                                <option value="SP" <?php optionSelect("state","SP") ?>>São Paulo</option>
+                                <option value="SE" <?php optionSelect("state","SE") ?>>Sergipe</option>
+                                <option value="TO" <?php optionSelect("state","TO") ?>>Tocantins</option>
+                            </select>
                         </div>
 
                         <div class="form-item">

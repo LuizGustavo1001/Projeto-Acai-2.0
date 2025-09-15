@@ -27,10 +27,11 @@ DROP TABLE IF EXISTS `admin_address`;
 CREATE TABLE `admin_address` (
   `idAdmin` int(11) NOT NULL,
   `city` varchar(40) NOT NULL,
-  `district` varchar(8) NOT NULL,
+  `district` varchar(40) NOT NULL,
   `street` varchar(50) NOT NULL,
   `localNum` varchar(10) NOT NULL,
   `referencePoint` varchar(50) DEFAULT NULL,
+  `state` enum('AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO') DEFAULT 'MG',
   KEY `idAdmin` (`idAdmin`),
   CONSTRAINT `admin_address_ibfk_1` FOREIGN KEY (`idAdmin`) REFERENCES `admin_data` (`idAdmin`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -42,6 +43,7 @@ CREATE TABLE `admin_address` (
 
 LOCK TABLES `admin_address` WRITE;
 /*!40000 ALTER TABLE `admin_address` DISABLE KEYS */;
+INSERT INTO `admin_address` VALUES (1,'Cidade Legal','MG','R. Legal','553',NULL,'MG');
 /*!40000 ALTER TABLE `admin_address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,10 +87,11 @@ CREATE TABLE `admin_data` (
   `idAdmin` int(11) NOT NULL AUTO_INCREMENT,
   `adminName` varchar(30) NOT NULL,
   `adminMail` varchar(50) NOT NULL,
+  `adminPhone` varchar(16) NOT NULL,
   `adminPicture` varchar(200) DEFAULT 'https://res.cloudinary.com/dw2eqq9kk/image/upload/v1757086840/default_user_icon_yp10ih.png',
   `adminPassword` varchar(200) NOT NULL,
   PRIMARY KEY (`idAdmin`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,31 +100,8 @@ CREATE TABLE `admin_data` (
 
 LOCK TABLES `admin_data` WRITE;
 /*!40000 ALTER TABLE `admin_data` DISABLE KEYS */;
+INSERT INTO `admin_data` VALUES (1,'Tijolilson TIjolos','tijolos@dominio.com','(35) 9 7438 7234','https://res.cloudinary.com/dw2eqq9kk/image/upload/v1757894088/622bc18a-9a8a-4aa3-987a-c2767a486266_wuq7i2.jpg','$2y$10$sQhi2JujYSx8Xaa7e74GvOeBvl9PFbfaBTfrqYNGWvp4ystxqszhC');
 /*!40000 ALTER TABLE `admin_data` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `admin_phone`
---
-
-DROP TABLE IF EXISTS `admin_phone`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `admin_phone` (
-  `idAdmin` int(11) NOT NULL,
-  `adminPhone` varchar(16) NOT NULL,
-  PRIMARY KEY (`idAdmin`,`adminPhone`),
-  CONSTRAINT `admin_phone_ibfk_1` FOREIGN KEY (`idAdmin`) REFERENCES `admin_data` (`idAdmin`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `admin_phone`
---
-
-LOCK TABLES `admin_phone` WRITE;
-/*!40000 ALTER TABLE `admin_phone` DISABLE KEYS */;
-/*!40000 ALTER TABLE `admin_phone` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -138,6 +118,7 @@ CREATE TABLE `client_address` (
   `street` varchar(50) NOT NULL,
   `localNum` varchar(10) NOT NULL,
   `referencePoint` varchar(50) DEFAULT NULL,
+  `state` enum('AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO') DEFAULT 'MG',
   KEY `idClient` (`idClient`),
   CONSTRAINT `client_address_ibfk_1` FOREIGN KEY (`idClient`) REFERENCES `client_data` (`idClient`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -149,7 +130,7 @@ CREATE TABLE `client_address` (
 
 LOCK TABLES `client_address` WRITE;
 /*!40000 ALTER TABLE `client_address` DISABLE KEYS */;
-INSERT INTO `client_address` VALUES (8,'Cachoeira Nova','Laranjeiras','R. das palmeiras','124','');
+INSERT INTO `client_address` VALUES (8,'Cachoeira Nova','Laranjeiras','R. das palmeiras','124','','MG');
 /*!40000 ALTER TABLE `client_address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -164,6 +145,7 @@ CREATE TABLE `client_data` (
   `idClient` int(11) NOT NULL AUTO_INCREMENT,
   `clientName` varchar(30) NOT NULL,
   `clientMail` varchar(50) NOT NULL,
+  `clientPhone` varchar(16) NOT NULL,
   `clientPassword` varchar(200) NOT NULL,
   PRIMARY KEY (`idClient`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -175,33 +157,8 @@ CREATE TABLE `client_data` (
 
 LOCK TABLES `client_data` WRITE;
 /*!40000 ALTER TABLE `client_data` DISABLE KEYS */;
-INSERT INTO `client_data` VALUES (1,'Tijoludo Tijolos','tijolo@dominio.com','$2y$10$sQhi2JujYSx8Xaa7e74GvOeBvl9PFbfaBTfrqYNGWvp4ystxqszhC'),(8,'Farofilson Bananilson','farofa@gmail.com','$2y$10$n0ZUjyXqsc76pEuKP7/HCO9oibFQUuMTfDfF/nCSmpUbOvAYuA3hi');
+INSERT INTO `client_data` VALUES (8,'Farofilson Bananilson','farofa@gmail.com','(31) 9 7435 8274','$2y$10$n0ZUjyXqsc76pEuKP7/HCO9oibFQUuMTfDfF/nCSmpUbOvAYuA3hi');
 /*!40000 ALTER TABLE `client_data` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `client_phone`
---
-
-DROP TABLE IF EXISTS `client_phone`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `client_phone` (
-  `idClient` int(11) NOT NULL,
-  `clientPhone` varchar(16) NOT NULL,
-  PRIMARY KEY (`idClient`,`clientPhone`),
-  CONSTRAINT `client_phone_ibfk_1` FOREIGN KEY (`idClient`) REFERENCES `client_data` (`idClient`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `client_phone`
---
-
-LOCK TABLES `client_phone` WRITE;
-/*!40000 ALTER TABLE `client_phone` DISABLE KEYS */;
-INSERT INTO `client_phone` VALUES (1,'(31) 9 5435 2345'),(8,'(31) 9 5435 2345');
-/*!40000 ALTER TABLE `client_phone` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -220,7 +177,7 @@ CREATE TABLE `order_data` (
   PRIMARY KEY (`idOrder`),
   KEY `idClient` (`idClient`),
   CONSTRAINT `order_data_ibfk_1` FOREIGN KEY (`idClient`) REFERENCES `client_data` (`idClient`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -229,7 +186,7 @@ CREATE TABLE `order_data` (
 
 LOCK TABLES `order_data` WRITE;
 /*!40000 ALTER TABLE `order_data` DISABLE KEYS */;
-INSERT INTO `order_data` VALUES (1,8,'2025-09-07','07:04:46','Pending');
+INSERT INTO `order_data` VALUES (2,8,'2025-09-11','16:01:05','Pending'),(3,8,'2025-09-14','00:04:11','Pending'),(4,8,'2025-09-14','00:13:54','Pending');
 /*!40000 ALTER TABLE `order_data` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -289,6 +246,7 @@ CREATE TABLE `product_order` (
 
 LOCK TABLES `product_order` WRITE;
 /*!40000 ALTER TABLE `product_order` DISABLE KEYS */;
+INSERT INTO `product_order` VALUES (2,1,1,110.00,110.00),(2,10,1,80.00,80.00);
 /*!40000 ALTER TABLE `product_order` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -301,4 +259,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-09-07  2:15:23
+-- Dump completed on 2025-09-14 21:19:35

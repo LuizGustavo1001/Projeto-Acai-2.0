@@ -116,10 +116,10 @@ function footerOut(){
 
                 <li>
                     <strong>
-                        <img src=\"https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079684/instagram-icon_wjguqu.png\" alt=\"instagram logo\">
+                        <i class=\"fa-brands fa-instagram fa-xl\"></i>
                         Instagram: 
                     </strong>
-                    <a href=\"#\" target=\"_blank\">
+                    <a href=\"https://www.instagram.com\" target=\"_blank\">
                         <p>@Instagram</p>
                     </a>
                 </li>
@@ -138,7 +138,7 @@ function footerOut(){
 
                 <li>
                     <strong>
-                        <img src=\"https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079686/whatsapp-icon_ketibs.png\" alt=\"WhatsApp Logo\">
+                        <i class=\"fa-brands fa-whatsapp fa-xl\"></i>
                         WhatsApp: 
                     </strong>
                     <a href=\"#\" target=\"_blank\">
@@ -152,10 +152,10 @@ function footerOut(){
                 
                 <li>
                     <strong>
-                        <img src=\"https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079684/github-icon_xab4gh.png\" alt=\"\">
+                        <i class=\"fa-brands fa-github fa-xl\"></i>
                         Desenvolvido Por:
                     </strong>
-                    <a href=\"github.com/luizgustavo1001\" target=\"_blank\">
+                    <a href=\"https://www.github.com/LuizGustavo1001\" target=\"_blank\">
                         <p>Luiz Gustavo</p>
                     </a>
                 </li>
@@ -163,5 +163,3 @@ function footerOut(){
         </footer>
     ";
 }
-
-?>

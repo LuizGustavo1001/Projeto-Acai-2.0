@@ -1,4 +1,4 @@
-<?php 
+<?php
     include "../../databaseConnection.php";
 
     require "../../composer/mailLibrary/src/PHPMailer.php";
@@ -11,6 +11,13 @@
     if(! isset($_SESSION)){
         session_start(); // iniciar a sessão
     }
+
+    if (isset($_SESSION["isAdmin"])) {
+        header("location: ../mannager/admin.php?adminNotAllowed=1");
+        exit();
+
+    }
+    
 
     if(! isset($_SESSION["userMail"])){ // entrando na página sem solicitar um token
         header("location: password.php");

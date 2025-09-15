@@ -454,6 +454,12 @@ function verifyOrders(){ // remover pedidos que não foram confirmados a mais de
     $stmt->close();
 }
 
+function optionSelect($local, $option){
+    if($_SESSION[$local] == "$option"){
+        echo "selected";
+    }
+}
+
 
 function verifyCartAmount(){ // dar saída na quantidade de produtos no carrinho do cliente logado
     global $mysqli;
