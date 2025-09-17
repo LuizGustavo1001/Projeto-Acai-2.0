@@ -1,0 +1,70 @@
+body{
+    display: block;
+}
+
+.main-title{
+    margin: 0 auto;
+    font-size: 1.2em;
+}
+
+.back-button a{
+    display: flex;
+    align-items: center;
+    gap: 0.3em;
+    
+    margin-bottom: 1em;
+
+    width: 100px;
+
+    
+
+}
+.back-button a svg{
+    color: var(--secondary-clr);
+}
+.back-button a:hover{
+    color: var(--fifth-clr);
+
+}
+
+form{
+    background: var(--tertiary-clr);
+
+    padding: 2em;
+    border-radius: var(--border-radius);
+
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+
+}
+
+.form-inputs{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+
+}
+
+.form-input{
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+    .form-input img{
+    border-radius: 50%;
+
+    }
+.form-item input, .form-item select{
+    width: 100%;
+
+}
+
+@media(min-width: 1024px){
+    main{
+        width: 50%;
+        margin: 0 auto;
+    }
+
+}

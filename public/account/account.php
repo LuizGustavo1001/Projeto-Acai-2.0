@@ -24,38 +24,43 @@
 
     }
 
-    $allowedInputs = ["clientName", "clientNumber", "district", "localNum", "referencePoint", "street", "city"];
-
+    $allowedInputs = ["clientName", "clientPhone", "district", "localNum", "referencePoint", "street", "city", "state"];
     for($i = 0; $i < sizeof($allowedInputs); $i++){
-        for($j = 0; $j < sizeof($allowedInputs); $j++){
-            if(isset($_POST[$allowedInputs[$i]])){
-                $newValue = trim($_POST[$allowedInputs[$i]]);
-                if($newValue !== "" && $newValue != $_SESSION[$allowedInputs[$i]] && $allowedInputs[$i] == $allowedInputs[$j]){
-                    $dbTable = "";
-                    match($allowedInputs[$i]){
-                        "clientName" => $dbTable = "client_data",
-                        "clientNumber" => $dbTable = "client_number",
-                        default         => $dbTable = "client_address"
-                        
-                    };
-                    $changeData = $mysqli->prepare(
-                        "UPDATE $dbTable SET $allowedInputs[$i] = ? WHERE idClient = ?;"
-
-                    );
-                    $changeData->bind_param("ss", $newValue, $_SESSION["idClient"]);
-                    if($changeData->execute()){
-                        $_SESSION[$allowedInputs[$i]] = $newValue;
-
-                    }else{
-                        header("location: ../errorPage.php");
-                        exit();
-
+        if(isset($_POST[$allowedInputs[$i]])){
+            $newValue = trim($_POST[$allowedInputs[$i]]);
+            if($newValue != "" and $newValue != $_SESSION[$allowedInputs[$i]]){
+                $dbTable = match($allowedInputs[$i]){
+                    "clientName", "clientPhone"         => "client_data",
+                    default                             => "client_address"
+                };
+                
+                $changeData = $mysqli->prepare(
+                    "UPDATE $dbTable SET $allowedInputs[$i] = ? WHERE idClient = ?;"
+                );
+                
+                $changeData->bind_param("ss", $newValue, $_SESSION["idUser"]);
+                
+                if($changeData->execute()){
+                    switch($i){
+                        case 0:
+                            $_SESSION["userName"] = $newValue;
+                            break;
+                        case 1:
+                            $_SESSION["userPhone"] = $newValue;
+                            break;
+                        default: 
+                            $_SESSION[$allowedInputs[$i]] = $newValue;
+                            break;
                     }
+                    header("location: account.php?columnChange=" . $allowedInputs[(int)$i]);
+                }else{
+                    header("location: ../errorPage.php");
+                    exit();
                 }
             }
         }
-        
     }
+
 ?>
 
 
@@ -126,7 +131,18 @@
                         <p>Edite <strong>Seus Dados</strong> individualmente aqui</p>
                         <p>Ao clicar em <strong>"editar"</strong> todos os campos preenchidos serão <strong>verificados</strong> </p>
                     </div>
-                    <form action="" method="POST"> 
+                    <form method="POST"> 
+                        <?php 
+                            $columnName = match($_GET["columnChange"]){
+                                "clientName"    => "o Nome de Usuário",
+                                "clientPhone"   => "o Telefone de Contato",
+                                default         => "o Endereço",
+                            
+                            };
+
+                            echo "<p class=\"successText\">Sucesso ao Alterar <strong>{$columnName}</strong></p>";
+                        
+                        ?>
                         <div class="form-item">
                             <label for="iclientName">Nome: </label>
                             <div class="form-input">
@@ -135,9 +151,9 @@
                         </div>
 
                         <div class="form-item">
-                            <label for="iclientNumber">Telefone de Contato:</label>
+                            <label for="iclientPhone">Telefone de Contato:</label>
                             <div class="form-input">
-                                <input type="text" name="clientNumber" id="iclientNumber" minlength="15" maxlength="16" pattern="\(\d{2}\) \d \d{4} \d{4}" placeholder="<?php echo $_SESSION['userPhone']; ?>" >
+                                <input type="text" name="clientPhone" id="iclientPhone" minlength="15" maxlength="16" pattern="\(\d{2}\) \d \d{4} \d{4}" placeholder="<?php echo $_SESSION['userPhone']; ?>" >
                             </div>
                         </div>
 
@@ -165,7 +181,7 @@
                         <div class="form-item">
                             <label for="iuserCity">Cidade: </label>
                             <div class="form-input">
-                                <input type="text" name="city" id="iuserCity" maxlength="40" placeholder="<?php echo $_SESSION['state']; ?>">
+                                <input type="text" name="city" id="iuserCity" maxlength="40" placeholder="<?php echo $_SESSION['city']; ?>">
                             </div>
                         </div>
 

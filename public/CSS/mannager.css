@@ -439,6 +439,28 @@ td{
 
 }
 
+td img{
+    width: 50px;
+    
+}
+
+.hidden-box{
+    display: none;
+
+}
+
+.successText{
+    color: green;
+    text-align: center;
+
+}
+
+.errorText{
+    color: rgb(167, 7, 7);
+    text-align: center;
+
+}
+
 
 
 @media(min-width: 1024px){
@@ -538,7 +560,7 @@ td{
     td, 
     tr
     {
-        font-size: 1vw;
+        font-size: 0.9vw;
 
     }
 
@@ -549,10 +571,7 @@ td{
    
 }
 
-.hidden-box{
-    display: none;
 
-}
 
 @media(max-width:1023px){
     .center-button{

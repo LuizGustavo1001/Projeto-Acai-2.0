@@ -9,6 +9,7 @@ if (!isset($_SESSION["isAdmin"])) {
 
 }
 
+checkSession("cart");
 
 
 $getPhotoURL = $mysqli->prepare("SELECT adminPicture FROM admin_data WHERE idAdmin = ?");
@@ -54,12 +55,15 @@ function GetTableMannager($item)
     if ($getItem){
         $amount = $getItem->num_rows;
         $_SESSION[$item] = $amount;
-        if($amount == 0){
-            printTable("", 0);
-        }else{
-            while ($row = $getItem->fetch_assoc()){
-                printTable($row);
-            }
+        switch($amount){
+            case 0:
+                printTable("", 0);
+                break;
+            default:
+                while ($row = $getItem->fetch_assoc()){
+                    printTable($row);
+                }
+                break;
         } 
     }
 }

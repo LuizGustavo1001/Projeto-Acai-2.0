@@ -9,12 +9,6 @@
 
     }
 
-     if (isset($_SESSION["isAdmin"])) {
-        header("location: ../../mannager/admin.php?adminNotAllowed=1");
-        exit();
-
-    }
-
     checkSession("insideAccount");
 
     if(isset($_POST["email"]) && isset($_POST["newEmail"])){
