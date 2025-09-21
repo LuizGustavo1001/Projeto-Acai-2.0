@@ -107,7 +107,6 @@
             <li>Substitua no linha 16 do arquivo Cart.php o link da planilha pela sua criada anteriormente</li>
             <li>
                 Para acessar o site, Digite no Navegador <pre>http://localhost/Projeto_Acai2.0/public</pre>
-                <img src="public/readMe-images/local.png" alt="local Preview"></img>
             </li>
         </ul>
     </li>
@@ -150,7 +149,6 @@
             <li>Substitua no linha 16 do arquivo Cart.php o link da planilha pela sua criada anteriormente</li>
             <li>
                 Para acessar o site, Digite no Navegador <pre>http://localhost/Projeto_Acai2.0/public</pre>
-                <img src="public/readMe-images/local.png" alt="local Preview"></img>
             </li>
         </ul>
     </li>
