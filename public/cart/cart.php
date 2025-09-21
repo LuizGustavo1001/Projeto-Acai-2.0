@@ -1,13 +1,19 @@
 <?php 
+    $defaultMoney = numfmt_create("pt-BR", NumberFormatter::CURRENCY);
+
     include "../../databaseConnection.php";
     include "../generalPHP.php";
     include "../footerHeader.php";
     
-    require '../../composer/vendor/autoload.php';
-    
-    //                           BIBLIOTECA PLANILHA
-    use PhpOffice\PhpSpreadsheet\IOFactory;
-    //                           BIBLIOTECA PLANILHA
+    require __DIR__ . '/../../composer/vendor/autoload.php';
+
+    // Caminho para o JSON de credenciais baixado do Google Cloud
+    $client = new Google_Client();
+    $client->setAuthConfig('../projetoacai-472803-2e77e7899901.json');
+    $client->addScope(Google_Service_Sheets::SPREADSHEETS);
+
+    // ID da planilha (vem da URL do Google Sheets)
+    $spreadsheetId = "1xJdM0OgynL5SKLoJ5gxH91abtQ18SY7Xp2dsMVkPvKk"; 
 
     if (isset($_SESSION["isAdmin"])) {
         header("location: ../mannager/admin.php?adminNotAllowed=1");
@@ -15,9 +21,8 @@
 
     }
 
-
     function getCartTotal($clientOrder){
-        global $mysqli;
+        global $mysqli, $defaultMoney;
 
         $stmt = $mysqli->prepare("
             SELECT SUM(totPrice) AS totalPrice
@@ -28,7 +33,13 @@
         if($stmt->execute()){
             $result = $stmt->get_result();
             $price = $result->fetch_assoc();
-            echo numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $price["totalPrice"] , "BRL");
+            if($price['totalPrice'] != null){
+                return numfmt_format_currency($defaultMoney, $price['totalPrice'], "BRL");
+            }else{
+                return "R$ 00,00";
+            }
+            
+
         }
     }
 
@@ -104,28 +115,15 @@
         exit();
     }
 
-    // adicionar o produto à planilha
-    if (isset($_GET["orderConfirmed"])){ // confirmar pedido
-        $arquivo = 'planilha.xlsx';
-        $spreadsheet = IOFactory::load($arquivo);
-        $worksheet = $spreadsheet->getActiveSheet();
-
+    if(isset($_GET["orderConfirmed"])){
+        // adicionar carrinho à Planilha Google
         $Address = $_SESSION["street"]  . ", " . $_SESSION["localNum"] . ", " .
                 $_SESSION["district"] . " - " . $_SESSION["city"];
-
         $currentDate = date("Y-m-d");
         $currentHour = date("H:i:s");
+        $total =  getCartTotal($_SESSION["idOrder"]);
 
-        $initialLine = 8;
-
-        for ($line = $initialLine; $line <= 1000; $line++){
-            $value = $worksheet->getCell("A$line")->getValue();
-            if (empty($value)) {
-                $lastLine = $line;
-                break;
-            }
-        }
-
+        // recuperar os produtos relacionados ao pedido em questão
         $rescueProd = $mysqli->prepare("
             SELECT p.nameProduct as name, o.amount as amount, o.totPrice as totPrice
             FROM product AS p JOIN product_order AS o ON p.idProduct = o.idProduct
@@ -135,40 +133,33 @@
 
         $rescueProd->execute();
         $rescueProd = $rescueProd->get_result();
-        
         $allProd = "";
-
         while($row = $rescueProd->fetch_assoc()){
             $allProd .= "(" . $row["name"] . " / ". $row["amount"] . " / " . $row["totPrice"] . ")\n";
         }
-
-        $worksheet->setCellValue("A{$lastLine}", $_SESSION["userName"]);
-        $worksheet->setCellValue("B{$lastLine}", $Address);
-        $worksheet->setCellValue("C{$lastLine}", $_SESSION["referencePoint"]);
-        $worksheet->setCellValue("D{$lastLine}", $_SESSION["userPhone"]);
-        $worksheet->setCellValue("E{$lastLine}", $allProd);
-        $worksheet->setCellValue("F{$lastLine}", "R$ 00,00");
-        $worksheet->setCellValue("G{$lastLine}", getCartTotal($_SESSION["idOrder"]));
-        $worksheet->setCellValue("H{$lastLine}", "{$currentDate} {$currentHour}");
-
-        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
-        $writer->save($arquivo);
-
-        $removeOrder = $mysqli->prepare("
-            DELETE FROM product_order
-            WHERE idOrder = ?;
-        ");
         
-        $removeOrder->bind_param("i" ,$_SESSION["idOrder"]);
+        $service = new Google_Service_Sheets($client);
+        $range = "Página1!A8"; // local onde a planilha começa
+        $values = [
+            [
+            $_SESSION["userName"], $Address, $_SESSION["referencePoint"], $_SESSION["userPhone"], 
+            $allProd, "{$currentDate} {$currentHour}", "R$ 00,00", $total
+            ]
+        ];
+        $body = new Google_Service_Sheets_ValueRange(['values' => $values]);
+        $params = ['valueInputOption' => 'RAW'];
+        $service->spreadsheets_values->append($spreadsheetId, $range, $body, $params);
 
-        if($removeOrder->execute()){
-            header("location: ../index.php?orderConfirmed=1");
-        }else{
-            header("location: ../errorPage.php");
-            exit();
-        }
+        // criando novo pedido após confirmar o anterior
+        $newOrder = $mysqli->prepare("INSERT INTO order_data (idClient, orderDate, orderHour) VALUES (?, ?, ?);");
+        $newOrder->bind_param("iss", $_SESSION["idUser"], $currentDate,  $currentHour);
+        $newOrder->execute();
+        $newIdOrder = $mysqli->insert_id;
+
+        $_SESSION["idOrder"] = $newIdOrder;
+
+        header("location: ../index.php?orderConfirmed=1");
     }
-
     checkSession("cart");
 
   

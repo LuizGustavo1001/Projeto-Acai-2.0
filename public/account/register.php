@@ -164,6 +164,7 @@
                         if(isset($_GET["invalidDomain"])){
                             echo "
                                 <p class=\"errorText\">
+                                    <i class=\"fa-solid fa-triangle-exclamation\"></i>
                                     Erro: Domínio do Email Digitado <strong>É Inválido</strong>, tente novamente com outro domínio ou <strong>cadastre-se</strong> no link abaixo
                                 </p>
                             ";
@@ -171,6 +172,7 @@
                         if(isset($_GET["emailExists"])){
                             echo "
                                 <p class=\"errorText\">
+                                    <i class=\"fa-solid fa-triangle-exclamation\"></i>
                                     Email <strong>já cadastrado</strong>, tente novamente com <strong>Outro Endereço de Email</strong>
                                 </p>
                             ";

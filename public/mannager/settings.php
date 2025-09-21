@@ -3,51 +3,79 @@
     include "../footerHeader.php";
     include "mannagerPHP.php";
 
-    $allowedInputs = ["adminName", "adminPhone", "adminPicture", "district", "localNum", "referencePoint", "street", "city", "state"];
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        changeColumn();
+    }
 
-    for($i = 0; $i < sizeof($allowedInputs); $i++){
-        if(isset($_POST[$allowedInputs[$i]])){
-            $newValue = trim($_POST[$allowedInputs[$i]]);
-            if($newValue != ""){
-                if($newValue != $_SESSION[$allowedInputs[$i]]){
-                        $dbTable = match($allowedInputs[$i]){
+    function changeColumn(){
+        global $mysqli;
+        $allowedInputs = [
+            "adminName", "adminPhone", "adminPicture", "district", 
+            "localNum", "referencePoint", "street", "city", "state"
+        ];
+        $getChanges = "";
+
+        for($i = 0; $i < sizeof($allowedInputs); $i++){
+            if(isset($_POST[$allowedInputs[$i]])){
+                $newValue = trim($_POST[$allowedInputs[$i]]);
+
+                if($newValue != ""){
+                    $dbTable = match($allowedInputs[$i]){
                         "adminName", "adminPhone", "adminPicture"           => "admin_data",
                         default                                             => "admin_address"
                     };
-                    
+
                     $changeData = $mysqli->prepare(
                         "UPDATE $dbTable SET $allowedInputs[$i] = ? WHERE idAdmin = ?;"
                     );
-                    
-                    $changeData->bind_param("ss", $newValue, $_SESSION["idUser"]);
-                    
-                    if($changeData->execute()){
-                        switch($i){
-                            case 0:
-                                $_SESSION["userName"] = $newValue;
-                                break;
-                            case 1:
-                                $_SESSION["userPhone"] = $newValue;
-                                break;
-                            default: 
-                                $_SESSION[$allowedInputs[$i]] = $newValue;
-                                break;
+                    $changeData->bind_param("si", $newValue, $_SESSION["idUser"]);
+
+                    if(
+                        $allowedInputs[$i] == "referencePoint" or 
+                        $allowedInputs[$i] == "state" or 
+                        $allowedInputs[$i] == "adminPicture"
+                    ){
+                        if($newValue != $_SESSION[$allowedInputs[$i]]){
+                            $changeData->execute();
+                            switch($i){
+                                case 0:
+                                    $_SESSION["userName"]           = $newValue;
+                                    break;
+                                case 1:
+                                    $_SESSION["userPhone"]          = $newValue;
+                                    break;
+                                default: 
+                                    $_SESSION[$allowedInputs[$i]]   = $newValue;
+                                    break;
+                            }
+
+                            $getChanges .= "c{$allowedInputs[$i]}=1&";
                         }
-                        header("location: settings.php?columnChange=" . $allowedInputs[(int)$i]);
                     }else{
-                        header("location: ../errorPage.php");
-                        exit();
+                        if($newValue != $_SESSION[$allowedInputs[$i]]){
+                            $changeData->execute();
+                            switch($i){
+                                case 0:
+                                    $_SESSION["userName"]           = $newValue;
+                                    break;
+                                case 1:
+                                    $_SESSION["userPhone"]          = $newValue;
+                                    break;
+                                default: 
+                                    $_SESSION[$allowedInputs[$i]]   = $newValue;
+                                    break;
+                            }
+                            $getChanges .= "c{$allowedInputs[$i]}=1&";
+                        }else{
+                            $getChanges .= "c{$allowedInputs[$i]}=2&";
+                        }
                     }
-                }else if($newValue == $_SESSION[$allowedInputs[$i]] and ($allowedInputs[$i] != "state" && $allowedInputs[$i] != "referencePoint")){
-                    header("location: settings.php?sameData=". $allowedInputs[(int)$i]);
-                    exit();
                 }
-                
             }
         }
+        header("location: settings.php?" . rtrim($getChanges, "&"));
+        exit();
     }
-
-
 
 ?>
 
@@ -60,9 +88,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap" rel="stylesheet">
 
     <?php faviconOut(); ?>
 
@@ -96,34 +122,43 @@
             
         </div>
 
-        <form action="" method="POST"> 
+        <form method="POST">
             <?php
-                if(isset($_GET["columnChange"])){
-                    $columnName = match($_GET["columnChange"]){
-                        "adminName"     => "o Nome de Usuário",
-                        "adminPhone"    => "o Telefone de Contato",
-                        "adminPicture"  => "a Foto de Perfil",
-                        default         => "o Endereço",
-                    
-                    };
+                $fieldLabels = [
+                    "adminName"      => "Nome de Usuário",
+                    "adminPhone"     => "Telefone de Contato",
+                    "district"       => "Bairro",
+                    "localNum"       => "Número da Residência",
+                    "referencePoint" => "Ponto de Referência",
+                    "street"         => "Rua",
+                    "city"           => "Cidade",
+                    "state"          => "Estado",
+                    "adminPicture"   => "Foto de Perfil"
+                ];
 
-                    echo "<p class=\"successText\">Sucesso ao Alterar <strong>{$columnName}</strong></p>";
+                // Percorre todos os parâmetros GET
+                foreach ($_GET as $key => $value) {
+                    if (preg_match('/^c(.+)$/', $key, $matches)) {
+                        $field = $matches[1];
+
+                        if (isset($fieldLabels[$field])) {
+                            $label = $fieldLabels[$field];
+
+                            switch ($value) {
+                                case "1":
+                                    echo "<p class='successText'>Sucesso ao alterar <strong>{$label}</strong></p>";
+                                    break;
+                                case "2":
+                                    echo "
+                                    <p class='errorText'>
+                                        <i class=\"fa-solid fa-triangle-exclamation\"></i> 
+                                        O valor inserido em <strong>{$label}</strong> é o mesmo já cadastrado.
+                                    </p>";
+                                    break;
+                            }
+                        }
+                    }
                 }
-
-                if(isset($_GET["sameData"])){
-                    $columnName = match($_GET["columnChange"]){
-                        "adminName" => "o Nome de Usuário",
-                        "adminPhone" => "o Telefone de Contato",
-                        "adminPicture" => "a Foto de Perfil",
-                        "district" => "o Bairro",
-                        "localNum" => "o Número da Residência",
-                        "city" => "Cidade",
-                    };
-
-                    echo "<p class=\"errorText\">Erro: <strong>{$columnName}</strong> é o mesmo do anterior. Tente novamente com outro valor</p>";
-
-                }
-                
             ?>
             <div class="form-inputs">
                 
@@ -211,22 +246,15 @@
                     </div>
                 </div>
             </div>
-
-            <ul style="display: flex; justify-content: space-between; border: none">
-                <li style="padding: 1em; background: var(--primary-clr);border-radius: var(--border-radius)">
-                    <a href="../account/changes/newPassword.php" style="color: white;">
-                        Alterar Senha
-                    </a>
-                </li>
-                <li style="padding: 1em; background: var(--primary-clr);border-radius: var(--border-radius)">
-                    <a href="../account/changes/newEmail.php" style="color: white;">
-                        Alterar Email
-                    </a>
-                </li>
-            </ul>
-
             <button>Editar</button>
+
+            <div style="display: flex; justify-content: space-between; border: none">
+                <button type="button" onclick="window.location.href='../account/changes/newPassword.php'">Alterar Senha</button>
+                <button type="button" onclick="window.location.href='../account/changes/newEmail.php'">Alterar Email</button>
+            </div>
+                
         </form>
+        
 
     </main>
 

@@ -17,7 +17,6 @@
         exit();
 
     }
-    
 
     if(! isset($_SESSION["userMail"])){ // entrando na página sem solicitar um token
         header("location: password.php");

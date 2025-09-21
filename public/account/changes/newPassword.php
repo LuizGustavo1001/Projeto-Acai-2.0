@@ -126,6 +126,7 @@
                             if(isset($_GET["wrongP"])) {
                                 echo "
                                     <p class=\"errorText\">
+                                        <i class=\"fa-solid fa-triangle-exclamation\"></i>
                                         Erro: <strong>Senha Anterior Inserida</strong> não está cadastrada<br>
                                         Tente Novamente com outra Senha.
                                     </p>
@@ -134,6 +135,7 @@
                             }else if(isset($_GET["sameP"])){
                                 echo "
                                     <p class=\"errorText\">
+                                        <i class=\"fa-solid fa-triangle-exclamation\"></i>
                                         Erro: <strong>Senha Anterior</strong> e <strong>Nova Senha</strong> inseridas são as mesmas<br>
                                         Tente Novamente com outra Senha.
                                     </p>

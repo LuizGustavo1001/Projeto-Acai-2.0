@@ -108,6 +108,7 @@
                             if(isset($_GET["wrongToken"])) {
                                 echo "
                                     <p class=\"errorText\">
+                                        <i class=\"fa-solid fa-triangle-exclamation\"></i>
                                         Erro: <strong>Token Inserido</strong> Incorreto <br>
                                         Tente Novamente com outro Token.
                                     </p>

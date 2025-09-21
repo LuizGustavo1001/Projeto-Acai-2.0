@@ -114,6 +114,7 @@
                             if(isset($_GET["wrongMail"])) {
                                 echo "
                                     <p class=\"errorText\">
+                                        <i class=\"fa-solid fa-triangle-exclamation\"></i>
                                         Erro: <strong>Email Inserido</strong> não está cadastrado <br>
                                         Tente Novamente com outro Endereço de Email.
                                     </p>

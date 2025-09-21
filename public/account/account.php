@@ -3,6 +3,10 @@
     include "../generalPHP.php";
     include "../footerHeader.php";
 
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        changeColumn();
+    }
+
     if (isset($_SESSION["isAdmin"])) {
         header("location: ../mannager/admin.php?adminNotAllowed=1");
         exit();
@@ -24,43 +28,71 @@
 
     }
 
-    $allowedInputs = ["clientName", "clientPhone", "district", "localNum", "referencePoint", "street", "city", "state"];
-    for($i = 0; $i < sizeof($allowedInputs); $i++){
-        if(isset($_POST[$allowedInputs[$i]])){
-            $newValue = trim($_POST[$allowedInputs[$i]]);
-            if($newValue != "" and $newValue != $_SESSION[$allowedInputs[$i]]){
-                $dbTable = match($allowedInputs[$i]){
-                    "clientName", "clientPhone"         => "client_data",
-                    default                             => "client_address"
-                };
-                
-                $changeData = $mysqli->prepare(
-                    "UPDATE $dbTable SET $allowedInputs[$i] = ? WHERE idClient = ?;"
-                );
-                
-                $changeData->bind_param("ss", $newValue, $_SESSION["idUser"]);
-                
-                if($changeData->execute()){
-                    switch($i){
-                        case 0:
-                            $_SESSION["userName"] = $newValue;
-                            break;
-                        case 1:
-                            $_SESSION["userPhone"] = $newValue;
-                            break;
-                        default: 
-                            $_SESSION[$allowedInputs[$i]] = $newValue;
-                            break;
+    function changeColumn(){
+        global $mysqli;
+        $allowedInputs = [
+            "clientName", "clientPhone", "district", "localNum", 
+            "referencePoint", "street", "city", "state"
+        ];
+        $getChanges = "";
+
+        for($i = 0; $i < sizeof($allowedInputs); $i++){
+            if(isset($_POST[$allowedInputs[$i]])){
+                $newValue = trim($_POST[$allowedInputs[$i]]);
+
+                if($newValue != ""){
+                    $dbTable = match($allowedInputs[$i]){
+                        "clientName", "clientPhone"         => "client_data",
+                        default                             => "client_address"
+                    };
+
+                    $changeData = $mysqli->prepare(
+                        "UPDATE $dbTable SET $allowedInputs[$i] = ? WHERE idClient = ?;"
+                    );
+                    $changeData->bind_param("si", $newValue, $_SESSION["idUser"]);
+
+                    if($allowedInputs[$i] == "referencePoint" or $allowedInputs[$i] == "state"){
+                        if($newValue != $_SESSION[$allowedInputs[$i]]){
+                            $changeData->execute();
+                            switch($i){
+                                case 0:
+                                    $_SESSION["userName"] = $newValue;
+                                    break;
+                                case 1:
+                                    $_SESSION["userPhone"] = $newValue;
+                                    break;
+                                default: 
+                                    $_SESSION[$allowedInputs[$i]] = $newValue;
+                                    break;
+                            }
+
+                            $getChanges .= "c{$allowedInputs[$i]}=1&";
+                        }
+                    }else{
+                        if($newValue != $_SESSION[$allowedInputs[$i]]){
+                            $changeData->execute();
+                            switch($i){
+                                case 0:
+                                    $_SESSION["userName"] = $newValue;
+                                    break;
+                                case 1:
+                                    $_SESSION["userPhone"] = $newValue;
+                                    break;
+                                default: 
+                                    $_SESSION[$allowedInputs[$i]] = $newValue;
+                                    break;
+                            }
+                            $getChanges .= "c{$allowedInputs[$i]}=1&";
+                        }else{
+                            $getChanges .= "c{$allowedInputs[$i]}=2&";
+                        }
                     }
-                    header("location: account.php?columnChange=" . $allowedInputs[(int)$i]);
-                }else{
-                    header("location: ../errorPage.php");
-                    exit();
                 }
             }
         }
+        header("location: account.php?" . rtrim($getChanges, "&"));
+        exit();
     }
-
 ?>
 
 
@@ -131,17 +163,44 @@
                         <p>Edite <strong>Seus Dados</strong> individualmente aqui</p>
                         <p>Ao clicar em <strong>"editar"</strong> todos os campos preenchidos serão <strong>verificados</strong> </p>
                     </div>
-                    <form method="POST"> 
-                        <?php 
-                            $columnName = match($_GET["columnChange"]){
-                                "clientName"    => "o Nome de Usuário",
-                                "clientPhone"   => "o Telefone de Contato",
-                                default         => "o Endereço",
-                            
-                            };
+                    <form method="POST">
+                        <?php
+                            // Mapeamento para mostrar nomes amigáveis
+                            $fieldLabels = [
+                                "clientName"     => "Nome de Usuário",
+                                "clientPhone"    => "Telefone de Contato",
+                                "district"       => "Bairro",
+                                "localNum"       => "Número da Residência",
+                                "referencePoint" => "Ponto de Referência",
+                                "street"         => "Rua",
+                                "city"           => "Cidade",
+                                "state"          => "Estado"
+                            ];
 
-                            echo "<p class=\"successText\">Sucesso ao Alterar <strong>{$columnName}</strong></p>";
-                        
+                            // Percorre todos os parâmetros GET
+                            foreach ($_GET as $key => $value) {
+                                // Exemplo: $key = "cclientName", $value = "1"
+                                if (preg_match('/^c(.+)$/', $key, $matches)) {
+                                    $field = $matches[1]; // pega "clientName", "city", etc.
+
+                                    if (isset($fieldLabels[$field])) {
+                                        $label = $fieldLabels[$field];
+
+                                        switch ($value) {
+                                            case "1":
+                                                echo "<p class='successText'>Sucesso ao alterar <strong>{$label}</strong></p>";
+                                                break;
+                                            case "2":
+                                                echo "
+                                                <p class='errorText'>
+                                                    <i class=\"fa-solid fa-triangle-exclamation\"></i> 
+                                                    O valor inserido em <strong>{$label}</strong> é o mesmo já cadastrado.
+                                                </p>";
+                                                break;
+                                        }
+                                    }
+                                }
+                            }
                         ?>
                         <div class="form-item">
                             <label for="iclientName">Nome: </label>

@@ -30,6 +30,7 @@
         if(! filter_var($inputEmail, FILTER_VALIDATE_EMAIL)){
             header("location: login.php?invalidEmail=1");
             exit();
+
         }
 
         $inputPassword = $_POST["password"];
@@ -215,6 +216,7 @@
                             if(isset($_GET["errorLogin"])){
                                 echo "
                                     <p class=\"errorText\">
+                                        <i class=\"fa-solid fa-triangle-exclamation\"></i> 
                                         Erro: Email ou Senha <strong>Incorretos</strong>, tente novamente ou <strong>cadastre-se</strong> no link abaixo
                                     </p>
                                 ";
@@ -224,6 +226,7 @@
                             if(isset($_GET["timeout"])){
                                 echo "
                                     <p class=\"errorText\">
+                                        <i class=\"fa-solid fa-triangle-exclamation\"></i>
                                         Erro: <strong>Sessão Expirada</strong>, realize seus Login novamente
                                     </p>
                                 ";
@@ -233,6 +236,7 @@
                             if(isset($_GET["unkUser"])){
                                 echo "
                                     <p class=\"errorText\">
+                                        <i class=\"fa-solid fa-triangle-exclamation\"></i>
                                         Erro: <strong>Realize seu login</strong> para <strong>Adicionar Produtos</strong> ao carrinho
                                     </p>
                                 ";

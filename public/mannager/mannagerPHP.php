@@ -1,6 +1,10 @@
 <?php
 include "../generalPHP.php";
 
+# CLOUDINARY UPLOAD 
+
+# CLOUDINARY UPLOAD 
+
 $defaultMoney = numfmt_create("pt-BR", NumberFormatter::CURRENCY);
 
 if (!isset($_SESSION["isAdmin"])) {

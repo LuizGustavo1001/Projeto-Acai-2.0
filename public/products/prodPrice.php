@@ -2,21 +2,14 @@
 
 $defaultMoney = numfmt_create("pt-BR", NumberFormatter::CURRENCY);
 
-// chamar função que adiciona produtos ao carrinho
-if(isset($_GET['size']) && isset($_GET['amount-product']) && isset($_GET['formType'])){
-    if($_GET['formType'] === 'mobile'){
-        add2Cart($_GET['size'], $_GET['amount-product']);
-    } else if($_GET['formType'] === 'desktop'){
-        add2Cart($_GET['size'], $_GET['amount-product']);
-    }
-}
-
+add2Cart($_GET['size'], $_GET['amount-product']);
 function add2Cart($prodName, $amount){
     global $mysqli;
 
-    if(!isset($_SESSION['userName'])){
-        header("Location: ../../account/login.php?unkUser=1");
+    if(! isset($_SESSION['userName'])){
+        header("Location: ../account/login.php?unkUser=1");
         exit();
+        
     }
     
     $allowedNames = 
@@ -62,9 +55,10 @@ function add2Cart($prodName, $amount){
                 $query->bind_param("iiidd", $_SESSION["idOrder"], $result["idProduct"], $amount, $result["priceProduct"], $totalPrice);
 
                 if($query->execute()){
-                    header("Location: $urlName.php?prodAdd=1");
+                    header("Location: products.php?prodAdd=1&id={$prodName}");
                     exit();
                 }
+                break;
         }
     }
 }

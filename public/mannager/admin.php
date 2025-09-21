@@ -119,7 +119,22 @@
                     </section>
                 ";
 
-            }      
+            }
+            if(isset($_GET["adminNotAllowed"])){
+                echo "
+                    <section class= \"popup-box show\">
+                        <div class=\"popup-div\">
+                            <div><h1>Atualização</h1></div>
+                            <div>
+                                <p>Novo Administrador Adicionado com Sucesso</p>
+                                <p>Clique no botão abaixo para fechar esta janela</p>
+                                <button class=\"popup-button\">Fechar</button>
+                            </div>
+                        </div>
+                    </section>
+                ";
+
+            }       
         ?>
         <div class="main-title">
             <div>
@@ -136,7 +151,9 @@
 
             <div class="admin-data">
                 <img src="<?php echo $_SESSION['adminPicture']; ?>" alt="Admin Picture">
-                <p><?php echo $_SESSION["userName"]; ?></p>
+                <p>
+                    <?php echo $_SESSION["userName"]; ?>
+                </p>
                 <a href="settings.php">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6">
@@ -161,8 +178,10 @@
                 </form>
             </li>
             
-            <li >
-                <a href="addItem.php?type=product"><button class="center-button">Adicionar Administrador</button></a>
+            <li>
+                <button class="center-button" onclick="window.location.href='addItem.php?type=admin'">
+                    Adicionar Administrador
+                </button>
             </li>
         </ul>
 

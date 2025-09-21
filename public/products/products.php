@@ -50,6 +50,7 @@
     <link rel="stylesheet" href="../CSS/products-style.css">
     
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
+    <script src="../JS/generalScripts.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -65,6 +66,27 @@
     <?php headerOut(1)?>
 
     <main>
+        <?php 
+            if(isset($_GET["prodAdd"])){
+                $name = matchDisplayNames($_GET["id"]);
+                echo "
+                    <section class= 'popup-box show'>
+                            <div class='popup-div'>
+                                <div><h1>Carrinho Atualizado</h1></div>
+                                <div>
+                                    <p>Produto <strong style='color: var(--secondary-clr)'>{$name}</strong> foi Adicionado com sucesso ao Carrinho</p>
+                                    <p>Clique no botão abaixo para fechar esta janela</p>
+                                    <button class='popup-button'>Fechar</button>
+                                </div>
+                            </div>
+                    </section>
+                ";
+                if(isset($_SESSION["subTotal"])){
+                    unset($_SESSION["subTotal"]);
+                }
+                verifyOrders();
+            } 
+        ?>
 
         <section class="header-feature">
             <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1754316874/feature_xabuwx.png" alt="feature Products Image">
@@ -134,7 +156,6 @@
             <div class="index-title">
                 <h1>Cremes</h1>
             </div>
-
             <ul class="products-list">
                 <?php 
                     if(isset($_GET["filter"])){
@@ -143,14 +164,11 @@
                         categoryItens("Cream", "noFilter");
                     }
                 ?>
-                
-                <?php ?>
             </ul>
 
             <div class="index-title">
                 <h1>Adicionais</h1>
             </div>
-
             <ul class="products-list">
                 <?php 
                     if(isset($_GET["filter"])){
@@ -164,7 +182,6 @@
             <div class="index-title">
                 <h1>Outros</h1>
             </div>
-
             <ul class="products-list">
                 <?php 
                     if(isset($_GET["filter"])){

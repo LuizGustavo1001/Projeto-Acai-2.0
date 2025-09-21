@@ -6,17 +6,17 @@
     function featureItens(){
         global $mysqli;
 
-        $totalQuery = $mysqli->prepare("SELECT COUNT(*) FROM product;");
+        $prodAmount = $mysqli->prepare("SELECT COUNT(*) FROM product;");
 
-        if($totalQuery->execute()){
-            $totalResult = $totalQuery->get_result();
-            $total = $totalResult->fetch_row()[0];
-            $totalQuery->close();
+        if($prodAmount->execute()){
+            $totalResult = $prodAmount->get_result();
+            $amount = $totalResult->fetch_row()[0];
+            $prodAmount->close();
 
             $randomIdVec = [];
 
-            while (count($randomIdVec) < 4) {
-                $randomId = rand(1, $total);
+            while(count($randomIdVec) < 4){
+                $randomId = rand(1, $amount);
                 if (! in_array($randomId, $randomIdVec)) {
                     $randomIdVec[] = $randomId;
                 }
@@ -130,22 +130,17 @@
         <section class="main-section">
             <div class="left-content">
                 <h1>
-                    Açaí
-                    e
-                    Polpas
-                    <br>
+                    Açaí e Polpas <br>
                     <span style="color: #cc0088">Amazônia</span>
                 </h1>
                 <p>Qualidade Superior, Preço Inferior</p>
                 <div>
-                    <a href="products/products.php">
-                        <button>
-                            Compre Agora
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5" style="width: 25px;">
-                                <path fill-rule="evenodd" d="M2 10a.75.75 0 0 1 .75-.75h12.59l-2.1-1.95a.75.75 0 1 1 1.02-1.1l3.5 3.25a.75.75 0 0 1 0 1.1l-3.5 3.25a.75.75 0 1 1-1.02-1.1l2.1-1.95H2.75A.75.75 0 0 1 2 10Z" clip-rule="evenodd" />
-                            </svg>
-                        </button>
-                    </a>
+                    <button type="button" onclick="window.location.href='products/products.php'">
+                        Compre Agora
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5" style="width: 25px;">
+                            <path fill-rule="evenodd" d="M2 10a.75.75 0 0 1 .75-.75h12.59l-2.1-1.95a.75.75 0 1 1 1.02-1.1l3.5 3.25a.75.75 0 0 1 0 1.1l-3.5 3.25a.75.75 0 1 1-1.02-1.1l2.1-1.95H2.75A.75.75 0 0 1 2 10Z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
                 </div>
             </div>
             <div class="right-content" style="margin-top: 5vh;"></div>

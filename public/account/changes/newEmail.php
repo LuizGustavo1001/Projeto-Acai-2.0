@@ -128,6 +128,7 @@
                             if(isset($_GET["wrongEmail"])) {
                                 echo "
                                     <p class=\"errorText\">
+                                        <i class=\"fa-solid fa-triangle-exclamation\"></i>
                                         Erro: <strong>Email Anterior Inserido</strong> não está cadastrado <br>
                                         Tente Novamente com outro Endereço de Correspondências Eletrônicas.
                                     </p>
@@ -136,6 +137,7 @@
                             }else if(isset($_GET["sameEmail"])){
                                 echo "
                                     <p class=\"errorText\">
+                                        <i class=\"fa-solid fa-triangle-exclamation\"></i>
                                         Erro: <strong>Email Anterior</strong> e <strong>Novo Email</strong> inseridos são os mesmos<br>
                                         Tente Novamente com outro Endereço de Correspondências Eletrônicas.
                                     </p>

@@ -136,8 +136,10 @@ include "mannagerPHP.php";
 
             <div class="admin-data">
                 <img src="<?php echo $_SESSION['adminPicture']; ?>" alt="Admin Picture">
-                <p><?php echo $_SESSION["userName"]; ?></p>
-                <a href="">
+                <p>
+                    <?php echo $_SESSION["userName"]; ?>
+                </p>
+                <a href="settings.php">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -162,7 +164,7 @@ include "mannagerPHP.php";
             </li>
 
             <li>
-                <a href="addItem.php?type=product"><button class="center-button">Adicionar Produto</button></a>
+                <button class="center-button" onclick="window.location.href='addItem.php?type=product'">Adicionar Produto</button>
             </li>
         </ul>
 

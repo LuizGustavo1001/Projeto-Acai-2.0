@@ -2,7 +2,7 @@
 
 function faviconOut(){
     echo "
-        <link rel=\"shortcut icon\" href=\"https://res.cloudinary.com/dw2eqq9kk/image/upload/v1755358113/acai-icon_jsrexi_t30xv5.png\" type=\"image/x-icon\">
+        <link rel=\"shortcut icon\" href='https://res.cloudinary.com/dw2eqq9kk/image/upload/v1755358113/acai-icon_jsrexi_t30xv5.png' type=\"image/x-icon\">
     ";
 }
 
@@ -31,25 +31,47 @@ function headerOut($local){
             <ul class=\"right-header\">
                 <li>
     ";
+    if(isset($_SESSION["isAdmin"])){
+        $link = match($local){
+            0=> "<a href='mannager/admin.php'>",
+            1=> "<a href='../mannager/admin.php'>",
+            2=> "<a href='../../mannager/admin.php'>",
 
-    $link = match($local){
-        0 => "<a href=\"account/account.php\">",
-        1 => "<a href=\"../account/account.php\">",
-        2 => "<a href=\"../../account/account.php\">",
-    };
-    echo $link;
+        };
+        echo $link;
 
-    echo "
-                    <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"size-6\">
+        echo "
+                        <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"size-6\">
                             <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z\" />
                         </svg>
 
-                        <p><span>Minha</span> Conta</p>
+                        <p>Página Admin</p>
                     </a>
                 </li>
 
                 <li>
-    ";
+        ";
+
+    }else{
+        $link = match($local){
+            0 => "<a href=\"account/account.php\">",
+            1 => "<a href=\"../account/account.php\">",
+            2 => "<a href=\"../../account/account.php\">",
+        };
+        echo $link;
+
+        echo "
+                            <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"size-6\">
+                                <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z\" />
+                            </svg>
+                            <p><span>Minha</span> Conta</p>
+                        </a>
+                    </li>
+
+                    <li>
+        ";
+    }
+    
 
     $link = match($local){
         0 => "<a href=\"products/products.php\">",

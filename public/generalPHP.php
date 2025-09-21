@@ -1,5 +1,7 @@
 <?php
 
+date_default_timezone_set('America/Sao_Paulo');
+
 if(! isset($_SESSION)){
     session_start();
 
@@ -21,6 +23,7 @@ function getProductByName($prodName, $page){
     ];
 
     if(in_array($prodName, $allowedNames)){
+        // produtos multivalorados
         if( $prodName == "caixaAcai"        || 
             $prodName == "cremesFrutados"   || 
             $prodName == "colheres"         || 
@@ -39,7 +42,7 @@ function getProductByName($prodName, $page){
 
                 };
             $query = $mysqli->prepare("
-                    SELECT nameProduct, brandProduct, imageURL, priceProduct, priceDate
+                    SELECT idProduct, nameProduct, brandProduct, imageURL, priceProduct, priceDate
                     FROM product
                     WHERE priceProduct = (
                         SELECT MIN(p.priceProduct)
@@ -51,12 +54,13 @@ function getProductByName($prodName, $page){
             
         }else{
             $query = $mysqli->prepare("
-                SELECT nameProduct, brandProduct, imageURL, priceProduct, priceDate
+                SELECT idProduct, nameProduct, brandProduct, imageURL, priceProduct, priceDate
                 FROM product
                 WHERE nameProduct = ?
                 LIMIT 1;
             ");
         }
+
         $query->bind_param("s", $prodName);
         if($query->execute()){
             $result = $query->get_result();
@@ -71,20 +75,19 @@ function getProductByName($prodName, $page){
             }else{
                 $row = $result->fetch_assoc();
 
-                $linkName       = matchProductLink          ($row['nameProduct']);
-                $link           = "product-item/" . $linkName . ".php";
-                $imageURL       = htmlspecialchars          ($row['imageURL']);
-                $brand          = htmlspecialchars          ($row['brandProduct']);
-                $name           = matchDisplayNamesAlt      ($row['nameProduct']);
-                $price          = numfmt_format_currency    (numfmt_create("pt-BR", NumberFormatter::CURRENCY), $row['priceProduct'], "BRL");
+                $link = "productView.php?id={$prodName}";
+                $imageURL       = htmlspecialchars($row['imageURL']);
+                $brand          = htmlspecialchars($row['brandProduct']);
+                $name           = matchDisplayNamesAlt($row['nameProduct']);
                 $priceDate      = htmlspecialchars          ($row['priceDate']);
+                $price          = numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $row['priceProduct'], "BRL");
 
                 if($brand == "Other Brand"){
                     $brand = "Marca Não Cadastrada";
                 }
                 
                 if($page == "index"){
-                    $link = "products/product-item/" . $linkName . ".php";
+                    $link = "products/productView.php?id={$prodName}";
                 }
 
                 echo "
@@ -257,7 +260,7 @@ function matchDisplayNamesAlt($name){ // Products names that the user see
     return match($name){
         // Açaí
         "acaiT10", "acaiT5", "acaiT1"                       => "Caixa de Açaí",
-        "acaiZero10"                                        => "Açaí Zero - 10l",
+        "acaiZero10"                                        => "Açaí Zero",
         "acaiNinho1", "acaiNinho250"                        => "Açaí c/ Ninho",
 
         // Utensílios
@@ -265,28 +268,28 @@ function matchDisplayNamesAlt($name){ // Products names that the user see
 
         // Cremes frutados
         "cremeCupuacu10", "cremeMorango10",
-        "cremeNinho10", "cremeMaracuja10"                   => "Cremes Frutados - 10l",
+        "cremeNinho10", "cremeMaracuja10"                   => "Cremes Frutados",
 
         // Outros produtos
-        "morango1"                                          => "Morango Congelado - 1 kg",
-        "leiteEmPo1"                                        => "Leite em Pó - 1 kg",
-        "granola1.5"                                        => "Granola Tia Sônia<sup>&copy</sup> - 1.5 kg",
-        "granola1"                                          => "Granola Genérica - 1 kg",
-        "pacoca150"                                         => "Caixa de Paçoca - 150 unidades",
-        "farofaPacoca1"                                     => "Farofa de Paçoca - 1 kg",
-        "amendoimTriturado1"                                => "Amendoim Triturado - 1 kg",
-        "ovomaltine1"                                       => "Ovomaltine<sup>&copy</sup> - 750 g",
-        "gotasChocolate1"                                   => "Gotas de Chocolate - 1 kg",
-        "chocoball1"                                        => "Chocoball - 1 kg",
-        "jujuba500"                                         => "Jujuba - 500 g",
-        "confete1"                                          => "Confetes - 1 kg",
+        "morango1"                                          => "Morango Congelado",
+        "leiteEmPo1"                                        => "Leite em Pó",
+        "granola1.5"                                        => "Granola Tia Sônia<sup>&copy</sup>",
+        "granola1"                                          => "Granola Genérica",
+        "pacoca150"                                         => "Caixa de Paçoca",
+        "farofaPacoca1"                                     => "Farofa de Paçoca",
+        "amendoimTriturado1"                                => "Amendoim Triturado",
+        "ovomaltine1"                                       => "Ovomaltine<sup>&copy</sup>",
+        "gotasChocolate1"                                   => "Gotas de Chocolate",
+        "chocoball1"                                        => "Chocoball",
+        "jujuba500"                                         => "Jujuba",
+        "confete1"                                          => "Confetes",
 
         // Cremes Saborazzi
         "saborazziChocomalt", "saborazziCocada", 
         "saborazziCookies","saborazziAvelaP", 
         "saborazziAvelaT", "saborazziLeitinho",
         "saborazziPacoca", "saborazziSkimoL", 
-        "saborazziSkimoB","saborazziWafer"                  => "Cremes Saborazzi<sup>&copy</sup> - 5kg",
+        "saborazziSkimoB","saborazziWafer"                  => "Cremes Saborazzi<sup>&copy</sup>",
 
         // Polpas
         "polpaAbac", "polpaAbacHort", "polpaAcai", 
@@ -315,21 +318,6 @@ function matchProductName($name){ // Products names for the searching process
         // Cremes Frutados
         "cremeCupuacu10", "cremeMorango10",
         "cremeNinho10", "cremeMaracuja10"               => "cremesFrutados",
-
-        /*
-        "morango1"                                      => "morango1",
-        "leiteEmPo1"                                    => "leiteEmPo1",
-        "granola1.5"                                    => "granola1.5",
-        "granola1"                                      => "granola1",
-        "pacoca150"                                     => "pacoca150",
-        "farofaPacoca1"                                 => "farofaPacoca1",
-        "amendoimTriturado1"                            => "amendoimTriturado1",
-        "ovomaltine1"                                   => "ovomaltine1",
-        "gotasChocolate1"                               => "gotasChocolate1",
-        "chocoball1"                                    => "chocoball1",
-        "jujuba500"                                     => "jujuba500",
-        "confete1"                                      => "confete1",
-        */
 
         // Cremes Saborazzi
         "saborazziChocomalt", "saborazziCocada", 
@@ -427,13 +415,12 @@ function checkSession($local){
 function verifyOrders(){ // remover pedidos que não foram confirmados a mais de um dia
     global $mysqli;
 
-    // Seleciona os pedidos com mais de 1 dia e sem produtos associados
+    // Seleciona os pedidos com mais de 2 dias e sem produtos associados
     $stmt = $mysqli->prepare("
         SELECT od.idOrder 
         FROM order_data AS od
         LEFT JOIN product_order AS po ON od.idOrder = po.idOrder
-        WHERE od.orderDate < (NOW() - INTERVAL 2 DAY)
-        AND po.idOrder IS NULL
+        WHERE od.orderDate < (NOW() - INTERVAL 2 DAY) AND po.idOrder IS NULL
     ");
 
     $stmt->execute();
