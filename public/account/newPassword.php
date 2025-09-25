@@ -10,7 +10,8 @@
 
     }
 
-    if(! isset($_SESSION["userMail"])){ // entrando na página sem solicitar um token
+    if(! isset($_SESSION["userMail"])){ 
+        // trying to access the page without token
         header("location: password.php");
         exit;
     }else{
@@ -18,9 +19,9 @@
             $newPassword = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
             $stmt = $mysqli->prepare("
-                UPDATE client_data 
-                SET clientPassword = ?
-                WHERE clientMail = ?
+                UPDATE user_data 
+                SET userPassword = ?
+                WHERE userMail = ?
             ");
 
             $stmt->bind_param("ss", $newPassword, $_SESSION["userMail"]);
@@ -133,19 +134,12 @@
                         
                     </form>
                 </section>
-
             </main>
 
             <?php footerOut();?>
         </div>
         
-        <div class="account-right-div">
-
-        </div>
+        <div class="account-right-div"></div>
     </section>
-
-    
-
-    
 </body>
 </html>

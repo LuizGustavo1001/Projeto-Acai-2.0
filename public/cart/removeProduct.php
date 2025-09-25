@@ -2,24 +2,18 @@
     include "../../databaseConnection.php";
     include "../generalPHP.php";
 
-    $allowedProducts = [
-        "acaiT10", "acaiT5", "acaiT1", "colher200", "colher500", "colher800", "cremeNinho10",
-        "cremeCupuacu10", "cremeMaracuja10", "cremeMorango10", "acaiZero10", "acaiNinho1", 
-        "acaiNinho250", "saborazziChocomalt", "saborazziCocada", "saborazziCookies",
-        "saborazziAvelaP", "saborazziAvelaT", "saborazziLeitinho", "saborazziPacoca",
-        "saborazziSkimoL", "saborazziSkimoB", "saborazziWafer", "polpaAbac", "polpaAbacHort",
-        "polpaAcrl", "polpaAcrlMamao", "polpaCacau", "polpaCaja", "polpaCaju", "polpaCupuacu",
-        "polpaGoiaba", "polpaGraviola", "polpaManga", "polpaMangaba", "polpaMaracuja", "polpaMorango",
-        "polpaUva", "morango1", "leiteEmPo1", "granola1.5", "granola1", "pacoca150", "farofaPacoca1", 
-        "amendoimTriturado1","ovomaltine1", "gotaChocolate1", "chocoball1", "jujuba500", "disquete1"
-    ];
+    $getAllProducts = $mysqli->query("SELECT nameProduct FROM product_version");
+    $allowedProducts = [];
+    while($allProducts = $getAllProducts->fetch_assoc()){
+        $allowedProducts[] = $allProducts["nameProduct"];
+    }
 
     if(in_array($_GET["name"], $allowedProducts)){
         $query = $mysqli->prepare("
             DELETE FROM product_order 
             WHERE idProduct = (
-                SELECT idProduct 
-                FROM product
+                SELECT idVersion 
+                FROM product_version
                 WHERE nameProduct = ?
             )
             LIMIT 1;
@@ -39,5 +33,4 @@
     }else{
         header("../errorPage.php");
         exit;
-
     }

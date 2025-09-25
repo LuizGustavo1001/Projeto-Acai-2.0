@@ -3,6 +3,13 @@
     include "../footerHeader.php";
     include "mannagerPHP.php";
 
+    require_once '../../composer/vendor/autoload.php';
+
+    use Dotenv\Dotenv;
+    use Cloudinary\Configuration\Configuration;
+    use Cloudinary\Cloudinary;
+    use Cloudinary\Api\Upload\UploadApi; # API para upload de imagens
+
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
         changeColumn();
     }
@@ -10,69 +17,87 @@
     function changeColumn(){
         global $mysqli;
         $allowedInputs = [
-            "adminName", "adminPhone", "adminPicture", "district", 
+            "userName", "userPhone", "adminPicture", "district", 
             "localNum", "referencePoint", "street", "city", "state"
         ];
         $getChanges = "";
 
         for($i = 0; $i < sizeof($allowedInputs); $i++){
-            if(isset($_POST[$allowedInputs[$i]])){
-                $newValue = trim($_POST[$allowedInputs[$i]]);
+            $inputName = $allowedInputs[$i];
+            $newValue = null;
 
-                if($newValue != ""){
-                    $dbTable = match($allowedInputs[$i]){
-                        "adminName", "adminPhone", "adminPicture"           => "admin_data",
-                        default                                             => "admin_address"
-                    };
+            switch($inputName){
+                case "adminPicture":
+                    // tratamento diferente para adminPicture, uma vez que é um arquivo
+                    if (isset($_FILES["adminPicture"]) && $_FILES["adminPicture"]["error"] === UPLOAD_ERR_OK) {
+                        // Alterar a foto de perfil na Nuvem
+                        $dbTable = "admin_data";
+                        
+                        $dotenv = Dotenv::createImmutable("../../composer");
+                        $dotenv->load();
+                        $config = new Configuration($_ENV["CLOUDINARY_URL"]);
+                        $cld = new Cloudinary($config);
+                        $upload = new UploadApi($config);
+                        $response = null;
 
-                    $changeData = $mysqli->prepare(
-                        "UPDATE $dbTable SET $allowedInputs[$i] = ? WHERE idAdmin = ?;"
-                    );
-                    $changeData->bind_param("si", $newValue, $_SESSION["idUser"]);
+                        $publicId = "adminPic" . str_pad($_SESSION["idUser"], 3, "0", STR_PAD_LEFT);
+                        $fileTmpPath = $_FILES["adminPicture"]["tmp_name"];
 
-                    if(
-                        $allowedInputs[$i] == "referencePoint" or 
-                        $allowedInputs[$i] == "state" or 
-                        $allowedInputs[$i] == "adminPicture"
-                    ){
-                        if($newValue != $_SESSION[$allowedInputs[$i]]){
-                            $changeData->execute();
-                            switch($i){
-                                case 0:
-                                    $_SESSION["userName"]           = $newValue;
-                                    break;
-                                case 1:
-                                    $_SESSION["userPhone"]          = $newValue;
-                                    break;
-                                default: 
-                                    $_SESSION[$allowedInputs[$i]]   = $newValue;
-                                    break;
-                            }
-
-                            $getChanges .= "c{$allowedInputs[$i]}=1&";
+                        try {
+                            $response = $upload->upload($fileTmpPath, [
+                                "folder"        => "Users-Pictures",
+                                "public_id"     => $publicId,
+                                "overwrite"     => true,
+                                "invalidate"    => true
+                            ]);
+                            
+                            // Alterando o valor da URL da imagem(antes como nome da imagem)
+                            $newValue = $response['secure_url'];
+                            
+                        } catch (Exception $e) {
+                            echo "Erro no upload: " . $e->getMessage();
                         }
-                    }else{
-                        if($newValue != $_SESSION[$allowedInputs[$i]]){
-                            $changeData->execute();
-                            switch($i){
-                                case 0:
-                                    $_SESSION["userName"]           = $newValue;
-                                    break;
-                                case 1:
-                                    $_SESSION["userPhone"]          = $newValue;
-                                    break;
-                                default: 
-                                    $_SESSION[$allowedInputs[$i]]   = $newValue;
-                                    break;
-                            }
-                            $getChanges .= "c{$allowedInputs[$i]}=1&";
-                        }else{
-                            $getChanges .= "c{$allowedInputs[$i]}=2&";
-                        }
+                        
                     }
+                    
+                    break;
+                default:
+                    if (isset($_POST[$inputName])) {
+                        $newValue = trim($_POST[$inputName]);
+                        if($inputName == "referencePoint" or $inputName == "state"){
+                            // evitar de trocar valores que podem ser nulos ou que são opções
+                            if($newValue == $_SESSION[$inputName]){
+                                $newValue = null;
+                            }
+                        }
+                        
+                        $dbTable = "user_data";
+                    }
+                    break;
+            }
+
+            // tentando atualizar, caso tenha um valor novo digitado
+            
+            if (!empty($newValue)) {
+                $query = match ($dbTable) {
+                    "admin_data"    => "UPDATE admin_data SET $inputName = ? WHERE idAdmin = ?",
+                    default         => "UPDATE user_data SET $inputName = ? WHERE idUser = ?"
+                };
+
+                $changeData = $mysqli->prepare($query);
+                $changeData->bind_param("si", $newValue, $_SESSION["idUser"]);
+
+                if ($newValue != $_SESSION[$inputName]) {
+                    $changeData->execute();
+                    $_SESSION[$inputName] = $newValue;
+                    $getChanges .= "c{$inputName}=1&";
+                } else {
+                    $getChanges .= "c{$inputName}=2&";
                 }
             }
+            
         }
+        
         header("location: settings.php?" . rtrim($getChanges, "&"));
         exit();
     }
@@ -122,11 +147,11 @@
             
         </div>
 
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             <?php
                 $fieldLabels = [
-                    "adminName"      => "Nome de Usuário",
-                    "adminPhone"     => "Telefone de Contato",
+                    "userName"       => "Nome de Usuário",
+                    "userPhone"      => "Telefone de Contato",
                     "district"       => "Bairro",
                     "localNum"       => "Número da Residência",
                     "referencePoint" => "Ponto de Referência",
@@ -160,99 +185,97 @@
                     }
                 }
             ?>
-            <div class="form-inputs">
-                
-                <div class="form-item">
-                    <label for="iadminPicture">Foto de Perfil: <small>Tamanho Máximo: 2MB</small></label>
-                    <div class="form-input">
-                        <img src="<?php echo $_SESSION["adminPicture"]?>" alt="Current Admin Picture">
-                        <input type="file" name="adminPicture" id="iadminPicture">
-                    </div>
-                </div>
-                <div class="form-item">
-                    <label for="iadminName">Nome: </label>
-                    <div class="form-input">
-                        <input type="text" name="adminName" id="iadminName" maxlength="30" minlength="8" placeholder="<?php echo $_SESSION['userName']; ?>" >
-                    </div>
-                </div>
-                <div class="form-item">
-                    <label for="iadminPhone">Telefone de Contato:</label>
-                    <div class="form-input">
-                        <input type="text" name="adminPhone" id="iadminPhone" minlength="15" maxlength="16" pattern="\(\d{2}\) \d \d{4} \d{4}" placeholder="<?php echo $_SESSION['userPhone']; ?>" >
-                    </div>
-                </div>
-                <div class="form-item">
-                    <label for="istreet">Rua: </label>
-                    <div class="form-input">
-                        <input type="text" name="street" id="istreet" maxlength="50" placeholder="<?php echo $_SESSION['street']; ?>" >
-                    </div>
-                </div>
-                <div class="form-item">
-                    <label for="ilocalNum">Número: </label>
-                    <div class="form-input">
-                        <input type="number" name="localNum" id="ilocalNum" max="99999999" placeholder="<?php echo $_SESSION['localNum']; ?>">
-                    </div>
-                </div>
-                <div class="form-item">
-                    <label for="iuserDistrict">Bairro: </label>
-                    <div class="form-input">
-                        <input type="text" name="district" id="iuserDistrict" maxlength="40" placeholder="<?php echo $_SESSION['district']; ?>" >
-                    </div>
-                </div>
-                <div class="form-item">
-                    <label for="iuserCity">Cidade: </label>
-                    <div class="form-input">
-                        <input type="text" name="city" id="iuserCity" maxlength="40" placeholder="<?php echo $_SESSION['city']; ?>">
-                    </div>
-                </div>
-                <div class="form-item">
-                    <label for="istate">Estado: </label>
-                    <div class="form-input">
-                        <select name="state" id="istate">
-                            <option value="AC" <?php optionSelect("state","AC") ?>>Acre</option>
-                            <option value="AL" <?php optionSelect("state","AL") ?>>Alagoas</option>
-                            <option value="AP" <?php optionSelect("state","AP") ?>>Amapá</option>
-                            <option value="AM" <?php optionSelect("state","AM") ?>>Amazonas</option>
-                            <option value="BA" <?php optionSelect("state","BA") ?>>Bahia</option>
-                            <option value="CE" <?php optionSelect("state","CE") ?>>Ceará</option>
-                            <option value="DF" <?php optionSelect("state","DF") ?>>Distrito Federal</option>
-                            <option value="ES" <?php optionSelect("state","ES") ?>>Espírito Santo</option>
-                            <option value="GO" <?php optionSelect("state","GO") ?>>Goiás</option>
-                            <option value="MA" <?php optionSelect("state","MA") ?>>Maranhão</option>
-                            <option value="MT" <?php optionSelect("state","MT") ?>>Mato Grosso</option>
-                            <option value="MS" <?php optionSelect("state","MS") ?>>Mato Grosso do Sul</option>
-                            <option value="MG" <?php optionSelect("state","MG") ?>>Minas Gerais</option>
-                            <option value="PA" <?php optionSelect("state","PA") ?>>Pará</option>
-                            <option value="PB" <?php optionSelect("state","PB") ?>>Paraíba</option>
-                            <option value="PR" <?php optionSelect("state","PR") ?>>PARANÁ</option>
-                            <option value="PE" <?php optionSelect("state","PE") ?>>Pernambuco</option>
-                            <option value="PI" <?php optionSelect("state","PI") ?>>Piauí</option>
-                            <option value="RJ" <?php optionSelect("state","RJ") ?>>Rio de Janeiro</option>
-                            <option value="RN" <?php optionSelect("state","RN") ?>>Rio Grande do Norte</option>
-                            <option value="RS" <?php optionSelect("state","RS") ?>>Rio Grande do Sul</option>
-                            <option value="RO" <?php optionSelect("state","RO") ?>>Rondônia</option>
-                            <option value="RR" <?php optionSelect("state","RR") ?>>Roraima</option>
-                            <option value="SC" <?php optionSelect("state","SC") ?>>Santa Catarina</option>
-                            <option value="SP" <?php optionSelect("state","SP") ?>>São Paulo</option>
-                            <option value="SE" <?php optionSelect("state","SE") ?>>Sergipe</option>
-                            <option value="TO" <?php optionSelect("state","TO") ?>>Tocantins</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-item">
-                    <label for="ireferencePoint">Ponto de Referência: </label>
-                    <div class="form-input">
-                        <input type="text" name="referencePoint" id="ireferencePoint" maxlength="50" placeholder="<?php echo $_SESSION['referencePoint']; ?>">
-                    </div>
+            <div class="form-item">
+                <label for="iadminPicture">Foto de Perfil:</label>
+                <div class="form-input">
+                    <img src="<?php echo $_SESSION["adminPicture"]?>" alt="Current Admin Picture">
+                    <input type="file" name="adminPicture" id="iadminPicture">
                 </div>
             </div>
-            <button>Editar</button>
+            <div class="form-item">
+                <label for="iadminName">Nome: </label>
+                <div class="form-input">
+                    <input type="text" name="userName" id="iadminName" maxlength="30" minlength="8" placeholder="<?php echo $_SESSION['userName']; ?>" >
+                </div>
+            </div>
+            <div class="form-item">
+                <label for="iadminPhone">Telefone de Contato:</label>
+                <div class="form-input">
+                    <input type="text" name="userPhone" id="iadminPhone" minlength="15" maxlength="16" pattern="\(\d{2}\) \d \d{4} \d{4}" placeholder="<?php echo $_SESSION['userPhone']; ?>" >
+                </div>
+            </div>
+            <div class="form-item">
+                <label for="istreet">Rua: </label>
+                <div class="form-input">
+                    <input type="text" name="street" id="istreet" maxlength="50" placeholder="<?php echo $_SESSION['street']; ?>" >
+                </div>
+            </div>
+            <div class="form-item">
+                <label for="ilocalNum">Número: </label>
+                <div class="form-input">
+                    <input type="number" name="localNum" id="ilocalNum" max="99999999" placeholder="<?php echo $_SESSION['localNum']; ?>">
+                </div>
+            </div>
+            <div class="form-item">
+                <label for="iuserDistrict">Bairro: </label>
+                <div class="form-input">
+                    <input type="text" name="district" id="iuserDistrict" maxlength="40" placeholder="<?php echo $_SESSION['district']; ?>" >
+                </div>
+            </div>
+            <div class="form-item">
+                <label for="iuserCity">Cidade: </label>
+                <div class="form-input">
+                    <input type="text" name="city" id="iuserCity" maxlength="40" placeholder="<?php echo $_SESSION['city']; ?>">
+                </div>
+            </div>
+            <div class="form-item">
+                <label for="istate">Estado: </label>
+                <div class="form-input">
+                    <select name="state" id="istate">
+                        <option value="AC" <?php optionSelect("state","AC") ?>>Acre</option>
+                        <option value="AL" <?php optionSelect("state","AL") ?>>Alagoas</option>
+                        <option value="AP" <?php optionSelect("state","AP") ?>>Amapá</option>
+                        <option value="AM" <?php optionSelect("state","AM") ?>>Amazonas</option>
+                        <option value="BA" <?php optionSelect("state","BA") ?>>Bahia</option>
+                        <option value="CE" <?php optionSelect("state","CE") ?>>Ceará</option>
+                        <option value="DF" <?php optionSelect("state","DF") ?>>Distrito Federal</option>
+                        <option value="ES" <?php optionSelect("state","ES") ?>>Espírito Santo</option>
+                        <option value="GO" <?php optionSelect("state","GO") ?>>Goiás</option>
+                        <option value="MA" <?php optionSelect("state","MA") ?>>Maranhão</option>
+                        <option value="MT" <?php optionSelect("state","MT") ?>>Mato Grosso</option>
+                        <option value="MS" <?php optionSelect("state","MS") ?>>Mato Grosso do Sul</option>
+                        <option value="MG" <?php optionSelect("state","MG") ?>>Minas Gerais</option>
+                        <option value="PA" <?php optionSelect("state","PA") ?>>Pará</option>
+                        <option value="PB" <?php optionSelect("state","PB") ?>>Paraíba</option>
+                        <option value="PR" <?php optionSelect("state","PR") ?>>PARANÁ</option>
+                        <option value="PE" <?php optionSelect("state","PE") ?>>Pernambuco</option>
+                        <option value="PI" <?php optionSelect("state","PI") ?>>Piauí</option>
+                        <option value="RJ" <?php optionSelect("state","RJ") ?>>Rio de Janeiro</option>
+                        <option value="RN" <?php optionSelect("state","RN") ?>>Rio Grande do Norte</option>
+                        <option value="RS" <?php optionSelect("state","RS") ?>>Rio Grande do Sul</option>
+                        <option value="RO" <?php optionSelect("state","RO") ?>>Rondônia</option>
+                        <option value="RR" <?php optionSelect("state","RR") ?>>Roraima</option>
+                        <option value="SC" <?php optionSelect("state","SC") ?>>Santa Catarina</option>
+                        <option value="SP" <?php optionSelect("state","SP") ?>>São Paulo</option>
+                        <option value="SE" <?php optionSelect("state","SE") ?>>Sergipe</option>
+                        <option value="TO" <?php optionSelect("state","TO") ?>>Tocantins</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-item">
+                <label for="ireferencePoint">Ponto de Referência: </label>
+                <div class="form-input">
+                    <input type="text" name="referencePoint" id="ireferencePoint" maxlength="50" placeholder="<?php echo $_SESSION['referencePoint']; ?>">
+                </div>
+            </div>
+        </div>
+        <button>Editar</button>
 
-            <div style="display: flex; justify-content: space-between; border: none">
-                <button type="button" onclick="window.location.href='../account/changes/newPassword.php'">Alterar Senha</button>
-                <button type="button" onclick="window.location.href='../account/changes/newEmail.php'">Alterar Email</button>
-            </div>
-                
+        <div style="display: flex; justify-content: space-between; border: none">
+            <button type="button" onclick="window.location.href='../account/changes/newPassword.php'">Alterar Senha</button>
+            <button type="button" onclick="window.location.href='../account/changes/newEmail.php'">Alterar Email</button>
+        </div>
+            
         </form>
         
 

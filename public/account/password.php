@@ -14,10 +14,11 @@
 
     }
 
+    // verify if the email input are in the Database
     if(isset($_POST["email"])){
         $sanitizedMail = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
 
-        $stmt = $mysqli->prepare("SELECT clientMail FROM client_data WHERE clientMail = ?");
+        $stmt = $mysqli->prepare("SELECT userMail FROM user_data WHERE userMail = ?");
         $stmt->bind_param("s", $sanitizedMail);
 
         if($stmt->execute()){
@@ -28,7 +29,7 @@
                     header("Location: password.php?wrongMail=1");
                     exit();
                 
-                default: 
+                default: // send email
                     $_SESSION["userMail"] = $sanitizedMail;
                     header("Location: passwordToken.php");
                     exit();
@@ -36,10 +37,6 @@
         }else{
             header("location: ../errorPage.php");
         }
-
-        
-
-
     }
 
 ?>

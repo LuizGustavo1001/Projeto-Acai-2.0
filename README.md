@@ -165,7 +165,7 @@
 <ul>
     <li>✅ Link Página de Produtos com Página do Carrinho </li>
     <li>✅ PHP Página do Carrinho + Link Planilha Excel/Google Planilhas (concluir Pedido)</li>
-    <li>‼️Filtros na Página de Produtos</li>
+    <li>✅ Filtros na Página de Produtos</li>
     <li>✅ Pesquisas na Página de Produtos</li>
     <li>✅ Página de Mudança de Credenciais</li>
     <li>✅ Página especial para email</li>

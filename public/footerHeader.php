@@ -1,5 +1,31 @@
 <?php 
 
+function verifyCartAmount(){ // imprime a quantidade de produtos no carrinho do cliente logado
+    global $mysqli;
+
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    if(isset($_SESSION["idOrder"])){
+        $stmt = $mysqli->prepare("SELECT COUNT(*) as itemCount FROM product_order WHERE idOrder = ?");
+        $stmt->bind_param("i", $_SESSION["idOrder"]);
+        
+        if($stmt->execute()){
+            $result = $stmt->get_result();
+            if ($result) {
+                $row = $result->fetch_assoc();
+                $cartAmount = $row["itemCount"];
+                echo "<p class=\"numberItens\">$cartAmount</p>";
+            } else {
+                echo "<p class=\"numberItens\">0</p>";
+            }
+        }else{
+            echo "erro ao executar o stmt";
+        }
+    }
+}
+
 function faviconOut(){
     echo "
         <link rel=\"shortcut icon\" href='https://res.cloudinary.com/dw2eqq9kk/image/upload/v1755358113/acai-icon_jsrexi_t30xv5.png' type=\"image/x-icon\">

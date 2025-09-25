@@ -4,9 +4,10 @@
     include "footerHeader.php";
     
     function featureItens(){
+        // print in a random way 4 products from product_data
         global $mysqli;
 
-        $prodAmount = $mysqli->prepare("SELECT COUNT(*) FROM product;");
+        $prodAmount = $mysqli->prepare("SELECT COUNT(*) FROM product_data;");
 
         if($prodAmount->execute()){
             $totalResult = $prodAmount->get_result();
@@ -23,14 +24,14 @@
             }
 
             for($j = 0; $j < 4; $j++){
-                $getName = $mysqli->prepare("SELECT nameProduct FROM product WHERE idProduct = ?");
+                $getName = $mysqli->prepare("SELECT altName FROM product_data WHERE idProduct = ?");
                 $getName->bind_param("i", $randomIdVec[$j]);
                 
                 if($getName->execute()){
                     $result = $getName->get_result();
-                    $name = $result->fetch_row();
-
-                    getProductByName(matchProductName($name[0]), "index");
+                    $name = $result->fetch_assoc();
+                    
+                    getProductByName($name["altName"], "index");
 
                     $getName->close();
                 }else{
@@ -75,7 +76,6 @@
 <body>
     
     <?php headerOut(0)?>
-
     <main>
         <?php 
             if(isset($_GET["orderConfirmed"])){
@@ -91,9 +91,6 @@
                         </div>
                     </section>
                 ";
-                if(isset($_SESSION["subTotal"])){
-                    unset($_SESSION["subTotal"]);
-                }
                 verifyOrders();
             }   
 
@@ -111,6 +108,7 @@
                     </section>
                 ";
             }
+            
             if(isset($_GET["notAdmin"])){
                 echo "
                     <section class= \"popup-box show\">

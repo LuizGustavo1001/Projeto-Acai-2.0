@@ -104,22 +104,7 @@
     </header>
 
     <main>
-        <?php 
-            if(isset($_GET["adminNotAllowed"])){
-                echo "
-                    <section class= \"popup-box show\">
-                        <div class=\"popup-div\">
-                            <div><h1>Erro</h1></div>
-                            <div>
-                                <p>É preciso fazer <strong>Login como Cliente</strong> para acessar A Página Anterior</p>
-                                <p>Clique no botão abaixo para fechar esta janela</p>
-                                <button class=\"popup-button\">Fechar</button>
-                            </div>
-                        </div>
-                    </section>
-                ";
-
-            }
+        <?php
             if(isset($_GET["adminNotAllowed"])){
                 echo "
                     <section class= \"popup-box show\">
@@ -178,11 +163,7 @@
                 </form>
             </li>
             
-            <li>
-                <button class="center-button" onclick="window.location.href='addItem.php?type=admin'">
-                    Adicionar Administrador
-                </button>
-            </li>
+            
         </ul>
 
         <div class="main-bottom">

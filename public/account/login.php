@@ -1,4 +1,4 @@
-<?php 
+<?php
     include "../../databaseConnection.php";
     include "../generalPHP.php";
     include "../footerHeader.php";
@@ -11,7 +11,7 @@
         exit();
 
     }
-
+    
     if(isset($_SESSION["clientMail"])){
         header("location: account.php");
         exit();
@@ -23,137 +23,104 @@
     }
 
     function login(){
+        // function to make the login of the user and add a new order, case the user is a client
         global $mysqli;
 
         $inputEmail = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
 
         if(! filter_var($inputEmail, FILTER_VALIDATE_EMAIL)){
+            // validate the email sintax
             header("location: login.php?invalidEmail=1");
             exit();
-
         }
 
         $inputPassword = $_POST["password"];
         $storedPassword = null;
-        $userType = null;
-        $userId = null;
 
-        // tentar buscar como admin
-        $query = $mysqli->prepare("
-            SELECT idAdmin AS idUser, adminMail AS userMail, adminPassword AS userPassword
-            FROM admin_data 
-            WHERE adminMail = ?
-        ");
-        $query->bind_param("s", $inputEmail);
-        $query->execute();
-        $result = $query->get_result();
-
-        if($row = $result->fetch_assoc()){
-            $userType       = "admin";
-            $userId         = $row["idUser"];
-            $storedPassword = $row["userPassword"];
-        }
-        $query->close();
-
-        // tentar como cliente
-        if(! $userType){ 
-            $query = $mysqli->prepare("
-                SELECT idClient AS idUser, clientMail AS userMail, clientPassword AS userPassword
-                FROM client_data
-                WHERE clientMail = ?;
-            ");
-            $query->bind_param("s", $inputEmail);
-            $query->execute();
-            $result = $query->get_result();
-
-            if($row = $result->fetch_assoc()){
-                $userType       = "client";
-                $userId         = $row["idUser"];
-                $storedPassword = $row["userPassword"];
-            }
-            $query->close();
-        }
-
-        // nenhum usuário foi encontrado
-        if(! $userType){ 
-            header("location: login.php?errorLogin=1");
-            exit();
-        }
-
-        // verificar senha
-        if(!password_verify($inputPassword, $storedPassword)){
-            header("location: login.php?errorLogin=1");
-            exit();
-        }
-
-        // buscar dados completos do usuário
-        match($userType){
-            "admin" =>  $rescueData = $mysqli->prepare("
-                            SELECT ad.idAdmin AS idUser, ad.adminName AS userName, ad.adminPhone AS userPhone, 
-                                    a.district, a.localNum, a.referencePoint, a.street, a.city, a.state 
-                            FROM admin_data AS ad
-                                JOIN admin_address AS a ON ad.idAdmin = a.idAdmin
-                            WHERE ad.adminMail = ?"
-                        ),
-            default => $rescueData = $mysqli->prepare("
-                            SELECT d.idClient as idUser, d.clientName AS userName, d.clientPhone AS userPhone, 
-                                    a.district, a.city, a.street, a.localNum, a.referencePoint, a.state
-                            FROM client_data AS d 
-                                JOIN client_address AS a ON d.idClient = a.idClient
-                            WHERE d.clientMail = ?"
-                    ),
-
-        };
-        $rescueData->bind_param("s", $inputEmail);
-        if(! $rescueData->execute()){
-            die("Erro SQL: " . $mysqli->error);
-        }
-
-        $result = $rescueData->get_result();
-        $user = $result->fetch_assoc();
-        $rescueData->close();
-
-        if(! $user){
-            header("location: ../errorPage.php");
-            exit();
-        }
-
-        // criando sessão
-        $_SESSION["idUser"]         = $user["idUser"];
-        $_SESSION["userPhone"]      = $user["userPhone"];
-        $_SESSION["userName"]       = $user["userName"];
-        $_SESSION["userMail"]       = $inputEmail;
-        $_SESSION["district"]       = $user["district"];
-        $_SESSION["localNum"]       = $user["localNum"];
-        $_SESSION["referencePoint"] = $user["referencePoint"];
-        $_SESSION["street"]         = $user["street"];
-        $_SESSION["city"]           = $user["city"];
-        $_SESSION["state"]          = $user["state"];
-        $_SESSION['lastActivity']   = time(); // marca o início da sessão
-
-        // criando pedido, caso seja um cliente
-        if($userType == "client"){
-            $currentDate = date("Y-m-d");
-            $currentHour = date("H:i:s");
-
-            $newOrder = $mysqli->prepare("INSERT INTO order_data (idClient, orderDate, orderHour) VALUES (?, ?, ?);");
-            $newOrder->bind_param("iss", $_SESSION["idUser"], $currentDate,  $currentHour);
-
-            if($newOrder->execute()){
-                $_SESSION["idOrder"] = $mysqli->insert_id;
-                $newOrder->close();
-
-                verifyOrders();
-                header("Location: ../index.php?loginSuccess=1");
+        $getUser = $mysqli->prepare("SELECT idUser, userMail, userPassword FROM user_data WHERE userMail = ?");
+        $getUser->bind_param("s", $inputEmail);
+        $getUser->execute();
+        $result = $getUser->get_result();
+        $getUser->close();
+        
+        $amount = $result->num_rows;
+        switch($amount){
+            case 0: 
+                // no user was founded with the writed creddentials
+                header("location:login.php?errorLogin=1");
                 exit();
-            }else{
-                header("location: ../errorPage.php");
-                exit();
-            }
-        }else{
-            $_SESSION["isAdmin"]    = true;
-            header("location: ../mannager/admin.php");
-            exit();
+            default: 
+                // user was founded with the writed email address 
+                $result = $result->fetch_assoc();
+                $storedPassword = $result["userPassword"];
+
+                if(!password_verify($inputPassword, $storedPassword)){
+                    header("location: login.php?errorLogin=1");
+                    exit();
+                }
+
+                $rescueData = $mysqli->prepare("
+                    SELECT idUser, userName, userPhone, district, city, street, localNum, referencePoint, state
+                    FROM user_data
+                    WHERE userMail = ?
+                    LIMIT 1
+                ");
+                $rescueData->bind_param("s", $inputEmail);
+                $rescueData->execute();
+                $result = $rescueData->get_result();
+                $user = $result->fetch_assoc();
+                $rescueData->close();
+
+                // find if the user is ADMIN or CLIENT
+                $getUserType = $mysqli->prepare("SELECT idClient FROM client_data WHERE idClient = ?");
+                $getUserType->bind_param("i", $user["idUser"]);
+                $getUserType->execute();
+                $userType = $getUserType->get_result();
+                $getUserType->close();
+
+                $uType = match($userType->num_rows){
+                    0       => "admin",
+                    default => "client",
+                };
+
+                // creating the session
+                $_SESSION["idUser"]         = $user["idUser"];
+                $_SESSION["userPhone"]      = $user["userPhone"];
+                $_SESSION["userName"]       = $user["userName"];
+                $_SESSION["userMail"]       = $inputEmail;
+                $_SESSION["district"]       = $user["district"];
+                $_SESSION["localNum"]       = $user["localNum"];
+                $_SESSION["referencePoint"] = $user["referencePoint"];
+                $_SESSION["street"]         = $user["street"];
+                $_SESSION["city"]           = $user["city"];
+                $_SESSION["state"]          = $user["state"];
+                $_SESSION['lastActivity']   = time();
+
+                // creating new order, case the user is CLIENT
+                switch($uType){
+                    case "client":
+                        $currentDate = date("Y-m-d");
+                        $currentHour = date("H:i:s");
+
+                        $newOrder = $mysqli->prepare("INSERT INTO order_data (idClient, orderDate, orderHour) VALUES (?, ?, ?);");
+                        $newOrder->bind_param("iss", $_SESSION["idUser"], $currentDate,  $currentHour);
+
+                        if($newOrder->execute()){
+                            $_SESSION["idOrder"] = $mysqli->insert_id;
+                            $newOrder->close();
+
+                            verifyOrders();
+                            header("Location: ../index.php?loginSuccess=1");
+                            exit();
+                        }else{
+                            header("location: ../errorPage.php");
+                            exit();
+                        }
+                    default:
+                        $_SESSION["isAdmin"] = true;
+                        header("location: ../mannager/admin.php");
+                        exit();
+                }
         }
     }
 

@@ -1,19 +1,15 @@
-<?php 
-    $defaultMoney = numfmt_create("pt-BR", NumberFormatter::CURRENCY);
-
+<?php
     include "../../databaseConnection.php";
     include "../generalPHP.php";
     include "../footerHeader.php";
     
     require __DIR__ . '/../../composer/vendor/autoload.php';
 
-    // Caminho para o JSON de credenciais baixado do Google Cloud
-    $client = new Google_Client();
-    $client->setAuthConfig('../projetoacai-472803-2e77e7899901.json');
-    $client->addScope(Google_Service_Sheets::SPREADSHEETS);
+    if(! isset($_SESSION["userMail"])){
+        header("location: ../account/login.php?unkUser=1");
+        exit();
 
-    // ID da planilha (vem da URL do Google Sheets)
-    $spreadsheetId = "1xJdM0OgynL5SKLoJ5gxH91abtQ18SY7Xp2dsMVkPvKk"; 
+    }
 
     if (isset($_SESSION["isAdmin"])) {
         header("location: ../mannager/admin.php?adminNotAllowed=1");
@@ -21,7 +17,18 @@
 
     }
 
+    $defaultMoney = numfmt_create("pt-BR", NumberFormatter::CURRENCY);
+
+    // path to the JSON credentials file downloaded from Google Cloud
+    $client = new Google_Client();
+    $client->setAuthConfig('../../projetoacai-472803-2e77e7899901.json');
+    $client->addScope(Google_Service_Sheets::SPREADSHEETS);
+
+    // spreadsheet ID (come from Google Sheets URL)
+    $spreadsheetId = "1xJdM0OgynL5SKLoJ5gxH91abtQ18SY7Xp2dsMVkPvKk"; 
+
     function getCartTotal($clientOrder){
+        // return the total price on the cart
         global $mysqli, $defaultMoney;
 
         $stmt = $mysqli->prepare("
@@ -38,12 +45,11 @@
             }else{
                 return "R$ 00,00";
             }
-            
-
         }
     }
 
     function GetCartProd(){
+        // print all the products in the cart
         global $mysqli;
 
         $stmt = $mysqli->prepare("
@@ -65,15 +71,14 @@
                 
                 default:
                     while($row = $result->fetch_assoc()) {
-                        $rescueProd = $mysqli->prepare("SELECT nameProduct, imageURL FROM product WHERE idProduct = ?");
+                        $rescueProd = $mysqli->prepare("SELECT pd.printName, pv.nameProduct, pv.imageURL, pv.sizeProduct FROM product_data AS pd JOIN product_version AS pv ON pv.idProduct = pd.idProduct WHERE pv.idVersion = ?");
                         $rescueProd->bind_param("i" ,$row["idProduct"]);
                         $totalPrice = $row["totPrice"];
                         
                         if($rescueProd->execute()){
                             $prodResult = $rescueProd->get_result();
                             $prodData = $prodResult->fetch_assoc();
-
-                            $prodName = matchDisplayNames($prodData["nameProduct"]);
+                            $prodName = "{$prodData["printName"]} - {$prodData["sizeProduct"]}";
 
                             echo "
                                 <li>
@@ -116,14 +121,19 @@
     }
 
     if(isset($_GET["orderConfirmed"])){
-        // adicionar carrinho à Planilha Google
+        // adding the cart to the spreadsheet
+        $total =  getCartTotal($_SESSION["idOrder"]);
+        if($total == 'R$ 00,00'){
+            header("location: cart.php?noItens=1");
+            exit();
+        }
+
         $Address = $_SESSION["street"]  . ", " . $_SESSION["localNum"] . ", " .
                 $_SESSION["district"] . " - " . $_SESSION["city"];
         $currentDate = date("Y-m-d");
         $currentHour = date("H:i:s");
-        $total =  getCartTotal($_SESSION["idOrder"]);
 
-        // recuperar os produtos relacionados ao pedido em questão
+        // get the products that are on the selected order
         $rescueProd = $mysqli->prepare("
             SELECT p.nameProduct as name, o.amount as amount, o.totPrice as totPrice
             FROM product AS p JOIN product_order AS o ON p.idProduct = o.idProduct
@@ -135,11 +145,12 @@
         $rescueProd = $rescueProd->get_result();
         $allProd = "";
         while($row = $rescueProd->fetch_assoc()){
-            $allProd .= "(" . $row["name"] . " / ". $row["amount"] . " / " . $row["totPrice"] . ")\n";
+            $allProd .= "({$row['name']} / {$row['amount']} / {$row['totPrice']} ) \n";
         }
         
+        // Adding the datas to the spreadsheet
         $service = new Google_Service_Sheets($client);
-        $range = "Página1!A8"; // local onde a planilha começa
+        $range = "Página1!A8"; // location where you can start to write on the spreadsheet
         $values = [
             [
             $_SESSION["userName"], $Address, $_SESSION["referencePoint"], $_SESSION["userPhone"], 
@@ -150,7 +161,7 @@
         $params = ['valueInputOption' => 'RAW'];
         $service->spreadsheets_values->append($spreadsheetId, $range, $body, $params);
 
-        // criando novo pedido após confirmar o anterior
+        // creating a new order after confirming the last one
         $newOrder = $mysqli->prepare("INSERT INTO order_data (idClient, orderDate, orderHour) VALUES (?, ?, ?);");
         $newOrder->bind_param("iss", $_SESSION["idUser"], $currentDate,  $currentHour);
         $newOrder->execute();
@@ -179,9 +190,10 @@
     <?php faviconOut(); ?>
 
     <link rel="stylesheet" href="../CSS/general-style.css">
-    <link rel="stylesheet" href="../CSS/cart.css">
+    <link rel="stylesheet" href="../CSS/cart-styles.css">
 
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
+    <script src="../JS/generalScripts.js"></script>
 
     <title>Açaí e Polpas Amazônia - Carrinho</title>
 </head>
@@ -189,7 +201,23 @@
 
     <?php headerOut(1)?>
 
-    <main class="mobile-main">
+    <main>
+        <?php 
+            if(isset($_GET["noItens"])){
+                echo "
+                    <section class= \"popup-box show\">
+                        <div class=\"popup-div\">
+                            <div><h1>Erro</h1></div>
+                            <div>
+                                <p>É preciso adicionar algum produto ao carrinho para concluir a compra</p>
+                                <p>Clique no botão abaixo para fechar esta janela</p>
+                                <button class=\"popup-button\">Fechar</button>
+                            </div>
+                        </div>
+                    </section>
+                    ";
+            }
+        ?>
         <section class="cart-header section-header-title">
             <h1>Carrinho</h1>
             <p>
@@ -199,107 +227,8 @@
             <p style="padding-top: 0.5em;">Clique em <strong>Confirmar Pedido</strong> para efetuá-lo</p>
         </section>
 
-        <section class="order-info section-bg">
-            <div class="order-info-header">
-                <h1>Informações do Cliente</h1>
-                <a href="../account/account.php">
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                        </svg>
-                        Editar
-                    </div>
-                </a>
-            </div>
-        
-            <div class="order-info-content">
-                <ol>
-                    <li>
-                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751475315/user_iqkn7x.png" alt="user icon">
-                        <ul class="list-item-text">
-                            <li><strong>Cliente:</strong></li>
-                            <li> <span><?php echo $_SESSION["userName"]?></span> </li>
-                        </ul>
-                    </li>
-
-                    <li>
-                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751475314/pin_zqdhx7.png" alt="maps pin icon">
-                        <ul class="list-item-text">
-                            <li><strong>Endereço:</strong></li>
-                            <li> 
-                                <span>
-                                    <?php echo $_SESSION["street"] . ", " . $_SESSION["localNum"] . " - " . $_SESSION['city'] . "<br> <em>". $_SESSION["referencePoint"] . "</em>"?> 
-                                </span> 
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li>
-                        <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751475315/phone_plvmle.png" alt="phone icon">
-                        <ul class="list-item-text">
-                            <li><strong>Telefone:</strong></li>
-                            <li> <span><?php echo $_SESSION["userPhone"]?></span> </li>
-                        </ul>
-                    </li>
-                </ol>
-            </div>
-         </section>
-        
-        <section class="order-review section-bg">
-            <h1>Revisão dos Itens</h1>  
-            <ol>
-                <?php GetCartProd();?>
-            </ol>
-        </section>
-
-        <section class="order-summary section-bg">
-                <h1>Resumo do Pedido</h1>
-                <ol>
-                    <li class="list-item-text">
-                        <ul>
-                            <li>Subtotal:</li>
-                            <?php 
-                                getCartTotal($_SESSION["idOrder"]);
-                            ?>
-                        </ul>
-                    </li>
-                    <li class="list-item-text">
-                        <ul>
-                            <li>Taxa de Entrega:</li>
-                            <li><span>R$ 00,00</span></li>
-                        </ul>
-                    </li>
-                    <li class="list-item-text">
-                        <ul style="color: var(--secondary-clr); font-weight: bold;">
-                            <li>Total:</li>
-                            <?php 
-                                getCartTotal($_SESSION["idOrder"]);
-                            ?>
-                        </ul>
-                    </li>
-                </ol>
-
-                <div class="button-submit">
-                    <a href="cart.php?orderConfirmed=1"><button>Confirmar Pedido</button></a>
-                </div>
-
-        </section>
-
-
-    </main>
-
-    <main class="desktop-main">
-        <section class="cart-header section-header-title">
-            <h1>Carrinho</h1>
-            <p>
-                Caso Algum de seus Dados Pessoas abaixo estejam incorretos clique no botão 
-                <strong>"Editar"</strong>
-            </p>
-            <p style="padding-top: 0.5em;">Clique em <strong>Confirmar Pedido</strong> para efetuá-lo</p>
-        </section>
-
-        <section class="desktop-hero">
-            <div>
+        <section class="hero-div">
+            <div class="hero-top-div">
                 <div class="order-info section-bg">
                     <div class="order-info-header">
                         <h1>Informações do Cliente</h1>
@@ -329,8 +258,8 @@
                                     <li><strong>Endereço:</strong></li>
                                     <li> 
                                         <span>
-                                            <?php echo $_SESSION["street"] . ", " . $_SESSION["localNum"] . " - " . $_SESSION['city'] . "<br> <em>". $_SESSION["referencePoint"] . "</em>"?> 
-                                        </span> 
+                                            <?php echo "{$_SESSION['street']}, {$_SESSION['localNum']} - {$_SESSION['district']}, {$_SESSION['city']} - {$_SESSION['state']} <br> <em>{$_SESSION['referencePoint']}</em>"?> 
+                                        </span>
                                     </li>
                                 </ul>
                             </li>
@@ -345,6 +274,7 @@
                         </ol>
                     </div>
                 </div>
+
                 <div class="order-review section-bg">
                     <h1>Revisão dos Itens</h1>
                     <ol>
@@ -354,14 +284,15 @@
             </div>
 
             <div class="section-bg order-summary">
-                <div class="">
+                <div>
                     <h1>Resumo do Pedido</h1>
                     <ol>
                         <li class="list-item-text">
                             <ul>
                                 <li>Subtotal:</li>
                                 <?php 
-                                    getCartTotal($_SESSION["idOrder"]);
+                                    $total = getCartTotal($_SESSION["idOrder"]);
+                                    echo $total;
                                 ?>
                             </ul>
                         </li>
@@ -375,7 +306,8 @@
                             <ul style="color: var(--secondary-clr); font-weight: bold;">
                                 <li>Total:</li>
                                 <?php 
-                                    getCartTotal($_SESSION["idOrder"]);
+                                    $total = getCartTotal($_SESSION["idOrder"]);
+                                    echo $total;
                                 ?>
                             </ul>
                         </li>

@@ -12,12 +12,13 @@
 
     }
 
-    if(! isset($_SESSION["passwordToken"])){ // entrando na página sem solicitar um token
+    if(! isset($_SESSION["passwordToken"])){
        header("location: password.php");
        exit();
 
     }else{
         if(isset($_POST["token"])){
+            // verify if the token input is the same sended to the email
             if($_SESSION["passwordToken"] == $_POST["token"]){
                 unset($_SESSION["passwordToken"]);
                 header("location: newPassword.php");
@@ -125,22 +126,13 @@
                                 Enviar
                             </button>
                         </div>
-                        
                     </form>
                 </section>
-
             </main>
             
             <?php footerOut();?>
-
         </div>
-        
-        <div class="account-right-div">
-
-        </div>
+        <div class="account-right-div"></div>
     </section>
-
-    
-    
 </body>
 </html>

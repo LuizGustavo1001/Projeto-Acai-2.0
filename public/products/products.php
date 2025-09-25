@@ -4,39 +4,48 @@
     include "../footerHeader.php";
 
     checkSession("all-product");
+    
 
     function categoryItens($type, $filter){
+        // print the products based on the selected filter on HTML
         global $mysqli;
 
-        $allowedTypes = ["Cream", "Additional", "Other"];
-        if(in_array($type, $allowedTypes)){
-            $query = $query = $mysqli->prepare("SELECT nameProduct FROM product WHERE typeProduct = ?");
+        $getAllTypes = $mysqli->query("SELECT typeProduct FROM product_data");
+        $allowedTypes = [];
+        while($allTypes = $getAllTypes->fetch_assoc()){
+            $allowedTypes[] = $allTypes["typeProduct"];
+        }
 
-            match($filter){
-                "nameAsc"       => $query = $mysqli->prepare("SELECT nameProduct FROM product WHERE typeProduct = ? ORDER BY nameProduct  asc"),
-                "nameDesc"      => $query = $mysqli->prepare("SELECT nameProduct FROM product WHERE typeProduct = ? ORDER BY nameProduct  desc"),
-                "priceAsc"      => $query = $mysqli->prepare("SELECT nameProduct FROM product WHERE typeProduct = ? ORDER BY priceProduct asc"),
-                "priceDesc"     => $query = $mysqli->prepare("SELECT nameProduct FROM product WHERE typeProduct = ? ORDER BY priceProduct desc"),
-                default         => $query = $mysqli->prepare("SELECT nameProduct FROM product WHERE typeProduct = ?"),
+        if(in_array($type, $allowedTypes)){
+            $query = match($filter){
+                "nameAsc"       => "SELECT altName FROM product_data WHERE typeProduct = ? ORDER BY altName ASC",
+                "nameDesc"      => "SELECT altName FROM product_data WHERE typeProduct = ? ORDER BY altName DESC",
+                "priceAsc"      => "SELECT DISTINCT pd.altName FROM product_data AS pd JOIN product_version AS pv ON pd.idProduct = pv.idProduct WHERE typeProduct = ? ORDER BY priceProduct ASC",
+                "priceDesc"     => "SELECT DISTINCT pd.altName FROM product_data AS pd JOIN product_version AS pv ON pd.idProduct = pv.idProduct WHERE typeProduct = ? ORDER BY priceProduct DESC",
+                default         => "SELECT altName FROM product_data WHERE typeProduct = ?",
             };
 
-            $query->bind_param("s", $type);
-            
-            if($query->execute()){
+            $getProductFilter = $mysqli->prepare($query);
+            $getProductFilter->bind_param("s", $type);
+
+            if($getProductFilter->execute()){
                 $vector = [];
-                $result = $query->get_result();
+                $result = $getProductFilter->get_result();
                 while($row = $result->fetch_assoc()){
-                    $nameProd = matchProductName($row["nameProduct"]);
-                    $vector[] = $nameProd;
+                    $vector[] = $row["altName"];
                 }
-                $vector = array_unique($vector); // remover duplicatas
+                $vector = array_unique($vector); // removing duplicates
 
                 foreach($vector as $name){
                     getProductByName($name, "");
                 }
             }
+        }else{
+            echo "<p class='errorText'>Erro: Nenhum Produto encontrado com o Tipo Inserido</p>";
         }
-    };
+
+    }
+
 
 ?>
 
@@ -68,7 +77,8 @@
     <main>
         <?php 
             if(isset($_GET["prodAdd"])){
-                $name = matchDisplayNames($_GET["id"]);
+                $name = "{$_GET['id']} - {$_GET['size']}";
+                
                 echo "
                     <section class= 'popup-box show'>
                             <div class='popup-div'>

@@ -9,7 +9,7 @@
     use PHPMailer\PHPMailer\Exception;
 
     if(! isset($_SESSION)){
-        session_start(); // iniciar a sessão
+        session_start();
     }
 
     if (isset($_SESSION["isAdmin"])) {
@@ -18,7 +18,7 @@
 
     }
 
-    if(! isset($_SESSION["userMail"])){ // entrando na página sem solicitar um token
+    if(! isset($_SESSION["userMail"])){
         header("location: password.php");
     }else{
         $token = bin2hex(random_bytes(3));
@@ -37,10 +37,10 @@
             $email->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $email->Port = 587; 
 
-            $email->setFrom("testemailsluiz@gmail.com", "Açaí Amazônia Ipatinga"); // remetente
-            $email->addAddress($emailReciever); // destinatário
+            $email->setFrom("testemailsluiz@gmail.com", "Açaí Amazônia Ipatinga");
+            $email->addAddress($emailReciever);
             $email->isHTML(true); 
-            $email->CharSet = "UTF-8"; // suportar caracteres especiais 
+            $email->CharSet = "UTF-8";
 
             $email->Subject = "Token de Recuperação de Senha"; 
             $email->Body = "<h1>Açaí Amazônia Ipatinga</h1>"; 
@@ -53,7 +53,7 @@
             $email->Body .= "<p>Este é um email automático, não responda.</p>";
             $email->AltBody = "Açaí e Polpas Amazônia\n Seu Token de Verificação de Email: $token";
 
-            if($email->send()){ // email enviado com sucesso
+            if($email->send()){
                 $_SESSION["passwordToken"] = $token;
                 header("location: rescuePassword.php"); 
                 

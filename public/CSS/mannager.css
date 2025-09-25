@@ -323,7 +323,8 @@ select:focus{
 }
 
 .input-search input{
-    width: 80%;
+    width: 100%;
+    box-sizing: border-box;
     text-align: center;
 
 }
@@ -338,6 +339,11 @@ td p{
     padding:0.2em 1em 0.2em 1em;
     text-align: center;
     
+}
+
+td svg{
+    width: 20px;
+    color: var(--secondary-clr);
 }
 
 .accepted p, .finished p{
@@ -558,9 +564,15 @@ td img{
 
     }
 
-    .input-search input{
+    .input-search li{
         width: 60%;
+        
+    }
+
+    .input-search input{
         text-align: center;
+        width: 50%;
+        margin: 0;
         
     }
 

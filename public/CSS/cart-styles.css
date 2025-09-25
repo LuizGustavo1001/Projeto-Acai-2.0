@@ -7,6 +7,13 @@ main{
 
 }
 
+.hero-div, .hero-div .hero-top-div{
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+
+}
+
 .mobile-main{
     margin-bottom: 5em;
 
@@ -37,6 +44,7 @@ main{
     display: flex;
     flex-direction: column;
     gap: 2em;
+    margin-top: 1em;
 
 }
 
@@ -144,11 +152,6 @@ main{
     justify-content: center;
 }
 
-.desktop-main{
-    display: none;
-
-}
-
 .order-info div svg{
     width: 30px;
 }
@@ -213,13 +216,13 @@ main{
 
     }
 
-    .desktop-main{
+    main{
         display: block;
         margin-bottom: 3em;
 
     }
 
-    .desktop-hero{
+    .hero-div{
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -242,15 +245,7 @@ main{
         width: 450px;
 
     }
-
-    .order-summary ol{
-        display: flex;
-        flex-direction: column;
-        gap: 2em;
-        margin-top: 1em;
-
-    }
-
+    
     .order-review{
         width: 450px;
 

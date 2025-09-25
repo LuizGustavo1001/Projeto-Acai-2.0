@@ -140,7 +140,7 @@
         </ul>
 
         <div class="main-bottom">
-            <h1>Todos os Pedidos</h1>
+            <h1>Todos os Pedidos com Produtos</h1>
             <div style="width:100%; height:46vh; overflow:auto;">
                 <table>
                     <tr>

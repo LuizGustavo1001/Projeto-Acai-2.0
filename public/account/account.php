@@ -29,9 +29,10 @@
     }
 
     function changeColumn(){
+        // function to change the value on Database associated to the value changed at the form in HTML
         global $mysqli;
         $allowedInputs = [
-            "clientName", "clientPhone", "district", "localNum", 
+            "userName", "userPhone", "district", "localNum", 
             "referencePoint", "street", "city", "state"
         ];
         $getChanges = "";
@@ -41,17 +42,13 @@
                 $newValue = trim($_POST[$allowedInputs[$i]]);
 
                 if($newValue != ""){
-                    $dbTable = match($allowedInputs[$i]){
-                        "clientName", "clientPhone"         => "client_data",
-                        default                             => "client_address"
-                    };
-
                     $changeData = $mysqli->prepare(
-                        "UPDATE $dbTable SET $allowedInputs[$i] = ? WHERE idClient = ?;"
+                        "UPDATE user_data SET $allowedInputs[$i] = ? WHERE idUser = ?;"
                     );
                     $changeData->bind_param("si", $newValue, $_SESSION["idUser"]);
 
                     if($allowedInputs[$i] == "referencePoint" or $allowedInputs[$i] == "state"){
+                        // special inputs -> can be null or the option is always selected on the form
                         if($newValue != $_SESSION[$allowedInputs[$i]]){
                             $changeData->execute();
                             switch($i){
@@ -84,6 +81,7 @@
                             }
                             $getChanges .= "c{$allowedInputs[$i]}=1&";
                         }else{
+                            // writed value in the form is the same as the one at the Database -> no change
                             $getChanges .= "c{$allowedInputs[$i]}=2&";
                         }
                     }
@@ -165,10 +163,10 @@
                     </div>
                     <form method="POST">
                         <?php
-                            // Mapeamento para mostrar nomes amigáveis
+                            // mapping to show better names for the client
                             $fieldLabels = [
-                                "clientName"     => "Nome de Usuário",
-                                "clientPhone"    => "Telefone de Contato",
+                                "userName"       => "Nome de Usuário",
+                                "userPhone"      => "Telefone de Contato",
                                 "district"       => "Bairro",
                                 "localNum"       => "Número da Residência",
                                 "referencePoint" => "Ponto de Referência",
@@ -177,15 +175,14 @@
                                 "state"          => "Estado"
                             ];
 
-                            // Percorre todos os parâmetros GET
+                            // go throught all the GET parameters
                             foreach ($_GET as $key => $value) {
-                                // Exemplo: $key = "cclientName", $value = "1"
+                                // Example: $key = "cuserName", $value = "1"
                                 if (preg_match('/^c(.+)$/', $key, $matches)) {
-                                    $field = $matches[1]; // pega "clientName", "city", etc.
+                                    $field = $matches[1]; // take "userName", "city", etc.
 
                                     if (isset($fieldLabels[$field])) {
                                         $label = $fieldLabels[$field];
-
                                         switch ($value) {
                                             case "1":
                                                 echo "<p class='successText'>Sucesso ao alterar <strong>{$label}</strong></p>";
@@ -203,16 +200,16 @@
                             }
                         ?>
                         <div class="form-item">
-                            <label for="iclientName">Nome: </label>
+                            <label for="iuserName">Nome: </label>
                             <div class="form-input">
-                                <input type="text" name="clientName" id="iclientName" maxlength="30" minlength="8" placeholder="<?php echo $_SESSION['userName']; ?>" >
+                                <input type="text" name="userName" id="iuserName" maxlength="30" minlength="8" placeholder="<?php echo $_SESSION['userName']; ?>" >
                             </div>
                         </div>
 
                         <div class="form-item">
-                            <label for="iclientPhone">Telefone de Contato:</label>
+                            <label for="iuserPhone">Telefone de Contato:</label>
                             <div class="form-input">
-                                <input type="text" name="clientPhone" id="iclientPhone" minlength="15" maxlength="16" pattern="\(\d{2}\) \d \d{4} \d{4}" placeholder="<?php echo $_SESSION['userPhone']; ?>" >
+                                <input type="text" name="userPhone" id="iuserPhone" minlength="15" maxlength="16" pattern="\(\d{2}\) \d \d{4} \d{4}" placeholder="<?php echo $_SESSION['userPhone']; ?>" >
                             </div>
                         </div>
 
@@ -305,12 +302,7 @@
             <?php footerOut();?>
         </div>
 
-        <div class="account-right-div">
-
-        </div>
+        <div class="account-right-div"></div>
     </section>
-
-    
-    
 </body>
 </html>

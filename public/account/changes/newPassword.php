@@ -11,11 +11,11 @@
 
     checkSession("insideAccount");
 
-    if(isset($_POST["password"]) && isset($_POST["newPassword"])){
+    if(isset($_POST['password'], $_POST['newPassword'])){
         $sanitizedPassword = htmlspecialchars($_POST["password"], ENT_QUOTES, 'UTF-8');
 
-        $stmt = $mysqli->prepare("SELECT clientPassword FROM client_data WHERE idClient = ?");
-        $stmt->bind_param("i", $_SESSION["idClient"]);
+        $stmt = $mysqli->prepare("SELECT userPassword FROM user_data WHERE idUser = ?");
+        $stmt->bind_param("i", $_SESSION["idUser"]);
 
         if($stmt->execute()){
             $result = $stmt->get_result();
@@ -23,7 +23,7 @@
 
             $result = $result->fetch_assoc();
 
-            if(! password_verify($sanitizedPassword, $result["clientPassword"])){
+            if(! password_verify($sanitizedPassword, $result["userPassword"])){
                 header("location: newPassword.php?wrongP");
                 exit;
 
@@ -34,12 +34,12 @@
                 $hashedPassword = password_hash($_POST['newPassword'], PASSWORD_DEFAULT);
                 
                 $updatePassword = $mysqli->prepare("
-                    UPDATE client_data
-                    SET clientPassword = ?
-                    WHERE idClient = ?
+                    UPDATE user_data
+                    SET userPassword = ?
+                    WHERE idUser = ?
                 ");
 
-                $updatePassword->bind_param("si", $hashedPassword, $_SESSION["idClient"]);
+                $updatePassword->bind_param("si", $hashedPassword, $_SESSION["idUser"]);
                 if($updatePassword->execute()){
                     $updatePassword->close();
                     session_destroy();
@@ -164,19 +164,14 @@
                         
                     </form>
                 </section>
-
             </main>
 
             <?php footerOut();?>
         </div>
-        
+                            
         <div class="account-right-div">
 
         </div>
-    </section>
-
-    
-
-    
+    </section> 
 </body>
 </html>

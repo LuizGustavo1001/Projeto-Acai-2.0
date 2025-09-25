@@ -11,32 +11,33 @@
 
     checkSession("insideAccount");
 
-    if(isset($_POST["email"]) && isset($_POST["newEmail"])){
+    if(isset($_POST["email"], $_POST['newEmail'])){
         $sanitizedEmail = filter_var( $_POST["email"], FILTER_SANITIZE_EMAIL);
         
-        $stmt = $mysqli->prepare("SELECT clientMail FROM client_data WHERE idClient = ?");
-        $stmt->bind_param("i", $_SESSION["idClient"]);
+        $stmt = $mysqli->prepare("SELECT userMail FROM user_data WHERE idUser = ?");
+        $stmt->bind_param("i", $_SESSION["idUser"]);
 
         if($stmt->execute()){
             $sanitizedNewEmail = filter_var($_POST["newEmail"], FILTER_SANITIZE_EMAIL);
             $domain = substr(strrchr($sanitizedNewEmail, "@"), 1);
-            if(checkdnsrr($domain, "MX")){
+            if(checkdnsrr($domain, "MX")){ // checking if the email domain exists
                 $result = $result->fetch_assoc();
 
-                if($result["clientMail"] != $sanitizedEmail){
+                if($result["userMail"] != $sanitizedEmail){
                     header("location: newEmail.php?wrongEmail=1");
                     exit;
                 }else if($sanitizedNewEmail == $sanitizedMail){
                     header("location: newEmail.php?sameEmail=1");
                     exit;
                 }else{
+                    // change the email at Database
                     $updateEmail = $mysqli->prepare("
-                        UPDATE client_data
-                        SET clientMail = ?
-                        WHERE idClient = ?
+                        UPDATE user_data
+                        SET userMail = ?
+                        WHERE idUser = ?
                     ");
 
-                    $updateEmail->bind_param("si", $sanitizedNewEmail, $_SESSION["idClient"]);
+                    $updateEmail->bind_param("si", $sanitizedNewEmail, $_SESSION["idUser"]);
                     if($updateEmail->execute()){
                         $updateEmail->close();
                         session_destroy();
@@ -120,10 +121,9 @@
                     <div class="section-header-title">
                         <h1>Alterar Email</h1>
                         <p>
-                            Insira a <strong>Senha anteriormente vinculada</strong> a esta conta para <br> enviarmos um <strong>Código de Recuperação</strong> para você alterá-la.
-                        </p>
+                            Insira o <strong>Endereço de Email Vinculado</strong> a sua conta e o <strong>Novo Email</strong> para realizar a alteração.
                     </div>
-                    <form action="" method="post">
+                    <form method="post">
                          <?php 
                             if(isset($_GET["wrongEmail"])) {
                                 echo "
@@ -163,7 +163,6 @@
                                 </svg>
                             </button>
                         </div>
-                        
                     </form>
                 </section>
 
@@ -176,9 +175,5 @@
 
         </div>
     </section>
-
-    
-
-    
 </body>
 </html>

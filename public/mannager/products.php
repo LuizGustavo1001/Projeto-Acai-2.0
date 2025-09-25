@@ -155,16 +155,16 @@ include "mannagerPHP.php";
                 <p>Produtos Cadastrados</p>
             </li>
 
+            <li>
+                <button class="center-button" onclick="window.location.href='addItem.php?type=product'">Adicionar Produto</button>
+            </li>
+
             <li class="input-search">
                 <form method="get">
                     <label for="iadminName">Pesquisar Produtos pelo Nome</label>
                     <input type="text" name="adminName" id="iadminName"
                         placeholder="Pressiona Enter para Iniciar a Busca">
                 </form>
-            </li>
-
-            <li>
-                <button class="center-button" onclick="window.location.href='addItem.php?type=product'">Adicionar Produto</button>
             </li>
         </ul>
 
