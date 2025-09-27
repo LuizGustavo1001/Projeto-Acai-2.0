@@ -5,7 +5,6 @@
 
     if(isset($_GET['size'], $_GET['amount-product'])){
         add2Cart($_GET['size'], $_GET['amount-product']);
-
     }
 
     $defaultMoney = numfmt_create("pt-BR", NumberFormatter::CURRENCY);
@@ -17,6 +16,8 @@
     while($allNames = $getAllNames->fetch_assoc()){
         $allowedNames[] = $allNames["altName"];
     }
+
+    $getAllNames->close();
 
     if(in_array($_GET["id"], $allowedNames)){
         // returning all the data that match with the product with the name above
@@ -45,7 +46,8 @@
                 $image      = $productData["imageURL"];
             }
         }else{
-            echo"
+            echo
+            "
                 <p class='errorText'>
                     <small>
                     <i class=\"fa-solid fa-triangle-exclamation\"></i> 
@@ -54,6 +56,7 @@
                 </p>
             ";
         }
+        $getProductData->close();
          
         function getOptions($nameProd){
             // returning the options that's gonna be inside the select tag at HTML

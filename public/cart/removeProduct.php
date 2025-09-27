@@ -8,8 +8,10 @@
         $allowedProducts[] = $allProducts["nameProduct"];
     }
 
+    $getAllProducts->close();
+
     if(in_array($_GET["name"], $allowedProducts)){
-        $query = $mysqli->prepare("
+        $removeProd = $mysqli->prepare("
             DELETE FROM product_order 
             WHERE idProduct = (
                 SELECT idVersion 
@@ -19,18 +21,18 @@
             LIMIT 1;
         ");
 
-        $query->bind_param("s", $_GET["name"]);
+        $removeProd->bind_param("s", $_GET["name"]);
 
-        if($query->execute()){
-            $query->close();
+        if($removeProd->execute()){
+            $removeProd->close();
             header("location: cart.php");
-            exit;
+            exit();
         }else{
-            $query->close();
+            $removeProd->close();
             header("../errorPage.php");
-            exit;
+            exit();
         }
     }else{
         header("../errorPage.php");
-        exit;
+        exit();
     }

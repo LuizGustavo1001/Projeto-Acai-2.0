@@ -7,7 +7,7 @@
         // print in a random way 4 products from product_data
         global $mysqli;
 
-        $prodAmount = $mysqli->prepare("SELECT COUNT(*) FROM product_data;");
+        $prodAmount = $mysqli->prepare("SELECT COUNT(*) FROM product_data");
 
         if($prodAmount->execute()){
             $totalResult = $prodAmount->get_result();
@@ -30,14 +30,13 @@
                 if($getName->execute()){
                     $result = $getName->get_result();
                     $name = $result->fetch_assoc();
+                    $getName->close();
                     
                     getProductByName($name["altName"], "index");
-
-                    $getName->close();
                 }else{
                     $getName->close();
                     header("location: errorPage.php");
-                    exit;
+                    exit();
                 }
             }
         }else{
@@ -220,7 +219,7 @@
             </ul>
 
             <p style="text-align: center; margin-top: 1em;">
-                <strong>* </strong>Entregas Domiciliares Apenas em <strong>********</strong>.
+                * Entregas Domiciliares Apenas em <strong>********</strong>.
             </p>
 
         </section>
@@ -230,15 +229,10 @@
                 <h1>Destaques</h1>
             </div>
             <ul class="products-list">
-                <?php 
-                    featureItens();
-                ?>
+                <?php featureItens() ?>
             </ul>
         </section>
-
     </main>
-
-    <?php footerOut();?>
-
+    <?php footerOut() ?>
 </body>
 </html>

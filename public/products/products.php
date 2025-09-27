@@ -5,7 +5,6 @@
 
     checkSession("all-product");
     
-
     function categoryItens($type, $filter){
         // print the products based on the selected filter on HTML
         global $mysqli;
@@ -15,6 +14,7 @@
         while($allTypes = $getAllTypes->fetch_assoc()){
             $allowedTypes[] = $allTypes["typeProduct"];
         }
+        $getAllTypes->close();
 
         if(in_array($type, $allowedTypes)){
             $query = match($filter){
@@ -40,13 +40,11 @@
                     getProductByName($name, "");
                 }
             }
+            $getProductFilter->close();
         }else{
             echo "<p class='errorText'>Erro: Nenhum Produto encontrado com o Tipo Inserido</p>";
         }
-
     }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -152,7 +150,6 @@
                         <button>Filtar</button>
                     </div>
                 </form>
-
             </div>
         </section>
 
@@ -162,7 +159,6 @@
                     echo prodSearchOutput($_GET["nameProd"]);
                 }
             ?>
-
             <div class="index-title">
                 <h1>Cremes</h1>
             </div>
@@ -203,8 +199,6 @@
             </ul>
         </section>
     </main>
-
     <?php footerOut();?>
-
 </body>
 </html>

@@ -9,15 +9,11 @@
     if (isset($_SESSION["isAdmin"])) {
         header("location: ../mannager/admin.php?adminNotAllowed=1");
         exit();
-
     }
-    
     if(isset($_SESSION["clientMail"])){
         header("location: account.php");
-        exit();
-        
+        exit(); 
     }
-
     if(isset($_POST["email"])){
         login();
     }
@@ -118,6 +114,7 @@
                         }
                     default:
                         $_SESSION["isAdmin"] = true;
+                        verifyOrders();
                         header("location: ../mannager/admin.php");
                         exit();
                 }
@@ -264,15 +261,10 @@
                         </div>
                     </form>
                 </section>
-        
             </main>
-
             <?php footerOut();?>
-
         </div>
-        <div class="account-right-div">
-        
-        </div>
+        <div class="account-right-div"></div>
     </section>
 </body>
 </html>

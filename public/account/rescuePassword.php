@@ -5,17 +5,13 @@
     if(! isset($_SESSION)){
         session_start();
     }
-
     if (isset($_SESSION["isAdmin"])) {
         header("location: ../mannager/admin.php?adminNotAllowed=1");
         exit();
-
     }
-
     if(! isset($_SESSION["passwordToken"])){
        header("location: password.php");
        exit();
-
     }else{
         if(isset($_POST["token"])){
             // verify if the token input is the same sended to the email
@@ -30,7 +26,6 @@
             }
         }
     }
-
 ?>
 
 <!DOCTYPE html>
@@ -56,8 +51,7 @@
             background-size: cover;
             background-repeat: no-repeat;
 
-        }   
-
+        }
     </style>
 
     <title>Açaí e Polpas Amazônia - Recuperar Senha</title>
@@ -99,7 +93,7 @@
                             abaixo para <strong>alterar sua senha</strong>
                         </p>
                     </div>
-                    <form action="" method="post">
+                    <form method="post">
                         <?php 
                             if(isset($_GET["wrongToken"])) {
                                 echo "
@@ -109,7 +103,6 @@
                                         Tente Novamente com outro Token.
                                     </p>
                                 ";
-
                             }
                         ?>
 
@@ -129,7 +122,6 @@
                     </form>
                 </section>
             </main>
-            
             <?php footerOut();?>
         </div>
         <div class="account-right-div"></div>

@@ -47,6 +47,32 @@ form{
 
 }
 
+.form-inputs select{
+    background: transparent;
+
+}
+
+.form-inputs input, 
+.form-inputs select{
+    width: 100%;
+    padding: 1em;
+
+    border-radius: var(--border-radius);
+
+    border: 1px solid var(--primary-clr);
+    outline: none;
+
+    transition: var(--transition);
+}
+
+.form-inputs input:hover, 
+.form-inputs select:hover, 
+.form-inputs input:focus, 
+.form-inputs select:focus{
+    border-color: var(--secondary-clr);
+
+}
+
 .form-input{
     display: flex;
     align-items: center;
@@ -56,13 +82,11 @@ form{
 
 .form-input img{
     border-radius: 50%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
 
 }
 
-.form-item input, .form-item select{
-    width: 100%;
-
-}
 
 @media(min-width: 1024px){
     main{
@@ -70,6 +94,4 @@ form{
         margin: 0 auto;
 
     }
-
-
 }

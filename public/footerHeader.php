@@ -8,11 +8,11 @@ function verifyCartAmount(){ // imprime a quantidade de produtos no carrinho do 
     }
 
     if(isset($_SESSION["idOrder"])){
-        $stmt = $mysqli->prepare("SELECT COUNT(*) as itemCount FROM product_order WHERE idOrder = ?");
-        $stmt->bind_param("i", $_SESSION["idOrder"]);
+        $getCartAmount = $mysqli->prepare("SELECT COUNT(*) as itemCount FROM product_order WHERE idOrder = ?");
+        $getCartAmount->bind_param("i", $_SESSION["idOrder"]);
         
-        if($stmt->execute()){
-            $result = $stmt->get_result();
+        if($getCartAmount->execute()){
+            $result = $getCartAmount->get_result();
             if ($result) {
                 $row = $result->fetch_assoc();
                 $cartAmount = $row["itemCount"];
@@ -23,6 +23,7 @@ function verifyCartAmount(){ // imprime a quantidade de produtos no carrinho do 
         }else{
             echo "erro ao executar o stmt";
         }
+        $getCartAmount->close();
     }
 }
 
@@ -33,7 +34,6 @@ function faviconOut(){
 }
 
 function headerOut($local){
-
     echo "
         <header>
             <ul class=\"left-header\">
@@ -46,7 +46,6 @@ function headerOut($local){
         2 => "<a href=\"../../index.php\">",
     };
     echo $link;
-
     echo "
                         <img src=\"https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079683/acai-icon-white_fll4gt.png\" class=\"item-translate\" alt=\"Açaí Icon\">
                     </a>
@@ -65,7 +64,6 @@ function headerOut($local){
 
         };
         echo $link;
-
         echo "
                         <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"size-6\">
                             <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z\" />
@@ -85,7 +83,6 @@ function headerOut($local){
             2 => "<a href=\"../../account/account.php\">",
         };
         echo $link;
-
         echo "
                             <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"size-6\">
                                 <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z\" />
@@ -97,8 +94,6 @@ function headerOut($local){
                     <li>
         ";
     }
-    
-
     $link = match($local){
         0 => "<a href=\"products/products.php\">",
         1 => "<a href=\"../products/products.php\">",
@@ -124,7 +119,6 @@ function headerOut($local){
         2 => "<a href=\"../../cart/cart.php\">",
     };
     echo $link;
-
     echo "
                         <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"size-6\">
                             <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z\" />
@@ -132,18 +126,13 @@ function headerOut($local){
 
                         <p>Carrinho</p>
                     </a>
-                    
-                
-
     ";
-
     echo verifyCartAmount();
     echo "
                 </li>
             </ul>
         </header>
     ";
-
 }
 
 function footerOut(){

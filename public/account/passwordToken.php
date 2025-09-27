@@ -1,25 +1,22 @@
 <?php
     include "../../databaseConnection.php";
 
-    require "../../composer/mailLibrary/src/PHPMailer.php";
-    require "../../composer/mailLibrary/src/SMTP.php";
-    require ".../../composer/mailLibrary/src/Exception.php";
-        
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
+
+    require __DIR__ . '/../../composer/vendor/autoload.php';
 
     if(! isset($_SESSION)){
         session_start();
     }
-
     if (isset($_SESSION["isAdmin"])) {
         header("location: ../mannager/admin.php?adminNotAllowed=1");
         exit();
 
     }
-
     if(! isset($_SESSION["userMail"])){
         header("location: password.php");
+        exit();
     }else{
         $token = bin2hex(random_bytes(3));
 
@@ -43,7 +40,7 @@
             $email->CharSet = "UTF-8";
 
             $email->Subject = "Token de Recuperação de Senha"; 
-            $email->Body = "<h1>Açaí Amazônia Ipatinga</h1>"; 
+            $email->Body = "<h1>Açaí e Polpas Amazônia</h1>"; 
             $email->Body .= "<p>Seu Token de Verificação de Email para Redefinir de Senha: <strong><h2>$token</h2></strong></p>";
             $email->Body .= "<p>Insira o Token acima na área destinada no site abaixo</p>";
             $email->Body .= "
@@ -56,6 +53,7 @@
             if($email->send()){
                 $_SESSION["passwordToken"] = $token;
                 header("location: rescuePassword.php"); 
+                exit();
                 
             }else {
                 echo "Email não enviado";

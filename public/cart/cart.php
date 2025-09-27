@@ -8,13 +8,11 @@
     if(! isset($_SESSION["userMail"])){
         header("location: ../account/login.php?unkUser=1");
         exit();
-
     }
 
     if (isset($_SESSION["isAdmin"])) {
         header("location: ../mannager/admin.php?adminNotAllowed=1");
         exit();
-
     }
 
     $defaultMoney = numfmt_create("pt-BR", NumberFormatter::CURRENCY);
@@ -31,15 +29,16 @@
         // return the total price on the cart
         global $mysqli, $defaultMoney;
 
-        $stmt = $mysqli->prepare("
+        $getTotalPrice = $mysqli->prepare("
             SELECT SUM(totPrice) AS totalPrice
             FROM product_order 
             WHERE idOrder = ?
         ");
-        $stmt->bind_param("i", $clientOrder);
-        if($stmt->execute()){
-            $result = $stmt->get_result();
+        $getTotalPrice->bind_param("i", $clientOrder);
+        if($getTotalPrice->execute()){
+            $result = $getTotalPrice->get_result();
             $price = $result->fetch_assoc();
+            $getTotalPrice->close();
             if($price['totalPrice'] != null){
                 return numfmt_format_currency($defaultMoney, $price['totalPrice'], "BRL");
             }else{
@@ -52,17 +51,18 @@
         // print all the products in the cart
         global $mysqli;
 
-        $stmt = $mysqli->prepare("
+        $getProdsFromCart = $mysqli->prepare("
             SELECT *
             FROM product_order 
             WHERE idOrder = ?
         ");
 
-        $stmt->bind_param("i", $_SESSION['idOrder']);
+        $getProdsFromCart->bind_param("i", $_SESSION['idOrder']);
         
-        if($stmt->execute()){
-            $result = $stmt->get_result();
+        if($getProdsFromCart->execute()){
+            $result = $getProdsFromCart->get_result();
             $amount = $result->num_rows;
+            $getProdsFromCart->close();
             
             switch($amount){
                 case 0:
@@ -71,13 +71,19 @@
                 
                 default:
                     while($row = $result->fetch_assoc()) {
-                        $rescueProd = $mysqli->prepare("SELECT pd.printName, pv.nameProduct, pv.imageURL, pv.sizeProduct FROM product_data AS pd JOIN product_version AS pv ON pv.idProduct = pd.idProduct WHERE pv.idVersion = ?");
+                        $rescueProd = $mysqli->prepare("
+                            SELECT pd.printName, pv.nameProduct, pv.imageURL, pv.sizeProduct 
+                            FROM product_data AS pd 
+                                JOIN product_version AS pv ON pv.idProduct = pd.idProduct 
+                            WHERE pv.idVersion = ?
+                        ");
                         $rescueProd->bind_param("i" ,$row["idProduct"]);
                         $totalPrice = $row["totPrice"];
                         
                         if($rescueProd->execute()){
                             $prodResult = $rescueProd->get_result();
                             $prodData = $prodResult->fetch_assoc();
+                            $rescueProd->close();
                             $prodName = "{$prodData["printName"]} - {$prodData["sizeProduct"]}";
 
                             echo "
@@ -114,12 +120,10 @@
             exit();
         }
     }
-
     if(! isset($_SESSION["userMail"])){
         header("location: ../account/account.php");
         exit();
     }
-
     if(isset($_GET["orderConfirmed"])){
         // adding the cart to the spreadsheet
         $total =  getCartTotal($_SESSION["idOrder"]);
@@ -135,17 +139,21 @@
 
         // get the products that are on the selected order
         $rescueProd = $mysqli->prepare("
-            SELECT p.nameProduct as name, o.amount as amount, o.totPrice as totPrice
-            FROM product AS p JOIN product_order AS o ON p.idProduct = o.idProduct
+            SELECT pd.printName as name, o.amount, o.totPrice, pv.sizeProduct
+            FROM product_version AS pv 
+                JOIN product_order AS o ON pv.idVersion = o.idProduct
+                JOIN product_data AS pd ON pv.idProduct = pd.idProduct
             WHERE idOrder = ?;
         ");
         $rescueProd->bind_param("i", $_SESSION["idOrder"]);
 
         $rescueProd->execute();
         $rescueProd = $rescueProd->get_result();
+        $rescueProd->close();
         $allProd = "";
         while($row = $rescueProd->fetch_assoc()){
-            $allProd .= "({$row['name']} / {$row['amount']} / {$row['totPrice']} ) \n";
+            $name = "{$row["name"]} - {$row["sizeProduct"]}";
+            $allProd .= "($name} / {$row['amount']} / {$row['totPrice']} ) \n";
         }
         
         // Adding the datas to the spreadsheet
@@ -166,10 +174,12 @@
         $newOrder->bind_param("iss", $_SESSION["idUser"], $currentDate,  $currentHour);
         $newOrder->execute();
         $newIdOrder = $mysqli->insert_id;
+        $newOrder->close();
 
         $_SESSION["idOrder"] = $newIdOrder;
 
         header("location: ../index.php?orderConfirmed=1");
+        exit();
     }
     checkSession("cart");
 
@@ -277,7 +287,7 @@
 
                 <div class="order-review section-bg">
                     <h1>Revisão dos Itens</h1>
-                    <ol>
+                    <ol style="overflow: auto;height: 400px">
                         <?php GetCartProd();?>
                     </ol>
                 </div>

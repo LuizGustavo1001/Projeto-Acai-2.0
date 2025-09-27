@@ -10,13 +10,11 @@
     if (isset($_SESSION["isAdmin"])) {
         header("location: ../mannager/admin.php?adminNotAllowed=1");
         exit();
-
     }
     
     if(! isset($_SESSION["userMail"])){
         header("location: login.php");
         exit();
-
     }
 
     checkSession("account");
@@ -25,7 +23,6 @@
         session_destroy(); 
         header("location: login.php?logout=1");
         exit;
-
     }
 
     function changeColumn(){
@@ -51,6 +48,7 @@
                         // special inputs -> can be null or the option is always selected on the form
                         if($newValue != $_SESSION[$allowedInputs[$i]]){
                             $changeData->execute();
+                            $changeData->close();
                             switch($i){
                                 case 0:
                                     $_SESSION["userName"] = $newValue;
@@ -143,17 +141,13 @@
                             </li>
                             <li><a href="account.php">Página do Usuário</a></li>
                         </ul>
-
-                        
                     </div>
                     <div class="account-header-button">
                         <a href="account.php?logout=1">
                             <button>Sair</button>
                         </a>
-
                     </div>
                 </section>
-
 
                 <section class="account-forms">
                     <div class="section-header-title">
@@ -280,7 +274,7 @@
                                 <input type="text" name="referencePoint" id="ireferencePoint" maxlength="50" placeholder="<?php echo $_SESSION['referencePoint']; ?>">
                             </div>
                         </div>
-
+                        <button>Editar</button>
                         <ul style="display: flex; justify-content: space-between; border: none">
                             <li style="padding: 1em; background: var(--primary-clr);border-radius: var(--border-radius)">
                                 <a href="changes/newPassword.php" style="color: white;">
@@ -294,14 +288,12 @@
                             </li>
                         </ul>
 
-                        <button>Editar</button>
+                        
                     </form>
                 </section>
             </main>
-
             <?php footerOut();?>
         </div>
-
         <div class="account-right-div"></div>
     </section>
 </body>

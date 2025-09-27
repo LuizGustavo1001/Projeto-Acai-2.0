@@ -6,12 +6,11 @@
     if (isset($_SESSION["isAdmin"])) {
         header("location: ../mannager/admin.php?adminNotAllowed=1");
         exit();
-
     }
     
     if(isset($_SESSION["userMail"])){
         header("location: login.php");
-
+        exit();
     }
 
     // verify if the email input are in the Database
@@ -23,7 +22,7 @@
 
         if($stmt->execute()){
             $result = $stmt->get_result();
-
+            $stmt->close();
             switch($result->num_rows){
                 case 0: 
                     header("Location: password.php?wrongMail=1");
@@ -34,8 +33,10 @@
                     header("Location: passwordToken.php");
                     exit();
             }
+            
         }else{
             header("location: ../errorPage.php");
+            exit();
         }
     }
 
@@ -96,7 +97,6 @@
 
                         <li><a href="password.php">Recuperação de Senha</a></li>
                     </ul>
-
                 </section>
 
                 <section class="account-forms">
@@ -136,19 +136,10 @@
                         
                     </form>
                 </section>
-
             </main>
-
             <?php footerOut();?>
         </div>
-        
-        <div class="account-right-div">
-
-        </div>
+        <div class="account-right-div"></div>
     </section>
-
-    
-
-    
 </body>
 </html>

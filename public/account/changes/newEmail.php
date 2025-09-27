@@ -6,7 +6,6 @@
     if(! isset($_SESSION["userMail"])){
         header("location: ../login.php");
         exit();
-
     }
 
     checkSession("insideAccount");
@@ -22,13 +21,14 @@
             $domain = substr(strrchr($sanitizedNewEmail, "@"), 1);
             if(checkdnsrr($domain, "MX")){ // checking if the email domain exists
                 $result = $result->fetch_assoc();
+                $stmt->close();
 
                 if($result["userMail"] != $sanitizedEmail){
                     header("location: newEmail.php?wrongEmail=1");
-                    exit;
+                    exit();
                 }else if($sanitizedNewEmail == $sanitizedMail){
                     header("location: newEmail.php?sameEmail=1");
-                    exit;
+                    exit();
                 }else{
                     // change the email at Database
                     $updateEmail = $mysqli->prepare("
@@ -43,17 +43,19 @@
                         session_destroy();
 
                         header("location: ../login.php?newEmail");
-                        exit;
+                        exit();
                     }else{
                         header("location: ../../errorPage.php");
+                        exit();
                     }
                 }
             }else{
                 header("location: newEmail.php?wrongEmail=1");
+                exit();
             }
         }else{
             header("location: ../../errorPage.php");
-            exit;
+            exit();
         }
     }
 

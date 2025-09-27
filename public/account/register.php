@@ -6,13 +6,11 @@
     if (isset($_SESSION["isAdmin"])) {
         header("location: ../mannager/admin.php?adminNotAllowed=1");
         exit();
-
     }
 
     if (isset($_SESSION["userMail"])) {
         header("location: account.php");
         exit();
-
     }
 
     if (isset($_GET["userAdd"])) {
@@ -160,6 +158,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                             </svg>
                         </li>
+
                         <li><a href="login.php">Página de Login</a></li>
                         <li>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -167,6 +166,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                             </svg>
                         </li>
+
                         <li><a href="register.php">Página de Resgistro</a></li>
                     </ul>
 
@@ -178,22 +178,22 @@
                         <p><strong>Registre-se</strong> para <strong>Continuar Comprando</strong> em nosso site</p>
                     </div>
                     <?php
-                    if (isset($_GET["invalidDomain"])) {
-                        echo "
-                                <p class=\"errorText\">
-                                    <i class=\"fa-solid fa-triangle-exclamation\"></i>
-                                    Erro: Domínio do Email Digitado <strong>É Inválido</strong>, tente novamente com outro domínio ou <strong>cadastre-se</strong> no link abaixo
-                                </p>
-                            ";
-                    }
-                    if (isset($_GET["emailExists"])) {
-                        echo "
-                                <p class=\"errorText\">
-                                    <i class=\"fa-solid fa-triangle-exclamation\"></i>
-                                    Email <strong>já cadastrado</strong>, tente novamente com <strong>Outro Endereço de Email</strong>
-                                </p>
-                            ";
-                    }
+                        if (isset($_GET["invalidDomain"])) {
+                            echo "
+                                    <p class=\"errorText\">
+                                        <i class=\"fa-solid fa-triangle-exclamation\"></i>
+                                        Erro: Domínio do Email Digitado <strong>É Inválido</strong>, tente novamente com outro domínio ou <strong>cadastre-se</strong> no link abaixo
+                                    </p>
+                                ";
+                        }
+                        if (isset($_GET["emailExists"])) {
+                            echo "
+                                    <p class=\"errorText\">
+                                        <i class=\"fa-solid fa-triangle-exclamation\"></i>
+                                        Email <strong>já cadastrado</strong>, tente novamente com <strong>Outro Endereço de Email</strong>
+                                    </p>
+                                ";
+                        }
 
                     ?>
                     <form method="post">
@@ -293,11 +293,9 @@
                                 </svg>
                             </button>
                         </div>
-
                     </form>
                 </section>
             </main>
-
             <?php footerOut(); ?>
         </div>
         <div class="account-right-div"></div>

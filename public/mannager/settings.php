@@ -8,7 +8,7 @@
     use Dotenv\Dotenv;
     use Cloudinary\Configuration\Configuration;
     use Cloudinary\Cloudinary;
-    use Cloudinary\Api\Upload\UploadApi; # API para upload de imagens
+    use Cloudinary\Api\Upload\UploadApi;
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
         changeColumn();
@@ -28,9 +28,9 @@
 
             switch($inputName){
                 case "adminPicture":
-                    // tratamento diferente para adminPicture, uma vez que é um arquivo
+                    // different treatment for adminPicture, because it's a file
                     if (isset($_FILES["adminPicture"]) && $_FILES["adminPicture"]["error"] === UPLOAD_ERR_OK) {
-                        // Alterar a foto de perfil na Nuvem
+                        // changing the profile picture at the Cloud
                         $dbTable = "admin_data";
                         
                         $dotenv = Dotenv::createImmutable("../../composer");
@@ -50,16 +50,13 @@
                                 "overwrite"     => true,
                                 "invalidate"    => true
                             ]);
-                            
-                            // Alterando o valor da URL da imagem(antes como nome da imagem)
+                            // changing the image URL value to the real URL(not the image name)
                             $newValue = $response['secure_url'];
                             
                         } catch (Exception $e) {
                             echo "Erro no upload: " . $e->getMessage();
                         }
-                        
                     }
-                    
                     break;
                 default:
                     if (isset($_POST[$inputName])) {
@@ -70,14 +67,12 @@
                                 $newValue = null;
                             }
                         }
-                        
                         $dbTable = "user_data";
                     }
                     break;
             }
 
-            // tentando atualizar, caso tenha um valor novo digitado
-            
+            // if there's a value, try to update at the database
             if (!empty($newValue)) {
                 $query = match ($dbTable) {
                     "admin_data"    => "UPDATE admin_data SET $inputName = ? WHERE idAdmin = ?",
@@ -87,17 +82,16 @@
                 $changeData = $mysqli->prepare($query);
                 $changeData->bind_param("si", $newValue, $_SESSION["idUser"]);
 
-                if ($newValue != $_SESSION[$inputName]) {
+                if($newValue != $_SESSION[$inputName]){
                     $changeData->execute();
                     $_SESSION[$inputName] = $newValue;
                     $getChanges .= "c{$inputName}=1&";
-                } else {
+                }else{
                     $getChanges .= "c{$inputName}=2&";
                 }
+                $changeData->close();
             }
-            
         }
-        
         header("location: settings.php?" . rtrim($getChanges, "&"));
         exit();
     }
@@ -120,7 +114,7 @@
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
     <script src="../JS/generalScripts.js"></script>
 
-    <link rel="stylesheet" href="../CSS/mannager.css">
+    <link rel="stylesheet" href="../CSS/mannager-style.css">
     <link rel="stylesheet" href="../CSS/mannager-settings.css">
 
     <title>Açaí e Polpas Amazônia - Administradores</title>

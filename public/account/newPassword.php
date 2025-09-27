@@ -13,7 +13,7 @@
     if(! isset($_SESSION["userMail"])){ 
         // trying to access the page without token
         header("location: password.php");
-        exit;
+        exit();
     }else{
         if(isset($_POST["password"])){
             $newPassword = password_hash($_POST["password"], PASSWORD_DEFAULT);
@@ -30,9 +30,10 @@
 
                 unset($_SESSION["userMail"]);
                 header("location: login.php?newPassword=1");
-                exit;
+                exit();
             }else{
                 header("location: ../errorPage.php");
+                exit();
             }
         }
     }
@@ -131,14 +132,11 @@
                                 Enviar
                             </button>
                         </div>
-                        
                     </form>
                 </section>
             </main>
-
             <?php footerOut();?>
         </div>
-        
         <div class="account-right-div"></div>
     </section>
 </body>

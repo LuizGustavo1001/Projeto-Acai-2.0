@@ -6,7 +6,6 @@
     if(! isset($_SESSION["userMail"])){
         header("location: ../login.php");
         exit();
-
     }
 
     checkSession("insideAccount");
@@ -25,11 +24,11 @@
 
             if(! password_verify($sanitizedPassword, $result["userPassword"])){
                 header("location: newPassword.php?wrongP");
-                exit;
+                exit();
 
             }else if($_POST["password"] == $_POST["newPassword"]){
                 header("location: newPassword.php?sameP");
-                exit;
+                exit();
             }else{
                 $hashedPassword = password_hash($_POST['newPassword'], PASSWORD_DEFAULT);
                 
@@ -45,14 +44,15 @@
                     session_destroy();
 
                     header("location: ../login.php?newPassword");
-                    exit;
+                    exit();
                 }else{
                     header("location: ../../errorPage.php");
+                    exit();
                 }
             }
         }else{
             header("location: ../../errorPage.php");
-            exit;
+            exit();
         }
     }
 
