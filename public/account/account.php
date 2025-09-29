@@ -287,8 +287,6 @@
                                 </a>
                             </li>
                         </ul>
-
-                        
                     </form>
                 </section>
             </main>

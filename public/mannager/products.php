@@ -3,7 +3,7 @@
     include "../footerHeader.php";
     include "mannagerPHP.php";
 
-$amount = getAmountItem("product");
+    $amount = getAmountItem("product");
 ?>
 
 <!DOCTYPE html>
@@ -117,8 +117,35 @@ $amount = getAmountItem("product");
                         </div>
                     </section>
                 ";
-
-            }      
+            }
+            if(isset($_GET["addProduct"])){
+                echo "
+                    <section class= \"popup-box show\">
+                        <div class=\"popup-div\">
+                            <div><h1>Atualização</h1></div>
+                            <div>
+                                <p>Sucesso ao <strong>Adicinar Produto</strong> ao Banco de Dados</p>
+                                <p>Clique no botão abaixo para fechar esta janela</p>
+                                <button class=\"popup-button\">Fechar</button>
+                            </div>
+                        </div>
+                    </section>
+                ";
+            }
+            if(isset($_GET["addVersion"])){
+                echo "
+                    <section class= \"popup-box show\">
+                        <div class=\"popup-div\">
+                            <div><h1>Atualização</h1></div>
+                            <div>
+                                <p>Sucesso ao <strong>Adicinar Versão de um Produto</strong> ao Banco de Dados</p>
+                                <p>Clique no botão abaixo para fechar esta janela</p>
+                                <button class=\"popup-button\">Fechar</button>
+                            </div>
+                        </div>
+                    </section>
+                ";
+            }
         ?>
         <div class="main-title">
             <div>

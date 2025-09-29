@@ -124,6 +124,11 @@ header{
 
 }
 
+.hidden-box {
+    display: none;
+    
+}
+
 .popup-box{
     background :rgba(66, 1, 75, 0.233);
 

@@ -42,10 +42,10 @@
         $inputEmail = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
 
         $verifyEmail = $mysqli->prepare("
-                SELECT userMail 
-                FROM user_data 
-                WHERE userMail = ?
-            ");
+            SELECT userMail 
+            FROM user_data 
+            WHERE userMail = ?
+        ");
         $verifyEmail->bind_param("s", $inputEmail);
 
         if ($verifyEmail->execute()) {

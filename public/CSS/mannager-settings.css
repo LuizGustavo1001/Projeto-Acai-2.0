@@ -47,13 +47,13 @@ form{
 
 }
 
-.form-inputs select{
+.form-item select{
     background: transparent;
 
 }
 
-.form-inputs input, 
-.form-inputs select{
+.form-item input, 
+.form-item select{
     width: 100%;
     padding: 1em;
 
@@ -65,10 +65,10 @@ form{
     transition: var(--transition);
 }
 
-.form-inputs input:hover, 
-.form-inputs select:hover, 
-.form-inputs input:focus, 
-.form-inputs select:focus{
+.form-item input:hover, 
+.form-item select:hover, 
+.form-item input:focus, 
+.form-item select:focus{
     border-color: var(--secondary-clr);
 
 }
@@ -86,7 +86,6 @@ form{
     object-fit: cover;
 
 }
-
 
 @media(min-width: 1024px){
     main{

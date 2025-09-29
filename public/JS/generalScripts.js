@@ -1,4 +1,4 @@
-// fechar PopUp de notificação
+// Close Notification PopUp
 document.addEventListener("DOMContentLoaded", function() {
     var popUpButton = document.querySelector(".popup-button");
     if (popUpButton) {
