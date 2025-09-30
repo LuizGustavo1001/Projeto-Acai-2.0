@@ -14,11 +14,6 @@ main{
 
 }
 
-.mobile-main{
-    margin-bottom: 5em;
-
-}
-
 .section-bg{
     background: var(--primary-bg-clr);
     box-shadow: 4px 4px 4px var(--shadow-clr);
@@ -183,14 +178,12 @@ main{
     flex-direction: column;
     gap: 1em;
     
-
 }
 
 .order-info-content ol li{
     display: flex;
     gap: 1em;
     
-
 }
 
 .order-info-content svg{
@@ -211,11 +204,6 @@ main{
 
 
 @media(min-width: 1024px){
-    .mobile-main{
-        display: none;
-
-    }
-
     main{
         display: block;
         margin-bottom: 3em;
@@ -251,12 +239,10 @@ main{
 
     }
 
-
     .order-review ol li{
         flex-direction: row;
 
     }
-
 
     .list-item-text{
         font-size: 1.2em;

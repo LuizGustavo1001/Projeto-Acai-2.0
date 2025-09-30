@@ -1,6 +1,6 @@
 body{
     display: block;
-
+    
 }
 
 form{
@@ -18,7 +18,40 @@ form{
 .main-title{
     margin: 0 auto;
     font-size: 1.2em;
+    
+}
 
+.main-title h1 a{
+    color: red;
+    border-bottom: 1px solid transparent;
+    transition: var(--transition);
+
+}
+
+.main-title h1 a:hover{
+    border-color: red;
+
+}
+
+.main-title h1{
+    display: flex;
+    flex-direction: column;
+    font-size: 1.5em;
+
+}
+
+.main-title div{
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+
+}
+
+.main-title button{
+    background: red;
+    font-size: 0.8em;
+    width: 100%;
+    padding: 0.5em;
 }
 
 .back-button a{
@@ -93,4 +126,16 @@ form{
         margin: 0 auto;
 
     }
+    .main-title h1{
+        flex-direction: row;
+        justify-content: space-between;
+        font-size: 1.3em;
+
+    }
+
+    .main-title button{
+        width: 30%;
+
+    }
+
 }

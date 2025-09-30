@@ -146,6 +146,20 @@
                     </section>
                 ";
             }
+            if(isset($_GET["removeS"])){
+                 echo "
+                    <section class= \"popup-box show\">
+                        <div class=\"popup-div\">
+                            <div><h1>Atualização</h1></div>
+                            <div>
+                                <p>Sucesso ao <strong>Remover um Produto/Versão</strong> do Banco de Dados</p>
+                                <p>Clique no botão abaixo para fechar esta janela</p>
+                                <button class=\"popup-button\">Fechar</button>
+                            </div>
+                        </div>
+                    </section>
+                ";
+            }
         ?>
         <div class="main-title">
             <div>

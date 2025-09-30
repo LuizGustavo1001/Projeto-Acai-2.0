@@ -4,12 +4,10 @@
     include "mannagerPHP.php";
 
     $amount = getAmountItem("admin");
-
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -108,6 +106,21 @@
                 echo "
                     <section class= \"popup-box show\">
                         <div class=\"popup-div\">
+                            <div><h1>Erro</h1></div>
+                            <div>
+                                <p>É preciso fazer <strong>Login como Cliente</strong> para acessar A Página Anterior</p>
+                                <p>Clique no botão abaixo para fechar esta janela</p>
+                                <button class=\"popup-button\">Fechar</button>
+                            </div>
+                        </div>
+                    </section>
+                ";
+
+            }       
+            if(isset($_GET["makeAdmin"])){
+                echo "
+                    <section class= \"popup-box show\">
+                        <div class=\"popup-div\">
                             <div><h1>Atualização</h1></div>
                             <div>
                                 <p>Novo Administrador Adicionado com Sucesso</p>
@@ -118,7 +131,7 @@
                     </section>
                 ";
 
-            }       
+            }   
         ?>
         <div class="main-title">
             <div>

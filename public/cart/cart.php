@@ -149,12 +149,13 @@
 
         $rescueProd->execute();
         $rescueProd = $rescueProd->get_result();
-        $rescueProd->close();
+        
         $allProd = "";
         while($row = $rescueProd->fetch_assoc()){
             $name = "{$row["name"]} - {$row["sizeProduct"]}";
             $allProd .= "($name} / {$row['amount']} / {$row['totPrice']} ) \n";
         }
+        $rescueProd->close();
         
         // Adding the datas to the spreadsheet
         $service = new Google_Service_Sheets($client);
@@ -170,8 +171,9 @@
         $service->spreadsheets_values->append($spreadsheetId, $range, $body, $params);
 
         // creating a new order after confirming the last one
-        $newOrder = $mysqli->prepare("INSERT INTO order_data (idClient, orderDate, orderHour) VALUES (?, ?, ?);");
-        $newOrder->bind_param("iss", $_SESSION["idUser"], $currentDate,  $currentHour);
+        $ordeStatus = "Finished";
+        $newOrder = $mysqli->prepare("INSERT INTO order_data (idClient, orderDate, orderHour, orderStatus) VALUES (?, ?, ?, ?);");
+        $newOrder->bind_param("isss", $_SESSION["idUser"], $currentDate,  $currentHour, $ordeStatus);
         $newOrder->execute();
         $newIdOrder = $mysqli->insert_id;
         $newOrder->close();
@@ -182,8 +184,6 @@
         exit();
     }
     checkSession("cart");
-
-  
 ?>
 
 
