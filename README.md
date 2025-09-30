@@ -3,6 +3,7 @@
     Projeto de um site conectado a um Banco de Dados <em>MySQL</em> utilizando <em>PHP</em> como ponte entre a <em>Página Web</em> e os <em>Dados</em>
 </h2>
 <h3>⬇️ Preview do Site</h3>
+<img src="public/readMe-images/preview.gif" alt="" style='width: 300px'></img>
 <a href="https://www.figma.com/design/KG2g0vrnxkWhpYED4uM7DG/Projeto-A%C3%A7a%C3%AD?node-id=0-1&p=f&t=wKqWymchvS68Lj0V-0">
     Projeto no <strong>Figma</strong>
 </a>
