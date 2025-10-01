@@ -40,7 +40,7 @@
 
     <?php faviconOut(); ?>
 
-    <link rel="stylesheet" href="../CSS/general-style.css">
+    <link rel="stylesheet" href="../CSS/general-styles.css">
     <link rel="stylesheet" href="../CSS/account-styles.css">
 
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>

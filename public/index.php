@@ -4,42 +4,14 @@
     include "footerHeader.php";
     
     function featureItens(){
-        // print in a random way 4 products from product_data
+        // feature 4 random products from Database
         global $mysqli;
-
-        $prodAmount = $mysqli->prepare("SELECT COUNT(*) FROM product_data");
-
-        if($prodAmount->execute()){
-            $totalResult = $prodAmount->get_result();
-            $amount = $totalResult->fetch_row()[0];
-            $prodAmount->close();
-
-            $randomIdVec = [];
-
-            while(count($randomIdVec) < 4){
-                $randomId = rand(1, $amount);
-                if (! in_array($randomId, $randomIdVec)) {
-                    $randomIdVec[] = $randomId;
-                }
+        $query = $mysqli->query("SELECT altName FROM product_data ORDER BY RAND() LIMIT 4");
+        if($query){
+            while($row = $query->fetch_assoc()){
+                getProductByName($row["altName"], "index");
             }
-
-            for($j = 0; $j < 4; $j++){
-                $getName = $mysqli->prepare("SELECT altName FROM product_data WHERE idProduct = ?");
-                $getName->bind_param("i", $randomIdVec[$j]);
-                
-                if($getName->execute()){
-                    $result = $getName->get_result();
-                    $name = $result->fetch_assoc();
-                    $getName->close();
-                    
-                    getProductByName($name["altName"], "index");
-                }else{
-                    $getName->close();
-                    header("location: errorPage.php");
-                    exit();
-                }
-            }
-        }else{
+        } else {
             header("location: errorPage.php");
         }
     }
@@ -55,8 +27,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="CSS/general-style.css">
-    <link rel="stylesheet" href="CSS/index.css">
+    <link rel="stylesheet" href="CSS/general-styles.css">
+    <link rel="stylesheet" href="CSS/index-styles.css">
 
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
     <script src="JS/generalScripts.js"></script>
@@ -65,7 +37,10 @@
 
     <style>
         .products-list{
-            grid-template-columns: repeat(4, 1fr);
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 0.5em;
         }
     </style>
     

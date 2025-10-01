@@ -25,11 +25,11 @@
 <p>- Usuários são diferenciados entre Clientes e Administradores</p>
 <ul>
     <li>Clientes: Possuem um Pedido ao iniciar uma sessão</li>
-    <li>Administradore: Possuem Foto de Perfil e possibilidade de Alterar o Banco de Dados</li>
+    <li>Administradores: Possuem Foto de Perfil e possibilidade de Alterar o Banco de Dados</li>
 </ul>
 <p>- Possui soluções para usuários que tentarem acessar Páginas Específicas sem cadastro efetuado/ condiçãode acesso</p>
 <p>- As sessões de cada usuário duram cerca de 1 hora. Após esse tempo, será necessário realizar novamente a identificação</p>
-<p>- Para diferenciar cada usuário que utilizar o site, há um sistema de Cadastro/Login, incluindo: </p>
+<p>- Para <strong>Diferenciar Cada Usuário</strong> que utilizar o site, há um <strong>Sistema de Cadastro/Login</strong>, incluindo: </p>
 <ul>
     <li>Nome</li>
     <li>Email*</li>
@@ -142,7 +142,7 @@
                 Crie uma conta de serviço e baixe o <strong>'credenciais.json'</strong> e cole ele dentro da pasta principal do projeto <strong>(htdocs/Projeto_Acai2.0)</strong>
             </li>
             <li>
-                Altere o caminho no código abaixo dentro de cart.php na linha <em>($config->setAuthConfig('caminho'))</em> para o arquivo JSON das credencias
+                Altere o caminho no código abaixo dentro de cart.php na linha <em>($config->setAuthConfig('caminho'))</em> para o arquivo JSON das credencias <br>
                 <img src="public/readMe-images/googleAPI.jpg" alt="Google API Code Preview"></img>
             </li>
             <li>
@@ -203,7 +203,7 @@
                 Crie uma conta de serviço e baixe o <strong>'credenciais.json'</strong> e cole ele dentro da pasta principal do projeto <strong>(htdocs/Projeto_Acai2.0)</strong>
             </li>
             <li>
-                Altere o caminho no código abaixo dentro de cart.php na linha <em>($config->setAuthConfig('caminho'))</em> para o arquivo JSON das credencias
+                Altere o caminho no código abaixo dentro de cart.php na linha <em>($config->setAuthConfig('caminho'))</em> para o arquivo JSON das credencias <br>
                 <img src="public/readMe-images/googleAPI.jpg" alt="Google API Code Preview"></img>
             </li>
             <li>

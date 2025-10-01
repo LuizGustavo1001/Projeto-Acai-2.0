@@ -330,7 +330,7 @@ function printForms()
                                         echo ">Sergipe</option>
                                         <option value='TO'";
                                         optionSelectAlt($client, "state", "TO");
-                                        echo ">Tocantins</option>;
+                                        echo ">Tocantins</option>
                                     </select>
                                 </div>
                             </div>
@@ -345,9 +345,8 @@ function printForms()
                         <button>Editar</button>
 
                         <div style='display: flex; justify-content: space-between; border: none'>
-                            <button type='button' onclick=\"window.location.href='../account/changes/newPassword.php'\">Alterar Senha</button>
-
-                            <button type='button' onclick=\"window.location.href='../account/changes/newEmail.php'\">Alterar Email</button>
+                            <a href=\"../account/changes/newPassword.php\">Alterar Senha</a>
+                            <a href=\"../account/changes/newEmail.php\">Alterar Email</a>
                         </div>
                     ";
                 }
@@ -506,87 +505,87 @@ function printForms()
                                     <div class='form-input'>
                                         <select name='state' id='istate'>
                                             <option value='AC'";
-                    optionSelectAlt($admin, "state", "AC");
-                    echo ">Acre</option>
-                                            <option value='AL'";
-                    optionSelectAlt($admin, "state", "AL");
-                    echo ">Alagoas</option>
-                                            <option value='AP'";
-                    optionSelectAlt($admin, "state", "AP");
-                    echo ">Amapá</option>
-                                            <option value='AM'";
-                    optionSelectAlt($admin, "state", "AM");
-                    echo ">Amazonas</option>
-                                            <option value='BA'";
-                    optionSelectAlt($admin, "state", "BA");
-                    echo ">Bahia</option>
-                                            <option value='CE'";
-                    optionSelectAlt($admin, "state", "CE");
-                    echo ">Ceará</option>
-                                            <option value='DF'";
-                    optionSelectAlt($admin, "state", "DF");
-                    echo ">Distrito Federal</option>
-                                            <option value='ES'";
-                    optionSelectAlt($admin, "state", "ES");
-                    echo ">Espírito Santo</option>
-                                            <option value='GO'";
-                    optionSelectAlt($admin, "state", "GO");
-                    echo ">Goiás</option>
-                                            <option value='MA'";
-                    optionSelectAlt($admin, "state", "MA");
-                    echo ">Maranhão</option>
-                                            <option value='MT'";
-                    optionSelectAlt($admin, "state", "MT");
-                    echo ">Mato Grosso</option>
-                                            <option value='MS'";
-                    optionSelectAlt($admin, "state", "MS");
-                    echo ">Mato Grosso do Sul</option>
-                                            <option value='MG'";
-                    optionSelectAlt($admin, "state", "MG");
-                    echo ">Minas Gerais</option>
-                                            <option value='PA'";
-                    optionSelectAlt($admin, "state", "PA");
-                    echo ">Pará</option>
-                                            <option value='PB'";
-                    optionSelectAlt($admin, "state", "PB");
-                    echo ">Paraíba</option>
-                                            <option value='PR'";
-                    optionSelectAlt($admin, "state", "PR");
-                    echo ">Paraná</option>
-                                            <option value='PE'";
-                    optionSelectAlt($admin, "state", "PE");
-                    echo ">Pernambuco</option>
-                                            <option value='PI'";
-                    optionSelectAlt($admin, "state", "PI");
-                    echo ">Piauí</option>
-                                            <option value='RJ'";
-                    optionSelectAlt($admin, "state", "RJ");
-                    echo ">Rio de Janeiro</option>
-                                            <option value='RN'";
-                    optionSelectAlt($admin, "state", "RN");
-                    echo ">Rio Grande do Norte</option>
-                                            <option value='RS'";
-                    optionSelectAlt($admin, "state", "RS");
-                    echo ">Rio Grande do Sul</option>
-                                            <option value='RO'";
-                    optionSelectAlt($admin, "state", "RO");
-                    echo ">Rondônia</option>
-                                            <option value='RR'";
-                    optionSelectAlt($admin, "state", "RR");
-                    echo ">Roraima</option>
-                                            <option value='SC'";
-                    optionSelectAlt($admin, "state", "SC");
-                    echo ">Santa Catarina</option>
-                                            <option value='SP'";
-                    optionSelectAlt($admin, "state", "SP");
-                    echo ">São Paulo</option>
-                                            <option value='SE'";
-                    optionSelectAlt($admin, "state", "SE");
-                    echo ">Sergipe</option>
-                                            <option value='TO'";
-                    optionSelectAlt($admin, "state", "TO");
-                    echo ">Tocantins</option>;
-                                        </select>
+                                        optionSelectAlt($admin, "state", "AC");
+                                        echo ">Acre</option>
+                                                                <option value='AL'";
+                                        optionSelectAlt($admin, "state", "AL");
+                                        echo ">Alagoas</option>
+                                                                <option value='AP'";
+                                        optionSelectAlt($admin, "state", "AP");
+                                        echo ">Amapá</option>
+                                                                <option value='AM'";
+                                        optionSelectAlt($admin, "state", "AM");
+                                        echo ">Amazonas</option>
+                                                                <option value='BA'";
+                                        optionSelectAlt($admin, "state", "BA");
+                                        echo ">Bahia</option>
+                                                                <option value='CE'";
+                                        optionSelectAlt($admin, "state", "CE");
+                                        echo ">Ceará</option>
+                                                                <option value='DF'";
+                                        optionSelectAlt($admin, "state", "DF");
+                                        echo ">Distrito Federal</option>
+                                                                <option value='ES'";
+                                        optionSelectAlt($admin, "state", "ES");
+                                        echo ">Espírito Santo</option>
+                                                                <option value='GO'";
+                                        optionSelectAlt($admin, "state", "GO");
+                                        echo ">Goiás</option>
+                                                                <option value='MA'";
+                                        optionSelectAlt($admin, "state", "MA");
+                                        echo ">Maranhão</option>
+                                                                <option value='MT'";
+                                        optionSelectAlt($admin, "state", "MT");
+                                        echo ">Mato Grosso</option>
+                                                                <option value='MS'";
+                                        optionSelectAlt($admin, "state", "MS");
+                                        echo ">Mato Grosso do Sul</option>
+                                                                <option value='MG'";
+                                        optionSelectAlt($admin, "state", "MG");
+                                        echo ">Minas Gerais</option>
+                                                                <option value='PA'";
+                                        optionSelectAlt($admin, "state", "PA");
+                                        echo ">Pará</option>
+                                                                <option value='PB'";
+                                        optionSelectAlt($admin, "state", "PB");
+                                        echo ">Paraíba</option>
+                                                                <option value='PR'";
+                                        optionSelectAlt($admin, "state", "PR");
+                                        echo ">Paraná</option>
+                                                                <option value='PE'";
+                                        optionSelectAlt($admin, "state", "PE");
+                                        echo ">Pernambuco</option>
+                                                                <option value='PI'";
+                                        optionSelectAlt($admin, "state", "PI");
+                                        echo ">Piauí</option>
+                                                                <option value='RJ'";
+                                        optionSelectAlt($admin, "state", "RJ");
+                                        echo ">Rio de Janeiro</option>
+                                                                <option value='RN'";
+                                        optionSelectAlt($admin, "state", "RN");
+                                        echo ">Rio Grande do Norte</option>
+                                                                <option value='RS'";
+                                        optionSelectAlt($admin, "state", "RS");
+                                        echo ">Rio Grande do Sul</option>
+                                                                <option value='RO'";
+                                        optionSelectAlt($admin, "state", "RO");
+                                        echo ">Rondônia</option>
+                                                                <option value='RR'";
+                                        optionSelectAlt($admin, "state", "RR");
+                                        echo ">Roraima</option>
+                                                                <option value='SC'";
+                                        optionSelectAlt($admin, "state", "SC");
+                                        echo ">Santa Catarina</option>
+                                                                <option value='SP'";
+                                        optionSelectAlt($admin, "state", "SP");
+                                        echo ">São Paulo</option>
+                                                                <option value='SE'";
+                                        optionSelectAlt($admin, "state", "SE");
+                                        echo ">Sergipe</option>
+                                                                <option value='TO'";
+                                        optionSelectAlt($admin, "state", "TO");
+                                        echo ">Tocantins</option>
+                                       </select>
                                     </div>
                                 </div>
                                 <div class='form-item'>
@@ -599,9 +598,8 @@ function printForms()
                             <button>Editar</button>
 
                             <div style='display: flex; justify-content: space-between; border: none'>
-                                <button type='button' onclick=\"window.location.href='../account/changes/newPassword.php'\">Alterar Senha</button>
-
-                                <button type='button' onclick=\"window.location.href='../account/changes/newEmail.php'\">Alterar Email</button>
+                                <a href=\"../account/changes/newPassword.php\">Alterar Senha</a>
+                                <a href=\"../account/changes/newEmail.php\">Alterar Email</a>
                             </div>
                         ";
                 }
@@ -1022,8 +1020,8 @@ function verifyChanges($itemData)
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
     <script src="../JS/generalScripts.js"></script>
 
-    <link rel="stylesheet" href="../CSS/mannager-style.css">
-    <link rel="stylesheet" href="../CSS/mannager-settings.css">
+    <link rel="stylesheet" href="../CSS/mannager-styles.css">
+    <link rel="stylesheet" href="../CSS/mannager-settings-styles.css">
 
     <title>Açaí e Polpas Amazônia - Alterar Item</title>
 
@@ -1049,5 +1047,4 @@ function verifyChanges($itemData)
         </form>
     </main>
 </body>
-
 </html>

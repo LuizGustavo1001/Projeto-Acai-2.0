@@ -114,8 +114,8 @@
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
     <script src="../JS/generalScripts.js"></script>
 
-    <link rel="stylesheet" href="../CSS/mannager-style.css">
-    <link rel="stylesheet" href="../CSS/mannager-settings.css">
+    <link rel="stylesheet" href="../CSS/mannager-styles.css">
+    <link rel="stylesheet" href="../CSS/mannager-settings-styles.css">
 
     <title>Açaí e Polpas Amazônia - Administradores</title>
 </head>
@@ -186,96 +186,97 @@
                     <input type="file" name="adminPicture" id="iadminPicture">
                 </div>
             </div>
+
             <div class="form-item">
                 <label for="iadminName">Nome: </label>
                 <div class="form-input">
                     <input type="text" name="userName" id="iadminName" maxlength="30" minlength="8" placeholder="<?php echo $_SESSION['userName']; ?>" >
                 </div>
             </div>
+
             <div class="form-item">
                 <label for="iadminPhone">Telefone de Contato:</label>
                 <div class="form-input">
                     <input type="text" name="userPhone" id="iadminPhone" minlength="15" maxlength="16" pattern="\(\d{2}\) \d \d{4} \d{4}" placeholder="<?php echo $_SESSION['userPhone']; ?>" >
                 </div>
             </div>
+
             <div class="form-item">
                 <label for="istreet">Rua: </label>
                 <div class="form-input">
                     <input type="text" name="street" id="istreet" maxlength="50" placeholder="<?php echo $_SESSION['street']; ?>" >
                 </div>
             </div>
+
             <div class="form-item">
                 <label for="ilocalNum">Número: </label>
                 <div class="form-input">
                     <input type="number" name="localNum" id="ilocalNum" max="99999999" placeholder="<?php echo $_SESSION['localNum']; ?>">
                 </div>
             </div>
+
             <div class="form-item">
                 <label for="iuserDistrict">Bairro: </label>
                 <div class="form-input">
                     <input type="text" name="district" id="iuserDistrict" maxlength="40" placeholder="<?php echo $_SESSION['district']; ?>" >
                 </div>
             </div>
+
             <div class="form-item">
                 <label for="iuserCity">Cidade: </label>
                 <div class="form-input">
                     <input type="text" name="city" id="iuserCity" maxlength="40" placeholder="<?php echo $_SESSION['city']; ?>">
                 </div>
             </div>
+
             <div class="form-item">
                 <label for="istate">Estado: </label>
                 <div class="form-input">
                     <select name="state" id="istate">
-                        <option value="AC" <?php optionSelect("state","AC") ?>>Acre</option>
-                        <option value="AL" <?php optionSelect("state","AL") ?>>Alagoas</option>
-                        <option value="AP" <?php optionSelect("state","AP") ?>>Amapá</option>
-                        <option value="AM" <?php optionSelect("state","AM") ?>>Amazonas</option>
-                        <option value="BA" <?php optionSelect("state","BA") ?>>Bahia</option>
-                        <option value="CE" <?php optionSelect("state","CE") ?>>Ceará</option>
-                        <option value="DF" <?php optionSelect("state","DF") ?>>Distrito Federal</option>
-                        <option value="ES" <?php optionSelect("state","ES") ?>>Espírito Santo</option>
-                        <option value="GO" <?php optionSelect("state","GO") ?>>Goiás</option>
-                        <option value="MA" <?php optionSelect("state","MA") ?>>Maranhão</option>
-                        <option value="MT" <?php optionSelect("state","MT") ?>>Mato Grosso</option>
-                        <option value="MS" <?php optionSelect("state","MS") ?>>Mato Grosso do Sul</option>
-                        <option value="MG" <?php optionSelect("state","MG") ?>>Minas Gerais</option>
-                        <option value="PA" <?php optionSelect("state","PA") ?>>Pará</option>
-                        <option value="PB" <?php optionSelect("state","PB") ?>>Paraíba</option>
-                        <option value="PR" <?php optionSelect("state","PR") ?>>PARANÁ</option>
-                        <option value="PE" <?php optionSelect("state","PE") ?>>Pernambuco</option>
-                        <option value="PI" <?php optionSelect("state","PI") ?>>Piauí</option>
-                        <option value="RJ" <?php optionSelect("state","RJ") ?>>Rio de Janeiro</option>
-                        <option value="RN" <?php optionSelect("state","RN") ?>>Rio Grande do Norte</option>
-                        <option value="RS" <?php optionSelect("state","RS") ?>>Rio Grande do Sul</option>
-                        <option value="RO" <?php optionSelect("state","RO") ?>>Rondônia</option>
-                        <option value="RR" <?php optionSelect("state","RR") ?>>Roraima</option>
-                        <option value="SC" <?php optionSelect("state","SC") ?>>Santa Catarina</option>
-                        <option value="SP" <?php optionSelect("state","SP") ?>>São Paulo</option>
-                        <option value="SE" <?php optionSelect("state","SE") ?>>Sergipe</option>
-                        <option value="TO" <?php optionSelect("state","TO") ?>>Tocantins</option>
+                        <option value="AC" <?php echo optionSelect("state","AC") ?>>Acre</option>
+                        <option value="AL" <?php echo optionSelect("state","AL") ?>>Alagoas</option>
+                        <option value="AP" <?php echo optionSelect("state","AP") ?>>Amapá</option>
+                        <option value="AM" <?php echo optionSelect("state","AM") ?>>Amazonas</option>
+                        <option value="BA" <?php echo optionSelect("state","BA") ?>>Bahia</option>
+                        <option value="CE" <?php echo optionSelect("state","CE") ?>>Ceará</option>
+                        <option value="DF" <?php echo optionSelect("state","DF") ?>>Distrito Federal</option>
+                        <option value="ES" <?php echo optionSelect("state","ES") ?>>Espírito Santo</option>
+                        <option value="GO" <?php echo optionSelect("state","GO") ?>>Goiás</option>
+                        <option value="MA" <?php echo optionSelect("state","MA") ?>>Maranhão</option>
+                        <option value="MT" <?php echo optionSelect("state","MT") ?>>Mato Grosso</option>
+                        <option value="MS" <?php echo optionSelect("state","MS") ?>>Mato Grosso do Sul</option>
+                        <option value="MG" <?php echo optionSelect("state","MG") ?>>Minas Gerais</option>
+                        <option value="PA" <?php echo optionSelect("state","PA") ?>>Pará</option>
+                        <option value="PB" <?php echo optionSelect("state","PB") ?>>Paraíba</option>
+                        <option value="PR" <?php echo optionSelect("state","PR") ?>>PARANÁ</option>
+                        <option value="PE" <?php echo optionSelect("state","PE") ?>>Pernambuco</option>
+                        <option value="PI" <?php echo optionSelect("state","PI") ?>>Piauí</option>
+                        <option value="RJ" <?php echo optionSelect("state","RJ") ?>>Rio de Janeiro</option>
+                        <option value="RN" <?php echo optionSelect("state","RN") ?>>Rio Grande do Norte</option>
+                        <option value="RS" <?php echo optionSelect("state","RS") ?>>Rio Grande do Sul</option>
+                        <option value="RO" <?php echo optionSelect("state","RO") ?>>Rondônia</option>
+                        <option value="RR" <?php echo optionSelect("state","RR") ?>>Roraima</option>
+                        <option value="SC" <?php echo optionSelect("state","SC") ?>>Santa Catarina</option>
+                        <option value="SP" <?php echo optionSelect("state","SP") ?>>São Paulo</option>
+                        <option value="SE" <?php echo optionSelect("state","SE") ?>>Sergipe</option>
+                        <option value="TO" <?php echo optionSelect("state","TO") ?>>Tocantins</option>
                     </select>
                 </div>
             </div>
+
             <div class="form-item">
                 <label for="ireferencePoint">Ponto de Referência: </label>
                 <div class="form-input">
                     <input type="text" name="referencePoint" id="ireferencePoint" maxlength="50" placeholder="<?php echo $_SESSION['referencePoint']; ?>">
                 </div>
             </div>
-        </div>
-        <button>Editar</button>
+            <button>Editar</button>
 
-        <div style="display: flex; justify-content: space-between; border: none">
-            <button type="button" onclick="window.location.href='../account/changes/newPassword.php'">Alterar Senha</button>
-            <button type="button" onclick="window.location.href='../account/changes/newEmail.php'">Alterar Email</button>
-        </div>
-            
+            <div style="display: flex; justify-content: space-between; border: none">
+                <a href="../account/changes/newPassword.php">Alterar Senha</a>
+                <a href="../account/changes/newEmail.php">Alterar Email</a>
+            </div>
         </form>
-        
-
     </main>
-
-
 </body>
-
 </html>

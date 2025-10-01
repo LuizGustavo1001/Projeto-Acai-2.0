@@ -95,8 +95,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="../CSS/general-style.css">
-    <link rel="stylesheet" href="../CSS/productView.css">
+    <link rel="stylesheet" href="../CSS/general-styles.css">
+    <link rel="stylesheet" href="../CSS/productView-styles.css">
 
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
 

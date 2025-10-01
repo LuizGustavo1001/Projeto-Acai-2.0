@@ -21,7 +21,7 @@
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
     <script src="../JS/generalScripts.js"></script>
 
-    <link rel="stylesheet" href="../CSS/mannager-style.css">
+    <link rel="stylesheet" href="../CSS/mannager-styles.css">
 
     <style>
         td img{

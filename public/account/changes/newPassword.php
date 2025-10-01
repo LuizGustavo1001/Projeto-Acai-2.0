@@ -70,7 +70,7 @@
 
     <?php faviconOut(); ?>
 
-    <link rel="stylesheet" href="../../CSS/general-style.css">
+    <link rel="stylesheet" href="../../CSS/general-styles.css">
     <link rel="stylesheet" href="../../CSS/account-styles.css">
 
     <style>

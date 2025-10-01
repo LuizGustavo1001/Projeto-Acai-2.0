@@ -47,8 +47,6 @@
         border-left: 3px solid var(--secondary-clr);
         background: var(--tertiary-clr);
 
-        height: 200px;
-
         display: flex;
         align-items: center;
         gap: 1em;

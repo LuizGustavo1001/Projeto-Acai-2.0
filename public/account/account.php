@@ -104,7 +104,7 @@
 
     <?php faviconOut(); ?>
 
-    <link rel="stylesheet" href="../CSS/general-style.css">
+    <link rel="stylesheet" href="../CSS/general-styles.css">
     <link rel="stylesheet" href="../CSS/account-styles.css">
 
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
@@ -116,6 +116,10 @@
             background-repeat: no-repeat;
 
         }   
+        main{
+            height: 120vh;
+
+        }
 
     </style>
 
@@ -238,33 +242,33 @@
                         <div class="form-item">
                             <label for="istate">Estado</label>
                             <select name="state" id="istate">
-                                <option value="AC" <?php optionSelect("state","AC") ?>>Acre</option>
-                                <option value="AL" <?php optionSelect("state","AL") ?>>Alagoas</option>
-                                <option value="AP" <?php optionSelect("state","AP") ?>>Amapá</option>
-                                <option value="AM" <?php optionSelect("state","AM") ?>>Amazonas</option>
-                                <option value="BA" <?php optionSelect("state","BA") ?>>Bahia</option>
-                                <option value="CE" <?php optionSelect("state","CE") ?>>Ceará</option>
-                                <option value="DF" <?php optionSelect("state","DF") ?>>Distrito Federal</option>
-                                <option value="ES" <?php optionSelect("state","ES") ?>>Espírito Santo</option>
-                                <option value="GO" <?php optionSelect("state","GO") ?>>Goiás</option>
-                                <option value="MA" <?php optionSelect("state","MA") ?>>Maranhão</option>
-                                <option value="MT" <?php optionSelect("state","MT") ?>>Mato Grosso</option>
-                                <option value="MS" <?php optionSelect("state","MS") ?>>Mato Grosso do Sul</option>
-                                <option value="MG" <?php optionSelect("state","MG") ?>>Minas Gerais</option>
-                                <option value="PA" <?php optionSelect("state","PA") ?>>Pará</option>
-                                <option value="PB" <?php optionSelect("state","PB") ?>>Paraíba</option>
-                                <option value="PR" <?php optionSelect("state","PR") ?>>PARANÁ</option>
-                                <option value="PE" <?php optionSelect("state","PE") ?>>Pernambuco</option>
-                                <option value="PI" <?php optionSelect("state","PI") ?>>Piauí</option>
-                                <option value="RJ" <?php optionSelect("state","RJ") ?>>Rio de Janeiro</option>
-                                <option value="RN" <?php optionSelect("state","RN") ?>>Rio Grande do Norte</option>
-                                <option value="RS" <?php optionSelect("state","RS") ?>>Rio Grande do Sul</option>
-                                <option value="RO" <?php optionSelect("state","RO") ?>>Rondônia</option>
-                                <option value="RR" <?php optionSelect("state","RR") ?>>Roraima</option>
-                                <option value="SC" <?php optionSelect("state","SC") ?>>Santa Catarina</option>
-                                <option value="SP" <?php optionSelect("state","SP") ?>>São Paulo</option>
-                                <option value="SE" <?php optionSelect("state","SE") ?>>Sergipe</option>
-                                <option value="TO" <?php optionSelect("state","TO") ?>>Tocantins</option>
+                                <option value="AC" <?php echo optionSelect("state","AC") ?>>Acre</option>
+                                <option value="AL" <?php echo optionSelect("state","AL") ?>>Alagoas</option>
+                                <option value="AP" <?php echo optionSelect("state","AP") ?>>Amapá</option>
+                                <option value="AM" <?php echo optionSelect("state","AM") ?>>Amazonas</option>
+                                <option value="BA" <?php echo optionSelect("state","BA") ?>>Bahia</option>
+                                <option value="CE" <?php echo optionSelect("state","CE") ?>>Ceará</option>
+                                <option value="DF" <?php echo optionSelect("state","DF") ?>>Distrito Federal</option>
+                                <option value="ES" <?php echo optionSelect("state","ES") ?>>Espírito Santo</option>
+                                <option value="GO" <?php echo optionSelect("state","GO") ?>>Goiás</option>
+                                <option value="MA" <?php echo optionSelect("state","MA") ?>>Maranhão</option>
+                                <option value="MT" <?php echo optionSelect("state","MT") ?>>Mato Grosso</option>
+                                <option value="MS" <?php echo optionSelect("state","MS") ?>>Mato Grosso do Sul</option>
+                                <option value="MG" <?php echo optionSelect("state","MG") ?>>Minas Gerais</option>
+                                <option value="PA" <?php echo optionSelect("state","PA") ?>>Pará</option>
+                                <option value="PB" <?php echo optionSelect("state","PB") ?>>Paraíba</option>
+                                <option value="PR" <?php echo optionSelect("state","PR") ?>>PARANÁ</option>
+                                <option value="PE" <?php echo optionSelect("state","PE") ?>>Pernambuco</option>
+                                <option value="PI" <?php echo optionSelect("state","PI") ?>>Piauí</option>
+                                <option value="RJ" <?php echo optionSelect("state","RJ") ?>>Rio de Janeiro</option>
+                                <option value="RN" <?php echo optionSelect("state","RN") ?>>Rio Grande do Norte</option>
+                                <option value="RS" <?php echo optionSelect("state","RS") ?>>Rio Grande do Sul</option>
+                                <option value="RO" <?php echo optionSelect("state","RO") ?>>Rondônia</option>
+                                <option value="RR" <?php echo optionSelect("state","RR") ?>>Roraima</option>
+                                <option value="SC" <?php echo optionSelect("state","SC") ?>>Santa Catarina</option>
+                                <option value="SP" <?php echo optionSelect("state","SP") ?>>São Paulo</option>
+                                <option value="SE" <?php echo optionSelect("state","SE") ?>>Sergipe</option>
+                                <option value="TO" <?php echo optionSelect("state","TO") ?>>Tocantins</option>
                             </select>
                         </div>
 
@@ -276,13 +280,13 @@
                         </div>
                         <button>Editar</button>
                         <ul style="display: flex; justify-content: space-between; border: none">
-                            <li style="padding: 1em; background: var(--primary-clr);border-radius: var(--border-radius)">
-                                <a href="changes/newPassword.php" style="color: white;">
+                            <li >
+                                <a href="changes/newPassword.php">
                                     Alterar Senha
                                 </a>
                             </li>
-                            <li style="padding: 1em; background: var(--primary-clr);border-radius: var(--border-radius)">
-                                <a href="changes/newEmail.php" style="color: white;">
+                            <li>
+                                <a href="changes/newEmail.php">
                                     Alterar Email
                                 </a>
                             </li>

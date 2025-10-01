@@ -447,6 +447,10 @@ button:hover a{
 
 .products-list-title h1{
     background: var(--tertiary-clr);
+    text-align: center;
+    font-size: 2em;
+
+    font-family: var(--tertiary-font);
 
 }
 
@@ -482,17 +486,10 @@ button:hover a{
 
 }
 
-.products-list-title h1{
-    text-align: center;
-    font-size: 2em;
-
-    font-family: var(--tertiary-font);
-
-}
-
 .products-list{
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     gap: 1em;
 
 }
