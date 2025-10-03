@@ -1,10 +1,10 @@
-:root{
+:root {
     --primary-bg-clr: #FFF6FC;
     --secondary-bg-clr: #fcf0f9;
 
     --primary-clr: #690158;
     --secondary-clr: #CC0088;
-    --tertiary-clr:#FFFFFF;
+    --tertiary-clr: #FFFFFF;
     --fourth-clr: #555555;
     --fifth-clr: #A00093;
     --link-hover-clr: #ecb1e7;
@@ -21,56 +21,56 @@
     --border-radius-alt: 50px;
 
     --primary-shadow-clr: #41005F;
-    
+
     --shadow-clr: #80518052;
 
 }
 
-*{
+* {
     margin: 0;
     padding: 0;
 
 }
 
-body{
+body {
     font-family: var(--primary-font);
     color: var(--primary-clr);
     background: var(--primary-bg-clr);
     height: 100vh;
-    
+
 }
 
-abbr{
+abbr {
     text-decoration: none;
 }
 
-img{
-    width:75px;
+img {
+    width: 75px;
 
 }
 
-svg{
+svg {
     width: 35px;
     color: var(--primary-clr);
 
 }
 
-li{
+li {
     list-style: none;
 
 }
 
-header hr{
+header hr {
     border-color: var(--primary-clr);
 }
 
-a{
+a {
     text-decoration: none;
     color: var(--secondary-clr);
 
 }
 
-button{
+button {
     font-family: var(--primary-font);
     font-size: 1.2em;
 
@@ -87,14 +87,14 @@ button{
     border: 2px solid transparent;
 
     color: var(--tertiary-clr);
-    
+
     cursor: pointer;
 
     transition: var(--transition);
 
 }
 
-button:hover{
+button:hover {
     background: transparent;
 
     border-color: var(--secondary-clr);
@@ -103,17 +103,17 @@ button:hover{
 
 }
 
-button a{
+button a {
     color: var(--tertiary-clr);
 
 }
 
-button:hover a{
+button:hover a {
     color: var(--secondary-clr);
 
 }
 
-header{
+header {
     display: flex;
     flex-direction: column;
     gap: 1em;
@@ -126,11 +126,11 @@ header{
 
 .hidden-box {
     display: none;
-    
+
 }
 
-.popup-box{
-    background :rgba(66, 1, 75, 0.233);
+.popup-box {
+    background: rgba(66, 1, 75, 0.233);
 
     width: 100%;
     height: 100vh;
@@ -145,13 +145,13 @@ header{
     transform: translate(-50%, -50%);
 
 
-    position:fixed;
+    position: fixed;
 }
 
 .popup-div {
     border-radius: var(--border-radius);
     background: white;
-    
+
     padding-bottom: 1em;
 
     width: 300px;
@@ -165,7 +165,7 @@ header{
 
 }
 
-.popup-div h1{
+.popup-div h1 {
     background: var(--primary-clr);
     color: var(--tertiary-clr);
 
@@ -173,35 +173,35 @@ header{
 
     border-top-left-radius: var(--border-radius);
     border-top-right-radius: var(--border-radius);
-    
+
 }
 
-.popup-div p{
+.popup-div p {
     padding: 1em;
     font-size: 1.1em;
 
 }
 
-.popup-div button{
+.popup-div button {
     margin: 0 auto;
     margin-top: 1em;
     width: 90%;
 
 }
 
-.selected{
+.selected {
     border-left: 3px solid var(--secondary-clr);
     background: var(--primary-bg-clr);
-    
+
 }
 
-.selected p, 
-.selected svg{
+.selected p,
+.selected svg {
     color: var(--secondary-clr);
 
 }
 
-.top-header{
+.top-header {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -213,7 +213,7 @@ header{
 
 }
 
-.bottom-header{
+.bottom-header {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1em;
@@ -222,7 +222,7 @@ header{
 
 }
 
-.bottom-header li a{
+.bottom-header li a {
     display: flex;
     align-items: center;
     gap: 0.5em;
@@ -235,19 +235,19 @@ header{
 
 }
 
-.bottom-header li a:hover{
+.bottom-header li a:hover {
     background: var(--primary-bg-clr);
 
 }
 
-.main-title{
+.main-title {
     display: flex;
     flex-direction: column;
     gap: 1.5em;
 
 }
 
-.main-title h1{
+.main-title h1 {
     display: flex;
     align-items: center;
     gap: 0.5em;
@@ -256,14 +256,14 @@ header{
 
 }
 
-.admin-data{
+.admin-data {
     display: flex;
     align-items: center;
     justify-content: space-between;
 
 }
 
-.admin-data img{
+.admin-data img {
     width: 65px;
     border-radius: 50%;
     aspect-ratio: 1/1;
@@ -271,12 +271,12 @@ header{
 
 }
 
-.main-title .admin-data svg:hover{
+.main-title .admin-data svg:hover {
     color: var(--secondary-clr);
 
 }
 
-main{
+main {
     padding: 1.5em;
 
     display: flex;
@@ -286,7 +286,7 @@ main{
 }
 
 
-.main-center{
+.main-center {
     display: flex;
     flex-direction: column;
     gap: 1em;
@@ -297,40 +297,41 @@ main{
 
 }
 
-.main-center, 
-.main-bottom{
+.main-center,
+.main-bottom {
     background: var(--tertiary-clr);
     padding: 2em;
 }
 
-.main-center button{
+.main-center button {
     width: 100%;
     font-size: 1em;
 
 }
 
-.item-amount{
+.item-amount {
     display: flex;
     justify-content: space-between;
     align-items: center;
     text-align: center;
-    
+
 }
 
-.amountItem{
+.amountItem {
     font-size: 1.5em;
     color: var(--secondary-clr);
 
 }
 
-.add-item{
+.add-item {
     display: flex;
     flex-direction: column;
     gap: 1em;
+    font-size: 0.8em;
 
 }
 
-.input-search form{
+.input-search form {
     display: flex;
     flex-direction: column;
     gap: 0.5em;
@@ -338,7 +339,7 @@ main{
 
 }
 
-.input-search input{
+.input-search input {
     padding: 1em;
 
     border-radius: var(--border-radius);
@@ -348,120 +349,174 @@ main{
 
 }
 
-.main-bottom table{
-    display: table;
-    width: 100%;
-    margin: 0 auto;
-    border-collapse: collapse;
-
-}
-
-.main-bottom th, 
-.main-bottom td, 
-.main-bottom tr
-{
-    font-size: 1em;
-    padding: 1vw;
-    text-align: left;
-
-}
-
-.main-bottom td{
-    font-size: 0.9em;
-    border-bottom: 1px solid var(--primary-clr);
-
-}
-
-.main-bottom h1{
+.main-bottom h1 {
     color: var(--secondary-clr);
     font-weight: normal;
     font-size: 1.3em;
 
 }
 
-td svg{
-    width: 20px;
-    color: var(--secondary-clr);
-
-}
-
-.accepted p, 
-.finished p, 
-.pending p, 
-.rejected p{
+.accepted p,
+.finished p,
+.pending p,
+.rejected p {
     padding: 0.5em;
     border-radius: var(--border-radius);
     text-align: center;
 }
 
-.accepted p, 
-.finished p{
+.accepted p,
+.finished p {
     background: lightgreen;
     color: darkgreen;
 
 }
 
-.pending p{
+.pending p {
     background: #ffff0071;
     color: #6E6E06;
 
 }
 
-.rejected p{
+.rejected p {
     background: lightcoral;
     color: darkred;
-    
-}
-
-.center-td{
-    text-align: center;
 
 }
 
-.sub-table{
-    background: var(--primary-bg-clr);
-
-}
-
-.successText{
+.successText {
     color: green;
     text-align: center;
 
 }
 
-.errorText{
+.errorText {
     color: rgb(167, 7, 7);
     text-align: center;
 
 }
 
+.main-table,
+.row-table,
+.sub-table {
+    width: 100%;
 
-@media(min-width: 1024px){
-    body{
+}
+
+.table-img img {
+    width: 50px;
+
+}
+
+summary {
+    cursor: pointer;
+    list-style: none;
+
+}
+
+details summary .rotate-icon {
+    transition: transform 0.3s;
+
+}
+
+details[open] summary .rotate-icon {
+    transform: rotate(180deg);
+
+}
+
+
+.main-table,
+.row-table,
+.sub-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+
+}
+
+.main-table tr,
+.row-table tr,
+.sub-table {
+    text-align: left;
+    padding: 0;
+
+}
+
+.sub-table tr th,
+.sub-table tr td {
+    padding: 1em;
+
+}
+
+.main-table tr th,
+.row-table td,
+.sub-table tr td {
+    padding-block: 0.6em;
+    padding-inline: 3em;
+
+}
+
+.row-table .table-svg,
+.sub-table .table-svg {
+    text-align: right;
+
+    
+}
+
+.row-table .align-left-td {
+    text-align: left;
+
+}
+
+.sub-table {
+    background: var(--primary-bg-clr);
+    
+}
+
+.table-svg svg {
+    color: var(--secondary-clr);
+    width: 25px;
+}
+
+.smaller-td{
+    width: 25px;
+
+}
+
+@media(max-width: 1023px){
+    .normal-td{
+        width: 80px;
+    }
+}
+
+
+@media(min-width: 1024px) {
+    body {
         display: grid;
         grid-template-columns: auto 84%;
         background: var(--primary-bg-clr);
 
     }
 
-    header{
+    header {
         padding: 0;
-        
+
     }
 
-    header button{
+    header button {
         width: 85%;
         margin: 0 auto;
     }
 
-    header hr{
+    header hr {
         width: 80%;
-        margin: 0 auto; 
-        
+        margin: 0 auto;
+
     }
 
-    main{
+    main {
         margin-inline: 2em;
+        
     }
 
     .popup-div {
@@ -469,47 +524,47 @@ td svg{
 
     }
 
-    .top-header{
+    .top-header {
         padding: 1em;
-        font-size: 1.1em;
+        font-size: 1.1vw;
         flex-direction: column;
 
     }
 
-    .bottom-header{
+    .bottom-header {
         display: flex;
         flex-direction: column;
         gap: 1em;
 
     }
 
-    .bottom-header li a svg{
+    .bottom-header li a svg {
         margin-left: 1em;
 
     }
 
-    .main-title{
+    .main-title {
         flex-direction: row;
         justify-content: space-between;
 
     }
 
-    .main-title h1{
-        font-size: 1.3em;
+    .main-title h1 {
+        font-size: 1.2em;
 
     }
 
-    .admin-data img{
-        width: 50px;
+    .admin-data img {
+        width: 45px;
 
     }
 
-    .admin-data{
+    .admin-data {
         gap: 1.3em;
 
     }
 
-    .main-center{
+    .main-center {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
@@ -517,24 +572,32 @@ td svg{
 
     }
 
-    .add-item{
+    .add-item {
         flex-direction: row;
-        gap: 1em;
-
-    }
-    .add-item button{
-        height: 60px;
+        gap: 2em;
 
     }
 
-    .item-amount{
+    .add-item button {
+        height: 50px;
+
+    }
+
+    .item-amount {
         flex-direction: column;
         gap: 1em;
-        
+
     }
 
-    .amountItem{
+    .amountItem {
         font-size: 1.8em;
+
+    }
+
+    .main-table tr th,
+    .row-table td,
+    .sub-table tr td {
+        padding: 1.5em 1em 1.5em 1em;
 
     }
 }

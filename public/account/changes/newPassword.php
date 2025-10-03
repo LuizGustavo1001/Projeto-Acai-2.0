@@ -68,10 +68,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap" rel="stylesheet">
 
-    <?php faviconOut(); ?>
+    <?php faviconOut()?>
 
-    <link rel="stylesheet" href="../../CSS/general-styles.css">
-    <link rel="stylesheet" href="../../CSS/account-styles.css">
+    <link rel="stylesheet" href="../../CSS/general.css">
+    <link rel="stylesheet" href="../../CSS/account.css">
 
     <style>
         .account-right-div{
@@ -80,10 +80,9 @@
             background-repeat: no-repeat;
 
         }
-
     </style>
 
-    <title>Açaí e Polpas Amazônia - Recuperar Senha</title>
+    <title>Açaí e Polpas Amazônia - Alterar Senha</title>
 
 </head>
 <body>

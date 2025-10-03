@@ -53,8 +53,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="../CSS/general-styles.css">
-    <link rel="stylesheet" href="../CSS/products-styles.css">
+    <link rel="stylesheet" href="../CSS/general.css">
+    <link rel="stylesheet" href="../CSS/products.css">
     
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
     <script src="../JS/generalScripts.js"></script>
@@ -131,21 +131,11 @@
                     </div>
                     <div class="search-input generic-button">
                         <select name="filter" id="ifilter">
-                            <option value="idProd" selected>
-                                Id
-                            </option>
-                            <option value="nameDesc">
-                                Ordem Alfabética(A-Z)
-                            </option>
-                            <option value="nameAsc">
-                                Ordem Alfabética(Z-A)
-                            </option>
-                            <option value="priceDesc">
-                                Maior Preço
-                            </option>
-                            <option value="priceAsc">
-                                Menor Preço
-                            </option>
+                            <option value="idProd" selected>Id</option>
+                            <option value="nameDesc">Ordem Alfabética(A-Z)</option>
+                            <option value="nameAsc">Ordem Alfabética(Z-A)</option>
+                            <option value="priceDesc">Maior Preço</option>
+                            <option value="priceAsc">Menor Preço</option>
                         </select>
                         <button>Filtar</button>
                     </div>
@@ -165,9 +155,9 @@
             <ul class="products-list">
                 <?php 
                     if(isset($_GET["filter"])){
-                        categoryItens("Cream", $_GET["filter"]);
+                        categoryItens("Creme", $_GET["filter"]);
                     }else{
-                        categoryItens("Cream", "noFilter");
+                        categoryItens("Creme", "noFilter");
                     }
                 ?>
             </ul>
@@ -178,9 +168,9 @@
             <ul class="products-list">
                 <?php 
                     if(isset($_GET["filter"])){
-                        categoryItens("Additional", $_GET["filter"]);
+                        categoryItens("Adicional", $_GET["filter"]);
                     }else{
-                        categoryItens("Additional", "noFilter");
+                        categoryItens("Adicional", "noFilter");
                     }
                 ?>          
             </ul>
@@ -191,9 +181,9 @@
             <ul class="products-list">
                 <?php 
                     if(isset($_GET["filter"])){
-                        categoryItens("Other", $_GET["filter"]);
+                        categoryItens("Outro", $_GET["filter"]);
                     }else{
-                        categoryItens("Other", "noFilter");
+                        categoryItens("Outro", "noFilter");
                     }
                 ?> 
             </ul>

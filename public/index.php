@@ -2,7 +2,6 @@
     include "../databaseConnection.php";
     include "generalPHP.php";
     include "footerHeader.php";
-    
     function featureItens(){
         // feature 4 random products from Database
         global $mysqli;
@@ -27,22 +26,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="CSS/general-styles.css">
-    <link rel="stylesheet" href="CSS/index-styles.css">
+    <link rel="stylesheet" href="CSS/general.css">
+    <link rel="stylesheet" href="CSS/index.css">
 
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
     <script src="JS/generalScripts.js"></script>
     
-    <?php faviconOut(); ?>
-
-    <style>
-        .products-list{
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 0.5em;
-        }
-    </style>
+    <?php faviconOut()?>
     
     <title>Açaí e Polpas Amazônia</title>
 

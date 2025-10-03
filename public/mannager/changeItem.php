@@ -20,15 +20,16 @@ function printLabel($fieldLabels)
                 switch ($value) {
                     case '1':
                         echo "
-                            <p class=\"successText\">Sucesso ao alterar <strong>{$label}</strong></p>";
+                            <p class=\"successText\">Sucesso ao alterar <strong>{$label}</strong></p>
+                        ";
                         break;
                     case '2':
                         echo "
-                                <p class=\"errorText\">
-                                    <i class=\"fa-solid fa-triangle-exclamation\"></i> 
-                                    O valor inserido em <strong>{$label}</strong> é o mesmo já cadastrado.
-                                </p>
-                            ";
+                            <p class=\"errorText\">
+                                <i class=\"fa-solid fa-triangle-exclamation\"></i> 
+                                O valor inserido em <strong>{$label}</strong> é o mesmo já cadastrado.
+                            </p>
+                        ";
                         break;
                 }
             }
@@ -76,25 +77,25 @@ function printForms()
     if (isset($_GET["category"])) {
         $changes = "";
         $fieldLabels = [
-            'userName' => 'Nome de Usuário',
-            'userPhone' => 'Telefone de Contato',
-            'district' => 'Bairro',
-            'localNum' => 'Número da Residência',
-            'referencePoint' => 'Ponto de Referência',
-            'street' => 'Rua',
-            'city' => 'Cidade',
-            'state' => 'Estado',
-            'adminPicture' => 'Foto de Perfil',
-            'imageURL' => 'Foto do Produto',
-            'nameProduct' => 'Nome da Versão do Produto',
-            'printName' => 'Nome Amigável do Produto',
-            'realName' => 'Nome Real do Produto',
-            'sizeProduct' => 'Tamanho do Produto',
-            'flavor' => 'Sabor do Produto',
-            'brandProduct' => 'Marca do Produto',
-            'priceProduct' => 'Preço Individual do Produto',
-            'availability' => 'Disponibilidade do Produto',
-            'typeProduct' => 'Tipo do Produto',
+            'userName'          => 'Nome de Usuário',
+            'userPhone'         => 'Telefone de Contato',
+            'district'          => 'Bairro',
+            'localNum'          => 'Número da Residência',
+            'referencePoint'    => 'Ponto de Referência',
+            'street'            => 'Rua',
+            'city'              => 'Cidade',
+            'state'             => 'Estado',
+            'adminPicture'      => 'Foto de Perfil',
+            'imageURL'          => 'Foto do Produto',
+            'nameProduct'       => 'Nome da Versão do Produto',
+            'printName'         => 'Nome Amigável do Produto',
+            'realName'          => 'Nome Real do Produto',
+            'sizeProduct'       => 'Tamanho do Produto',
+            'flavor'            => 'Sabor do Produto',
+            'brandProduct'      => 'Marca do Produto',
+            'priceProduct'      => 'Preço Individual do Produto',
+            'availability'      => 'Disponibilidade do Produto',
+            'typeProduct'       => 'Tipo do Produto',
         ];
         switch ($_GET['category']) {
             case "client":
@@ -104,17 +105,18 @@ function printForms()
                 $result = $verifyId->get_result();
                 $amount = $result->num_rows;
                 $verifyId->close();
+
                 if ($amount == 0) {
                     echo "
-                            <div class='back-button'>
-                                <a href='users.php'>
-                                    <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
-                                        <path stroke-linecap='round' stroke-linejoin='round' d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'/>
-                                    </svg>
-                                    Voltar
-                                </a>
-                            </div>
-                        ";
+                        <div class='back-button'>
+                            <a href='users.php'>
+                                <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
+                                    <path stroke-linecap='round' stroke-linejoin='round' d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'/>
+                                </svg>
+                                Voltar
+                            </a>
+                        </div>
+                    ";
                     echo "<p>Erro: Nenhum Cliente Encontrado com o Identificador selecionado</p>";
                 } else {
                     // there's an admin with the selected id
@@ -249,88 +251,34 @@ function printForms()
                             <div class='form-item'>
                                 <label for='istate'>Estado: </label>
                                 <div class='form-input'>
-                                    <select name='state' id='istate'>
-                                        <option value='AC'";
-                                        optionSelectAlt($client, "state", "AC");
-                                        echo ">Acre</option>
-                                        <option value='AL'";
-                                        optionSelectAlt($client, "state", "AL");
-                                        echo ">Alagoas</option>
-                                        <option value='AP'";
-                                        optionSelectAlt($client, "state", "AP");
-                                        echo ">Amapá</option>
-                                        <option value='AM'";
-                                        optionSelectAlt($client, "state", "AM");
-                                        echo ">Amazonas</option>
-                                        <option value='BA'";
-                                        optionSelectAlt($client, "state", "BA");
-                                        echo ">Bahia</option>
-                                        <option value='CE'";
-                                        optionSelectAlt($client, "state", "CE");
-                                        echo ">Ceará</option>
-                                        <option value='DF'";
-                                        optionSelectAlt($client, "state", "DF");
-                                        echo ">Distrito Federal</option>
-                                        <option value='ES'";
-                                        optionSelectAlt($client, "state", "ES");
-                                        echo ">Espírito Santo</option>
-                                        <option value='GO'";
-                                        optionSelectAlt($client, "state", "GO");
-                                        echo ">Goiás</option>
-                                        <option value='MA'";
-                                        optionSelectAlt($client, "state", "MA");
-                                        echo ">Maranhão</option>
-                                        <option value='MT'";
-                                        optionSelectAlt($client, "state", "MT");
-                                        echo ">Mato Grosso</option>
-                                        <option value='MS'";
-                                        optionSelectAlt($client, "state", "MS");
-                                        echo ">Mato Grosso do Sul</option>
-                                        <option value='MG'";
-                                        optionSelectAlt($client, "state", "MG");
-                                        echo ">Minas Gerais</option>
-                                        <option value='PA'";
-                                        optionSelectAlt($client, "state", "PA");
-                                        echo ">Pará</option>
-                                        <option value='PB'";
-                                        optionSelectAlt($client, "state", "PB");
-                                        echo ">Paraíba</option>
-                                        <option value='PR'";
-                                        optionSelectAlt($client, "state", "PR");
-                                        echo ">Paraná</option>
-                                        <option value='PE'";
-                                        optionSelectAlt($client, "state", "PE");
-                                        echo ">Pernambuco</option>
-                                        <option value='PI'";
-                                        optionSelectAlt($client, "state", "PI");
-                                        echo ">Piauí</option>
-                                        <option value='RJ'";
-                                        optionSelectAlt($client, "state", "RJ");
-                                        echo ">Rio de Janeiro</option>
-                                        <option value='RN'";
-                                        optionSelectAlt($client, "state", "RN");
-                                        echo ">Rio Grande do Norte</option>
-                                        <option value='RS'";
-                                        optionSelectAlt($client, "state", "RS");
-                                        echo ">Rio Grande do Sul</option>
-                                        <option value='RO'";
-                                        optionSelectAlt($client, "state", "RO");
-                                        echo ">Rondônia</option>
-                                        <option value='RR'";
-                                        optionSelectAlt($client, "state", "RR");
-                                        echo ">Roraima</option>
-                                        <option value='SC'";
-                                        optionSelectAlt($client, "state", "SC");
-                                        echo ">Santa Catarina</option>
-                                        <option value='SP'";
-                                        optionSelectAlt($client, "state", "SP");
-                                        echo ">São Paulo</option>
-                                        <option value='SE'";
-                                        optionSelectAlt($client, "state", "SE");
-                                        echo ">Sergipe</option>
-                                        <option value='TO'";
-                                        optionSelectAlt($client, "state", "TO");
-                                        echo ">Tocantins</option>
+                                    <select name='state' id='istate'>";
+                                        echo "<option value='AC'". optionSelectAlt($client, "state", "AC"). ">Acre</option>";
+                                        echo "<option value='AL'". optionSelectAlt($client, "state", "AL"). ">Alagoas</option>";
+                                        echo "<option value='AP'". optionSelectAlt($client, "state", "AP"). ">Amapá</option>";
+                                        echo "<option value='AM'". optionSelectAlt($client, "state", "AM"). ">Amazonas</option>";
+                                        echo "<option value='BA'". optionSelectAlt($client, "state", "BA"). ">Bahia</option>";
+                                        echo "<option value='CE'". optionSelectAlt($client, "state", "CE"). ">Ceará</option>";
+                                        echo "<option value='DF'". optionSelectAlt($client, "state", "DF"). ">Distrito Federal</option>";
+                                        echo "<option value='ES'". optionSelectAlt($client, "state", "ES"). ">Espírito Santo</option>";
+                                        echo "<option value='GO'". optionSelectAlt($client, "state", "GO"). ">Goiás</option>";
+                                        echo "<option value='MA'". optionSelectAlt($client, "state", "MA"). ">Maranhão</option>";
+                                        echo "<option value='MT'". optionSelectAlt($client, "state", "MT"). ">Mato Grosso</option>";
+                                        echo "<option value='MS'". optionSelectAlt($client, "state", "MS"). ">Mato Grosso do Sul</option>";
+                                        echo "<option value='MG'". optionSelectAlt($client, "state", "MG"). ">Minas Gerais</option>";
+                                        echo "<option value='PA'". optionSelectAlt($client, "state", "PA"). ">Pará</option>";
+                                        echo "<option value='PB'". optionSelectAlt($client, "state", "PB"). ">Paraíba</option>";
+                                        echo "<option value='PR'". optionSelectAlt($client, "state", "PR"). ">Paraná</option>";
+                                        echo "<option value='PE'". optionSelectAlt($client, "state", "PE"). ">Pernambuco</option>";
+                                        echo "<option value='PI'". optionSelectAlt($client, "state", "PI"). ">Piauí</option>";
+                                        echo "<option value='RJ'". optionSelectAlt($client, "state", "RJ"). ">Rio de Janeiro</option>";
+                                        echo "<option value='RN'". optionSelectAlt($client, "state", "RN"). ">Rio Grande do Norte</option>";
+                                        echo "<option value='RS'". optionSelectAlt($client, "state", "RS"). ">Rio Grande do Sul</option>";
+                                        echo "<option value='RO'". optionSelectAlt($client, "state", "RO"). ">Rondônia</option>";
+                                        echo "<option value='RR'". optionSelectAlt($client, "state", "RR"). ">Roraima</option>";
+                                        echo "<option value='SC'". optionSelectAlt($client, "state", "SC"). ">Santa Catarina</option>";
+                                        echo "<option value='SP'". optionSelectAlt($client, "state", "SP"). ">São Paulo</option>";
+                                        echo "<option value='SE'". optionSelectAlt($client, "state", "SE"). ">Sergipe</option>";
+                                        echo "<option value='TO'". optionSelectAlt($client, "state", "TO"). ">Tocantins</option>
                                     </select>
                                 </div>
                             </div>
@@ -358,17 +306,18 @@ function printForms()
                 $result = $verifyId->get_result();
                 $amount = $result->num_rows;
                 $verifyId->close();
+
                 if ($amount == 0) {
                     echo "
-                            <div class='back-button'>
-                                <a href='admin.php'>
-                                    <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
-                                        <path stroke-linecap='round' stroke-linejoin='round' d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'/>
-                                    </svg>
-                                    Voltar
-                                </a>
-                            </div>
-                        ";
+                        <div class='back-button'>
+                            <a href='admin.php'>
+                                <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
+                                    <path stroke-linecap='round' stroke-linejoin='round' d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'/>
+                                </svg>
+                                Voltar
+                            </a>
+                        </div>
+                    ";
                     echo "<p>Erro: Nenhum Administrador Encontrado com o Identificador selecionado</p>";
                 } else {
                     // there's an client with the selected id
@@ -440,9 +389,8 @@ function printForms()
                                     </svg>
                                     Alterar Dados de um Administrador
                                 </div>
-                                
-                                
                             </h1>
+
                             <div class='back-button'>
                                 <a href='admin.php'>
                                     <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
@@ -452,156 +400,102 @@ function printForms()
                                 </a>
                             </div>
                         </div>
-                        ";
+                    ";
                     printLabel($fieldLabels);
                     echo "
-                            <button type='button' onclick=\"window.location.href='changeItem.php?category=admin&makeClient=1&id=" . $_GET["id"] . "'\">Torná-lo um Cliente</button>
-                            <div class='form-inputs'>
-                                <div class='form-item'>
-                                    <label for='iadminPicture'>Foto de Perfil: <small>Tamanho Máximo: 2MB</small></label>
-                                    <div class='form-input'>
-                                        <img src='" . $admin['adminPicture'] . "  ' alt='Current Admin Picture'>
-                                        <input type='file' name='adminPicture' id='iadminPicture'>
-                                    </div>
-                                </div>
-                                <div class='form-item'>
-                                    <label for='iadminName'>Nome: </label>
-                                    <div class='form-input'>
-                                        <input type='text' name='userName' id='iadminName' maxlength='30' minlength='8' placeholder='" . $admin['userName'] . "'>
-                                    </div>
-                                </div>
-                                <div class='form-item'>
-                                    <label for='iadminPhone'>Telefone de Contato:</label>
-                                    <div class='form-input'>
-                                        <input type='text' name='userPhone' id='iadminPhone' minlength='15' maxlength='16' pattern='\(\d{2}\) \d \d{4} \d{4}' placeholder='" . $admin['userPhone'] . "'>
-                                    </div>
-                                </div>
-                                <div class='form-item'>
-                                    <label for='istreet'>Rua: </label>
-                                    <div class='form-input'>
-                                        <input type='text' name='street' id='istreet' maxlength='50' placeholder='" . $admin['street'] . "'>
-                                    </div>
-                                </div>
-                                <div class='form-item'>
-                                    <label for='ilocalNum'>Número: </label>
-                                    <div class='form-input'>
-                                        <input type='number' name='localNum' id='ilocalNum' max='99999999' placeholder='" . $admin['localNum'] . "'>
-                                    </div>
-                                </div>
-                                <div class='form-item'>
-                                    <label for='iuserDistrict'>Bairro: </label>
-                                    <div class='form-input'>
-                                        <input type='text' name='district' id='iuserDistrict' maxlength='40' placeholder='" . $admin['district'] . "'>
-                                    </div>
-                                </div>
-                                <div class='form-item'>
-                                    <label for='iuserCity'>Cidade: </label>
-                                    <div class='form-input'>
-                                        <input type='text' name='city' id='iuserCity' maxlength='40' placeholder='" . $admin['city'] . "'>
-                                    </div>
-                                </div>
-                                <div class='form-item'>
-                                    <label for='istate'>Estado: </label>
-                                    <div class='form-input'>
-                                        <select name='state' id='istate'>
-                                            <option value='AC'";
-                                        optionSelectAlt($admin, "state", "AC");
-                                        echo ">Acre</option>
-                                                                <option value='AL'";
-                                        optionSelectAlt($admin, "state", "AL");
-                                        echo ">Alagoas</option>
-                                                                <option value='AP'";
-                                        optionSelectAlt($admin, "state", "AP");
-                                        echo ">Amapá</option>
-                                                                <option value='AM'";
-                                        optionSelectAlt($admin, "state", "AM");
-                                        echo ">Amazonas</option>
-                                                                <option value='BA'";
-                                        optionSelectAlt($admin, "state", "BA");
-                                        echo ">Bahia</option>
-                                                                <option value='CE'";
-                                        optionSelectAlt($admin, "state", "CE");
-                                        echo ">Ceará</option>
-                                                                <option value='DF'";
-                                        optionSelectAlt($admin, "state", "DF");
-                                        echo ">Distrito Federal</option>
-                                                                <option value='ES'";
-                                        optionSelectAlt($admin, "state", "ES");
-                                        echo ">Espírito Santo</option>
-                                                                <option value='GO'";
-                                        optionSelectAlt($admin, "state", "GO");
-                                        echo ">Goiás</option>
-                                                                <option value='MA'";
-                                        optionSelectAlt($admin, "state", "MA");
-                                        echo ">Maranhão</option>
-                                                                <option value='MT'";
-                                        optionSelectAlt($admin, "state", "MT");
-                                        echo ">Mato Grosso</option>
-                                                                <option value='MS'";
-                                        optionSelectAlt($admin, "state", "MS");
-                                        echo ">Mato Grosso do Sul</option>
-                                                                <option value='MG'";
-                                        optionSelectAlt($admin, "state", "MG");
-                                        echo ">Minas Gerais</option>
-                                                                <option value='PA'";
-                                        optionSelectAlt($admin, "state", "PA");
-                                        echo ">Pará</option>
-                                                                <option value='PB'";
-                                        optionSelectAlt($admin, "state", "PB");
-                                        echo ">Paraíba</option>
-                                                                <option value='PR'";
-                                        optionSelectAlt($admin, "state", "PR");
-                                        echo ">Paraná</option>
-                                                                <option value='PE'";
-                                        optionSelectAlt($admin, "state", "PE");
-                                        echo ">Pernambuco</option>
-                                                                <option value='PI'";
-                                        optionSelectAlt($admin, "state", "PI");
-                                        echo ">Piauí</option>
-                                                                <option value='RJ'";
-                                        optionSelectAlt($admin, "state", "RJ");
-                                        echo ">Rio de Janeiro</option>
-                                                                <option value='RN'";
-                                        optionSelectAlt($admin, "state", "RN");
-                                        echo ">Rio Grande do Norte</option>
-                                                                <option value='RS'";
-                                        optionSelectAlt($admin, "state", "RS");
-                                        echo ">Rio Grande do Sul</option>
-                                                                <option value='RO'";
-                                        optionSelectAlt($admin, "state", "RO");
-                                        echo ">Rondônia</option>
-                                                                <option value='RR'";
-                                        optionSelectAlt($admin, "state", "RR");
-                                        echo ">Roraima</option>
-                                                                <option value='SC'";
-                                        optionSelectAlt($admin, "state", "SC");
-                                        echo ">Santa Catarina</option>
-                                                                <option value='SP'";
-                                        optionSelectAlt($admin, "state", "SP");
-                                        echo ">São Paulo</option>
-                                                                <option value='SE'";
-                                        optionSelectAlt($admin, "state", "SE");
-                                        echo ">Sergipe</option>
-                                                                <option value='TO'";
-                                        optionSelectAlt($admin, "state", "TO");
-                                        echo ">Tocantins</option>
-                                       </select>
-                                    </div>
-                                </div>
-                                <div class='form-item'>
-                                    <label for='ireferencePoint'>Ponto de Referência: </label>
-                                    <div class='form-input'>
-                                        <input type='text' name='referencePoint' id='ireferencePoint' maxlength='50' placeholder=" . $admin['referencePoint'] . ">
-                                    </div>
+                        <button type='button' onclick=\"window.location.href='changeItem.php?category=admin&makeClient=1&id=" . $_GET["id"] . "'\">Torná-lo um Cliente</button>
+                        <div class='form-inputs'>
+                            <div class='form-item'>
+                                <label for='iadminPicture'>Foto de Perfil: <small>Tamanho Máximo: 2MB</small></label>
+                                <div class='form-input'>
+                                    <img src='" . $admin['adminPicture'] . "  ' alt='Current Admin Picture'>
+                                    <input type='file' name='adminPicture' id='iadminPicture'>
                                 </div>
                             </div>
-                            <button>Editar</button>
+                            <div class='form-item'>
+                                <label for='iadminName'>Nome: </label>
+                                <div class='form-input'>
+                                    <input type='text' name='userName' id='iadminName' maxlength='30' minlength='8' placeholder='" . $admin['userName'] . "'>
+                                </div>
+                            </div>
+                            <div class='form-item'>
+                                <label for='iadminPhone'>Telefone de Contato:</label>
+                                <div class='form-input'>
+                                    <input type='text' name='userPhone' id='iadminPhone' minlength='15' maxlength='16' pattern='\(\d{2}\) \d \d{4} \d{4}' placeholder='" . $admin['userPhone'] . "'>
+                                </div>
+                            </div>
+                            <div class='form-item'>
+                                <label for='istreet'>Rua: </label>
+                                <div class='form-input'>
+                                    <input type='text' name='street' id='istreet' maxlength='50' placeholder='" . $admin['street'] . "'>
+                                </div>
+                            </div>
+                            <div class='form-item'>
+                                <label for='ilocalNum'>Número: </label>
+                                <div class='form-input'>
+                                    <input type='number' name='localNum' id='ilocalNum' max='99999999' placeholder='" . $admin['localNum'] . "'>
+                                </div>
+                            </div>
+                            <div class='form-item'>
+                                <label for='iuserDistrict'>Bairro: </label>
+                                <div class='form-input'>
+                                    <input type='text' name='district' id='iuserDistrict' maxlength='40' placeholder='" . $admin['district'] . "'>
+                                </div>
+                            </div>
+                            <div class='form-item'>
+                                <label for='iuserCity'>Cidade: </label>
+                                <div class='form-input'>
+                                    <input type='text' name='city' id='iuserCity' maxlength='40' placeholder='" . $admin['city'] . "'>
+                                </div>
+                            </div>
+                            <div class='form-item'>
+                                <label for='istate'>Estado: </label>
+                                <div class='form-input'>
+                                    <select name='state' id='istate'>";
+                                        echo "<option value='AC'". optionSelectAlt($admin, "state", "AC"). ">Acre</option>";
+                                        echo "<option value='AL'". optionSelectAlt($admin, "state", "AL"). ">Alagoas</option>";
+                                        echo "<option value='AP'". optionSelectAlt($admin, "state", "AP"). ">Amapá</option>";
+                                        echo "<option value='AM'". optionSelectAlt($admin, "state", "AM"). ">Amazonas</option>";
+                                        echo "<option value='BA'". optionSelectAlt($admin, "state", "BA"). ">Bahia</option>";
+                                        echo "<option value='CE'". optionSelectAlt($admin, "state", "CE"). ">Ceará</option>";
+                                        echo "<option value='DF'". optionSelectAlt($admin, "state", "DF"). ">Distrito Federal</option>";
+                                        echo "<option value='ES'". optionSelectAlt($admin, "state", "ES"). ">Espírito Santo</option>";
+                                        echo "<option value='GO'". optionSelectAlt($admin, "state", "GO"). ">Goiás</option>";
+                                        echo "<option value='MA'". optionSelectAlt($admin, "state", "MA"). ">Maranhão</option>";
+                                        echo "<option value='MT'". optionSelectAlt($admin, "state", "MT"). ">Mato Grosso</option>";
+                                        echo "<option value='MS'". optionSelectAlt($admin, "state", "MS"). ">Mato Grosso do Sul</option>";
+                                        echo "<option value='MG'". optionSelectAlt($admin, "state", "MG"). ">Minas Gerais</option>";
+                                        echo "<option value='PA'". optionSelectAlt($admin, "state", "PA"). ">Pará</option>";
+                                        echo "<option value='PB'". optionSelectAlt($admin, "state", "PB"). ">Paraíba</option>";
+                                        echo "<option value='PR'". optionSelectAlt($admin, "state", "PR"). ">Paraná</option>";
+                                        echo "<option value='PE'". optionSelectAlt($admin, "state", "PE"). ">Pernambuco</option>";
+                                        echo "<option value='PI'". optionSelectAlt($admin, "state", "PI"). ">Piauí</option>";
+                                        echo "<option value='RJ'". optionSelectAlt($admin, "state", "RJ"). ">Rio de Janeiro</option>";
+                                        echo "<option value='RN'". optionSelectAlt($admin, "state", "RN"). ">Rio Grande do Norte</option>";
+                                        echo "<option value='RS'". optionSelectAlt($admin, "state", "RS"). ">Rio Grande do Sul</option>";
+                                        echo "<option value='RO'". optionSelectAlt($admin, "state", "RO"). ">Rondônia</option>";
+                                        echo "<option value='RR'". optionSelectAlt($admin, "state", "RR"). ">Roraima</option>";
+                                        echo "<option value='SC'". optionSelectAlt($admin, "state", "SC"). ">Santa Catarina</option>";
+                                        echo "<option value='SP'". optionSelectAlt($admin, "state", "SP"). ">São Paulo</option>";
+                                        echo "<option value='SE'". optionSelectAlt($admin, "state", "SE"). ">Sergipe</option>";
+                                        echo "<option value='TO'". optionSelectAlt($admin, "state", "TO"). ">Tocantins</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class='form-item'>
+                                <label for='ireferencePoint'>Ponto de Referência: </label>
+                                <div class='form-input'>
+                                    <input type='text' name='referencePoint' id='ireferencePoint' maxlength='50' placeholder=" . $admin['referencePoint'] . ">
+                                </div>
+                            </div>
+                        </div>
+                        <button>Editar</button>
 
-                            <div style='display: flex; justify-content: space-between; border: none'>
-                                <a href=\"../account/changes/newPassword.php\">Alterar Senha</a>
-                                <a href=\"../account/changes/newEmail.php\">Alterar Email</a>
-                            </div>
-                        ";
+                        <div style='display: flex; justify-content: space-between; border: none'>
+                            <a href=\"../account/changes/newPassword.php\">Alterar Senha</a>
+                            <a href=\"../account/changes/newEmail.php\">Alterar Email</a>
+                        </div>
+                ";
                 }
 
                 break;
@@ -614,22 +508,22 @@ function printForms()
                 $verifyId->close();
                 if ($amount == 0) {
                     echo "
-                            <div class='back-button'>
-                                <a href='products.php'>
-                                    <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
-                                        <path stroke-linecap='round' stroke-linejoin='round' d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'/>
-                                    </svg>
-                                    Voltar
-                                </a>
-                            </div>
-                        ";
+                        <div class='back-button'>
+                            <a href='products.php'>
+                                <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
+                                    <path stroke-linecap='round' stroke-linejoin='round' d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'/>
+                                </svg>
+                                Voltar
+                            </a>
+                        </div>
+                    ";
                     echo "<p>Erro: Nenhum Produto Encontrado com o Identificador selecionado</p>";
                 } else {
                     // there's an product with the selected id
                     $getProduct = $mysqli->prepare("
-                            SELECT idProduct, printName, altName, brandProduct, typeProduct
-                            FROM product_data
-                            WHERE idProduct = ?"
+                        SELECT idProduct, printName, altName, brandProduct, typeProduct
+                        FROM product_data
+                        WHERE idProduct = ?"
                     );
                     $getProduct->bind_param("i", $_GET["id"]);
                     $getProduct->execute();
@@ -649,67 +543,61 @@ function printForms()
                     }
 
                     echo "
-                            <div class='main-title'>
-                                <h1>
-                                    <div>
-                                        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
-                                            <path stroke-linecap='round' stroke-linejoin='round' d='m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z'/>
-                                        </svg>
-                                        Alterar Dados de um Produto
-                                    </div>
-                                    <a href=\"changeItem.php?category=product&id=". $_GET["id"] ."&remove=1\">Remover Produto</a>
-                                </h1>
-                                
-                                <div class='back-button'>
-                                    <a href='products.php'>
-                                        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
-                                            <path stroke-linecap='round' stroke-linejoin='round' d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'/>
-                                        </svg>
-                                        Voltar
-                                    </a>
+                        <div class='main-title'>
+                            <h1>
+                                <div>
+                                    <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
+                                        <path stroke-linecap='round' stroke-linejoin='round' d='m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z'/>
+                                    </svg>
+                                    Alterar Dados de um Produto
                                 </div>
+                                <a href=\"changeItem.php?category=product&id=". $_GET["id"] ."&remove=1\">Remover Produto</a>
+                            </h1>
+                            
+                            <div class='back-button'>
+                                <a href='products.php'>
+                                    <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
+                                        <path stroke-linecap='round' stroke-linejoin='round' d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'/>
+                                    </svg>
+                                    Voltar
+                                </a>
                             </div>
-                        ";
+                        </div>
+                    ";
                     printLabel($fieldLabels);
                     echo "
-                            <div class='form-inputs'>
-                                <div class='form-item'>
-                                    <label for='iprintName'>Nome Amigável: </label>
-                                    <div class='form-input'>
-                                        <input type='text' name='printName' id='iprintName' maxlength='60' placeholder='" . $product['printName'] . "'>
-                                    </div>
-                                </div>
-                                <div class='form-item'>
-                                    <label for='ialtName'>Nome Alternativo: </label>
-                                    <div class='form-input'>
-                                        <input type='text' name='altName' id='ialtName' maxlength='40' placeholder='" . $product['altName'] . "'>
-                                    </div>
-                                </div>
-                                <div class='form-item'>
-                                    <label for='ibrandProd'>Marca:</label>
-                                    <div class='form-input'>
-                                        <input type='text' name='brandProduct' id='ibrandProd' maxlength='40' placeholder='" . $product['brandProduct'] . "'>
-                                    </div>
-                                </div>
-                                <div class='form-item'>
-                                    <label for='itypeProd'>Tipo: </label>
-                                    <div class='form-input'>
-                                        <select name='typeProduct' id='itypeProd'>
-                                            <option value='Cream'";
-                    optionSelectAlt($product, "typeProduct", "Cream");
-                    echo ">Creme</option>
-                                            <option value='Additional'";
-                    optionSelectAlt($product, "typeProduct", "Additional");
-                    echo ">Adicional</option>
-                                            <option value='Other'";
-                    optionSelectAlt($product, "typeProduct", "Other");
-                    echo ">Outro Tipo</option>
-                                        </select>
-                                    </div>
+                        <div class='form-inputs'>
+                            <div class='form-item'>
+                                <label for='iprintName'>Nome Amigável: </label>
+                                <div class='form-input'>
+                                    <input type='text' name='printName' id='iprintName' maxlength='60' placeholder='" . $product['printName'] . "'>
                                 </div>
                             </div>
-                            <button>Editar</button>
-                        ";
+                            <div class='form-item'>
+                                <label for='ialtName'>Nome Alternativo: </label>
+                                <div class='form-input'>
+                                    <input type='text' name='altName' id='ialtName' maxlength='40' placeholder='" . $product['altName'] . "'>
+                                </div>
+                            </div>
+                            <div class='form-item'>
+                                <label for='ibrandProd'>Marca:</label>
+                                <div class='form-input'>
+                                    <input type='text' name='brandProduct' id='ibrandProd' maxlength='40' placeholder='" . $product['brandProduct'] . "'>
+                                </div>
+                            </div>
+                            <div class='form-item'>
+                                <label for='itypeProd'>Tipo: </label>
+                                <div class='form-input'>
+                                    <select name='typeProduct' id='itypeProd'>";
+                                        echo "<option value='Creme'"    . optionSelectAlt($product, "typeProduct", "Creme")     . ">Creme</option>"; 
+                                        echo "<option value='Adicional'". optionSelectAlt($product, "typeProduct", "Adicional") . ">Adicional</option>";  
+                                        echo "<option value='Outro' "   . optionSelectAlt($product, "typeProduct", "Outro")     . ">Outro Tipo</option>   
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <button>Editar</button>
+                    ";
                 }
 
                 break;
@@ -720,17 +608,18 @@ function printForms()
                 $result = $verifyId->get_result();
                 $amount = $result->num_rows;
                 $verifyId->close();
+                
                 if ($amount == 0) {
                     echo "
-                            <div class='back-button'>
-                                <a href='products.php'>
-                                    <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
-                                        <path stroke-linecap='round' stroke-linejoin='round' d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'/>
-                                    </svg>
-                                    Voltar
-                                </a>
-                            </div>
-                        ";
+                        <div class='back-button'>
+                            <a href='products.php'>
+                                <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
+                                    <path stroke-linecap='round' stroke-linejoin='round' d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'/>
+                                </svg>
+                                Voltar
+                            </a>
+                        </div>
+                    ";
                     echo "<p>Erro: Nenhuma Versão Encontrado com o Identificador selecionado</p>";
                 } else {
                     // there's an product version with the selected id
@@ -757,93 +646,91 @@ function printForms()
                     }
 
                     echo "
-                            <div class='main-title'>
-                                <h1>
-                                    <div>
-                                        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
-                                            <path stroke-linecap='round' stroke-linejoin='round' d='m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z'/>
-                                        </svg>
-                                        Alterar Dados da Versão de um Produto
-                                    </div>
-                                    <a href=\"changeItem.php?category=version&id=". $_GET["id"] ."&remove=1\">Remover Versão</a>
-                                </h1>
-                                <div class='back-button'>
-                                    <a href='products.php'>
-                                        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
-                                            <path stroke-linecap='round' stroke-linejoin='round' d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'/>
-                                        </svg>
-                                        Voltar
-                                    </a>
+                        <div class='main-title'>
+                            <h1>
+                                <div>
+                                    <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
+                                        <path stroke-linecap='round' stroke-linejoin='round' d='m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z'/>
+                                    </svg>
+                                    Alterar Dados da Versão de um Produto
                                 </div>
+                                <a href=\"changeItem.php?category=version&id=". $_GET["id"] ."&remove=1\">Remover Versão</a>
+                            </h1>
+
+                            <div class='back-button'>
+                                <a href='products.php'>
+                                    <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
+                                        <path stroke-linecap='round' stroke-linejoin='round' d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'/>
+                                    </svg>
+                                    Voltar
+                                </a>
                             </div>
-                        ";
+                        </div>
+                    ";
                     printLabel($fieldLabels);
                     echo "
-                            <div class='form-inputs'>
-                                <div class='form-item'>
-                                    <label for='iprodPicture'>Foto:</label>
-                                    <div class='form-input'>
-                                        <img src='" . $version['imageURL'] . "' alt='Current Product Picture'>
-                                        <input type='file' name='imageURL' id='iprodPicture'>
-                                    </div>
-                                </div>
-
-                                <div class='form-item'>
-                                    <label for='inameProd'>Nome: </label>
-                                    <div class='form-input'>
-                                        <input type='text' name='nameProduct' id='inameProd' maxlength='40' placeholder='" . $version['nameProduct'] . "'>
-                                    </div>
-                                </div>
-
-                                <div class='form-item'>
-                                    <label for='isizeProduct'>Tamanho:</label>
-                                    <div class='form-input'>
-                                        <input type='text' name='sizeProduct' id='isizeProduct' maxlength='20' placeholder='" . $version['sizeProduct'] . "'>
-                                    </div>
-                                </div>
-
-                                <div class='form-item'>
-                                    <label for='iflavor'>Sabor:</label>
-                                    <div class='form-input'>
-                                        <input type='text' name='flavor' id='iflavor' maxlength='40' placeholder='" . $version['flavor'] . "'>
-                                    </div>
-                                </div>
-
-                                <div class='form-item'>
-                                    <label for='ipriceProd'>Preço Individual: </label>
-                                    <div class='form-input'>
-                                        <input type='number' name='priceProduct' id='ipriceProd' placeholder='" . $version['priceProduct'] . "'>
-                                    </div>
-                                </div>
-
-                                <div class='form-item'>
-                                    <label for='iavailability'>Disponibilidade: </label>
-                                    <select name='availability' id='iavailability'>
-                                        <option value='0'";
-                    optionSelectAlt($version, "availability", "0");
-                    echo ">Indisponível</option>
-                                        <option value='1'";
-                    optionSelectAlt($version, "availability", "1");
-                    echo ">Disponível</option>
-                                    </select>
+                        <div class='form-inputs'>
+                            <div class='form-item'>
+                                <label for='iprodPicture'>Foto:</label>
+                                <div class='form-input'>
+                                    <img src='" . $version['imageURL'] . "' alt='Current Product Picture'>
+                                    <input type='file' name='imageURL' id='iprodPicture'>
                                 </div>
                             </div>
-                            <button>Editar</button>
-                        ";
+
+                            <div class='form-item'>
+                                <label for='inameProd'>Nome: </label>
+                                <div class='form-input'>
+                                    <input type='text' name='nameProduct' id='inameProd' maxlength='40' placeholder='" . $version['nameProduct'] . "'>
+                                </div>
+                            </div>
+
+                            <div class='form-item'>
+                                <label for='isizeProduct'>Tamanho:</label>
+                                <div class='form-input'>
+                                    <input type='text' name='sizeProduct' id='isizeProduct' maxlength='20' placeholder='" . $version['sizeProduct'] . "'>
+                                </div>
+                            </div>
+
+                            <div class='form-item'>
+                                <label for='iflavor'>Sabor:</label>
+                                <div class='form-input'>
+                                    <input type='text' name='flavor' id='iflavor' maxlength='40' placeholder='" . $version['flavor'] . "'>
+                                </div>
+                            </div>
+
+                            <div class='form-item'>
+                                <label for='ipriceProd'>Preço Individual: </label>
+                                <div class='form-input'>
+                                    <input type='number' name='priceProduct' id='ipriceProd' placeholder='" . $version['priceProduct'] . "'>
+                                </div>
+                            </div>
+
+                            <div class='form-item'>
+                                <label for='iavailability'>Disponibilidade: </label>
+                                <select name='availability' id='iavailability'>";
+                                    echo "<option value='0'". optionSelectAlt($version, "availability", "0"). ">Indisponível</option>";
+                                    echo "<option value='1'". optionSelectAlt($version, "availability", "1"). ">Disponível</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button>Editar</button>
+                    ";
                 }
                 break;
             default:
                 echo "
-                        <div class='back-button'>
-                            <a href='admin.php'>
-                                <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
-                                    <path stroke-linecap='round' stroke-linejoin='round' d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'/>
-                                </svg>
-                                Voltar
-                            </a>
-                        </div>
-                    ";
+                    <div class='back-button'>
+                        <a href='admin.php'>
+                            <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
+                                <path stroke-linecap='round' stroke-linejoin='round' d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'/>
+                            </svg>
+                            Voltar
+                        </a>
+                    </div>
+                ";
                 echo "<p>Nenhum Item Encontrado com a Categoria Selecionada</p>";
+                break;
         }
     }
 }
@@ -1011,17 +898,15 @@ function verifyChanges($itemData)
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap" rel="stylesheet">
 
-    <?php faviconOut(); ?>
+    <?php faviconOut()?>
 
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
     <script src="../JS/generalScripts.js"></script>
 
-    <link rel="stylesheet" href="../CSS/mannager-styles.css">
-    <link rel="stylesheet" href="../CSS/mannager-settings-styles.css">
+    <link rel="stylesheet" href="../CSS/mannager.css">
+    <link rel="stylesheet" href="../CSS/mannager-settings.css">
 
     <title>Açaí e Polpas Amazônia - Alterar Item</title>
 

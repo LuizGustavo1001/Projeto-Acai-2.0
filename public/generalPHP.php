@@ -49,14 +49,11 @@
                     $priceDate      = htmlspecialchars          ($row['priceDate']);
                     $price          = numfmt_format_currency    (numfmt_create("pt-BR", NumberFormatter::CURRENCY), $row['priceProduct'], "BRL");
 
-                    if($brand == "Other Brand"){
-                        $brand = "Marca Não Cadastrada";
-                    }
                     if($page == "index"){
                         $link = "products/productView.php?id={$row['altName']}";
                     }
                     echo "
-                        <li class=\"products-item item-translate-alt\">
+                        <li class=\"products-item item-translate-alt\" id='{$prodName}'>
                             <a href=\"{$link}\">
                                 <img src=\"{$imageURL}\" alt=\"{$name} Image\">
                                 <hr>

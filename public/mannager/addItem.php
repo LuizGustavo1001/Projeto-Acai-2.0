@@ -26,7 +26,6 @@
                             case 0: // can add the product
                                 $name = trim($_POST["printName"]);
                                 $altName = trim($_POST["altName"]);
-
                                 $addProduct = $mysqli->prepare("INSERT INTO product_data (printName, altName, brandProduct, typeProduct) VALUES (?, ?, ?, ?)");
                                 $addProduct->bind_param("ssss", $name, $altName, $_POST["brandProduct"], $_POST["typeProduct"]);
                                 $addProduct->execute();
@@ -80,9 +79,9 @@
                                     <label for='itypeProd'>Tipo: </label>
                                     <div class='form-input'>
                                         <select name='typeProduct' id='itypeProd'>
-                                            <option value='Cream'>Creme</option>
-                                            <option value='Additional'>Adicional</option>
-                                            <option value='Other'>Outro Tipo</option>
+                                            <option value='Creme'>Creme</option>
+                                            <option value='Adicional'>Adicional</option>
+                                            <option value='Outro'>Outro Tipo</option>
                                         </select>
                                     </div>
                                 </div>
@@ -227,8 +226,8 @@
                             <div class='form-item'>
                                 <label for='iavailability'>Disponibilidade: </label>
                                 <select name='availability' id='iavailability'>
-                                    <option value='0'>Indisponível</option>
                                     <option value='1'>Disponível</option>
+                                    <option value='0'>Indisponível</option>
                                 </select>
                             </div>
                         </div>
@@ -263,20 +262,18 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap" rel="stylesheet">
 
-    <?php faviconOut(); ?>
+    <?php faviconOut()?>
 
-    <link rel="stylesheet" href="../CSS/mannager-styles.css">
-    <link rel="stylesheet" href="../CSS/mannager-settings-styles.css">
+    <link rel="stylesheet" href="../CSS/mannager.css">
+    <link rel="stylesheet" href="../CSS/mannager-settings.css">
 
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
     <script src="../JS/generalScripts.js"></script>
 
     <style>
-         .main-title{
+        .main-title{
             display: flex;
             align-items: left;
             flex-direction: column-reverse;
@@ -287,6 +284,13 @@
         .back-button a{
             margin: 0;
         }
+
+        .main-title h1{
+            flex-direction: row;
+            justify-content: left;
+            font-size: 1em;
+        }
+
     </style>
 
     <title>Açaí e Polpas Amazônia - Produtos</title>

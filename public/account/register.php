@@ -119,12 +119,12 @@
         href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap"
         rel="stylesheet">
 
-    <?php faviconOut(); ?>
-
-    <link rel="stylesheet" href="../CSS/general-styles.css">
-    <link rel="stylesheet" href="../CSS/account-styles.css">
+    <?php faviconOut()?>
 
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="../CSS/general.css">
+    <link rel="stylesheet" href="../CSS/account.css">
 
     <style>
         .account-right-div {

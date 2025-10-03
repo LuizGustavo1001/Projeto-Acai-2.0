@@ -129,7 +129,7 @@ form{
     .main-title h1{
         flex-direction: row;
         justify-content: space-between;
-        font-size: 1.3em;
+        font-size: 1em;
 
     }
 

@@ -16,17 +16,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap" rel="stylesheet">
 
-    <?php faviconOut(); ?>
-
-    <link rel="stylesheet" href="../CSS/mannager-styles.css">
+    <?php faviconOut()?>
 
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
     <script src="../JS/generalScripts.js"></script>
 
+    <link rel="stylesheet" href="../CSS/mannager.css">
+
     <title>Açaí e Polpas Amazônia - Clientes</title>
 </head>
 <body>
-
     <header>
         <ul class="top-header">
             <li>
@@ -177,30 +176,36 @@
                     echo "<h1>Todos os <strong>Clientes</strong></h1>";
                 }
             ?>
-            <div style="width:100%; height:46vh; overflow:auto;">
-                <table>
-                    <tr>
-                        <th>Id</th>
-                        <th>Nome</th>
-                        <th>Email</th>
-                        <th>Telefone</th>
-                        <th>Endereço</th>
-                    </tr>
-                    <?php 
-                    if(isset($_GET["searchQuery"])){
-                        searchColumns($_GET["searchQuery"], "user");
 
-                    }else{
-                        GetTableMannager("users");
-                    }
-                    ?>
+            <div style="overflow: auto; height:48vh">
+                <table class="main-table">
+                    <thead>
+                        <tr>
+                            <th class="smaller-td">Id</th>
+                            <th class='normal-td'>Nome</th>
+                            <th class='normal-td'>Email</th>
+                            <th class='normal-td'>Telefone</th>
+                            <th class='normal-td'>Endereço</th>
+                            <th class="smaller-td"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="table-tuple">
+                            <table class="row-table">
+                                <?php 
+                                    if(isset($_GET["searchQuery"])){
+                                        searchColumns($_GET["searchQuery"], "user");
+
+                                    }else{
+                                        GetTableMannager("users");
+                                    }
+                                ?>
+                            </table>
+                        </tr>
+                    </tbody>
                 </table>
-            </div>
-            
+            </div>    
         </div>
-
     </main>
-    
-    
 </body>
 </html>

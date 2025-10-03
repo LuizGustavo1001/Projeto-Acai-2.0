@@ -16,17 +16,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap" rel="stylesheet">
 
-    <?php faviconOut(); ?>
-
-    <link rel="stylesheet" href="../CSS/mannager-styles.css">
+    <?php faviconOut()?>
 
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
     <script src="../JS/generalScripts.js"></script>
 
+    <link rel="stylesheet" href="../CSS/mannager.css">
+
     <title>Açaí e Polpas Amazônia - Pedidos</title>
 </head>
 <body>
-
     <header>
         <ul class="top-header">
             <li>
@@ -149,24 +148,28 @@
                     echo "<h1>Todos os <strong>Pedidos</strong></h1>";
                 }
             ?>
-            <div style="width:100%; height:46vh; overflow:auto;">
-                <table>
-                    <tr>
-                        <th>Id</th>
-                        <th>Nome Cliente</th>
-                        <th>Data-Hora</th>
-                        <th>Produtos</th>
-                        <th>Situação</th>
-                    </tr>
-                    <?php
-                    if(isset($_GET["searchQuery"])){
-                        searchColumns($_GET["searchQuery"], "order");
 
-                    }else{
-                        GetTableMannager("orders");
-                    }
-                    
-                    ?>
+            <div style="overflow: auto; height:48vh">
+                <table class="main-table">
+                    <thead>
+                        <tr>
+                            <th class="smaller-td">Id</th>
+                            <th class="normal-td">Nome Cliente</th>
+                            <th class="normal-td">Data-Hora</th>
+                            <th class="normal-td">Produtos</th>
+                            <th class="normal-td">Situação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            if(isset($_GET["searchQuery"])){
+                                searchColumns($_GET["searchQuery"], "order");
+
+                            }else{
+                                GetTableMannager("orders");
+                            }
+                        ?>
+                    </tbody>
                 </table>
             </div>
         </div>

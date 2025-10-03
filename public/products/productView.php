@@ -8,7 +8,6 @@
     }
 
     $defaultMoney = numfmt_create("pt-BR", NumberFormatter::CURRENCY);
-
     $productName = $_GET["id"];
 
     $getAllNames = $mysqli->query("SELECT altName FROM product_data");
@@ -16,13 +15,12 @@
     while($allNames = $getAllNames->fetch_assoc()){
         $allowedNames[] = $allNames["altName"];
     }
-
     $getAllNames->close();
 
     if(in_array($_GET["id"], $allowedNames)){
         // returning all the data that match with the product with the name above
         $getProductData = $mysqli->prepare(
-            "SELECT pd.printName, pd.brandProduct, pv.priceProduct, pv.imageURL, pd.altName
+            "SELECT pd.printName, pd.brandProduct, pv.priceProduct, pv.imageURL, pd.altName, pd.altName
                     FROM product_data AS pd 
                     JOIN product_version AS pv ON pd.idProduct = pv.idProduct
                     WHERE pd.altName = ? 
@@ -30,24 +28,19 @@
         $getProductData->bind_param("s", $productName);
 
         $realName = "";
-
         // returning the prices of the products with the name that matches the one above
         if($getProductData->execute()){
             $result = $getProductData->get_result();
-
             while($productData = $result->fetch_assoc()){
-                if($productData["brandProduct"] == "Other Brand"){
-                    $brand = "Marca não Registrada";
-                }
                 $realName   = $productData["altName"];
                 $printName  = $productData["printName"];
                 $brand      = $productData["brandProduct"];
                 $price      = $productData["priceProduct"];
                 $image      = $productData["imageURL"];
+                $linkName   = $productData["altName"];
             }
         }else{
-            echo
-            "
+            echo"
                 <p class='errorText'>
                     <small>
                     <i class=\"fa-solid fa-triangle-exclamation\"></i> 
@@ -95,8 +88,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="../CSS/general-styles.css">
-    <link rel="stylesheet" href="../CSS/productView-styles.css">
+    <link rel="stylesheet" href="../CSS/general.css">
+    <link rel="stylesheet" href="../CSS/productView.css">
 
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
 
@@ -138,65 +131,62 @@
     <main>
         <?php 
             if(in_array($_GET["id"], $allowedNames)){
-                  echo "
-                    <a href='products.php' class='back-button'>
+                echo "
+                    <a href='products.php#{$linkName}' class='back-button'>
                         <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
                             <path stroke-linecap='round' stroke-linejoin='round' d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'/>
                         </svg>
                         Voltar
                     </a>
 
-                <section>
-                    <div class='product-main-img'>
-                        <img src=".$image." alt='Product Image'>
-                    </div>
-
-                    <div class='product-forms-div'>
-                        <div>
-                            <p><small>" .$brand."</small></p>
-                            <h1>".$printName ."</h1>
-                            <p class='product-price-value'> ---- </p>
+                    <section>
+                        <div class='product-main-img'>
+                            <img src=".$image." alt='Product Image'>
                         </div>
 
-                        <form method='get' class='product-forms'>
-                            <div class='forms-text'>
-                                <div class='forms-item product-size'>
-                                    <label for='isize'>Tamanho: </label>
-                                    <select name='size' id='isize' class='product-size-selector'>
-                    ";
-                    getOptions($realName);
-                    echo "
-                                    </select>
-                                </div>
-                                <div class='forms-item product-amount'>
-                                    <label for='iamount-product'>Quantidade: </label>
-                                    <input type='number' name='amount-product' id='iamount-product' value='1' max='150' min='1'>
-                                </div>
+                        <div class='product-forms-div'>
+                            <div>
+                                <p><small>" .$brand."</small></p>
+                                <h1>".$printName ."</h1>
+                                <p class='product-price-value'> ---- </p>
                             </div>
+
+                            <form method='get' class='product-forms'>
+                                <div class='forms-text'>
+                                    <div class='forms-item product-size'>
+                                        <label for='isize'>Tamanho: </label>
+                                        <select name='size' id='isize' class='product-size-selector'>
+                        ";
+                        getOptions($realName);
+                        echo "
+                                        </select>
+                                    </div>
+                                    <div class='forms-item product-amount'>
+                                        <label for='iamount-product'>Quantidade: </label>
+                                        <input type='number' name='amount-product' id='iamount-product' value='1' max='150' min='1'>
+                                    </div>
+                                </div>
+                        ";
+                        if(! isset($_SESSION["isAdmin"])){
+                            echo "
+                                <button type=\"submit\">
+                                    <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"size-6\">
+                                        <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z\"/>
+                                    </svg>
+                                    Adicionar Ao Carrinho
+                                </button>
                             ";
-                            if(! isset($_SESSION["isAdmin"])){
-                                echo "
-                                    <button type=\"submit\">
-                                        <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"size-6\">
-                                            <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z\"/>
-                                        </svg>
-                                        Adicionar Ao Carrinho
-                                    </button>
-                                ";
-                            }
-                            
-                    echo "
-                        </form>
-                    </div>
-                </section>
-                    ";
+                        }
+                        echo "
+                            </form>
+                        </div>
+                    </section>
+                ";
             }else{
                 echo "<p class= 'errorText'>Erro: Nenhum Produto encontrado com o Id Selecionado</p>";
             }
         ?>
     </main>
-
     <?php footerOut();?>
-    
 </body>
 </html>
