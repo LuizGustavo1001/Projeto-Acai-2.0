@@ -3,6 +3,7 @@
     include "../../databaseConnection.php";
     include "../generalPHP.php";
     include "../footerHeader.php";
+    include "../printStyles.php";
 
     if (isset($_SESSION["isAdmin"])) {
         header("location: ../mannager/admin.php?adminNotAllowed=1");
@@ -55,8 +56,9 @@
 
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="../CSS/general.css">
-    <link rel="stylesheet" href="../CSS/account.css">
+    <link rel="stylesheet" href="<?php printStyle("1", "general") ?>">
+    <link rel="stylesheet" href="<?php printStyle("1", "account") ?>">
+
 
     <style>
         .account-right-div{

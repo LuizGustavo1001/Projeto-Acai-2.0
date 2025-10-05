@@ -2,6 +2,7 @@
     include "../databaseConnection.php";
     include "generalPHP.php";
     include "footerHeader.php";
+    include "printStyles.php";
     function featureItens(){
         // feature 4 random products from Database
         global $mysqli;
@@ -26,8 +27,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="CSS/general.css">
-    <link rel="stylesheet" href="CSS/index.css">
+    <link rel="stylesheet" href="<?php printStyle("0", "general") ?>">
+    <link rel="stylesheet" href="<?php printStyle("0", "index") ?>">
 
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
     <script src="JS/generalScripts.js"></script>
@@ -38,7 +39,6 @@
 
 </head>
 <body>
-    
     <?php headerOut(0)?>
     <main>
         <?php 
@@ -91,10 +91,7 @@
 
         <section class="main-section">
             <div class="left-content">
-                <h1>
-                    Açaí e Polpas <br>
-                    <span style="color: #cc0088">Amazônia</span>
-                </h1>
+                <h1>Açaí e Polpas <br><span>Amazônia</span></h1>
                 <p>Qualidade Superior, Preço Inferior</p>
                 <div>
                     <button type="button" onclick="window.location.href='products/products.php'">
@@ -105,14 +102,12 @@
                     </button>
                 </div>
             </div>
-            <div class="right-content" style="margin-top: 5vh;"></div>
+            <div class="right-content"></div>
         </section>
 
-        <section class="about-us-section " style="margin-top: 6em;">
+        <section class="about-us-section">
             <div class="index-title">
-                <h1>
-                    Sobre Nós
-                </h1>
+                <h1>Sobre Nós</h1>
             </div>
             <ul>
                 <li class="about-us-item">

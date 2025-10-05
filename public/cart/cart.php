@@ -2,6 +2,7 @@
     include "../../databaseConnection.php";
     include "../generalPHP.php";
     include "../footerHeader.php";
+    include "../printStyles.php";
     
     require __DIR__ . '/../../composer/vendor/autoload.php';
 
@@ -202,8 +203,8 @@
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
     <script src="../JS/generalScripts.js"></script>
 
-    <link rel="stylesheet" href="../CSS/general.css">
-    <link rel="stylesheet" href="../CSS/cart.css">
+    <link rel="stylesheet" href="<?php printStyle("1", "general") ?>">
+    <link rel="stylesheet" href="<?php printStyle("1", "cart") ?>">
 
     <title>Açaí e Polpas Amazônia - Carrinho</title>
 </head>
@@ -225,16 +226,16 @@
                             </div>
                         </div>
                     </section>
-                    ";
+                ";
             }
         ?>
         <section class="cart-header section-header-title">
             <h1>Carrinho</h1>
+            <p>Clique em <strong>Confirmar Pedido</strong> para efetuá-lo</p>
             <p>
                 Caso Algum de seus Dados Pessoas abaixo estejam incorretos clique no botão 
                 <strong>"Editar"</strong>
             </p>
-            <p style="padding-top: 0.5em;">Clique em <strong>Confirmar Pedido</strong> para efetuá-lo</p>
         </section>
 
         <section class="hero-div">
@@ -258,7 +259,7 @@
                                 <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751475315/user_iqkn7x.png" alt="user icon">
                                 <ul class="list-item-text">
                                     <li><strong>Cliente:</strong></li>
-                                    <li> <span><?php echo $_SESSION["userName"]?></span> </li>
+                                    <li><span><?php echo $_SESSION["userName"]?></span></li>
                                 </ul>
                             </li>
                             
@@ -327,12 +328,8 @@
                     <a href="cart.php?orderConfirmed=1"><button>Confirmar Pedido</button></a>
                 </div>
             </div>
-
         </section>
-
     </main>
-
-    <?php footerOut();?>    
-    
+    <?php footerOut();?>
 </body>
 </html>

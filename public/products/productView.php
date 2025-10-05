@@ -2,6 +2,7 @@
     include "../../databaseConnection.php";
     include "../generalPHP.php";
     include "../footerHeader.php";
+    include "../printStyles.php";
 
     if(isset($_GET['size'], $_GET['amount-product'])){
         add2Cart($_GET['size'], $_GET['amount-product']);
@@ -19,12 +20,12 @@
 
     if(in_array($_GET["id"], $allowedNames)){
         // returning all the data that match with the product with the name above
-        $getProductData = $mysqli->prepare(
-            "SELECT pd.printName, pd.brandProduct, pv.priceProduct, pv.imageURL, pd.altName, pd.altName
-                    FROM product_data AS pd 
-                    JOIN product_version AS pv ON pd.idProduct = pv.idProduct
-                    WHERE pd.altName = ? 
-            ");
+        $getProductData = $mysqli->prepare("
+            SELECT pd.printName, pd.brandProduct, pv.priceProduct, pv.imageURL, pd.altName, pd.altName
+            FROM product_data AS pd 
+            JOIN product_version AS pv ON pd.idProduct = pv.idProduct
+            WHERE pd.altName = ? 
+        ");
         $getProductData->bind_param("s", $productName);
 
         $realName = "";
@@ -88,8 +89,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="../CSS/general.css">
-    <link rel="stylesheet" href="../CSS/productView.css">
+    <link rel="stylesheet" href="<?php printStyle("1", "general") ?>">
+    <link rel="stylesheet" href="<?php printStyle("1", "productVersion") ?>">
 
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
 

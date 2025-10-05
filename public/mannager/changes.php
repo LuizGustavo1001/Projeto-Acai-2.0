@@ -2,6 +2,7 @@
     include "../../databaseConnection.php";
     include "../footerHeader.php";
     include "mannagerPHP.php";
+    include "../printStyles.php";
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +17,7 @@
 
     <?php faviconOut()?>
 
-    <link rel="stylesheet" href="../CSS/mannager.css">
+    <link rel="stylesheet" href="<?php printStyle("1", "mannager") ?>">
 
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
     <script src="../JS/generalScripts.js"></script>
@@ -148,7 +149,7 @@
 
         <div class="main-bottom">
             <h1>Todos as Mudanças</h1>
-            <div style="width:100%; height:46vh; overflow:auto;">
+            <div class="main-bottom-table">
                 <table>
                     <tr>
                         <th>Id</th>

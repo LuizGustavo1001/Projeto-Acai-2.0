@@ -2,6 +2,7 @@
     include "../../databaseConnection.php";
     include "../footerHeader.php";
     include "mannagerPHP.php";
+    include "../printStyles.php";
 
     $amount = getAmountItem("order");
 ?>
@@ -21,7 +22,7 @@
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
     <script src="../JS/generalScripts.js"></script>
 
-    <link rel="stylesheet" href="../CSS/mannager.css">
+    <link rel="stylesheet" href="<?php printStyle("1", "mannager") ?>">
 
     <title>Açaí e Polpas Amazônia - Pedidos</title>
 </head>
@@ -149,7 +150,7 @@
                 }
             ?>
 
-            <div style="overflow: auto; height:48vh">
+            <div class="main-bottom-table">
                 <table class="main-table">
                     <thead>
                         <tr>

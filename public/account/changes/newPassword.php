@@ -2,6 +2,7 @@
     include "../../../databaseConnection.php";
     include "../../generalPHP.php";
     include "../../footerHeader.php";
+    include "../printStyles.php";
 
     if(! isset($_SESSION["userMail"])){
         header("location: ../login.php");
@@ -70,8 +71,8 @@
 
     <?php faviconOut()?>
 
-    <link rel="stylesheet" href="../../CSS/general.css">
-    <link rel="stylesheet" href="../../CSS/account.css">
+    <link rel="stylesheet" href="<?php printStyle("2", "general") ?>">
+    <link rel="stylesheet" href="<?php printStyle("2", "account") ?>">
 
     <style>
         .account-right-div{

@@ -24,6 +24,10 @@
 
     }
 
+    .left-content span{
+        color: var(--secondary-clr);
+    }
+
     .left-content p{
         font-size: 1.5em;
 
@@ -32,6 +36,16 @@
     .left-content button{
         margin-block: 3em;
 
+    }
+
+    .right-content{
+        margin-top: 5vh;
+
+    }
+
+    .about-us-section{
+        margin-top: 6em;
+        
     }
 
     .about-us-section ul{

@@ -2,6 +2,7 @@
     include "../../databaseConnection.php";
     include "../generalPHP.php";
     include "../footerHeader.php";
+    include "../printStyles.php";
 
     checkSession("all-product");
     
@@ -53,8 +54,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="../CSS/general.css">
-    <link rel="stylesheet" href="../CSS/products.css">
+    <link rel="stylesheet" href="<?php printStyle("1", "general") ?>">
+    <link rel="stylesheet" href="<?php printStyle("1", "products") ?>">
     
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
     <script src="../JS/generalScripts.js"></script>
@@ -79,14 +80,14 @@
                 
                 echo "
                     <section class= 'popup-box show'>
-                            <div class='popup-div'>
-                                <div><h1>Carrinho Atualizado</h1></div>
-                                <div>
-                                    <p>Produto <strong style='color: var(--secondary-clr)'>{$name}</strong> foi Adicionado com sucesso ao Carrinho</p>
-                                    <p>Clique no botão abaixo para fechar esta janela</p>
-                                    <button class='popup-button'>Fechar</button>
-                                </div>
+                        <div class='popup-div'>
+                            <div><h1>Carrinho Atualizado</h1></div>
+                            <div>
+                                <p>Produto <strong style='color: var(--secondary-clr)'>{$name}</strong> foi Adicionado com sucesso ao Carrinho</p>
+                                <p>Clique no botão abaixo para fechar esta janela</p>
+                                <button class='popup-button'>Fechar</button>
                             </div>
+                        </div>
                     </section>
                 ";
                 if(isset($_SESSION["subTotal"])){

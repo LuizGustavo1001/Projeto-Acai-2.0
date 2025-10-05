@@ -170,10 +170,9 @@ select:focus {
 
     display: flex;
     align-items: center;
+    padding-right: 1em;
 
 }
-
-
 
 .right-header {
     display: flex;
@@ -184,6 +183,8 @@ select:focus {
 .right-header p {
     display: flex;
     gap: 0.3em;
+    font-size: 3vw;
+    text-align: center;
 
 }
 
@@ -560,6 +561,11 @@ button:hover a {
 
 }
 
+@media(min-width: 768px){
+    .right-header p {
+        font-size: 1em;
+    }
+}
 
 @media(min-width: 1024px) {
     body {
@@ -586,6 +592,7 @@ button:hover a {
     .left-header {
         border: none;
         gap: 1em;
+        padding: 0;
 
     }
 
@@ -595,8 +602,8 @@ button:hover a {
     }
 
     .numberItens {
-        top: -0.7em;
-        left: 4em;
+        top: -0.5em;
+        left: 3.5em;
 
     }
 

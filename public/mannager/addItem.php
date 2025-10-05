@@ -2,6 +2,7 @@
     include "../../databaseConnection.php";
     include "../footerHeader.php";
     include "mannagerPHP.php";
+    include "../printStyles.php";
 
     require_once '../../composer/vendor/autoload.php';
 
@@ -266,8 +267,9 @@
 
     <?php faviconOut()?>
 
-    <link rel="stylesheet" href="../CSS/mannager.css">
-    <link rel="stylesheet" href="../CSS/mannager-settings.css">
+
+    <link rel="stylesheet" href="<?php printStyle("1", "mannager") ?>">
+    <link rel="stylesheet" href="<?php printStyle("1", "mannagerSettings") ?>">
 
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
     <script src="../JS/generalScripts.js"></script>
@@ -289,6 +291,7 @@
             flex-direction: row;
             justify-content: left;
             font-size: 1em;
+            
         }
 
     </style>

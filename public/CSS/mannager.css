@@ -483,6 +483,11 @@ details[open] summary .rotate-icon {
 
 }
 
+.main-bottom-table{
+    overflow: auto; height:48vh
+    
+}
+
 @media(max-width: 1023px){
     .normal-td{
         width: 80px;

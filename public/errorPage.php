@@ -1,3 +1,7 @@
+<?php 
+    include "printStyles.php";
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -8,8 +12,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="CSS/general.css">
-    <link rel="stylesheet" href="CSS/index.css">
+    <link rel="stylesheet" href="<?php printStyle("0", "general") ?>">
+    <link rel="stylesheet" href="<?php printStyle("0", "index") ?>">
 
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
 
