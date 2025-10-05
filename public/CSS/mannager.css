@@ -363,6 +363,7 @@ main {
     padding: 0.5em;
     border-radius: var(--border-radius);
     text-align: center;
+    width:100%;
 }
 
 .accepted p,
@@ -459,13 +460,12 @@ details[open] summary .rotate-icon {
 .row-table .table-svg,
 .sub-table .table-svg {
     text-align: right;
-
     
 }
 
 .row-table .align-left-td {
     text-align: left;
-
+    
 }
 
 .sub-table {

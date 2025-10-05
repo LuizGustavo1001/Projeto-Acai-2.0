@@ -118,6 +118,21 @@
     <link rel="stylesheet" href="<?php printStyle("1", "mannager") ?>">
     <link rel="stylesheet" href="<?php printStyle("1", "mannagerSettings") ?>">
 
+    <style>
+        .main-title h1{
+            flex-direction: row;
+            justify-content: space-between;
+            font-size: 1em;
+            
+        }
+
+        @media(min-width: 1024px){
+            .main-title h1{
+                font-size: 1.2em;
+            }
+        }
+    </style>
+
     <title>Açaí e Polpas Amazônia - Configurações</title>
 </head>
 

@@ -168,7 +168,7 @@
                             </svg>
                         </li>
 
-                        <li><a href="register.php">Página de Resgistro</a></li>
+                        <li><a href="register.php">Página de Registro</a></li>
                     </ul>
 
                 </section>

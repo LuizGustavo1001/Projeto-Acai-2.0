@@ -46,12 +46,19 @@ function removeItem($local, $id){
         "version"   => "product_version",
         default     => "",
     };
+    
+    $idItem = match($local){
+        "user"      => "idUser",
+        "product"   => "idProduct",
+        "version"   => "idVersion",
+    };
+
     if($table == ""){
         header("location: ../errorPage.php");
         exit();
     }
-
-    $removeColumn = $mysqli->prepare("DELETE FROM $table WHERE idProduct = ?");
+    
+    $removeColumn = $mysqli->prepare("DELETE FROM $table WHERE $idItem = ?");
     $removeColumn->bind_param("i", $id);
     if($removeColumn->execute()){
         $removeColumn->close();
@@ -922,6 +929,19 @@ function verifyChanges($itemData)
 
         .back-button a {
             margin: 0;
+        }
+
+        .main-title h1{
+            flex-direction: row;
+            justify-content: space-between;
+            font-size: 0.8em;
+            
+        }
+
+        @media(min-width: 1024px){
+            .main-title h1{
+                font-size: 1em;
+            }
         }
     </style>
 </head>

@@ -18,8 +18,7 @@
     $getPhotoURL->close();
     $_SESSION["adminPicture"] = $photoData["adminPicture"];
 
-    function GetTableMannager($item)
-    {
+    function GetTableMannager($item){
         global $mysqli;
         $query = match ($item) {
             "products" => "
@@ -186,7 +185,7 @@
                             <table class='sub-table'>
                                 <tr>
                                     <th class='smaller-td'>Id</th>
-                                    <th class='normal-td'>Imagem</th>
+                                    <th style='width: 50px;'>Imagem</th>
                                     <th class='normal-td'>Nome</th>
                                     <th class='normal-td'>Preço</th>
                                     <th class='normal-td'>Data Preço</th>
@@ -199,7 +198,7 @@
                         echo "
                             <tr>
                                 <td class='smaller-td'>" . $row["idVersion"] . "</td>
-                                <td class='table-img normal-td'>
+                                <td class='table-img' style='width: 50px;'>
                                     <img src=\"".$row["imageURL"]."\" alt=\"Version Picture\">
                                 </td>
                                 <td class='normal-td'>" . $row["nameProduct"] . "</td>
@@ -311,7 +310,7 @@
                 }
 
                 $date_hour = $row["orderDate"] . ", " . $row["orderHour"];
-                $class =match($row["orderStatus"]){
+                $class = match($row["orderStatus"]){
                     "Finalizado" => "finished",
                     default      => "pending",
 
