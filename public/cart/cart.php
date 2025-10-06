@@ -20,7 +20,7 @@
 
     // path to the JSON credentials file downloaded from Google Cloud
     $client = new Google_Client();
-    $client->setAuthConfig('../../projetoacai-472803-2e77e7899901.json');
+    $client->setAuthConfig('../../../projetoacai-472803-2e77e7899901.json');
     $client->addScope(Google_Service_Sheets::SPREADSHEETS);
 
     // spreadsheet ID (come from Google Sheets URL)
@@ -73,7 +73,7 @@
                 default:
                     while($row = $result->fetch_assoc()) {
                         $rescueProd = $mysqli->prepare("
-                            SELECT pd.printName, pv.nameProduct, pv.imageURL, pv.sizeProduct 
+                            SELECT pd.printName, pv.nameProduct, pv.imageURL, pv.sizeProduct, pv.flavor
                             FROM product_data AS pd 
                                 JOIN product_version AS pv ON pv.idProduct = pd.idProduct 
                             WHERE pv.idVersion = ?
@@ -85,7 +85,11 @@
                             $prodResult = $rescueProd->get_result();
                             $prodData = $prodResult->fetch_assoc();
                             $rescueProd->close();
-                            $prodName = "{$prodData["printName"]} - {$prodData["sizeProduct"]}";
+                            if($prodData["flavor"] == null){
+                                $prodName = $prodData["printName"] . " - " . $prodData["sizeProduct"];
+                            }else{
+                                $prodName = $prodData["printName"] . " - " . $prodData["flavor"];
+                            }
 
                             echo "
                                 <li>
@@ -140,7 +144,7 @@
 
         // get the products that are on the selected order
         $rescueProd = $mysqli->prepare("
-            SELECT pd.printName as name, o.amount, o.totPrice, pv.sizeProduct
+            SELECT pd.printName as name, o.amount, o.totPrice, pv.sizeProduct, pv.flavor
             FROM product_version AS pv 
                 JOIN product_order AS o ON pv.idVersion = o.idProduct
                 JOIN product_data AS pd ON pv.idProduct = pd.idProduct
@@ -153,8 +157,12 @@
         
         $allProd = "";
         while($row = $rescueProd->fetch_assoc()){
-            $name = "{$row["name"]} - {$row["sizeProduct"]}";
-            $allProd .= "($name} / {$row['amount']} / {$row['totPrice']} ) \n";
+            if($row["flavor"] == null){
+                $name = $row["name"] . " - " . $row["sizeProduct"];
+            }else{
+                $name = $row["name"] . " - " . $row["flavor"];
+            }
+            $allProd .= "($name / {$row['amount']} / R$ {$row['totPrice']} ) \n";
         }
         $rescueProd->close();
         
@@ -163,7 +171,7 @@
         $range = "Página1!A8"; // location where you can start to write on the spreadsheet
         $values = [
             [
-            $_SESSION["userName"], $Address, $_SESSION["referencePoint"], $_SESSION["userPhone"], 
+            $_SESSION["userName"], $_SESSION["userMail"],$Address, $_SESSION["referencePoint"], $_SESSION["userPhone"], 
             $allProd, "{$currentDate} {$currentHour}", "R$ 00,00", $total
             ]
         ];

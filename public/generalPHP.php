@@ -180,24 +180,45 @@
                     header("Location: $urlName.php?outOfOrder=1");
                     exit();
                 default:
-                    $totalPrice = $productData["priceProduct"] * $amount;
+                    // verify if the product is already at the cart
+                    $check = $mysqli->prepare("
+                        SELECT amount FROM product_order WHERE idOrder = ? AND idProduct = ?
+                    ");
+                    $check->bind_param("ii", $_SESSION["idOrder"], $productData["idVersion"]);
+                    $check->execute();
+                    $result = $check->get_result();
+                    if($result->num_rows > 0){
+                        // update product at the cart
+                        $update = $mysqli->prepare("
+                            UPDATE product_order
+                            SET amount = ?, totPrice = ?
+                            WHERE idOrder = ? AND idProduct = ?
+                        ");
+                        $update->bind_param("idii", $amount, $productData["priceProduct"], $_SESSION["idOrder"], $productData["idVersion"]);
+                        $update->execute();
+                        $update->close();
+                    }else{
+                        // insert new product at the cart
+                        $totalPrice = $productData["priceProduct"] * $amount;
 
-                    $inserOrder = $mysqli->prepare("INSERT INTO product_order (idOrder, idProduct, amount, singlePrice, totPrice) VALUES (?, ?, ?, ?, ?)");
-                    $inserOrder->bind_param(
-                        "iiidd",
-                        $_SESSION["idOrder"], 
-                        $productData["idVersion"], 
-                        $amount, 
-                        $productData["priceProduct"], 
-                        $totalPrice
-                    );
+                        $inserOrder = $mysqli->prepare("INSERT INTO product_order (idOrder, idProduct, amount, singlePrice, totPrice) VALUES (?, ?, ?, ?, ?)");
+                        $inserOrder->bind_param(
+                            "iiidd",
+                            $_SESSION["idOrder"], 
+                            $productData["idVersion"], 
+                            $amount, 
+                            $productData["priceProduct"], 
+                            $totalPrice
+                        );
 
-                    if($inserOrder->execute()){
-                        $inserOrder->close();
-                        header("Location: products.php?prodAdd=1&id={$productData['printName']}&size={$productData['sizeProduct']}");
-                        exit();
+                        if($inserOrder->execute()){
+                            $inserOrder->close();
+                            
+                        }
                     }
-                    break;
+                    $check->close();
+                    header("Location: products.php?prodAdd=1&id={$productData['printName']}&size={$productData['sizeProduct']}");
+                    exit();
             }
         }
     }

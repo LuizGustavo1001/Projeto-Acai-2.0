@@ -13,6 +13,7 @@
 
 .section-bg{
     background: var(--primary-bg-clr);
+
     padding: 1.5em;
     border-radius: var(--border-radius);
     box-shadow: 4px 4px 4px var(--shadow-clr);
@@ -140,6 +141,12 @@
 
 }
 
+@media(max-width: 1023px){
+    .order-review ol li{
+        width: 100%;
+    }
+}
+
 .order-review svg{
     color: black;
     align-self: baseline;
@@ -181,13 +188,20 @@
 
     }
 
-     .order-review ol li{
+    .order-review ol li{
         flex-direction: row;
+        justify-content: left;
+        gap: 2em;
 
     }
 
     .hero-div{
         margin-block: 3em;
         
+    }
+
+    .order-review a{
+        margin: 0 0 0 auto;
+
     }
 }

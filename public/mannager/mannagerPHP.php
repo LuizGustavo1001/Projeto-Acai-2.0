@@ -40,12 +40,25 @@
                     JOIN client_data AS c ON c.idClient = u.idUser
             ",
             "orders" => "
-                SELECT od.idOrder, od.orderDate, od.orderHour, od.orderStatus, od.idClient AS idPerson, ud.userName, po.idProduct, pv.nameProduct, pv.flavor, po.amount, po.totPrice
-                FROM order_data AS od 
-                    JOIN user_data AS ud ON od.idClient = ud.idUser
-                    LEFT JOIN product_order AS po ON od.idOrder = po.idOrder
-                    LEFT JOIN product_version AS pv ON po.idProduct = pv.idProduct
-                ORDER BY od.idOrder
+                SELECT od.idOrder, od.orderDate, od.orderHour, od.orderStatus, od.idClient AS idPerson, ud.userName,
+                    GROUP_CONCAT(
+                        CONCAT(
+                            '(', po.amount, ')',
+                            pv.nameProduct, 
+                            ' - ', COALESCE(pv.flavor, pv.sizeProduct, ''), 
+                            pv.priceProduct
+                        )
+                        SEPARATOR ' | '
+                    ) AS produtos
+                FROM order_data AS od
+                JOIN user_data AS ud 
+                    ON od.idClient = ud.idUser
+                LEFT JOIN product_order AS po 
+                    ON od.idOrder = po.idOrder
+                LEFT JOIN product_version AS pv 
+                    ON po.idProduct = pv.idProduct
+                GROUP BY od.idOrder
+                ORDER BY od.idOrder;
             ",
         };
         $getItem = $mysqli->query($query);
