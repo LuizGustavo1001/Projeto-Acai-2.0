@@ -23,7 +23,7 @@
         $getProductData = $mysqli->prepare("
             SELECT pd.printName, pd.brandProduct, pv.priceProduct, pv.imageURL, pd.altName, pd.altName
             FROM product_data AS pd 
-            JOIN product_version AS pv ON pd.idProduct = pv.idProduct
+                JOIN product_version AS pv ON pd.idProduct = pv.idProduct
             WHERE pd.altName = ? 
         ");
         $getProductData->bind_param("s", $productName);
@@ -44,8 +44,8 @@
             echo"
                 <p class='errorText'>
                     <small>
-                    <i class=\"fa-solid fa-triangle-exclamation\"></i> 
-                    Erro ao tentar imprimir o Produto, tente novamente mais tarde
+                        <i class=\"fa-solid fa-triangle-exclamation\"></i> 
+                        Erro ao tentar imprimir o Produto, tente novamente mais tarde
                     </small>
                 </p>
             ";
@@ -98,7 +98,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&display=swap" rel="stylesheet"> 
 
-    <?php faviconOut(); ?>
+    <?php faviconOut() ?>
 
     <script>
         // Script to update the prices of each product selected in real time

@@ -61,7 +61,7 @@
     <link rel="stylesheet" href="<?php printStyle("1", "account") ?>">
 
     <style>
-        .account-right-div{
+        .container-background{
             background: url(https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751724099/forgotPassword_lx206b.png) center center;
             background-size: cover;
             background-repeat: no-repeat;
@@ -74,72 +74,71 @@
 
 </head>
 <body>
-    <section class="account-hero">
-        <div class="account-left-div">
-            
-            <?php headerOut(1)?>
+    <?php headerOut(1)?>
 
-            <main>
-                <section class="account-header">
-                    <ul>
-                        <li><a href="../index.php">Página Principal</a></li>
-                        <li><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+    <section class="container">
+        <div class="left-container">
+            <nav>
+                <ul>
+                    <li><a href="../index.php">Página Principal</a></li>
+                    <li><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </li>
+
+                    <li><a href="login.php">Página de Login</a></li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                            </svg>
-                        </li>
+                        </svg>
+                    </li>
 
-                        <li><a href="login.php">Página de Login</a></li>
-                        <li>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                            </svg>
-                        </li>
+                    <li><a href="password.php">Recuperação de Senha</a></li>
+                </ul>
+            </nav>
+            <div class="container-forms">
+                <div class="container-forms-title">
+                    <h1>Esqueceu Sua <br> Senha?</h1>
+                    <p>
+                        Insira o <strong>Endereço de Email vinculado</strong> a esta conta para <br> enviarmos um código de Recuperação para você alterá-la.
+                    </p>
+                </div>
+                <form method="POST">
+                    <?php 
+                        if(isset($_GET["wrongMail"])) {
+                            echo "
+                                <p class=\"errorText\">
+                                    <i class=\"fa-solid fa-triangle-exclamation\"></i>
+                                    Erro: <strong>Email Inserido</strong> não está cadastrado <br>
+                                    Tente Novamente com outro Endereço de Email.
+                                </p>
+                            ";
 
-                        <li><a href="password.php">Recuperação de Senha</a></li>
-                    </ul>
-                </section>
+                        }
+                    ?>
 
-                <section class="account-forms">
-                    <div class="section-header-title">
-                        <h1>Esqueceu Sua <br> Senha?</h1>
-                        <p>
-                            Insira o <strong>Endereço de Email vinculado</strong> a esta conta para <br> enviarmos um código de Recuperação para você alterá-la.
-                        </p>
+                    <div class="form-item">
+                        <label for="iemail">Endereço de Email: </label>
+                        <input type="email" name="email" id="iemail" maxlength="50" placeholder="email@exemplo.com" required>
                     </div>
-                    <form action="" method="post">
-                        <?php 
-                            if(isset($_GET["wrongMail"])) {
-                                echo "
-                                    <p class=\"errorText\">
-                                        <i class=\"fa-solid fa-triangle-exclamation\"></i>
-                                        Erro: <strong>Email Inserido</strong> não está cadastrado <br>
-                                        Tente Novamente com outro Endereço de Email.
-                                    </p>
-                                ";
 
-                            }
-                        ?>
-
-                        <div class="form-item">
-                            <label for="iemail">Endereço de Email: </label>
-                            <input type="email" name="email" id="iemail" maxlength="50" placeholder="email@exemplo.com" required>
-                        </div>
-
-                        <div>
-                            <button>
-                                Enviar Código
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
-                                </svg>
-                            </button>
-                        </div>
-                        
-                    </form>
-                </section>
-            </main>
-            <?php footerOut();?>
+                    <div>
+                        <button>
+                            Enviar Código
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="account-right-div"></div>
+
+        <div class="right-container">
+            <div class="container-background"></div>
+        </div>
     </section>
+
+    <?php footerOut();?>
 </body>
 </html>

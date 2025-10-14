@@ -63,6 +63,17 @@ button{
 
 }
 
+.forms-item:hover select,
+.forms-item:active select,
+.forms-item:focus-within select,
+.forms-item:hover input,
+.forms-item:active input,
+.forms-item:focus-within input
+{
+    border: 1px solid var(--secondary-clr);
+    
+
+}
 
 @media(min-width: 1024px){
     main section{

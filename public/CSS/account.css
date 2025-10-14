@@ -1,149 +1,143 @@
-    main{
-        margin-bottom: 5em;
-        height: 100vh;
+    body{
+        background: linear-gradient(to right, #eec0df20, #f79ac15e);
+        display: flex;
+        flex-direction: column;
+        gap: 4em;
     }
 
-    .account-header{
+    main{
+        margin-top: 3em;
+     
+    }
+
+    .container{
+        background: var(--tertiary-clr);
+        padding: 1.5em 1em 1.5em 1em;
+
+        border-radius: var(--border-radius);
+
+        box-shadow: 4px 4px 4px var(--shadow-clr);
+
+    }   
+
+    .left-container nav{
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 3em;
         
+        margin-bottom: 2em;
     }
 
-    .account-header ul{
+    .left-container nav ul{
         display: flex;
         gap: 0.5em;
         align-items: top;
-        margin-block: 1.5em;
 
     }
 
-    .account-header svg{
-        color: var(--secondary-clr);
+    .left-container nav svg{
+        color: var(--secondary-clr); 
         width: 20px;
 
     }
 
-    .account-forms{
+    .container-forms{
         display: flex;
         flex-direction: column;
-        gap: 2em;
-
+        gap: 1.5em;
     }
 
-    form{
+    .container-forms form{
         display: flex;
         flex-direction: column;
-        gap: 1em;
-
+        gap: 1.5em;
     }
 
-    form button{
-        width: 100%;
-        padding: 0.7em;
-
-    }
-
-    .form-item{
-        border: 1px solid var(--primary-clr);
-        padding: 0.5em;
-
-        display: flex;
-        flex-direction: column;
-
-        border-radius: var(--border-radius);
-
+    .container-forms form input, .container-forms form select{
         transition: var(--transition);
-
-        cursor: pointer;
+        outline: none;
+        width: 100%;
+        box-sizing: border-box;
 
     }
 
-    .form-item:hover,
-    .form-item:active,
-    .form-item:focus-within{
+    .container-forms form input:focus, .container-forms form select:focus,
+    .container-forms form input:hover, .container-forms form select:hover
+    {
         border-color: var(--secondary-clr);
+    }
+
+    .container-forms form button{
+        width: 100%;
 
     }
 
-    .form-item label{
-        font-weight: bold;
-        cursor: pointer;
+    .container-forms h1{
+        font-family: var(--tertiary-font);
 
     }
 
-    .form-item input, 
-    .form-item select{
-        border: none;
-        padding: 0.5em;
-        background: transparent;
-
+    .container-forms .form-item{
+        display: flex;
+        flex-direction: column;
+        
     }
 
-    .form-item input::placeholder{
-        color: var(--fourth-clr);
-
-    }
-
-    .account-main-footer{
+    .container-forms .form-footer{
         display: flex;
         justify-content: space-between;
-
+        align-items: center;
     }
-    
 
 
     @media(min-width: 1024px){
-        .right-header{
-            gap: 3em;
-
+        main{
+            margin-top: 0;
         }
 
-        body{
-            padding: 0;
-            margin: 0;
-            
-        }
-
-        .account-hero{
-            display: flex;
-            justify-content: space-between;
-            gap: 1em;
-
-        }
-
-        .account-left-div{
-            width: 65%;
-
-        }
-
-        .account-right-div{
-            width:35%;
-            
-        }
-
-        .account-left-div{
-            padding: 1em;
-
-        }
-
-        footer ul{
+        .container{
+            background-color: transparent;
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: 55% auto;
+            box-shadow: none;
+            
+            width: 60vw;
+            min-height: 50vh;
+            margin: 0 auto;
 
         }
 
-        .form-item input, 
-        .form-item select{
-           width: 100%;
+        .left-container{
+            padding: 2em;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            box-shadow: 4px 4px 4px var(--shadow-clr);
+
+            border-top-left-radius: var(--border-radius);
+            border-bottom-left-radius: var(--border-radius);
 
         }
 
-    }
-    @media(max-width: 1023px){
-    .account-header ul{
-        align-items: center;
+        .right-container{
+            box-shadow: 4px 4px 4px var(--shadow-clr);
+            border-top-right-radius: var(--border-radius);
+            border-bottom-right-radius: var(--border-radius);
+        }
 
-    }
+        .left-container, .right-container{
+            background-color: var(--tertiary-clr);
+        }
+
+        .container-background{
+            width: 100%;
+            height: 100%;
+
+            border-top-left-radius: 150px;
+            border-bottom-left-radius: 150px;
+            border-top-right-radius: var(--border-radius);
+            border-bottom-right-radius: var(--border-radius);
+            
+        }
     }

@@ -5,6 +5,18 @@
     include "../printStyles.php";
 
     checkSession("all-product");
+
+    function returnSelected($filter){
+        if( isset($_GET["filter"])){
+            if($_GET['filter'] == $filter){
+                echo " selected";
+            }
+            else{
+                echo " ";
+            }
+        }
+    
+    }
     
     function categoryItens($type, $filter){
         // print the products based on the selected filter on HTML
@@ -106,7 +118,6 @@
                 <h1>Nossos Produtos</h1>
                 <p>Adicione Produtos ao carrinho para realizar sua compra</p>
                 <p>*Preços podem ser modificados com o tempo</p>
-                <p><em><strong>AVISO:</strong> Até o presente momento, os filtros por ordem alfabética podem não aparecer corretamente,<br>uma vez que os nomes no Banco de Dados se diferem dos reais</em></p>
             </div>
             
             <div class="products-search-div">
@@ -117,8 +128,9 @@
                         </svg>
                         <label for="inameProd">Pesquisar pelo Nome</label>
                     </div>
+
                     <div class="search-input generic-button">
-                        <input type="text" name="nameProd" id="inameProd" placeholder="Nome do Produto">
+                        <input type="text" name="nameProd" id="inameProd" placeholder="<?= htmlspecialchars($_GET['nameProd'] ?? 'Nome do Produto') ?>">
                         <button>Pesquisar</button>
                     </div>          
                 </form>
@@ -132,11 +144,11 @@
                     </div>
                     <div class="search-input generic-button">
                         <select name="filter" id="ifilter">
-                            <option value="idProd" selected>Id</option>
-                            <option value="nameDesc">Ordem Alfabética(A-Z)</option>
-                            <option value="nameAsc">Ordem Alfabética(Z-A)</option>
-                            <option value="priceDesc">Maior Preço</option>
-                            <option value="priceAsc">Menor Preço</option>
+                            <option value="idProd"     <?php returnSelected("idProd")?>>Id</option>
+                            <option value="nameDesc"   <?php returnSelected("nameDesc")?>>Ordem Alfabética(A-Z)</option>
+                            <option value="nameAsc"    <?php returnSelected("nameAsc")?>>Ordem Alfabética(Z-A)</option>
+                            <option value="priceDesc"  <?php returnSelected("priceDesc")?>>Maior Preço</option>
+                            <option value="priceAsc"   <?php returnSelected("priceAsc")?>>Menor Preço</option>
                         </select>
                         <button>Filtar</button>
                     </div>

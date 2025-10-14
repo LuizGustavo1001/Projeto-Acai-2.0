@@ -3,7 +3,7 @@
 
     $defaultMoney = numfmt_create("pt-BR", NumberFormatter::CURRENCY);
 
-    if (!isset($_SESSION["isAdmin"])) {
+    if (! isset($_SESSION["isAdmin"])) {
         header("location: ../index.php?notAdmin=1");
         exit();
     }
@@ -26,8 +26,8 @@
                 FROM product_data
             ",
             "changes" => "
-                SELECT idChange, title, changeDate, changeHour, changeDesc, changeStatus 
-                FROM admin_changes
+                SELECT cd.idChange, cd.changeDate, cd.changeHour, ud.userName 
+                FROM change_data AS cd JOIN user_data AS ud ON cd.idAdmin = ud.idUser
             ",
             "admin" => "
                 SELECT u.idUser, u.userName, u.userMail, u.userPhone, u.city, u.district, u.street, u.localNum, u.referencePoint, u.state, a.adminPicture
@@ -48,8 +48,7 @@
                             ' - ', COALESCE(pv.flavor, pv.sizeProduct, ''), 
                             pv.priceProduct
                         )
-                        SEPARATOR ' | '
-                    ) AS produtos
+                    ) AS products
                 FROM order_data AS od
                 JOIN user_data AS ud 
                     ON od.idClient = ud.idUser
@@ -81,14 +80,22 @@
             "product" => "product_version",
             "admin"   => "admin_data",
             "client"  => "client_data",
-            "order"   => "order_data"
+            "order"   => "order_data",
+            "change"  => "change_data",
+            default   => ""
 
         };
 
-        $returnAmount = $mysqli->query("SELECT COUNT(*) AS amount FROM $table");
-        $result = $returnAmount->fetch_assoc();
-        $returnAmount->close();
-        return $result["amount"];
+        if($table == ""){
+            return "-";
+        }else{
+            $returnAmount = $mysqli->query("SELECT COUNT(*) AS amount FROM $table");
+            $result = $returnAmount->fetch_assoc();
+            $returnAmount->close();
+            return $result["amount"];
+        }
+
+        
     }
 
     function searchColumns($formInput, $table){
@@ -198,54 +205,53 @@
                             <table class='sub-table'>
                                 <tr>
                                     <th class='smaller-td'>Id</th>
-                                    <th style='width: 50px;'>Imagem</th>
+                                    <th class='regular-td'>Imagem</th>
                                     <th class='normal-td'>Nome</th>
                                     <th class='normal-td'>Preço</th>
                                     <th class='normal-td'>Data Preço</th>
-                                    <th class='normal-td'>Situação</th>
-                                </tr>";
-                    
+                                    <th class='regular-td'>Situação</th>
+                                    <th class='smaller-td'></th>
+                                </tr>
+                    ";
 
                     while($row = $allVersions->fetch_assoc()){
                         $price = numfmt_format_currency($defaultMoney, $row['priceProduct'], "BRL");
                         echo "
-                            <tr>
-                                <td class='smaller-td'>" . $row["idVersion"] . "</td>
-                                <td class='table-img' style='width: 50px;'>
-                                    <img src=\"".$row["imageURL"]."\" alt=\"Version Picture\">
-                                </td>
-                                <td class='normal-td'>" . $row["nameProduct"] . "</td>
-                                <td class='normal-td'>" . $price . "</td>
-                                <td class='normal-td'>" . $row["priceDate"] . "</td>
+                                <tr>
+                                    <td class='smaller-td'>" . $row["idVersion"] . "</td>
+                                    <td class='table-img regular-td'>
+                                        <img src=\"".$row["imageURL"]."\" alt=\"Version Picture\">
+                                    </td>
+                                    <td class='normal-td'>" . $row["nameProduct"] . "</td>
+                                    <td class='normal-td'>" . $price . "</td>
+                                    <td class='normal-td'>" . $row["priceDate"] . "</td>
                         ";
+
                         $availability = match($row["availability"]){
-                            "1" => "<td class='accepted normal-td'><p>Disponível</p></td>",
-                            default => "<td class='rejected normal-td'><p>Indisponível</p></td>"
+                            "1" => "<td class='accepted regular-td'><p>Disponível</p></td>",
+                            default => "<td class='rejected regular-td'><p>Indisponível</p></td>"
                         };
                         echo $availability;
 
                         echo "  
-                            <td class='table-svg align-right-td'>
-                                    <abbr title='Clique Aqui para Alterar os Dados da Versão ao Lado'>
-                                        <a href='changeItem.php?category=version&id=".$row["idVersion"]."'>
-                                            <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
-                                                <path stroke-linecap='round' stroke-linejoin='round' d='m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10' />
-                                            </svg>
-                                        </a>
-                                    </abbr>
-                                </td>
-                            </tr>
+                                    <td class='table-svg align-right-td smaller-td'>
+                                        <abbr title='Clique Aqui para Alterar os Dados da Versão ao Lado'>
+                                            <a href='changeItem.php?category=version&id=".$row["idVersion"]."'>
+                                                <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
+                                                    <path stroke-linecap='round' stroke-linejoin='round' d='m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10' />
+                                                </svg>
+                                            </a>
+                                        </abbr>
+                                    </td>
+                                </tr>
                         ";     
                     }
+                }else{
+                    echo "<p style='text-align: center; background: var(--primary-bg-clr); padding: 1em;'>Nenhuma Versão relacionada ao Produto selecionado foi encontrada</p>";
+
                 }
-                echo " 
-                                </details>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            ";
-            
+                echo " </details></td></tr></table></div>
+                ";
             
             }else if(isset($row["adminPicture"])){ // admin
                 $address = "{$row["street"]}, {$row["localNum"]} - {$row["district"]}, {$row["city"]} - {$row["state"]}";
@@ -254,7 +260,7 @@
                         <table class='row-table'>
                             <tr>
                                 <td class='smaller-td'>" . $row["idUser"] . "</td>
-                                <td class='table-img normal-td'>
+                                <td class='table-img regular-td'>
                                     <img src=\"".$row["adminPicture"]."\" alt=\"Admin Picture\">
                                 </td>
                                 <td class='normal-td'>" . $row["userName"] . "</td>
@@ -274,6 +280,7 @@
                         </table>
                     </tr>
                 ";
+                echo "<hr>";
             }else if(isset($row["idClient"])){ // client
                 $address = "{$row["street"]}, {$row["localNum"]} - {$row["district"]}, {$row["city"]} - {$row["state"]}";
                 echo "
@@ -298,6 +305,7 @@
                         </table>
                     </tr>
                 ";
+                echo "<hr>";
             }else if(isset($row["orderDate"])){ // order
                 $getAllProducts = $mysqli->prepare("
                     SELECT po.idProduct, pd.printName, pv.sizeProduct, pv.flavor, po.amount, po.totPrice
@@ -333,16 +341,143 @@
                     <tr class='table-tuple'>
                         <table class='row-table'>
                             <tr>
-                                <td class='smaller-td'>" . $row["idOrder"]. "</td>
+                                <td class='smaller-td'>". $row["idOrder"]. "</td>
                                 <td class='normal-td'>" . $row["userName"]. "</td>
                                 <td class='normal-td'>" . $date_hour . "</td>
                                 <td class='normal-td'>" . ($products ?: "Nenhum Produto Adicionado") . "</td>
-                                <td class=\"$class normal-td\"><p>" . $row["orderStatus"] ."</p></td>
+                                <td class=\"$class regular-td\"><p>" . $row["orderStatus"] ."</p></td>
                             </tr>
                         </table>
                     </tr>
                 ";
+                echo "<hr>";
+            }else if (isset($row["idChange"])) { // changes
+                $dateHour  = "{$row['changeDate']}, {$row['changeHour']}";
+                $idChange  = $row["idChange"];
+                $adminName = $row["userName"];
+
+                echo "
+                    <tr class='table-tuple'>
+                        <td colspan='4'>
+                            <details>
+                                <summary>
+                                    <table class='row-table'>
+                                        <tr>
+                                            <td class='table-svg align-left-td smaller-td'>
+                                                <abbr title='Clique Aqui para mostrar as versões do Produto'>
+                                                    <svg class='rotate-icon' xmlns='http://www.w3.org/2000/svg' fill='none'
+                                                        viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor'>
+                                                        <path stroke-linecap='round' stroke-linejoin='round'
+                                                            d='m19.5 8.25-7.5 7.5-7.5-7.5' />
+                                                    </svg>
+                                                </abbr>
+                                            </td>
+                                            <td class='smaller-td'> {$idChange}</td>
+                                            <td class='normal-td'> {$adminName}</td>
+                                            <td class='normal-td'>{$dateHour}</td>
+                                        </tr>
+                                    </table>
+                                    <hr>
+                                </summary>
+                ";
+
+                // get all columns changed
+                $getChangeColumns = $mysqli->prepare("
+                    SELECT idAttribute, tableName, objectChanged, oldValue, newValue, typeChange 
+                    FROM attribute_change 
+                    WHERE idChange = ?
+                ");
+                $getChangeColumns->bind_param("i", $idChange);
+                $getChangeColumns->execute();
+                $result = $getChangeColumns->get_result();
+                
+
+                switch($amount = $result->num_rows){
+                    case 0:
+                        echo "<p style='text-align: center; background: var(--primary-bg-clr); padding: 1em;'>Nenhuma Mudança Relacionada a esta Alteração foi encontrada</p>";
+                        break;
+                }
+
+                $itemCounter = 1;
+
+                echo "<div>";
+
+                while ($subRow = $result->fetch_assoc()) {
+                    $itemType = match($subRow["tableName"]) {
+                        "product_data"      => "Produto",
+                        "product_version"   => "Versão Produto",
+                        "admin_data"        => "Admin",
+                        "client_data"       => "Cliente",
+                        default             => "Usuário",
+                    };
+
+                    $description = match($subRow["typeChange"]) {
+                        "Remover"   => "<em>Código</em> = <strong>{$subRow['idAttribute']}</strong> na <em>Tabela</em> <strong>{$subRow['tableName']}</strong>",
+                        "Adicionar" => "<em>Código</em> = <strong>{$subRow['idAttribute']}</strong> na <em>Tabela</em> <strong>{$subRow['tableName']}</strong>",
+                        default     => "<strong>{$subRow['objectChanged']}</strong> com <em>Código</em> = <strong>{$subRow['idAttribute']}</strong> - <strong>Anteriormente:</strong> <em>{$subRow['oldValue']}</em>, <strong>Agora:</strong> <em>{$subRow['oldValue']}</em>",
+                    };
+
+                    echo "
+                        <table class='sub-table'>
+                            <tr>
+                                <th class='smaller-td'>Id</th>
+                                <th class='regular-td'>Tabela</th>
+                                <th class='regular-td'>Ação</th>
+                                <th class='normal-td'>Descrição</th>
+                                <th class='smaller-td'></th>
+                            </tr>
+                            <tr>
+                                <td class='smaller-td'>{$itemCounter}</td>
+                                <td class='regular-td'>{$itemType}</td>
+                                <td class='regular-td'>{$subRow["typeChange"]}</td>
+                                <td class='normal-td'>{$description}</td>
+                                <td class='table-svg align-right-td smaller-td'>
+                                    <abbr title='Clique Aqui para Reverter a Alteração'>
+                                        <a href='changes.php?reverse=1&idChange={$idChange}&idAttribute={$subRow['idAttribute']}&table={$subRow["tableName"]}&type={$subRow['typeChange']}'>
+                                            <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
+                                                <path stroke-linecap='round' stroke-linejoin='round' d='M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99'/>
+                                            </svg>
+                                        </a>
+                                    </abbr>
+                                </td>
+                            </tr>
+                        </table>
+                    ";
+                    $itemCounter++;
+                }
+                echo "</div></details></td></tr>";
             }
         }
-        echo "<hr>";
+    }
+
+    function addChange($changeType, $table, $idAttribute, $objectChanged, $oldValue = "", $newValue = ""){
+        global $mysqli;
+        // add change into change_data and attribute_change table
+        $currentDate = date("Y-m-d");
+        $currentHour = date("H:i:s");
+
+        $addChange = $mysqli->prepare("INSERT INTO change_data (changeDate, changeHour, idAdmin) VALUES (?,?,?)");
+        $addChange->bind_param("ssi", $currentDate, $currentHour, $_SESSION["idUser"]);
+        $addChange->execute();
+        $addChange->close();
+
+        $idChange = $mysqli->insert_id;
+
+        switch($changeType){
+            case "Modificar":
+                $addAttribute = $mysqli->prepare("INSERT INTO attribute_change (idChange, tableName, idAttribute, objectChanged, oldValue, newValue) VALUES (?,?,?,?,?,?)");
+                $addAttribute->bind_param("isisss", $idChange, $table, $idAttribute, $objectChanged, $oldValue, $newValue);
+
+                break;
+            default:
+                $objectChanged = "";
+                $addAttribute = $mysqli->prepare("INSERT INTO attribute_change (idChange, tableName, idAttribute, objectChanged, typeChange) VALUES (?,?,?,?,?)");
+                $addAttribute->bind_param("isiss", $idChange, $table, $idAttribute, $objectChanged, $changeType);
+
+                break;
+
+        }
+        $addAttribute->execute();
+        $addAttribute->close();
+
     }

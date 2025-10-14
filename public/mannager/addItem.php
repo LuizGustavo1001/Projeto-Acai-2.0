@@ -31,6 +31,9 @@
                                 $addProduct->bind_param("ssss", $name, $altName, $_POST["brandProduct"], $_POST["typeProduct"]);
                                 $addProduct->execute();
                                 $addProduct->close();
+                                $idProduct = $mysqli->insert_id;
+                                addChange("Adicionar", "product_data", $idProduct, "");
+
                                 header("location: products.php?addProduct=1");
                                 exit();
                             default: // there's already a product in the database with the same name as writed
@@ -61,19 +64,19 @@
                                 <div class='form-item'>
                                     <label for='iprintName'>Nome Amigável: </label>
                                     <div class='form-input'>
-                                        <input type='text' name='printName' id='iprintName' maxlength='60' placeholder='Nome do Produto Aqui'>
+                                        <input type='text' name='printName' id='iprintName' maxlength='60' placeholder='Nome do Produto Aqui' required>
                                     </div>
                                 </div>
                                 <div class='form-item'>
                                     <label for='ialtName'>Nome Alternativo: </label>
                                     <div class='form-input'>
-                                        <input type='text' name='altName' id='ialtName' maxlength='40' placeholder='Nome Alternativo do Produto Aqui'>
+                                        <input type='text' name='altName' id='ialtName' maxlength='40' placeholder='Nome Alternativo do Produto Aqui' required>
                                     </div>
                                 </div>
                                 <div class='form-item'>
                                     <label for='ibrandProd'>Marca:</label>
                                     <div class='form-input'>
-                                        <input type='text' name='brandProduct' id='ibrandProd' maxlength='40' placeholder='Marca do Produto Aqui'>
+                                        <input type='text' name='brandProduct' id='ibrandProd' maxlength='40' placeholder='Marca do Produto Aqui' required>
                                     </div>
                                 </div>
                                 <div class='form-item'>
@@ -153,6 +156,9 @@
                                 $addProduct->bind_param("isssssss", $_POST["idProduct"], $name, $image, $_POST["sizeProduct"], $flavor, $_POST["priceProduct"], $currentDate ,$_POST["availability"]);
                                 $addProduct->execute();
                                 $addProduct->close();
+
+                                $IdVersion = $mysqli->insert_id;
+                                addChange("Adicionar", "product_version", $IdVersion, "");
                                 header("location: products.php?addVersion=1");
                                 exit();
                             default: // there's already a product in the database with the same name as writed
@@ -162,77 +168,77 @@
                     }
                     
                     echo "
-                    <div class='form-inputs'>
-                        <div class='main-title'>
-                                <h1>
-                                    <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
-                                        <path stroke-linecap='round' stroke-linejoin='round' d='m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z'/>
-                                    </svg>
-                                    Adicionar uma Versão de um Produto
-                                </h1>
-                                <div class='back-button'>
-                                    <a href='products.php'>
-                                        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
-                                            <path stroke-linecap='round' stroke-linejoin='round' d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'/>
-                                        </svg>
-                                        Voltar
-                                    </a>
-                                </div>
-                            </div>
                         <div class='form-inputs'>
-                            <div class='form-item'>
-                                <label for='iprodRef'>* Produto Referenciado: </label>
-                                <select name='idProduct' id='iprodRef'>";
-                                $getProducts = $mysqli->query("SELECT idProduct, printName FROM product_data");
-                                while($product = $getProducts->fetch_assoc()){
-                                    echo "<option value='{$product['idProduct']}'>{$product['printName']}</option>";
-                                }
-                            echo "</select>
-                            </div>
-                            <div class='form-item'>
-                                <label for='iprodPicture'>Foto:</label>
-                                <div class='form-input'>
-                                    <input type='file' name='imageURL' id='iprodPicture'>
+                            <div class='main-title'>
+                                    <h1>
+                                        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
+                                            <path stroke-linecap='round' stroke-linejoin='round' d='m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z'/>
+                                        </svg>
+                                        Adicionar uma Versão de um Produto
+                                    </h1>
+                                    <div class='back-button'>
+                                        <a href='products.php'>
+                                            <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
+                                                <path stroke-linecap='round' stroke-linejoin='round' d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'/>
+                                            </svg>
+                                            Voltar
+                                        </a>
+                                    </div>
+                                </div>
+                            <div class='form-inputs'>
+                                <div class='form-item'>
+                                    <label for='iprodRef'>* Produto Referenciado: </label>
+                                    <select name='idProduct' id='iprodRef'>";
+                                    $getProducts = $mysqli->query("SELECT idProduct, printName FROM product_data");
+                                    while($product = $getProducts->fetch_assoc()){
+                                        echo "<option value='{$product['idProduct']}'>{$product['printName']}</option>";
+                                    }
+                                echo "</select>
+                                </div>
+                                <div class='form-item'>
+                                    <label for='iprodPicture'>Foto:</label>
+                                    <div class='form-input'>
+                                        <input type='file' name='imageURL' id='iprodPicture'>
+                                    </div>
+                                </div>
+
+                                <div class='form-item'>
+                                    <label for='inameProd'>* Nome: </label>
+                                    <div class='form-input'>
+                                        <input type='text' name='nameProduct' id='inameProd' maxlength='40' placeholder='Nome do Produto Aqui' required>
+                                    </div>
+                                </div>
+
+                                <div class='form-item'>
+                                    <label for='isizeProduct'>* Tamanho:</label>
+                                    <div class='form-input'>
+                                        <input type='text' name='sizeProduct' id='isizeProduct' maxlength='20' placeholder='Tamanho/Peso do Produto Aqui' required>
+                                    </div>
+                                </div>
+
+                                <div class='form-item'>
+                                    <label for='iflavor'>Sabor:</label>
+                                    <div class='form-input'>
+                                        <input type='text' name='flavor' id='iflavor' maxlength='40' placeholder='Sabor do Produto Aqui'>
+                                    </div>
+                                </div>
+
+                                <div class='form-item'>
+                                    <label for='ipriceProd'>* Preço Individual: </label>
+                                    <div class='form-input'>
+                                        <input type='text' name='priceProduct' id='ipriceProd' placeholder='Preço do Produto Aqui' required>
+                                    </div>
+                                </div>
+
+                                <div class='form-item'>
+                                    <label for='iavailability'>Disponibilidade: </label>
+                                    <select name='availability' id='iavailability'>
+                                        <option value='1'>Disponível</option>
+                                        <option value='0'>Indisponível</option>
+                                    </select>
                                 </div>
                             </div>
-
-                            <div class='form-item'>
-                                <label for='inameProd'>* Nome: </label>
-                                <div class='form-input'>
-                                    <input type='text' name='nameProduct' id='inameProd' maxlength='40' placeholder='Nome do Produto Aqui' required>
-                                </div>
-                            </div>
-
-                            <div class='form-item'>
-                                <label for='isizeProduct'>* Tamanho:</label>
-                                <div class='form-input'>
-                                    <input type='text' name='sizeProduct' id='isizeProduct' maxlength='20' placeholder='Tamanho/Peso do Produto Aqui' required>
-                                </div>
-                            </div>
-
-                            <div class='form-item'>
-                                <label for='iflavor'>Sabor:</label>
-                                <div class='form-input'>
-                                    <input type='text' name='flavor' id='iflavor' maxlength='40' placeholder='Sabor do Produto Aqui'>
-                                </div>
-                            </div>
-
-                            <div class='form-item'>
-                                <label for='ipriceProd'>* Preço Individual: </label>
-                                <div class='form-input'>
-                                    <input type='text' name='priceProduct' id='ipriceProd' placeholder='Preço do Produto Aqui' required>
-                                </div>
-                            </div>
-
-                            <div class='form-item'>
-                                <label for='iavailability'>Disponibilidade: </label>
-                                <select name='availability' id='iavailability'>
-                                    <option value='1'>Disponível</option>
-                                    <option value='0'>Indisponível</option>
-                                </select>
-                            </div>
-                        </div>
-                        <button>Editar</button>
+                            <button>Editar</button>
                         </div>
                     ";
                     break;
@@ -302,6 +308,17 @@
 <body>
     <main>
         <form method="POST" enctype="multipart/form-data">
+            <?php 
+                if(isset($_GET['add'])){
+                    echo "
+                        <p class=\"errorText\">
+                            <i class=\"fa-solid fa-triangle-exclamation\"></i>
+                            Erro: <strong>Nome Amigável </strong> ou <strong>Nome Alternativo</strong> já estão cadastrador no sistema <br>
+                            Tente novamente com outro nome.
+                        </p>
+                    ";
+                }
+            ?>
             <?php printForms()?>
         </form>
     </main>

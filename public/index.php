@@ -6,10 +6,25 @@
     function featureItens(){
         // feature 4 random products from Database
         global $mysqli;
-        $query = $mysqli->query("SELECT altName FROM product_data ORDER BY RAND() LIMIT 4");
+        // query to avoid products without versions
+        $query = $mysqli->query("
+            SELECT pd.idProduct, pd.altName
+            FROM product_data AS pd 
+                JOIN product_version AS pv ON pd.idProduct = pv.idProduct 
+            GROUP BY pd.idProduct 
+            ORDER BY RAND() LIMIT 4
+        ");
         if($query){
+            // verify if the product version exists on the database
             while($row = $query->fetch_assoc()){
-                getProductByName($row["altName"], "index");
+                $verifyVersions = $mysqli->prepare("SELECT nameProduct FROM product_version WHERE idProduct = ?");
+                $verifyVersions->bind_param("i", $row["idProduct"]);
+                $verifyVersions->execute();
+                $result = $verifyVersions->get_result();
+                $amountVersion = $result->num_rows;
+                if($amountVersion > 0){
+                    getProductByName($row["altName"], "index");
+                }
             }
         } else {
             header("location: errorPage.php");

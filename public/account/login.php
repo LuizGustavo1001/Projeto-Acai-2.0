@@ -142,7 +142,7 @@
     <link rel="stylesheet" href="<?php printStyle("1", "account") ?>">
 
     <style>
-        .account-right-div{
+        .container-background{
             background: url(https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751727177/loginBg_gqxl8c.png) center center;
             background-size: cover;
             background-repeat: no-repeat;
@@ -153,29 +153,32 @@
     <title>Açaí e Polpas Amazônia - Login</title>
 </head>
 <body>
-    <section class="account-hero">
-        <div class="account-left-div">
-            
-            <?php headerOut(1)?>
-
-            <main>
-                <section class="account-header">
+    <?php headerOut(1)?>
+    <main>
+        <section class="container">
+            <div class="left-container">
+                <nav>
                     <ul>
-                        <li><a href="../index.php">Página Principal</a></li>
-                        <li><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                        <li>
+                            <a href="../index.php">Página Principal</a>
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                             </svg>
                         </li>
-                        <li><a href="login.php">Página de Login</a></li>
+                        <li>
+                            <a href="login.php">Página de Login</a>
+                        </li>
                     </ul>
-                </section>
-        
-                <section class="account-forms">
-                    <div class="section-header-title">
+                </nav>
+
+                <div class="container-forms">
+                    <div class="container-forms-title">
                         <h1>Área de Login</h1>
                         <p>Realize seu <strong>Login</strong> para <strong>Continuar Comprando</strong> em nosso site</p>
                     </div>
-                    <form method="post">
+                    <form method="POST">
                         <?php 
                             if(isset($_GET["errorLogin"])){
                                 echo "
@@ -236,7 +239,6 @@
                                 ";
                             }
                         ?>
-                        
                         <div class="form-item">
                             <label for="iemail">Email: </label>
                             <input type="email" name="email" id="iemail" maxlength="50" required value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
@@ -255,16 +257,19 @@
                                 </svg>
                             </button>
                         </div>
-                        <div class="account-main-footer">
+                        <div class="form-footer">
                             <a href="password.php">Esqueceu a senha?</a>
                             <a href="register.php">Ainda não está registrado?</a>
                         </div>
                     </form>
-                </section>
-            </main>
-            <?php footerOut();?>
-        </div>
-        <div class="account-right-div"></div>
-    </section>
+                </div>
+
+            </div>
+            <div class="right-container">
+                <div class="container-background"></div>
+            </div>
+        </section>        
+    </main>
+    <?php footerOut();?>
 </body>
 </html>

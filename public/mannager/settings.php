@@ -77,7 +77,7 @@
             if (!empty($newValue)) {
                 $query = match ($dbTable) {
                     "admin_data"    => "UPDATE admin_data SET $inputName = ? WHERE idAdmin = ?",
-                    default         => "UPDATE user_data SET $inputName = ? WHERE idUser = ?"
+                    default         => "UPDATE user_data SET $inputName  = ? WHERE idUser  = ?"
                 };
 
                 $changeData = $mysqli->prepare($query);
@@ -131,6 +131,13 @@
                 font-size: 1.2em;
             }
         }
+
+        form{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+        }
+
     </style>
 
     <title>Açaí e Polpas Amazônia - Configurações</title>
@@ -138,23 +145,24 @@
 
 <body>
     <main>
-        <div class="back-button">
-            <a href="admin.php">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-                </svg>
-                Voltar
-            </a>
-        </div>
-
-        <div class="main-title">
-            <h1>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                </svg>
-                Alterar Dados Pessoais
-            </h1>
+        <div>
+            <div class="back-button">
+                <a href="admin.php">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                    </svg>
+                    Voltar
+                </a>
+            </div>
+            <div class="main-title">
+                <h1>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    </svg>
+                    Alterar Dados Pessoais
+                </h1>
             
+            </div>
         </div>
 
         <form method="POST" enctype="multipart/form-data">
@@ -288,11 +296,12 @@
             </div>
             <button>Editar</button>
 
-            <div style="display: flex; justify-content: space-between; border: none">
-                <a href="../account/changes/newPassword.php">Alterar Senha</a>
-                <a href="../account/changes/newEmail.php">Alterar Email</a>
-            </div>
+            
         </form>
+        <div style="display: flex; justify-content: space-between; border: none">
+            <a href="../account/changes/newPassword.php">Alterar Senha</a>
+            <a href="../account/changes/newEmail.php">Alterar Email</a>
+        </div>
     </main>
 </body>
 </html>

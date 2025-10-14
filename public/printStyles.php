@@ -2,7 +2,7 @@
     // function to print the style file and the version at the correct page 
     // everytime that you change something at the styles you are supose to change the version too at $version
     function printStyle($local, $fileName){
-        $version = "?v=1.7";
+        $version = "?v=2.7";
 
         $directory = match($local){
             "1" => "../CSS/",

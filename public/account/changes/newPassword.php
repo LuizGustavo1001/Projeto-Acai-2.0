@@ -2,7 +2,7 @@
     include "../../../databaseConnection.php";
     include "../../generalPHP.php";
     include "../../footerHeader.php";
-    include "../printStyles.php";
+    include "../../printStyles.php";
 
     if(! isset($_SESSION["userMail"])){
         header("location: ../login.php");
@@ -75,7 +75,7 @@
     <link rel="stylesheet" href="<?php printStyle("2", "account") ?>">
 
     <style>
-        .account-right-div{
+        .container-background{
             background: url(https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751724099/forgotPassword_lx206b.png) center center;
             background-size: cover;
             background-repeat: no-repeat;
@@ -87,91 +87,85 @@
 
 </head>
 <body>
+    <?php headerOut(2)?>
 
-    <section class="account-hero">
-        <div class="account-left-div">
-            
-            <?php headerOut(2)?>
+    <section class="container">
+        <div class="left-container">
+            <nav>
+                <ul>
+                    <li><a href="../../index.php">Página Principal</a></li>
+                    <li><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </li>
 
-            <main>
-                <section class="account-header">
-                    <ul>
-                        <li><a href="../../index.php">Página Principal</a></li>
-                        <li><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <li><a href="../account.php">Página do Usuário</a></li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                            </svg>
-                        </li>
+                        </svg>
+                    </li>
 
-                        <li><a href="../account.php">Página do Usuário</a></li>
-                        <li>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                            </svg>
-                        </li>
+                    <li><a href="newPassword.php">Alterar Senha</a></li>
+                </ul>
+            </nav>
+            <div class="container-forms">
+                <div class="container-forms-title">
+                    <h1>Alterar Senha</h1>
+                    <p>
+                        Insira a <strong>Senha Anteriormente Vinculada</strong> a esta conta e a <strong>Nova Senha Desejada</strong> para alterá-la.
+                    </p>
+                </div>
+                <form method="POST">
+                    <?php 
+                        if(isset($_GET["wrongP"])) {
+                            echo "
+                                <p class=\"errorText\">
+                                    <i class=\"fa-solid fa-triangle-exclamation\"></i>
+                                    Erro: <strong>Senha Anterior Inserida</strong> não está cadastrada<br>
+                                    Tente Novamente com outra Senha.
+                                </p>
+                            ";
 
-                        <li><a href="newPassword.php">Alterar Senha</a></li>
-                    </ul>
+                        }else if(isset($_GET["sameP"])){
+                            echo "
+                                <p class=\"errorText\">
+                                    <i class=\"fa-solid fa-triangle-exclamation\"></i>
+                                    Erro: <strong>Senha Anterior</strong> e <strong>Nova Senha</strong> inseridas são as mesmas<br>
+                                    Tente Novamente com outra Senha.
+                                </p>
+                            ";
+                        }
+                    ?>
 
-                </section>
-
-                <section class="account-forms">
-                    <div class="section-header-title">
-                        <h1>Alterar Senha</h1>
-                        <p>
-                            Insira a <strong>Senha Anteriormente Vinculada</strong> a esta conta e a <strong>Nova Senha Desejada</strong> para alterá-la.
-                        </p>
+                    <div class="form-item">
+                        <label for="ipassword">Senha Anterior: </label>
+                        <input type="password" name="password" id="ipassword" maxlength="30" placeholder="• • • • • • • • • •" required>
                     </div>
-                    <form action="" method="post">
-                        <?php 
-                            if(isset($_GET["wrongP"])) {
-                                echo "
-                                    <p class=\"errorText\">
-                                        <i class=\"fa-solid fa-triangle-exclamation\"></i>
-                                        Erro: <strong>Senha Anterior Inserida</strong> não está cadastrada<br>
-                                        Tente Novamente com outra Senha.
-                                    </p>
-                                ";
 
-                            }else if(isset($_GET["sameP"])){
-                                echo "
-                                    <p class=\"errorText\">
-                                        <i class=\"fa-solid fa-triangle-exclamation\"></i>
-                                        Erro: <strong>Senha Anterior</strong> e <strong>Nova Senha</strong> inseridas são as mesmas<br>
-                                        Tente Novamente com outra Senha.
-                                    </p>
-                                ";
-                            }
-                        ?>
+                    <div class="form-item">
+                        <label for="inewPassword">Nova Senha: </label>
+                        <input type="password" name="newPassword" id="inewPassword" maxlength="30" placeholder="• • • • • • • • • •" required>
+                    </div>
 
-                        <div class="form-item">
-                            <label for="ipassword">Senha Anterior: </label>
-                            <input type="password" name="password" id="ipassword" maxlength="30" placeholder="• • • • • • • • • •" required>
-                        </div>
-
-                        <div class="form-item">
-                            <label for="inewPassword">Nova Senha: </label>
-                            <input type="password" name="newPassword" id="inewPassword" maxlength="30" placeholder="• • • • • • • • • •" required>
-                        </div>
-
-                        <div>
-                            <button>
-                                Enviar Código
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
-                                </svg>
-                            </button>
-                        </div>
-                        
-                    </form>
-                </section>
-            </main>
-
-            <?php footerOut();?>
+                    <div>
+                        <button>
+                            Enviar Código
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
         </div>
-                            
-        <div class="account-right-div">
 
+        <div class="right-container">
+            <div class="container-background"></div>
         </div>
-    </section> 
+    </section>
+
+    <?php footerOut();?>
 </body>
 </html>

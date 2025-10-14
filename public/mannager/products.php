@@ -221,7 +221,7 @@
                     </thead>
                     <tbody>
                         <?php 
-                             if(isset($_GET["searchQuery"])){
+                            if(isset($_GET["searchQuery"])){
                                 searchColumns($_GET["searchQuery"], "product");
                             }else{
                                 GetTableMannager("products");

@@ -184,7 +184,7 @@
                     <thead>
                         <tr>
                             <th class="smaller-td">Id</th>
-                            <th class='normal-td'>Imagem</th>
+                            <th class='regular-td'>Imagem</th>
                             <th class='normal-td'>Nome</th>
                             <th class='normal-td'>Email</th>
                             <th class='normal-td'>Telefone</th>

@@ -1,6 +1,5 @@
 body{
-    display: block;
-    
+    background: linear-gradient(to right, #eec0df20, #f79ac15e);
 }
 
 form{
@@ -12,6 +11,8 @@ form{
     display: flex;
     flex-direction: column;
     gap: 2em;
+
+    box-shadow: 4px 4px 4px var(--shadow-clr);
 
 }
 
@@ -121,6 +122,12 @@ form{
 }
 
 @media(min-width: 1024px){
+    body{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     main{
         width: 50%;
         margin: 0 auto;
@@ -135,6 +142,13 @@ form{
 
     .main-title button{
         width: 30%;
+
+    }
+
+    .form-inputs{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
 
     }
 

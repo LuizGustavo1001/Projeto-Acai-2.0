@@ -3,6 +3,57 @@
     include "../footerHeader.php";
     include "mannagerPHP.php";
     include "../printStyles.php";
+
+    $amount = getAmountItem("change");
+
+    if(isset($_GET["reverse"])){
+        if($_GET["reverse"] == 1 and isset($_GET["idChange"], $_GET["idAttribute"], $_GET["table"], $_GET["type"])){
+            $table = $_GET["table"];
+            $idItem = match($table){
+                "user_data"     => "idUser",
+                "product_data"  => "idProduct",
+                "version"       => "idVersion",
+                default         => "",
+            };
+            if($idItem != ""){
+                switch($_GET["type"]){
+                    case "Adicionar":
+                        // remove the tuple from the database that was added 
+                        $removeTuple = $mysqli->prepare("DELETE FROM $table WHERE $idItem = ? ");
+                        $removeTuple->bind_param("i", $_GET["idAttribute"]);
+                        $removeTuple->execute();
+
+                        $removeFromChanges = $mysqli->prepare("DELETE FROM change_data WHERE idChange = ?");
+                        $removeFromChanges->bind_param("i", $_GET["idChange"]);
+                        $removeFromChanges->execute();
+
+                        header("location: changes.php?revAdd=1");
+                        exit;
+                        
+                    case "Remover":
+
+                        //header("location: changes.php?revRem=1");
+                        exit;
+                    case "Modificar":
+                        $getModify = $mysqli->prepare("SELECT oldValue, newValue FROM attribute_change WHERE idAttribute = ?");
+                        $getModify->bind_param("i", $_GET["idChange"]);
+                        $getModify->execute();
+
+                        $result = $getModify->get_result();
+                        $modifiedAttribute = $result->fetch_assoc();
+                        $oldValue = $modifiedAttribute["oldValue"];
+                        $newValue = $modifiedAttribute["newValue"];
+
+                        
+
+                        //header("location: changes.php?revMod=1");
+                        exit;
+                }
+            }
+            
+        }
+    }   
+
 ?>
 
 <!DOCTYPE html>
@@ -22,9 +73,57 @@
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
     <script src="../JS/generalScripts.js"></script>
 
+    <style>
+        td strong{
+            color: var(--secondary-clr);
+        }
+    </style>
+
     <title>Açaí e Polpas Amazônia - Alterações</title>
 </head>
 <body>
+    <?php 
+        if(isset($_GET["revAdd"])){
+            echo "
+                <section class= \"popup-box show\">
+                    <div class=\"popup-div\">
+                        <div><h1>Alteração</h1></div>
+                        <div>
+                            <p>Reversão de Adição <strong>Realizada com Sucesso</strong></p>
+                            <p>Clique no botão abaixo para fechar esta janela</p>
+                            <button class=\"popup-button\">Fechar</button>
+                        </div>
+                    </div>
+                </section>
+            ";
+        }else if(isset($_GET["revMod"])){
+            echo "
+                <section class= \"popup-box show\">
+                    <div class=\"popup-div\">
+                        <div><h1>Alteração</h1></div>
+                        <div>
+                            <p>Reversão de Modificação <strong>Realizada com Sucesso</strong></p>
+                            <p>Clique no botão abaixo para fechar esta janela</p>
+                            <button class=\"popup-button\">Fechar</button>
+                        </div>
+                    </div>
+                </section>
+            ";
+        }else if(isset($_GET["revRem"])){
+            echo "
+                <section class= \"popup-box show\">
+                    <div class=\"popup-div\">
+                        <div><h1>Alteração</h1></div>
+                        <div>
+                            <p>Reversão de Remoção <strong>Realizada com Sucesso</strong></p>
+                            <p>Clique no botão abaixo para fechar esta janela</p>
+                            <button class=\"popup-button\">Fechar</button>
+                        </div>
+                    </div>
+                </section>
+            ";
+        }
+    ?>
     <header>
         <ul class="top-header">
             <li>
@@ -83,8 +182,6 @@
     </header>
 
     <main>
-        <p>Em desenvolvimento...</p>
-    <!--
         <?php 
             if(isset($_GET["adminNotAllowed"])){
                 echo "
@@ -102,15 +199,16 @@
 
             }      
         ?>
+        
         <div class="main-title">
             <div>
                 <h1>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
                     </svg>
-                    Gerenciar <strong>Administradores</strong>
+                    Gerenciar <strong>Alterações</strong>
                 </h1>
-                <p>Visualizar, alterar e adicionar novos administradores</p>
+                <p>Visualizar e Reverter Alterações realizadas por Administradores</p>
             </div>
 
             <div class="admin-data">
@@ -130,41 +228,49 @@
 
         <ul class="main-center">
             <li class="item-amount">
-                <p class="amountItem"><strong> <?php echo $_SESSION["changes"]?> </strong></p>
-                <p>Total de Alterações</p>
+                <p class="amountItem"><strong> <?php echo $amount?> </strong></p>
+                <p>Alterações Registradas</p>
             </li>
 
             <li class="input-search">
                 <form method="get">
-                    <label for="iadminName">Pesquisar Mudanças pelo Título</label>
-                    <input type="text" name="adminName" id="iadminName" placeholder="Pressiona Enter para Iniciar a Busca">
+                    <label for="iadminName">Pesquisar Alteração pelo Nome do Administrador</label>
+                    <input type="text" name="searchQuery" id="iadminName"
+                        placeholder="Pressiona Enter para Iniciar a Busca">
                 </form>
-            </li>
-            <li>
-                <button class="center-button" onclick="window.location.href='addItem.php?type=change'">
-                    Solicitar Mudança
-                </button>
             </li>
         </ul>
 
         <div class="main-bottom">
-            <h1>Todos as Mudanças</h1>
+            <?php 
+                if(isset($_GET["searchQuery"])){
+                    echo "<h2>Produtos Encontrados com o Filtro <strong>\"{$_GET['searchQuery']}\"</strong></h2>";
+                }else{
+                    echo "<h1>Todos os <strong>Produtos</strong></h1>";
+                }
+            ?>
             <div class="main-bottom-table">
-                <table>
-                    <tr>
-                        <th>Id</th>
-                        <th>Título</th>
-                        <th>Data-Hora</th>
-                        <th>Descrição</th>
-                        <th>Situação</th>
-                    </tr>
-                    <?php GetTableMannager("changes");?>
+                <table class="main-table">
+                    <thead>
+                        <tr>
+                            <th class="smaller-td"></th>
+                            <th class="smaller-td">Id</th>
+                            <th class='normal-td'>Administrador</th>
+                            <th class='normal-td'>Data-Hora</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                            if(isset($_GET["searchQuery"])){
+                                searchColumns($_GET["searchQuery"], "product");
+                            }else{
+                                GetTableMannager("changes");
+                            }
+                        ?>
+                    </tbody>
                 </table>
             </div>
         </div>
-        -->
     </main>
-    
-    
 </body>
 </html>

@@ -42,6 +42,7 @@ body {
 
 abbr {
     text-decoration: none;
+
 }
 
 img {
@@ -62,6 +63,7 @@ li {
 
 header hr {
     border-color: var(--primary-clr);
+
 }
 
 a {
@@ -99,7 +101,6 @@ button:hover {
 
     border-color: var(--secondary-clr);
     color: var(--secondary-clr);
-
 
 }
 
@@ -144,8 +145,8 @@ header {
     left: 50%;
     transform: translate(-50%, -50%);
 
-
     position: fixed;
+
 }
 
 .popup-div {
@@ -285,7 +286,6 @@ main {
 
 }
 
-
 .main-center {
     display: flex;
     flex-direction: column;
@@ -301,6 +301,11 @@ main {
 .main-bottom {
     background: var(--tertiary-clr);
     padding: 2em;
+}
+
+.main-bottom hr{
+    width: 98%;
+
 }
 
 .main-center button {
@@ -364,6 +369,7 @@ main {
     border-radius: var(--border-radius);
     text-align: center;
     width:100%;
+
 }
 
 .accepted p,
@@ -425,7 +431,6 @@ details[open] summary .rotate-icon {
 
 }
 
-
 .main-table,
 .row-table,
 .sub-table {
@@ -476,10 +481,18 @@ details[open] summary .rotate-icon {
 .table-svg svg {
     color: var(--secondary-clr);
     width: 25px;
+
 }
 
 .smaller-td{
     width: 25px;
+    margin: 0 auto;
+
+}
+
+.regular-td{
+    width: 100px;
+    margin: 0 auto;
 
 }
 
@@ -488,12 +501,31 @@ details[open] summary .rotate-icon {
     
 }
 
-@media(max-width: 1023px){
-    .normal-td{
-        width: 80px;
+.input-search:hover select,
+.input-search:active select,
+.input-search:focus-within select,
+.input-search:hover input,
+.input-search:active input,
+.input-search:focus-within input
+{
+    border: 1px solid var(--secondary-clr);
+    outline: none;
+
+}
+
+@media(min-width: 768px){
+    .input-search input {
+        padding: 1.5em;
+
     }
 }
 
+@media(max-width: 1023px){
+    .normal-td{
+        width: 80px;
+
+    }
+}
 
 @media(min-width: 1024px) {
     body {
@@ -511,6 +543,7 @@ details[open] summary .rotate-icon {
     header button {
         width: 85%;
         margin: 0 auto;
+        
     }
 
     header hr {
@@ -531,7 +564,7 @@ details[open] summary .rotate-icon {
 
     .top-header {
         padding: 1em;
-        font-size: 1.1vw;
+        font-size: 1.3em;
         flex-direction: column;
 
     }
@@ -603,6 +636,19 @@ details[open] summary .rotate-icon {
     .row-table td,
     .sub-table tr td {
         padding: 1.5em 1em 1.5em 1em;
+
+    }
+}
+
+
+@media(min-width: 2000px){
+    body {
+        grid-template-columns: auto 90%;
+
+    }
+
+    .top-header {
+        font-size: 0.9vw;
 
     }
 }
