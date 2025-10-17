@@ -172,10 +172,10 @@
                                                     </abbr>
                                                 </td>
                                                 <td class='smaller-td'>" . $row["idProduct"] . "</td>
-                                                <td class='normal-td'>" . $row["printName"] . "</td>
-                                                <td class='normal-td'>" . $row["altName"] . "</td>
-                                                <td class='normal-td'>" . $row["brandProduct"] . "</td>
-                                                <td class='normal-td'>" . $row["typeProduct"] . "</td>
+                                                <td class='normal-td'>"  . $row["printName"] . "</td>
+                                                <td class='normal-td'>"  . $row["altName"] . "</td>
+                                                <td class='normal-td'>"  . $row["brandProduct"] . "</td>
+                                                <td class='normal-td'>"  . $row["typeProduct"] . "</td>
                                                 <td class='table-svg align-right-td smaller-td'>
                                                     <abbr title='Clique Aqui para Alterar os Dados do Produto ao Lado'>
                                                         <a href='changeItem.php?category=product&id=".$row["idProduct"]."'>
@@ -207,11 +207,11 @@
                                 <table class='sub-table'>
                                     <tr>
                                         <th class='smaller-td'>Id</th>
-                                        <th class='regular-td'>Imagem</th>
+                                        <th class='small-td'>Imagem</th>
                                         <th class='normal-td'>Nome</th>
                                         <th class='normal-td'>Preço</th>
                                         <th class='normal-td'>Data Preço</th>
-                                        <th class='regular-td'>Situação</th>
+                                        <th class='normal-td'>Situação</th>
                                         <th class='smaller-td'></th>
                                     </tr>
                         ";
@@ -221,7 +221,7 @@
                             echo "
                                     <tr>
                                         <td class='smaller-td'>" . $row["idVersion"] . "</td>
-                                        <td class='table-img regular-td'>
+                                        <td class='table-img small-td'>
                                             <img src=\"".$row["imageURL"]."\" alt=\"Version Picture\">
                                         </td>
                                         <td class='normal-td'>" . $row["nameProduct"] . "</td>
@@ -230,8 +230,8 @@
                             ";
 
                             $availability = match($row["availability"]){
-                                "1" => "<td class='accepted regular-td'><p>Disponível</p></td>",
-                                default => "<td class='rejected regular-td'><p>Indisponível</p></td>"
+                                "1" => "<td class='accepted normal-td'><p>Disponível</p></td>",
+                                default => "<td class='rejected normal-td'><p>Indisponível</p></td>"
                             };
                             echo $availability;
 
@@ -262,7 +262,7 @@
                             <table class='row-table'>
                                 <tr>
                                     <td class='smaller-td'>" . $row["idUser"] . "</td>
-                                    <td class='table-img regular-td'>
+                                    <td class='table-img small-td'>
                                         <img src=\"".$row["adminPicture"]."\" alt=\"Admin Picture\">
                                     </td>
                                     <td class='normal-td'>" . $row["userName"] . "</td>
@@ -347,7 +347,7 @@
                                     <td class='normal-td'>" . $row["userName"]. "</td>
                                     <td class='normal-td'>" . $date_hour . "</td>
                                     <td class='normal-td'>" . ($products ?: "Nenhum Produto Adicionado") . "</td>
-                                    <td class=\"$class regular-td\"><p>" . $row["orderStatus"] ."</p></td>
+                                    <td class=\"$class normal-td\"><p>" . $row["orderStatus"] ."</p></td>
                                 </tr>
                             </table>
                         </tr>

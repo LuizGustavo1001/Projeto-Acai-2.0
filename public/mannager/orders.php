@@ -158,7 +158,7 @@
                             <th class="normal-td">Nome Cliente</th>
                             <th class="normal-td">Data-Hora</th>
                             <th class="normal-td">Produtos</th>
-                            <th class="regular-td">Situação</th>
+                            <th class="normal-td">Situação</th>
                         </tr>
                     </thead>
                     <tbody>
