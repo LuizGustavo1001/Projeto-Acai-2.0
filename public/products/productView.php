@@ -4,6 +4,86 @@
     include "../footerHeader.php";
     include "../printStyles.php";
 
+    function add2Cart($prodName, $amount){
+        // add a product to the cart in database based on the product selected on productView.php
+        global $mysqli;
+
+        if(! isset($_SESSION['userName'])){
+            header("Location: ../account/login.php?unkUser=1");
+            exit();
+        }
+
+        $getAllNames = $mysqli->query("SELECT nameProduct FROM product_version");
+        $allowedNames = [];
+        
+        while($allNames = $getAllNames->fetch_assoc()){
+            $allowedNames[] = $allNames["nameProduct"];
+        }
+        $getAllNames->close();
+
+        if(in_array($prodName, $allowedNames)){
+            $getProductData = $mysqli->prepare("
+                SELECT pv.idVersion, pv.priceProduct, pv.availability, pd.altName, pv.sizeProduct, pd.printName
+                FROM product_version AS pv JOIN product_data AS pd ON pv.idProduct = pd.idProduct
+                WHERE nameProduct = ?
+                LIMIT 1
+            ");
+
+            $getProductData->bind_param("s",$prodName);
+            $getProductData->execute();
+
+            $productData = $getProductData->get_result();
+            $productData = $productData->fetch_assoc();
+            $getProductData->close();
+            $urlName = $productData["altName"];
+            switch($productData["availability"]){
+                case "0":
+                    header("Location: $urlName.php?outOfOrder=1");
+                    exit();
+                default:
+                    // verify if the product is already at the cart
+                    $check = $mysqli->prepare("
+                        SELECT amount FROM product_order WHERE idOrder = ? AND idProduct = ?
+                    ");
+                    $check->bind_param("ii", $_SESSION["idOrder"], $productData["idVersion"]);
+                    $check->execute();
+                    $result = $check->get_result();
+                    if($result->num_rows > 0){
+                        // update product at the cart
+                        $update = $mysqli->prepare("
+                            UPDATE product_order
+                            SET amount = ?, totPrice = ?
+                            WHERE idOrder = ? AND idProduct = ?
+                        ");
+                        $update->bind_param("idii", $amount, $productData["priceProduct"], $_SESSION["idOrder"], $productData["idVersion"]);
+                        $update->execute();
+                        $update->close();
+                    }else{
+                        // insert new product at the cart
+                        $totalPrice = $productData["priceProduct"] * $amount;
+
+                        $inserOrder = $mysqli->prepare("INSERT INTO product_order (idOrder, idProduct, amount, singlePrice, totPrice) VALUES (?, ?, ?, ?, ?)");
+                        $inserOrder->bind_param(
+                            "iiidd",
+                            $_SESSION["idOrder"], 
+                            $productData["idVersion"], 
+                            $amount, 
+                            $productData["priceProduct"], 
+                            $totalPrice
+                        );
+
+                        if($inserOrder->execute()){
+                            $inserOrder->close();
+                            
+                        }
+                    }
+                    $check->close();
+                    header("Location: products.php?prodAdd=1&id={$productData['printName']}&size={$productData['sizeProduct']}");
+                    exit();
+            }
+        }
+    }
+
     if(isset($_GET['size'], $_GET['amount-product'])){
         add2Cart($_GET['size'], $_GET['amount-product']);
     }

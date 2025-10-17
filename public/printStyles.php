@@ -22,6 +22,5 @@
             default             => "general-styles.css",
         };
 
-
         echo "{$directory}{$cssFile}{$version}";
     }

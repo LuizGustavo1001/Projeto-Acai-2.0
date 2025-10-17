@@ -40,7 +40,10 @@
                         $getModify->execute();
 
                         $result = $getModify->get_result();
-                        $modifiedAttribute = $result->fetch_assoc();
+                        
+                        while($modifiedAttribute = $result->fetch_assoc()){
+                            
+                        }
                         $oldValue = $modifiedAttribute["oldValue"];
                         $newValue = $modifiedAttribute["newValue"];
 

@@ -11,7 +11,8 @@
     use Cloudinary\Cloudinary;
     use Cloudinary\Api\Upload\UploadApi;
 
-    if($_GET["id"] == $_SESSION["idUser"]){ 
+    // trying to modify your own profile as admin
+    if($_GET["id"] == $_SESSION["idUser"] and $_GET["category"] == "admin"){ 
         // trying to edit your own profile
         header("location: settings.php");
         exit();

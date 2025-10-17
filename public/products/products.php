@@ -5,6 +5,59 @@
     include "../printStyles.php";
 
     checkSession("all-product");
+    function prodSearchOutput($prodName){ 
+        // search bar result at products.php
+        global $mysqli;
+        if($prodName !== ""){
+            $getSearchReturn = $mysqli->prepare("
+                SELECT pd.altName, pv.priceProduct, pv.priceDate, pd.brandProduct, pv.imageURL
+                FROM product_data AS pd 
+                    JOIN product_version AS pv ON pd.idProduct = pv.idProduct
+                WHERE pd.printName LIKE ?
+            ");
+
+            $likeProdName = "%{$prodName}%";
+            $getSearchReturn->bind_param("s", $likeProdName);
+
+            if($getSearchReturn->execute()){
+                $searchResult = $getSearchReturn->get_result();
+                $amount = $searchResult->num_rows;
+                $getSearchReturn->close();
+
+                switch($amount){
+                    case 0:
+                        echo "
+                            <div style=\"font-weight: normal;\">
+                                <h1> 
+                                    Nenhum Produto Encontrado com o Nome:
+                                    <strong style=\"color: var(--secondary-clr)\"><em>$prodName</em></strong>
+                                </h1>
+                            </div>
+                        ";
+                        break;
+                    
+                    default:
+                        echo "
+                            <div style=\"font-weight: normal;\">
+                                <h1> 
+                                    Produtos Encontrados com o filtro:
+                                    <strong style=\"color: var(--secondary-clr)\"><em>$prodName</em></strong>
+                                </h1>
+                            </div>
+
+                            <ul class=\"products-list\"> 
+                        ";
+
+                        while ($row = $searchResult->fetch_assoc()) {
+                            getProductByName($row["altName"], "product");
+                        }
+                        echo "</ul>";
+                    break;
+                }
+            }
+        }
+
+    }
 
     function returnSelected($filter){
         if( isset($_GET["filter"])){
