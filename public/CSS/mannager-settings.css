@@ -1,5 +1,12 @@
+
 body{
     background: linear-gradient(to right, #eec0df20, #f79ac15e);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 100%;
+
 }
 
 form{
@@ -14,142 +21,138 @@ form{
 
     box-shadow: 4px 4px 4px var(--shadow-clr);
 
+    width: 70vw;
+
 }
 
-.main-title{
-    margin: 0 auto;
+.form-title{
     font-size: 1.2em;
     
 }
 
-.main-title h1 a{
-    color: red;
-    border-bottom: 1px solid transparent;
-    transition: var(--transition);
-
-}
-
-.main-title h1 a:hover{
-    border-color: red;
-
-}
-
-.main-title h1{
-    display: flex;
-    flex-direction: column;
-    font-size: 1.5em;
-
-}
-
-.main-title div{
+.form-title h1{
+    font-size: 0.8em;
     display: flex;
     align-items: center;
-    gap: 0.5em;
+    justify-content: space-between;
 
 }
 
-.main-title button{
-    background: red;
-    font-size: 0.8em;
-    width: 100%;
-    padding: 0.5em;
+.form-title h1 div{
+    display: flex;
+    align-items: center;
+}
+
+.form-title h1 a{
+    color: red;
+}
+.form-title h1 a:hover{
+    text-decoration: underline;
+}
+
+.back-button{
+    margin-bottom: 2em;
+
 }
 
 .back-button a{
     display: flex;
     align-items: center;
     gap: 0.3em;
-    
-    margin-bottom: 1em;
-
-    width: 100px;
-
-}
-.back-button a svg{
     color: var(--secondary-clr);
+
 }
 
-.back-button a:hover{
-    color: var(--fifth-clr);
+.back-button svg{
+    color: var(--secondary-clr);
+
+}
+
+.form-main{
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+
+}
+
+.form-main button{
+    width: 100%;
+
+}
+
+.form-main input, .form-main select{
+    width: 100%;
+    padding: 1em;
+
+    border-radius: var(--border-radius);
+    box-sizing: border-box;
+
+    background: var(--tertiary-clr);
+
+    border: 1px solid var(--primary-clr);
+
+    outline: none;
+
+    transition: var(--transition);
+
+}
+
+.form-main input:hover, 
+.form-main select:hover, 
+.form-main input:focus, 
+.form-main select:focus{
+    border-color: var(--secondary-clr);
+    box-shadow: 4px 2px 4px var(--shadow-clr);
 
 }
 
 .form-inputs{
     display: flex;
     flex-direction: column;
-    gap: 1.5em;
-
+    gap: 2em;
+    
 }
 
-.form-item select{
-    background: transparent;
-
-}
-
-.form-item input, 
-.form-item select{
-    width: 100%;
-    padding: 1em;
-
-    border-radius: var(--border-radius);
-
-    border: 1px solid var(--primary-clr);
-    outline: none;
-
-    transition: var(--transition);
-}
-
-.form-item input:hover, 
-.form-item select:hover, 
-.form-item input:focus, 
-.form-item select:focus{
-    border-color: var(--secondary-clr);
-
-}
-
-.form-input{
+.form-regular-inputs{
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 1em;
 
 }
 
-.form-input img{
+.form-inputs img{
+    width: 60px;
     border-radius: 50%;
     aspect-ratio: 1/1;
     object-fit: cover;
 
 }
 
+.form-picture-display{
+    display: flex;
+    gap: 1em;
+}
+
 @media(min-width: 1024px){
-    body{
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    form{
+        width: 50vw;
     }
 
-    main{
-        width: 50%;
-        margin: 0 auto;
-
-    }
-    .main-title h1{
-        flex-direction: row;
-        justify-content: space-between;
-        font-size: 1em;
-
+    .form-title h1{
+        font-size: 1.1em;
     }
 
-    .main-title button{
-        width: 30%;
-
+    .form-main input, .form-main select{
+        padding: 1.2em;
     }
 
-    .form-inputs{
+    .form-main button{
+        padding: 0.7em;
+    }
+
+
+    .form-regular-inputs{
         display: grid;
-        grid-template-columns: 1fr;
-        align-items: center;
-
+        grid-template-columns: 1fr 1fr;
     }
-
 }
