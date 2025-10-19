@@ -1,163 +1,143 @@
 # Projeto Açaí e Polpas Amazônia
 <h2>
-    Projeto de um site conectado a um Banco de Dados <em>MySQL</em> utilizando <em>PHP</em> como ponte entre a <em>Página Web</em> e os <em>Dados</em>
+    Project  based on a website connected to a <em>MySQL</em> Database using <em>PHP</em> as an intermediate layer between the <em>Web Page</em> and the <em>Data</em>.
 </h2>
-<h3>⬇️ Preview do Site</h3>
+
+<h3>⬇️ Website Preview</h3>
 <a href="https://www.figma.com/design/KG2g0vrnxkWhpYED4uM7DG/Projeto-A%C3%A7a%C3%AD?node-id=0-1&p=f&t=wKqWymchvS68Lj0V-0">
-    🖌️ Projeto no <strong>Figma</strong>
+    🖌️ <strong>Figma</strong> Project
 </a>
 
 <p>
-    Todas as imagens utilizadas na página web estão armazenadas na Nuvem por meio do serviço 
-    <a href="https://cloudinary.com/">Cloudinary</a>
+    All images used in this project are stored in the <em>cloud</em> using the <a href="https://cloudinary.com/">Cloudinary</a> service.
 </p>
-<hr>
 
 <h3>🗄️ API</h3>
 <p>
-    - Inicialmente, desenvolvida em <strong>PHP</strong>. A API atua como intermediário entre o <strong>Banco de Dados</strong> e a <strong>Página Web.</strong>
+    Developed in <strong>PHP</strong>. The API acts as an intermediate layer between the <strong>Database</strong> and the <strong>Web Page</strong>.
 </p>
-
-<p>- Gerencia <strong>usuários</strong>, <strong>pedidos</strong> e o <strong>envio de solicitações confirmadas</strong> para uma <em>planilha online</em>.</p>
+<p>Its manages <strong>users</strong> and <strong>orders</strong> integrated with <em>online spreadsheets</em>.</p>
 <p>
     <a href="https://docs.google.com/spreadsheets/d/1xJdM0OgynL5SKLoJ5gxH91abtQ18SY7Xp2dsMVkPvKk/edit?usp=sharing">
-        📊 Acesse a <strong>Planilha</strong>
+        📊 Access the <strong>Spreadsheet</strong> here.
     </a>
 </p>
-<p>- Os <strong>usuários</strong> são classificados como: </p>
+<p><strong>Users</strong> are classified as:</p>
 <ul>
-    <li><strong>Clientes</strong>: Possuem um <em>pedido ativo</em> ao iniciar uma sessão.</li>
-    <li><strong>Administradores</strong>: Possuem <em>foto de perfil</em> e podem <em>alterar</em> dados diretamente no banco.</li>
+    <li><strong>Client</strong>:  Has an <em>activated order</em> once autenticated.</li>
+    <li><strong>Administrator</strong>: Has a <em>profile picture</em> and can <em>modify</em> database data.</li>
 </ul>
-<p>- Há mecanismos de segurança para impedir o acesso a páginas restritas para usuários sem autenticação válida.</p>
-<p>- As sessões de cada usuário expiram após cerca de <strong>1 hora</strong>, exigindo nova identificação ao expirar.</p>
+<p>Secure mechanisms prevent unauthorized users from accessing restricted pages.</p>
+<p>User sessions last for about <strong>1 hour</strong>, requiring re-authentication after expiration.</p>
 <hr>
 
-<h3>🔐 Sistema de Cadastro e Login</h3>
-<p> Cada usuário é identificado de forma única por meio de um sistema de <strong>cadastro/login</strong> que inclui: </p>
+
+<h3>🔐 Sign-in and Sign-up System</h3>
+<p>Each user identified through a <strong>sign-in/ sign-up system</strong>, including:</p>
 <ul>
-    <li>Nome</li>
+    <li>Name</li>
     <li>Email*</li>
-    <li>Telefone de Contato</li>
-    <li>Endereço</li>
+    <li>Contact Phone Number</li>
+    <li>Address</li>
     <ul>
-        <li>Rua</li>
-        <li>Número da Residência</li>
-        <li>Bairro</li>
-        <li>Cidade</li>
-        <li>Estado</li>
-        <li>Ponto de Referência</li>
+        <li>Street</li>
+        <li>Local Number</li>
+        <li>District</li>
+        <li>City</li>
+        <li>State</li>
+        <li>Reference Point</li>
     </ul>
-    <li>Foto de Perfil**</li> 
-    <li><strong>Senha</strong>***</li>
+    <li>Profile Picture**</li> 
+    <li><strong>Password</strong>***</li>
 </ul>
-<p>* O email é <em>validado</em> e <em>normalizado</em>(remoção de caracteres invállidos e verificação de domínio).</p>
-<p>** Foto de perfil apenas para Administradores</p>
-<p>
-    *** Senhas Criptografadas com <code>password_hash()</code> em  PHP e armazenadas de forma segura no Banco de Dados.
-</p>
-<p>
-    - O sistema permite <strong>Redefinir Senha</strong> via email, utilizando a biblioteca <strong>PHPmailer</strong> para envio de um token de confirmação.
-</p>
+<p>* Email is <em>validated</em> and <em>normalized</em> (invalid characters are removed and the domain is verified).</p>
+<p>** Profile Pictureis only available for Administrators.</p>
+<p>*** Passwords are encrypted with <code>password_hash()</code> in PHP and securely stored in the database.</p>
+<p>The system allows users to <strong>reset their password</strong> via email, using the <strong>PHPmailer</strong> Library to send a verification token.</p>
 <hr>
 
-<h3>⚙️ Ações disponíveis para Administradores</h3>
+<h3>⚙️ Available Admin Actions</h3>
 <ul>
-    <li>
-        <em>Adicionar</em>, <em>remover</em> ou <em>alterar</em> Dados de um Administradores
-    </li>
-    <li><em>Remover</em> ou <em>Alterar</em> Dados de um Cliente</li>
-    <li><em>Adicionar</em>, <em>Remover</em> ou <em>Editar</em> Dados de um Produto</li>
-    <li><em>Adicionar</em>, <em>Remover</em> ou <em>Editar</em> Dados de uma Versão de um Produto</li>
-    <li><em>Visualizar</em> Pedidos</li>
-    <li><em>Alterar</em> seus próprios dados pessoais</li>
+    <li>Perform CRUD operations on <strong>Admin Data</strong>.</li>
+    <li>Remove or modify <strong>Client Data</strong>.</li>
+    <li>Perform CRUD operations on <strong>Product</strong> and <strong>Product Versions</strong>.</li>
+    <li>View <strong>Orders</strong>.</li>
+    <li>Modify personal data.</li>
 </ul>
 <hr>
 
-<h3>🛍️ Página de Produtos</h3>
-<p>- É possível <strong>filtrar produtos</strong> por: </p>
+<h3>🛍️ Product Page</h3>
+<p>Products can be filtered by:</p>
 <ul> 
-    <li><strong>Nome:</strong> Pesquisa, (A–Z), (Z–A)</li> 
-    <li><strong>Preço:</strong> Crescente ou Decrescente</li> 
+    <li><strong>Name:</strong> Search, (A–Z), (Z–A)</li> 
+    <li><strong>Price:</strong> Ascending or Descending</li> 
 </ul>
-
 <hr>
 
-<h3>📱 Responsividade</h3>
-<p> O site é totalmente responsivo e adaptado para dispositivos móveis e telas menores. </p>
+<h3>📱 Responsiveness</h3>
+<p>The Website is fully responsive for mobile devices and different screens resolutions.</p>
 <hr>
 
-<h3>⚠️ Observações Importantes</h3>
+<h3>⚠️ Important Notes</h3>
 <p>
-    - <strong>OBS</strong>: Por motivos de segurança, as funcionalidades de <strong>alterar imagens</strong> (tanto de Produtos como de Administradores) e de <strong>alterar a planilha online</strong> estão desativadas.
+    For security reasons, <em>image upload(product version or admin)</em> and <em>spreadsheet editing</em> features are disabled by default.
 </p>
 <p>
-    Essas features exigem o uso de <strong>chaves privadas</strong> da API do <em>Cloudinary</em> e do <em>Google Sheets</em>. 
+    Those features require <em>private API tokens</em> from <strong>Cloudinary</strong> and <strong>Google Sheets</strong>.
 </p>
-<p>- Para habilitá-las, é necessário <strong>configurar suas próprias conexões</strong>, conforme indicado na documentação do projeto.</p>
+<p>To enable them, you must <strong>setup your own connections</strong>, as described in the <em>"How to Run"</em> section.</p>
 <hr>
 
-<h3>✴️ Créditos e Tecnologias</h3>
+<h3>✴️ Technologies and Credits</h3>
 <ul>
     <li><strong>Front-End</strong>: HTML5, CSS3, JavaScript</li>
     <li><strong>Back-end</strong>: PHP, MySQL</li>
-    <li><strong>Gerenciador de Dependências</strong>: Composer</li>
-    <li><strong>Serviços externos</strong>: Cloudinary, Google Sheets, PHPMailer</li>
+    <li><strong>Dependency Manager</strong>: Composer</li>
+    <li><strong>External Services</strong>: Cloudinary, Google Sheets, PHPMailer</li>
     <li><strong>Design</strong>: Figma</li>
 </ul>
-
 <hr>
 
-<h3>📂 Esquema de Pastas</h3>
-    <pre>
-        |
-        |-- composer                                (Pasta Bibliotecas Utilizadas)
-        |-- public                                  (Site Propriamente Dito)
-        |   |
-        |   |-- account                             (Página do Usuário)
-        |   |-- cart                                (Página do Carrinho)
-        |   |-- CSS                                 (Folhas de Estilo utilizadas nas páginas)
-        |   |-- JS                                  (JavaScript utilizado nas páginas)
-        |   |-- mannager                            (Página de Gerenciamento p/ Administradores)
-        |   |-- products                            (Página de Produtos)
-        |   |-- readMe-images                       (Imagens Utilizadas no README.md)
-        |   |-- errorPage.php                       (Página de Erro Geral)
-        |   |-- footerHeader.php                    (Código PHP para imprimir o cabeçalho e rodapé de cada página)
-        |   |-- GeneralPHP.php                      (Códigos PHP utilizados em mais de uma página)
-        |   |-- index.php                           (Página Inicial)
-        |
-        |-- dbConnection.php                        (Conectar o Banco de Dados com a Página Web)
-        |-- DumpProjetoAcai.sql                     (Cópia do Banco de Dados utilizado)   
-    </pre>
+<h3>📂 Directory Scheme</h3>
+<pre>
+    |
+    |-- composer                                (Used Libraries)
+    |-- public                                  (The Website)
+    |   |
+    |   |-- account                             (User Page)
+    |   |-- cart                                (Cart Page)
+    |   |-- CSS                                 (Stylesheets)
+    |   |-- JS                                  (JavaScript files)
+    |   |-- manager                             (Admin Manager Page)
+    |   |-- products                            (Products Page)
+    |   |-- readMe-images                       (images used in README.md)
+    |   |-- errorPage.php                       (Generic Error Page)
+    |   |-- footerHeader.php                    (PHP file for header/footer reuse)
+    |   |-- GeneralPHP.php                      (PHP code used in multiple pages)
+    |   |-- index.php                           (Home Page)
+    |
+    |-- dbConnection.php                        (Connect Database with the Web Page)
+    |-- DumpProjetoAcai.sql                     (Database Dump)
+</pre>
 <hr>
 
-<h3>🖥️ Rodar o Projeto</h3>
+
+<h3>🖥️ How to Run</h3>
 <ol type="I">
     <li>
         🪟 Windows
         <ol type='1'>
-            <li>Baixe o <a href="https://www.youtube.com/watch?v=0Y9OZ0vc1SU&t=213s">XAMPP</a> e inicie um Servidor Local.</li>
-            <li>
-                Ative os módulos <strong>Apache</strong> e <strong>MySQL</strong> no painel do <strong>XAMPP</strong>.
-            </li>
-            <li>
-                Crie uma conexão no <a href="https://www.youtube.com/watch?v=a5ul8o76Hqw&t=13s">MySQL WorkBench</a> ou outro aplicativo gerenciador de Banco de Dados.
-            </li>
-            <li>
-                Abra o Arquivo <code>"DumpProjetoAcai.sql"</code>, copie e execute o código dentro de sua conexão clicando no símbolo demonstrado abaixo para importar o banco de dados.
-            </li>
-            <img src="public/readMe-images/dump.jpg" alt="Dump DataBase Preview"></img>
-            <li>
-                Verifique se o banco foi adicionado acessando acessando no Navegador <code>"localhost/phpmyadmin"</code>. <br>
-                Se a tabela <strong>acai_admin</strong> aparecer na barra lateral, está tudo certo.
-            </li>
+            <li>Download <a href="https://www.youtube.com/watch?v=0Y9OZ0vc1SU&t=213s">XAMPP</a> and start a local server.</li>
+            <li>Activate the <strong>Apache</strong> and <strong>MySQL</strong> modules on the XAMPP panel.</li>
+            <li>Create a connection in <a href="https://www.youtube.com/watch?v=a5ul8o76Hqw&t=13s">MySQL Workbench</a> or another database management tool.</li>
+            <li>Open the <code>DumpProjetoAcai.sql</code> file, copy the code, and run it in your connection to import the database.</li>
+            <img src="public/readMe-images/dump.jpg" alt="Dump Database Preview"></img>
+            <li>Verify the database import by visiting <code>localhost/phpmyadmin</code>. If you see the <strong>acai_admin</strong> table, everything is ready.</li>
             <img src="public/readMe-images/phpmyadmin.jpg" alt="PHPMyAdmin Preview"></img>
-            <li>
-                Mova a Pasta do Projeto para: 
+            <li>Move the project directory to:
                 <pre>C:\xampp\htdocs</pre>
             </li>
-            <li>
-                No terminal (CMD ou PowerShell), acesse a pasta do Projeto e instale as dependências do Composer:
+            <li>In the terminal (CMD or PowerShell), navigate to the project directory and install the Composer dependencies:
                 <pre>
 cd composer
 composer install
@@ -167,32 +147,23 @@ composer require phpmailer/phpmailer
 composer require google/apiclient:^2.0
                 </pre>
             </li>
-            <img src="public/readMe-images/composer.jpg" alt="Composer Archive Preview"></img>
-            <li>Crie um <a href="https://www.youtube.com/watch?v=k_PB4ORz2r0">Projeto no Google Cloud</a>.</li>
-            <li>Ative a API do Google Sheets.</li>
-            <li>
-                Crie uma conta de serviço e baixe o arquivo <code>credenciais.json</code>.<br>
-                Cole-o na raiz do projeto:
+            <img src="public/readMe-images/composer.jpg" alt="Composer Installation Preview"></img>
+            <li>Create a <a href="https://www.youtube.com/watch?v=k_PB4ORz2r0">Google Cloud Project</a> and enable the Google Sheets API.</li>
+            <li>Create a service account and download the <code>credentials.json</code> file. Place it in:
                 <pre>C:\xampp\htdocs\Projeto_Acai2.0</pre>
             </li>
-            <li>
-                No arquivo <code>cart.php</code>, altere o caminho em:
-                <pre>$config->setAuthConfig('caminho')</pre>
-                para o local correto do seu credenciais.json.
+            <li>In the <code>cart.php</code> file, update:
+                <pre>$config->setAuthConfig('path')</pre>
+                to the correct <code>credentials.json</code> path.
             </li>
             <img src="public/readMe-images/googleAPI.jpg" alt="Google API Code Preview"></img>
-            <li>
-                Altere o valor de <strong>$spreadsheetId</strong> conforme o ID da sua planilha(ID se encontra onde está escrito "IDAQUI" na imagem abaixo):
-            </li>
-            <img src="public/readMe-images/spreadSheetId.jpg" alt="SpreadSheet ID"></img>
-            <img src="public/readMe-images/googleAPI2.jpg" alt="SpreadSheet ID Location"></img>
-            <li>Compartilhe a planilha com o e-mail da conta de serviço.</li>
-            <li>Crie uma Conta no <a href="https://cloudinary.com">Cloudinary</a></li>
-            <li>
-                Copie sua <strong>API Key</strong>(veja o <a href="https://youtu.be/ZSIt6nCkqNc?si=zzNuC-CHRqCzuVdX&t=34">tutorial aqui</a>) e cole no arquivo <code>.env</code> dentro da pasta <code>composer</code>.
-            </li>
-            <li>
-                Por fim, acesse o site no Navegador:
+            <li>Replace the <strong>$spreadsheetId</strong> value with your spreadsheet ID (as shown below):</li>
+            <img src="public/readMe-images/spreadSheetId.jpg" alt="Spreadsheet ID Example"></img>
+            <img src="public/readMe-images/googleAPI2.jpg" alt="Spreadsheet ID Location"></img>
+            <li>Share the spreadsheet with your service account email.</li>
+            <li>Create an account on <a href="https://cloudinary.com">Cloudinary</a>.</li>
+            <li>Copy your <strong>API Key</strong> (<a href="https://youtu.be/ZSIt6nCkqNc?si=zzNuC-CHRqCzuVdX&t=34">tutorial here</a>) and paste it in the <code>.env</code> file inside the <code>composer</code> directory.</li>
+            <li>Access the website:
                 <pre>http://localhost/Projeto_Acai2.0/public</pre>
             </li>
         </ol>
@@ -200,37 +171,28 @@ composer require google/apiclient:^2.0
     <li>
         🐧 Linux
         <ol type='1'>
-            <li>Instale o <a href="https://www.youtube.com/watch?v=XoKUkdmfTZQ">XAMPP</a></li>
-            <li>Ative os módulos <strong>Apache Web Server</strong> e <strong>MySQL Database</strong>:
+            <li>Install <a href="https://www.youtube.com/watch?v=XoKUkdmfTZQ">XAMPP</a>.</li>
+            <li>Activate the <strong>Apache</strong> and <strong>MySQL</strong> modules:
                 <ul>
-                    <li>
-                        Pelo Terminal: 
+                    <li>Terminal:
                         <pre>sudo /opt/lampp/lampp start</pre>
                     </li>
-                    <li>
-                        Ou pela Interface Gráfica: 
-                        <pre>cd /opt/lamppsudo 
-./manager-linux-x64.run</pre>
+                    <li>Or via GUI:
+                        <pre>cd /opt/lampp
+sudo ./manager-linux-x64.run</pre>
                     </li>
                 </ul>
             </li>
-            <li>
-                Crie uma conexão no <a href="https://youtu.be/Uuw4KPiVATc?si=8L49cPxz9CTX09NE">MySQL WorkBench</a> ou outro aplicativo gerenciador de Banco de Dados.
-            </li>
-            <li>
-                Importe o banco de dados com <code>"DumpProjetoAcai.sql"</code> (igual ao passo no Windows).
-            </li>
-            <li>
-                Verifique o banco em: 
+            <li>Create a connection in <a href="https://www.youtube.com/watch?v=a5ul8o76Hqw&t=13s">MySQL Workbench</a> or another database manager.</li>
+            <li>Import the <code>DumpProjetoAcai.sql</code> file (same step as Windows).</li>
+            <li>Verify the database at:
                 <pre>http://localhost/phpmyadmin</pre>
             </li>
-            <img src="public/readMe-images/dump.jpg" alt="Dump DataBase Preview"></img>
-            <li>
-                Mova a Pasta do Projeto para: 
+            <img src="public/readMe-images/dump.jpg" alt="Dump Database Preview"></img>
+            <li>Move the project directory to:
                 <pre>/opt/lampp/htdocs</pre>
             </li>
-            <li>
-                No terminal, acesse a pasta do Projeto e instale as dependências do Composer:
+            <li>In the terminal, navigate to the project directory and install the Composer dependencies:
                 <pre>
 cd composer
 composer install
@@ -240,44 +202,33 @@ composer require phpmailer/phpmailer
 composer require google/apiclient:^2.0
                 </pre>
             </li>
-            <img src="public/readMe-images/composer.jpg" alt="Composer Archive Preview"></img>
-            <li>
-            Crie o projeto no Google Cloud e ative a API do Sheets (mesmos passos do Windows).
-            <li>
-                Crie uma conta de serviço e baixe o arquivo <code>credenciais.json</code>.<br>
-                Cole-o na raiz do projeto:
-                <pre>/opt/lampp/htdocs/Projeto_Acai2.0</pre>
+            <img src="public/readMe-images/composer.jpg" alt="Composer Installation Preview"></img>
+            <li>Create the project on Google Cloud and enable the Sheets API (same as Windows).</li>
+            <li>Download the <code>credentials.json</code> file and place it in:
+               <pre>/opt/lampp/htdocs/Projeto_Acai2.0</pre>
             </li>
-            <li>
-                No arquivo <code>cart.php</code>, altere o caminho em:
-                <pre>$config->setAuthConfig('caminho')</pre>
-                para o local correto do seu credenciais.json.
+            <li>In the <code>cart.php</code> file, update:
+                <pre>$config->setAuthConfig('path')</pre>
+                to the correct path.
             </li>
             <img src="public/readMe-images/googleAPI.jpg" alt="Google API Code Preview"></img>
-            <li>
-                Altere o valor de <strong>$spreadsheetId</strong> conforme o ID da sua planilha(ID se encontra onde está escrito "IDAQUI" na imagem abaixo):
-            </li>
-            <img src="public/readMe-images/spreadSheetId.jpg" alt="SpreadSheet ID"></img>
-            <img src="public/readMe-images/googleAPI2.jpg" alt="SpreadSheet ID Location"></img>
-            <li>Compartilhe a planilha com o e-mail da conta de serviço.</li>
-            <li>Crie uma Conta no <a href="https://cloudinary.com">Cloudinary</a></li>
-            <li>
-                Copie sua <strong>API Key</strong>(veja o <a href="https://youtu.be/ZSIt6nCkqNc?si=zzNuC-CHRqCzuVdX&t=34">tutorial aqui</a>) e cole no arquivo <code>.env</code> dentro da pasta <code>composer</code>.
-            </li>
-            <li>
-                Por fim, acesse o site no Navegador:
+            <li>Replace <strong>$spreadsheetId</strong> with your spreadsheet ID (see below):</li>
+            <img src="public/readMe-images/spreadSheetId.jpg" alt="Spreadsheet ID Example"></img>
+            <img src="public/readMe-images/googleAPI2.jpg" alt="Spreadsheet ID Location"></img>
+            <li>Share the spreadsheet with your service account email.</li>
+            <li>Create an account on <a href="https://cloudinary.com">Cloudinary</a>.</li>
+            <li>Copy your <strong>API Key</strong> and paste it in the <code>.env</code> file inside the <code>composer</code> directory.</li>
+            <li>Access the website:
                 <pre>http://localhost/Projeto_Acai2.0/public</pre>
             </li>
         </ol>
     </li>
 </ol>
-<p>
-    <strong>📺 OBS: Os videos citados acima estão aqui apenas para facilitar a retirada de dúvidas em relação a como rodar o projeto.</strong>
-</p>
+
 <hr>
 
-<h3>📋 Para fazer: </h3>
+<h3>📋 TO DO: </h3>
 <ul>
-    <li>Verificação de Existencia de Email e Número de Telefone</li>
-    <li>API de Pagamentos</li>
+    <li>Verify the email and phone number existence.</li>
+    <li>Integrate a payment API.</li>
 </ul>

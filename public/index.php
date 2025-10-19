@@ -157,9 +157,7 @@
                             <strong>Vigilância Sanitária</strong>, <strong>Ministério da Agricultura</strong> 
                             e demais orgãos reguladores.
                         </p>
-                        <p>
-                            Nossa Produção é <strong>supervisionada</strong> por <strong>Engenheiro de Alimentos</strong> altamente qualificado.
-                        </p>
+                        <p>Nossa Produção é <strong>supervisionada</strong> por <strong>Engenheiro de Alimentos</strong> altamente qualificado.</p>
                     </div>
                 </li>
 
