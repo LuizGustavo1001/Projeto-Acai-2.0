@@ -1,210 +1,186 @@
-    body{
-        background: var(--secondary-bg-clr);
-        
+body {
+    background: var(--secondary-bg-clr);
+}
+
+main {
+    margin-top: 4em;
+}
+
+.left-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5em;
+
+    text-align: center;
+}
+
+.left-content h1 {
+    font-size: 4em;
+    font-family: var(--secondary-font);
+}
+
+.left-content span {
+    color: var(--secondary-clr);
+}
+
+.left-content p {
+    font-size: 1.5em;
+}
+
+.left-content button {
+    margin-block: 3em;
+}
+
+.right-content {
+    margin-top: 5vh;
+}
+
+.about-us-section {
+    margin-top: 6em;
+}
+
+.about-us-section ul {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
+.about-us-section li {
+    padding: 1.5em 1em 1.5em 1em;
+
+    display: flex;
+    align-items: center;
+    gap: 1em;
+
+    border-left: 3px solid var(--secondary-clr);
+    background: var(--tertiary-clr);
+}
+
+.about-us-item-svg svg {
+    width: 50px;
+}
+
+.about-us-item-text h1, 
+.about-us-item-svg svg {
+    color: var(--secondary-clr);
+}
+
+.about-us-item-text h1 {
+    font-size: 1.7em;
+}
+
+.about-us-item-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.header-search {
+    display: none;
+}
+
+.index-title {
+    margin-block: 3em;
+
+    background: url("https://res.cloudinary.com/dw2eqq9kk/image/upload/v1752197874/title-background_ferzbk.png") center center;
+    background-repeat: no-repeat;
+    text-align: center;
+}
+
+.index-title h1 {
+    width: 50%;
+    padding: 0.2em;
+
+    margin: 0 auto;
+    border-radius: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+
+    background: var(--secondary-clr);
+    color: var(--tertiary-clr);
+    font-size: 1.5em;
+}
+
+.products-list{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5em;
+}
+
+
+@media(min-width: 1024px) {
+    main {
+        margin-top: 0;
     }
 
-    main{
-        margin-top: 4em;
-    }
+    .main-section {
+        margin-top: 3em;
 
-    .left-content{
         display: flex;
-        flex-direction: column;
-        gap: 0.5em;
-
-        text-align: center;
+        justify-content: space-around;
         align-items: center;
-
     }
 
-    .left-content h1{
-        font-size: 4em;
+    .right-content {
+        width: 450px;
+        height: 450px;
 
-        font-family: var(--secondary-font);
-
-    }
-
-    .left-content span{
-        color: var(--secondary-clr);
-    }
-
-    .left-content p{
-        font-size: 1.5em;
-
-    }
-
-    .left-content button{
-        margin-block: 3em;
-
-    }
-
-    .right-content{
-        margin-top: 5vh;
-
-    }
-
-    .about-us-section{
-        margin-top: 6em;
-        
-    }
-
-    .about-us-section ul{
-        display: flex;
-        flex-direction: column;
-        gap: 2em;
-
-    }
-
-    .about-us-section li{
-        padding: 1.5em 1em 1.5em 1em;
-
-        border-left: 3px solid var(--secondary-clr);
-        background: var(--tertiary-clr);
-
-        display: flex;
-        align-items: center;
-        gap: 1em;
-
-    }
-
-    .about-us-item-svg svg{
-        width: 50px;
-
-    }
-
-    .about-us-item-text h1, 
-    .about-us-item-svg svg{
-        color: var(--secondary-clr);
-        
-    }
-
-    .about-us-item-text h1{
-        font-size: 1.7em;
-
-    }
-
-    .about-us-item-text{
-        display: flex;
-        flex-direction: column;
-        gap: 0.5em;
-
-    }
-
-    .header-search{
-        display: none;
-
-    }
-
-    .index-title{
-        background: url("https://res.cloudinary.com/dw2eqq9kk/image/upload/v1752197874/title-background_ferzbk.png") center center;
+        background: url(https://res.cloudinary.com/dw2eqq9kk/image/upload/v1755095738/preview_mrnjei.png) center center;
+        background-size: contain;
         background-repeat: no-repeat;
-        text-align: center;
-        
-        margin-block: 3em;
+    }
 
+    .left-content button {
+        margin-bottom: 0em;
+    }
+    
+    .about-us-section ul {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .header-search {
+        width: 30vw;
+
+        display: block;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+        background: var(--tertiary-clr);
+        border-radius: var(--border-radius);
+        cursor: pointer;
+    }
+
+    .header-search input {
+        width: 100%;
+        padding: 1em;
+
+        border: none;
+        background: transparent;
+        color: var(--primary-clr);
+        font-weight: bold;
+    }
+
+    .header-search input::placeholder {
+        color: var(--fourth-clr);
+    }
+
+    .header-search button{
+        padding: 0.3em;
+
+        background: transparent;
+        color: var(--primary-clr);
     }
 
     .index-title h1{
-        background: var(--secondary-clr);
-        width: 50%;
-        margin: 0 auto;
-        border-radius: 50px;
-        color: var(--tertiary-clr);
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5em;
-        padding: 0.2em;
-
-        font-size: 1.5em;
-
-    }
-
-    .products-list{
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 0.5em;
-    }
-
-
-    @media(min-width: 1024px){
-        main{
-            margin-top: 0;
-        }
-
-        .main-section{
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-
-            margin-top: 3em;
-
-        }
-
-        .right-content{
-            background: url(https://res.cloudinary.com/dw2eqq9kk/image/upload/v1755095738/preview_mrnjei.png) center center;
-
-            background-size: contain;
-            background-repeat: no-repeat;
-
-            width: 450px;
-            height: 450px;
-
-        }
-
-        .left-content button{
-            margin-bottom: 0em;
-
-        }
+        width: 20%;
         
-        .about-us-section ul{
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-
-        }
-
-        .header-search{
-            display: block;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            width: 30vw;
-            background: var(--tertiary-clr);
-            
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            
-        }
-
-        .header-search input{
-            width: 100%;
-            border: none;
-            background: transparent;
-            color: var(--primary-clr);
-            font-weight: bold;
-
-            padding: 1em;
-            
-        }
-
-        .header-search input::placeholder{
-            color: var(--fourth-clr);
-            
-        }
-
-        .header-search button{
-            background: transparent;
-            color: var(--primary-clr);
-            padding: 0.3em;
-
-        }
-
-        .index-title h1{
-            width: 20%;
-            font-size: 2em;
-
-        }
+        font-size: 2em;
     }
+}

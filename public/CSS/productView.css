@@ -1,66 +1,58 @@
-.back-button{
+.back-button {
     margin-block: 2em;
+
     display: flex;
     align-items: center;
-    font-size: 1.3em;
 
+    font-size: 1.3em;
 }
 
-.product-main-img img{
+.product-main-img img {
     width: 100%;
     margin-bottom: 1vw;
-
 }
 
-.product-forms-div small{
+.product-forms-div small {
     font-size: 1em;
     color: var(--fifth-clr);
-
 }
 
-.product-forms-div{
+.product-forms-div {
     display: flex;
     flex-direction: column;
     gap: 1em;
-    
 }
 
-.product-forms-div h1{
+.product-forms-div h1 {
     font-size: 2em;
-
 }
 
-.product-forms-div .product-price-value{
+.product-forms-div .product-price-value {
     color: var(--secondary-clr);
     font-size: 2em;
-
 }
 
-.forms-text{
-    box-shadow: none;
+.forms-text {
     display: flex;
     flex-direction: column;
     gap: 1em;
 
+    box-shadow: none;
     margin-bottom: 2em;
-
 }
 
-.forms-text label{
+.forms-text label {
     font-size: 1.2em;
-
 }
 
-.forms-item{
+.forms-item {
     display: grid;
     grid-template-columns: 40% auto;
     align-items: center;
-
 }
 
-button{
+button {
     width: 100%;
-
 }
 
 .forms-item:hover select,
@@ -68,36 +60,31 @@ button{
 .forms-item:focus-within select,
 .forms-item:hover input,
 .forms-item:active input,
-.forms-item:focus-within input
-{
+.forms-item:focus-within input {
     border: 1px solid var(--secondary-clr);
-    
-
 }
 
-@media(min-width: 1024px){
-    main section{
+
+@media(min-width: 1024px) {
+    main section {
         display: grid;
         grid-template-columns: 45% auto;
-        gap: 3em;
         align-items: center;
-        
+        gap: 3em;
     }
 
-    .product-forms-div h1{
+    .product-forms-div h1 {
         font-size: 3.5em;
-        
     }
 
-    .product-forms-div small{
+    .product-forms-div small {
         font-size: 1.3em;
     }
 
-    .product-forms-div .product-price-value{
-        color: var(--secondary-clr);
-        font-size: 3em;
+    .product-forms-div .product-price-value {
         margin-block: 1em;
 
+        color: var(--secondary-clr);
+        font-size: 3em;
     }
-   
 }

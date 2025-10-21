@@ -1,157 +1,145 @@
 
-body{
-    background: linear-gradient(to right, #eec0df20, #f79ac15e);
+body {
+    height: 100%;
+
     display: flex;
     align-items: center;
     justify-content: center;
-
-    height: 100%;
-
+    
+    background: linear-gradient(to right, #eec0df20, #f79ac15e);
 }
 
-form{
-    background: var(--tertiary-clr);
+form {
+    width: 70vw;
 
     padding: 2em;
-    border-radius: var(--border-radius);
 
     display: flex;
     flex-direction: column;
     gap: 2em;
 
+    background: var(--tertiary-clr);
+    border-radius: var(--border-radius);
     box-shadow: 4px 4px 4px var(--shadow-clr);
-
-    width: 70vw;
-
 }
 
-.form-title{
+.form-title {
     font-size: 1.2em;
-    
 }
 
-.form-title h1{
-    font-size: 0.8em;
+.form-title h1 {
     display: flex;
     align-items: center;
     justify-content: space-between;
 
+    font-size: 0.8em;
 }
 
-.form-title h1 div{
+.form-title h1 div {
     display: flex;
     align-items: center;
 }
 
-.form-title h1 a{
+.form-title h1 a {
     color: red;
 }
-.form-title h1 a:hover{
+
+.form-title h1 a:hover {
     text-decoration: underline;
 }
 
-.back-button{
+.back-button {
     margin-bottom: 2em;
-
 }
 
-.back-button a{
+.back-button a {
     display: flex;
     align-items: center;
     gap: 0.3em;
+    
     color: var(--secondary-clr);
-
 }
 
-.back-button svg{
+.back-button svg {
     color: var(--secondary-clr);
-
 }
 
-.form-main{
+.form-main {
     display: flex;
     flex-direction: column;
     gap: 2em;
-
 }
 
-.form-main button{
+.form-main button {
     width: 100%;
-
 }
 
-.form-main input, .form-main select{
+.form-main input, 
+.form-main select {
     width: 100%;
     padding: 1em;
 
     border-radius: var(--border-radius);
+    background: var(--tertiary-clr);
+    border: 1px solid var(--primary-clr);
+    outline: none;
     box-sizing: border-box;
 
-    background: var(--tertiary-clr);
-
-    border: 1px solid var(--primary-clr);
-
-    outline: none;
-
     transition: var(--transition);
-
 }
 
 .form-main input:hover, 
 .form-main select:hover, 
 .form-main input:focus, 
-.form-main select:focus{
+.form-main select:focus {
     border-color: var(--secondary-clr);
     box-shadow: 4px 2px 4px var(--shadow-clr);
-
 }
 
-.form-inputs{
+.form-inputs {
     display: flex;
     flex-direction: column;
     gap: 2em;
-    
 }
 
-.form-regular-inputs{
+.form-regular-inputs {
     display: flex;
     flex-direction: column;
     gap: 1em;
-
 }
 
-.form-inputs img{
+.form-inputs img {
     width: 60px;
     border-radius: 50%;
     aspect-ratio: 1/1;
     object-fit: cover;
-
 }
 
-.form-picture-display{
+.form-picture-display {
     display: flex;
     gap: 1em;
 }
 
+
 @media(min-width: 1024px){
-    form{
+    form {
         width: 50vw;
     }
 
-    .form-title h1{
+    .form-title h1 {
         font-size: 1.1em;
     }
 
-    .form-main input, .form-main select{
+    .form-main input, 
+    .form-main select {
         padding: 1.2em;
     }
 
-    .form-main button{
+    .form-main button {
         padding: 0.7em;
     }
 
-
-    .form-regular-inputs{
+    .form-regular-inputs {
         display: grid;
         grid-template-columns: 1fr 1fr;
     }

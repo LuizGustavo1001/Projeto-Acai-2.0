@@ -1,113 +1,99 @@
 
-.hero-div{
+.hero-div {
     margin-top: 2em;
-
 }
 
-.hero-div, .hero-top-div{
+.hero-div,
+.hero-top-div {
     display: flex;
     flex-direction: column;
     gap: 2em;
-
 }
 
-.section-bg{
-    background: var(--primary-bg-clr);
-
+.section-bg {
     padding: 1.5em;
+
+    background: var(--primary-bg-clr);
     border-radius: var(--border-radius);
     box-shadow: 4px 4px 4px var(--shadow-clr);
-
 }
 
-.order-review h1, .order-info-header h1,  .order-summary h1{
+.order-review h1,
+.order-info-header h1,
+.order-summary h1 {
     font-family: var(--tertiary-font);
     font-size: 1.2em;
-
 }
 
-.order-info-header, .order-review h1, .order-summary h1{
+.order-info-header,
+.order-review h1,
+.order-summary h1 {
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid var(--primary-clr);
-    margin-bottom: 1em;
-    padding-bottom: 0.5em;
 
+    border-bottom: 1px solid var(--primary-clr);
 }
 
-.order-info-header a div{
+.order-info-header a div {
     display: flex;
     align-items: center;
-
 }
 
-.order-info-content ol{
+.order-info-content ol {
     display: flex;
     flex-direction: column;
     gap: 2em;
-
 }
 
-.order-info-content li{
+.order-info-content li {
     display: flex;
     gap: 1em;
     align-items: center;
-
 }
 
-.order-info-content img{
+.order-info-content img {
     width: 50px;
+
     border-radius: var(--border-radius);
-
 }
 
-.list-item-text{
-    color: var(--fourth-clr);  
-
+.list-item-text {
+    color: var(--fourth-clr);
 }
 
-.list-item-text strong{
+.list-item-text strong {
     color: var(--fifth-clr);
-
 }
 
 .order-summary .list-item-text li{
     color: var(--fifth-clr);
-
 }
 
 .order-summary .list-item-text ul{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 1.1em;
 
+    font-size: 1.1em;
 }
 
 .order-summary ol{
+    margin-bottom: 2em;
+
     display: flex;
     flex-direction: column;
     gap: 2em;
-
-    margin-bottom: 2em;
-
 }
 
 .button-submit button{
     width: 100%;
-
 }
 
 .item-amount {
-    background: var(--secondary-clr);
-    color: #fff;
-    font-size: 0.8rem;
-
-    position: absolute;
-    top: -8px;
-    right: -10px;
-
     width: 25px;
     height: 25px;
 
@@ -115,93 +101,91 @@
     align-items: center;
     justify-content: center;
 
+    position: absolute;
+    top: -8px;
+    right: -10px;
+
+    background: var(--secondary-clr);
+    color: var(--tertiary-clr);
+    font-size: 0.8rem;
     border-radius: 50%;
     pointer-events: none;
-
 }
 
 
-.order-review ol{
+.order-review ol {
     display: flex;
     flex-direction: column;
     gap: 1em;
-    
 }
 
-.order-review ol li{
+.order-review ol li {
+    padding: 1em;
+
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
+    align-items: center;
 
     background: var(--tertiary-clr);
-
-    padding: 1em;
     border-radius: var(--border-radius);
-    align-items: center;
-    flex-direction: column;
-
 }
 
+
 @media(max-width: 1023px){
-    .order-review ol li{
+    .order-review ol li {
         width: 100%;
     }
 }
 
-.order-review svg{
+.order-review svg {
     color: black;
     align-self: baseline;
-
 }
 
-.order-review img{
+.order-review img {
     width: 125px;
     height: 125px;
+
     border-radius: var(--border-radius);
-
 }
 
-.order-review strong{
+.order-review strong {
     font-size: 1.2em;
-
 }
 
-.order-review .price{
+.order-review .price {
     color: var(--secondary-clr);
-
 }
 
 
 @media(min-width: 1024px){
-    .hero-div{
+    .hero-div {
         display: grid;
         grid-template-columns: 35% auto;
-
     }
 
-    .order-summary{
+    .order-summary {
         width: 400px;
-        margin: 0 0 0 auto;
 
         display: flex;
         flex-direction: column;
         justify-content: space-between;
 
+        margin: 0 0 0 auto;
     }
 
-    .order-review ol li{
+    .order-review ol li {
         flex-direction: row;
         justify-content: left;
         gap: 2em;
-
     }
 
-    .hero-div{
+    .hero-div {
         margin-block: 3em;
-        
     }
 
-    .order-review a{
+    .order-review a {
         margin: 0 0 0 auto;
-
     }
 }
