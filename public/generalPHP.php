@@ -4,7 +4,6 @@
     if(! isset($_SESSION)){
         session_start();
     }
-
     if(isset($_SESSION["passwordToken"])){
         unset($_SESSION["passwordToken"]);
     }
@@ -22,7 +21,8 @@
 
         if(in_array($prodName, $allowedNames)){
             $getProducts = $mysqli->prepare("
-                SELECT pd.idProduct, pd.printName, pd.altName, pd.brandProduct, pv.imageURL, MIN(pv.priceProduct) AS priceProduct, pv.priceDate
+                SELECT pd.idProduct, pd.printName, pd.altName, pd.brandProduct, pv.imageURL, 
+                       MIN(pv.priceProduct) AS priceProduct, pv.priceDate
                 FROM product_data AS pd 
                     JOIN product_version AS pv ON pd.idProduct = pv.idProduct
                 WHERE pd.altName = ?
@@ -33,13 +33,7 @@
                 $products = $getProducts->get_result();
                 $getProducts->close();
                 if($products->num_rows <= 0){
-                    echo "
-                        <li class=\"products-item item-translate-alt\">
-                            <a>
-                                <p><em>Nenhum produto encontrado com o nome selecionado</em></p>
-                            </a>
-                        </li>
-                    ";
+                    echo "<li class=\"products-item item-translate-alt\"><a><p><em>Nenhum produto encontrado com o nome selecionado</em></p></a></li>";
                 }else{
                     $row = $products->fetch_assoc();
                     $name           = $row["printName"];
@@ -126,7 +120,6 @@
         $getOrders->execute();
         $result = $getOrders->get_result();
         
-
         while ($row = $result->fetch_assoc()) {
             $idOrder = $row["idOrder"];
 
@@ -136,20 +129,61 @@
             $deleteOrder->execute();
             $deleteOrder->close();
         }
-
         $getOrders->close();
     }
 
     function optionSelect($local, $option){ 
-        if(isset($_SESSION[$local]) && $_SESSION[$local] == $option){
+        if(isset($_SESSION[$local]) && $_SESSION[$local] == $option)
             return " selected";
-        }
         return "";
     }
 
     function optionSelectAlt($row, $local, $option){
-        if(isset($row[$local]) && $row[$local] == $option){
+        if(isset($row[$local]) && $row[$local] == $option)
             return " selected";
-        }
         return "";
+    }
+
+    function displayPopUp($item, $variable){
+        
+        $title = match($item){
+            "revAdd", "revMod", "revRem" => "Alteração",
+            "orderConfirmed"        => "Pedido Confirmado",
+            "loginSuccess"          => "Login Realizado com Sucesso",
+            "notAdmin", "adminNotAllowed", "noItem" => "Erro",
+            "prodAdd"               => "Carrinho Atualizado",
+            "makeClient", "removeS", "addProduct", "addVersion", "makeAdmin"  => "Atualização",
+            default => "Erro",
+        };
+
+        $mainMessage = match($item){
+            "revAdd"            => "Reversão de Adição <strong>Realizada com Sucesso</strong>",
+            "revMod"            => "Reversão de Modificação <strong>Realizada com Sucesso</strong>",
+            "revRem"            => "Reversão de Remoção <strong>Realizada com Sucesso</strong>",
+            "OrderConfirmed"    => "Pedido no nome de <strong>$_SESSION[userMail]</strong> foi enviado para nossa central",
+            "loginSuccess"      => "Agora voce pode navegar pelo site e fazer compras em seu nome",
+            "notAdmin"          => "É preciso fazer <strong>Login como Administrador</strong> para acessar a Página de Gerenciamento",
+            "prodAdd"           => "Produto <strong style='color: var(--secondary-clr)'>{$variable}</strong> foi Adicionado com sucesso ao Carrinho",
+            "adminNotAllowed"   => "É preciso fazer <strong>Login como Cliente</strong> para acessar A Página Anterior",
+            "makeClient"        => "<strong>Novo Cliente Adicionado</strong> com Sucesso",
+            "removeS"           => "Sucesso ao <strong>Remover um Item</strong> do Banco de Dados",
+            "addProduct"        => "Sucesso ao <strong>Adicinar Produto</strong> ao Banco de Dados",
+            "addVersion"        => "Sucesso ao <strong>Adicinar Versão de um Produto</strong> ao Banco de Dados",
+            "makeAdmin"         => "<strong>Novo Administrador Adicionado</strong> com Sucesso",
+            "noItem"            => "É preciso adicionar algum produto ao carrinho para concluir a compra",
+            default             => "...",
+        };
+
+        echo "
+            <section class='popup-box show'>
+                <div class='popup-div'>
+                    <div><h1>{$title}</h1></div>
+                    <div>
+                        <p>{$mainMessage}</p>
+                        <p>Clique no botão abaixo para fechar a janela</p>
+                        <button class='popup-button'>Fechar</button>
+                    </div>
+                </div>
+            </section>
+        ";
     }

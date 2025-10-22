@@ -88,8 +88,7 @@
         }
     }
 
-    function printForms()
-    {
+    function displayForms(){
         global $mysqli;
         if (isset($_GET["category"])) {
             $changes = "";
@@ -589,8 +588,6 @@
                                         <a href=\"changeItem.php?category=product&id=". $_GET["id"] ."&remove=1\">Remover Produto</a>
                                     </h1>
                                 </div>
-                            
-
                         ";
                         printLabel($fieldLabels);
                         echo "
@@ -946,7 +943,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap" rel="stylesheet">
 
-    <?php faviconOut()?>
+    <?php displayFavicon()?>
 
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
     <script src="../JS/generalScripts.js"></script>
@@ -955,39 +952,12 @@
     <link rel="stylesheet" href="<?php printStyle("1", "mannagerSettings") ?>">
 
     <title>Açaí e Polpas Amazônia - Alterar Item</title>
-
-    <style>
-        .main-title {
-            display: flex;
-            align-items: left;
-            flex-direction: column-reverse;
-
-            margin: 0;
-        }
-
-        .back-button a {
-            margin: 0;
-        }
-
-        .main-title h1{
-            flex-direction: row;
-            justify-content: space-between;
-            font-size: 0.8em;
-            
-        }
-
-        @media(min-width: 1024px){
-            .main-title h1{
-                font-size: 1em;
-            }
-        }
-    </style>
 </head>
 
 <body>
     <main>
         <form method="POST" enctype="multipart/form-data">
-            <?php printForms() ?>
+            <?php displayForms()?>
         </form>
     </main>
 </body>

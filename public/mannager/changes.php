@@ -69,7 +69,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap" rel="stylesheet">
 
-    <?php faviconOut()?>
+    <?php displayFavicon()?>
 
     <link rel="stylesheet" href="<?php printStyle("1", "mannager") ?>">
 
@@ -86,47 +86,14 @@
 </head>
 <body>
     <?php 
-        if(isset($_GET["revAdd"])){
-            echo "
-                <section class= \"popup-box show\">
-                    <div class=\"popup-div\">
-                        <div><h1>Alteração</h1></div>
-                        <div>
-                            <p>Reversão de Adição <strong>Realizada com Sucesso</strong></p>
-                            <p>Clique no botão abaixo para fechar esta janela</p>
-                            <button class=\"popup-button\">Fechar</button>
-                        </div>
-                    </div>
-                </section>
-            ";
-        }else if(isset($_GET["revMod"])){
-            echo "
-                <section class= \"popup-box show\">
-                    <div class=\"popup-div\">
-                        <div><h1>Alteração</h1></div>
-                        <div>
-                            <p>Reversão de Modificação <strong>Realizada com Sucesso</strong></p>
-                            <p>Clique no botão abaixo para fechar esta janela</p>
-                            <button class=\"popup-button\">Fechar</button>
-                        </div>
-                    </div>
-                </section>
-            ";
-        }else if(isset($_GET["revRem"])){
-            echo "
-                <section class= \"popup-box show\">
-                    <div class=\"popup-div\">
-                        <div><h1>Alteração</h1></div>
-                        <div>
-                            <p>Reversão de Remoção <strong>Realizada com Sucesso</strong></p>
-                            <p>Clique no botão abaixo para fechar esta janela</p>
-                            <button class=\"popup-button\">Fechar</button>
-                        </div>
-                    </div>
-                </section>
-            ";
-        }
+        if(isset($_GET["revAdd"]))
+            displayPopUp("revAdd", "");
+        else if(isset($_GET["revMod"]))
+            displayPopUp("revMod", "");
+        else if(isset($_GET["revRem"]))
+            displayPopUp("revRem", "");
     ?>
+
     <header>
         <ul class="top-header">
             <li>
@@ -186,21 +153,8 @@
 
     <main>
         <?php 
-            if(isset($_GET["adminNotAllowed"])){
-                echo "
-                    <section class= \"popup-box show\">
-                        <div class=\"popup-div\">
-                            <div><h1>Erro</h1></div>
-                            <div>
-                                <p>É preciso fazer <strong>Login como Cliente</strong> para acessar A Página Anterior</p>
-                                <p>Clique no botão abaixo para fechar esta janela</p>
-                                <button class=\"popup-button\">Fechar</button>
-                            </div>
-                        </div>
-                    </section>
-                ";
-
-            }      
+            if(isset($_GET["adminNotAllowed"]))
+                displayPopUp("adminNotAllowed", "");
         ?>
         
         <div class="main-title">

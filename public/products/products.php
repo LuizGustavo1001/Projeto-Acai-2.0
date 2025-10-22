@@ -129,7 +129,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap" rel="stylesheet">
 
-    <?php faviconOut(); ?>
+    <?php displayFavicon()?>
     
     <title>Açaí e Polpas Amazônia - Produtos</title>
     
@@ -142,22 +142,7 @@
         <?php 
             if(isset($_GET["prodAdd"])){
                 $name = "{$_GET['id']} - {$_GET['size']}";
-                
-                echo "
-                    <section class= 'popup-box show'>
-                        <div class='popup-div'>
-                            <div><h1>Carrinho Atualizado</h1></div>
-                            <div>
-                                <p>Produto <strong style='color: var(--secondary-clr)'>{$name}</strong> foi Adicionado com sucesso ao Carrinho</p>
-                                <p>Clique no botão abaixo para fechar esta janela</p>
-                                <button class='popup-button'>Fechar</button>
-                            </div>
-                        </div>
-                    </section>
-                ";
-                if(isset($_SESSION["subTotal"])){
-                    unset($_SESSION["subTotal"]);
-                }
+                displayPopUp("prodAdd", $name);
                 verifyOrders();
             } 
         ?>

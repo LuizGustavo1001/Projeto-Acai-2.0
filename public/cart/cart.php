@@ -133,7 +133,7 @@
         // adding the cart to the spreadsheet
         $total =  getCartTotal($_SESSION["idOrder"]);
         if($total == 'R$ 00,00'){
-            header("location: cart.php?noItens=1");
+            header("location: cart.php?noItem=1");
             exit();
         }
 
@@ -206,7 +206,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap" rel="stylesheet">
 
-    <?php faviconOut()?>
+    <?php displayFavicon()?>
 
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
     <script src="../JS/generalScripts.js"></script>
@@ -222,21 +222,10 @@
 
     <main>
         <?php 
-            if(isset($_GET["noItens"])){
-                echo "
-                    <section class= \"popup-box show\">
-                        <div class=\"popup-div\">
-                            <div><h1>Erro</h1></div>
-                            <div>
-                                <p>É preciso adicionar algum produto ao carrinho para concluir a compra</p>
-                                <p>Clique no botão abaixo para fechar esta janela</p>
-                                <button class=\"popup-button\">Fechar</button>
-                            </div>
-                        </div>
-                    </section>
-                ";
-            }
+            if(isset($_GET["noItem"]))
+                displayPopUp("noItem", "");
         ?>
+        
         <section class="cart-header section-header-title">
             <h1>Carrinho</h1>
             <p>Clique em <strong>Confirmar Pedido</strong> para efetuá-lo</p>

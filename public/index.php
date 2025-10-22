@@ -6,6 +6,7 @@
     function featureItens(){
         // feature 4 random products from Database
         global $mysqli;
+
         // query to avoid products without versions
         $query = $mysqli->query("
             SELECT pd.idProduct, pd.altName
@@ -20,15 +21,14 @@
                 $verifyVersions = $mysqli->prepare("SELECT nameProduct FROM product_version WHERE idProduct = ?");
                 $verifyVersions->bind_param("i", $row["idProduct"]);
                 $verifyVersions->execute();
+
                 $result = $verifyVersions->get_result();
                 $amountVersion = $result->num_rows;
-                if($amountVersion > 0){
+                if($amountVersion > 0)
                     getProductByName($row["altName"], "index");
-                }
             }
-        } else {
+        }else
             header("location: errorPage.php");
-        }
     }
 ?>
 
@@ -48,7 +48,7 @@
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
     <script src="JS/generalScripts.js"></script>
     
-    <?php faviconOut()?>
+    <?php displayFavicon()?>
     
     <title>Açaí e Polpas Amazônia</title>
 
@@ -58,56 +58,19 @@
     <main>
         <?php 
             if(isset($_GET["orderConfirmed"])){
-                echo "
-                    <section class= \"popup-box show\">
-                        <div class=\"popup-div\">
-                            <div><h1>Pedido Confirmado</h1></div>
-                            <div>
-                                <p>Pedido no nome de <strong>$_SESSION[userMail]</strong> foi enviado para nossa central</p>
-                                <p>Clique no botão abaixo para fechar esta janela</p>
-                                <button class=\"popup-button\">Fechar</button>
-                            </div>
-                        </div>
-                    </section>
-                ";
+                displayPopUp("orderConfirmed", "");
                 verifyOrders();
-            }   
-
-            if(isset($_GET["loginSuccess"])){
-                echo "
-                    <section class= \"popup-box show\">
-                        <div class=\"popup-div\">
-                            <div><h1>Login Realizado com Sucesso</h1></div>
-                            <div>
-                                <p>Agora voce pode navegar pelo site e fazer compras em seu nome</p>
-                                <p>Clique no botão abaixo para fechar esta janela</p>
-                                <button class=\"popup-button\">Fechar</button>
-                            </div>
-                        </div>
-                    </section>
-                ";
-            }
-            
-            if(isset($_GET["notAdmin"])){
-                echo "
-                    <section class= \"popup-box show\">
-                        <div class=\"popup-div\">
-                            <div><h1>Erro</h1></div>
-                            <div>
-                                <p>É preciso fazer <strong>Login como Administrador</strong> para acessar a Página de Gerenciamento</p>
-                                <p>Clique no botão abaixo para fechar esta janela</p>
-                                <button class=\"popup-button\">Fechar</button>
-                            </div>
-                        </div>
-                    </section>
-                ";
-            }
+            }else if(isset($_GET["loginSuccess"]))
+                displayPopUp("loginSuccess", "");
+            else if(isset($_GET["notAdmin"]))
+                displayPopUp("notAdmin", "");
         ?>
 
         <section class="main-section">
             <div class="left-content">
                 <h1>Açaí e Polpas <br><span>Amazônia</span></h1>
                 <p>Qualidade Superior, Preço Inferior</p>
+
                 <div>
                     <button type="button" onclick="window.location.href='products/products.php'">
                         Compre Agora
@@ -124,6 +87,7 @@
             <div class="index-title">
                 <h1>Sobre Nós</h1>
             </div>
+
             <ul>
                 <li class="about-us-item">
                     <div class="about-us-item-svg">
@@ -194,7 +158,6 @@
             <p style="text-align: center; margin-top: 1em;">
                 * Entregas Domiciliares Apenas em <strong>********</strong>.
             </p>
-
         </section>
 
         <section class="feature-products">
@@ -202,10 +165,10 @@
                 <h1>Destaques</h1>
             </div>
             <ul class="products-list">
-                <?php featureItens() ?>
+                <?php featureItens()?>
             </ul>
         </section>
     </main>
-    <?php footerOut() ?>
+    <?php footerOut()?>
 </body>
 </html>
