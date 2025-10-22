@@ -38,6 +38,7 @@ form {
 .form-title h1 div {
     display: flex;
     align-items: center;
+    gap: 0.3em;
 }
 
 .form-title h1 a {

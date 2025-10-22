@@ -19,9 +19,9 @@ function verifyCartAmount(){
             if ($result) {
                 $row = $result->fetch_assoc();
                 $cartAmount = $row["itemCount"];
-                return $cartAmount;
+                return "<p class=\"numberItens\">{$cartAmount}</p>";
             } else {
-                return "0";
+                return "<p class=\"numberItens\">0</p>";
             }
         }else{
             return "erro ao executar o stmt";
@@ -117,7 +117,7 @@ function headerOut($local){
 
                         <p>Carrinho</p>
                     </a>
-                    <p class=\"numberItens\">{$amountAtCart}</p>
+                    {$amountAtCart}
                 </li>
             </ul>
         </header>
