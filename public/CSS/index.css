@@ -1,5 +1,5 @@
 body {
-    background: var(--secondary-bg-clr);
+    background: linear-gradient(to right, #eec0df20, #f79ac15e);
 }
 
 main {

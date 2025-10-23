@@ -7,10 +7,8 @@
     if (isset($_SESSION["isAdmin"])) {
         header("location: ../mannager/admin.php?adminNotAllowed=1");
         exit();
-
     }
-
-    if(! isset($_SESSION["userMail"])){ 
+    if(! isset($_SESSION["sendMail"])){ 
         // trying to access the page without token
         header("location: password.php");
         exit();
@@ -37,7 +35,6 @@
             }
         }
     }
-
 ?>
 
 
@@ -57,7 +54,6 @@
 
     <link rel="stylesheet" href="<?php printStyle("1", "general") ?>">
     <link rel="stylesheet" href="<?php printStyle("1", "account") ?>">
-
 
     <style>
         .container-background{

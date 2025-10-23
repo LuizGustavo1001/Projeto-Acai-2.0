@@ -9,7 +9,8 @@
     }
 
     function getProductByName($prodName, $page){
-        // print the product with the $prodName above
+        // print the product data with the $prodName above
+
         global $mysqli;
 
         $getAllNames = $mysqli->query("SELECT altName FROM product_data");
@@ -86,6 +87,8 @@
     }
 
     function checkSession($local){
+        // check the session expiration
+
         if(isset($_SESSION['lastActivity'])){
             $maxInactivity = 3600; // 1 hour
             $elapsed = time() - $_SESSION['lastActivity'];
@@ -101,20 +104,20 @@
                 };
 
                 header("Location: $local?timeout=1");
-                exit;
+                exit();
             }
         }
     }
 
     function verifyOrders(){
-        // remove orders that wasn't confirmed and doesn't have any product for more then 2 days
+        // remove orders that wasn't confirmed(Pendente/Pending) for more then 1 day
         global $mysqli;
 
         $getOrders = $mysqli->prepare("
             SELECT od.idOrder 
             FROM order_data AS od
             LEFT JOIN product_order AS po ON od.idOrder = po.idOrder
-            WHERE od.orderDate < (NOW() - INTERVAL 2 DAY) AND po.idOrder IS NULL
+            WHERE (od.orderDate < (NOW() - INTERVAL 1 DAY) AND po.idOrder IS NULL) OR od.orderStatus = 'Pendente'
         ");
 
         $getOrders->execute();
@@ -132,19 +135,22 @@
         $getOrders->close();
     }
 
-    function optionSelect($local, $option){ 
+    function optionSelect($local, $option){
+        // display if the option is "selected" or not at <option> using the special variable $_SESSION
         if(isset($_SESSION[$local]) && $_SESSION[$local] == $option)
             return " selected";
         return "";
     }
 
     function optionSelectAlt($row, $local, $option){
+        // display if the option is "selected" or not at <option> using regular variables
         if(isset($row[$local]) && $row[$local] == $option)
             return " selected";
         return "";
     }
 
     function displayPopUp($item, $variable){
+        // displays a popup box with a warning on the screen
         
         $title = match($item){
             "revAdd", "revMod", "revRem" => "Alteração",
@@ -171,6 +177,7 @@
             "addVersion"        => "Sucesso ao <strong>Adicinar Versão de um Produto</strong> ao Banco de Dados",
             "makeAdmin"         => "<strong>Novo Administrador Adicionado</strong> com Sucesso",
             "noItem"            => "É preciso adicionar algum produto ao carrinho para concluir a compra",
+            ""                  => "Função ainda em <strong>Desenvolvimento</strong> <br> <a href='changes.php'>Clique aqui</a> para retornar a Página Principal",
             default             => "...",
         };
 

@@ -482,5 +482,4 @@
         }
         $addAttribute->execute();
         $addAttribute->close();
-
     }

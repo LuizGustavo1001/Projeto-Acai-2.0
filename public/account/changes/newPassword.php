@@ -4,6 +4,7 @@
     include "../../footerHeader.php";
     include "../../printStyles.php";
 
+    // trying to access the page without autentication
     if(! isset($_SESSION["userMail"])){
         header("location: ../login.php");
         exit();
@@ -12,6 +13,8 @@
     checkSession("insideAccount");
 
     if(isset($_POST['password'], $_POST['newPassword'])){
+        // update the password
+        
         $sanitizedPassword = htmlspecialchars($_POST["password"], ENT_QUOTES, 'UTF-8');
 
         $stmt = $mysqli->prepare("SELECT userPassword FROM user_data WHERE idUser = ?");

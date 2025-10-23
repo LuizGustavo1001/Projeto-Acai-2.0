@@ -3,7 +3,6 @@
 
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
-
     require __DIR__ . '/../../composer/vendor/autoload.php';
 
     if(! isset($_SESSION)){
@@ -12,16 +11,13 @@
     if (isset($_SESSION["isAdmin"])) {
         header("location: ../mannager/admin.php?adminNotAllowed=1");
         exit();
-
     }
-    if(! isset($_SESSION["userMail"])){
+    if(! isset($_SESSION["sendMail"])){
         header("location: password.php");
         exit();
     }else{
         $token = bin2hex(random_bytes(3));
-
         $emailReciever = $_SESSION["userMail"];
-
         $email = new PHPMailer;
 
         try{
@@ -63,4 +59,3 @@
         }
 
     }
-

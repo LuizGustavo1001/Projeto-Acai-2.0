@@ -21,7 +21,6 @@
                 unset($_SESSION["passwordToken"]);
                 header("location: newPassword.php");
                 exit();
-
             }else{
                 header("location: rescuePassword.php?wrongToken=1");
                 exit();
@@ -54,6 +53,12 @@
             background-repeat: no-repeat;
 
         }
+        @media(max-width: 1023px){
+            .left-container nav ul {
+                align-items: center;
+            }
+        }
+
     </style>
 
     <title>Açaí e Polpas Amazônia - Recuperar Senha</title>

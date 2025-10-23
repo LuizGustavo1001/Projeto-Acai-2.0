@@ -1,7 +1,7 @@
-<?php 
-
+<?php
 function verifyCartAmount(){ 
-    // print the amount of products on the cart at the header
+    // print the amount of products on the cart at header
+
     global $mysqli;
 
     if (session_status() === PHP_SESSION_NONE) {

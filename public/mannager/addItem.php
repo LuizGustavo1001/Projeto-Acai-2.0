@@ -294,28 +294,6 @@
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
     <script src="../JS/generalScripts.js"></script>
 
-    <style>
-        .main-title{
-            display: flex;
-            align-items: left;
-            flex-direction: column-reverse;
-   
-            margin: 0;
-        }
-
-        .back-button a{
-            margin: 0;
-        }
-
-        .main-title h1{
-            flex-direction: row;
-            justify-content: left;
-            font-size: 1em;
-            
-        }
-
-    </style>
-
     <title>Açaí e Polpas Amazônia - Produtos</title>
 </head>
 

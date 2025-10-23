@@ -10,7 +10,6 @@
         header("location: ../account/login.php?unkUser=1");
         exit();
     }
-
     if (isset($_SESSION["isAdmin"])) {
         header("location: ../mannager/admin.php?adminNotAllowed=1");
         exit();

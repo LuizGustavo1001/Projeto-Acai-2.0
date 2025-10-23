@@ -8,12 +8,10 @@
         header("location: ../mannager/admin.php?adminNotAllowed=1");
         exit();
     }
-    
     if(isset($_SESSION["userMail"])){
         header("location: login.php");
         exit();
     }
-
     // verify if the email input are in the Database
     if(isset($_POST["email"])){
         $sanitizedMail = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
@@ -24,24 +22,24 @@
         if($stmt->execute()){
             $result = $stmt->get_result();
             $stmt->close();
+            
             switch($result->num_rows){
                 case 0: 
                     header("Location: password.php?wrongMail=1");
                     exit();
                 
                 default: // send email
-                    $_SESSION["userMail"] = $sanitizedMail;
+                    $_SESSION["sendMail"] = $sanitizedMail;
                     header("Location: passwordToken.php");
                     exit();
             }
-            
         }else{
             header("location: ../errorPage.php");
             exit();
         }
     }
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -66,8 +64,13 @@
             background-size: cover;
             background-repeat: no-repeat;
 
-        }   
-
+        }
+        @media(max-width: 1023px){
+            .left-container nav ul {
+                align-items: center;
+            }
+        }
+        
     </style>
 
     <title>Açaí e Polpas Amazônia - Recuperar Senha</title>

@@ -43,11 +43,11 @@
         $amount = $result->num_rows;
         switch($amount){
             case 0: 
-                // no user was founded with the writed creddentials
+                // no user founded with the writed creddentials
                 header("location:login.php?errorLogin=1");
                 exit();
             default: 
-                // user was founded with the writed email address 
+                // user founded with the writed email address 
                 $result = $result->fetch_assoc();
                 $storedPassword = $result["userPassword"];
 

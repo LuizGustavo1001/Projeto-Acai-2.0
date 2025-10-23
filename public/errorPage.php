@@ -23,18 +23,11 @@
 
 </head>
 <body>
-
     <main style="display: flex; flex-direction: column; align-items: center; justify-content: center ; font-size: 2em; text-align: center;">
         <p>
-            <em>Algum erro ocorreu no Sistema Interno, tente novamente mais tarde ou entre em contato com nosso suporte</em>
+            <em>Algum<strong> erro Interno</strong> ocorreu no Sistema, <strong>tente novamente mais tarde</strong> ou entre em contato com nosso suporte.</em>
         </p>
         <a href="index.php" style="margin-top: 2em; text-decoration: underline;">Página Principal</a>
-        <?php 
-            echo var_dump($_POST);
-
-        ?>
-
     </main>
-    
 </body>
 </html>

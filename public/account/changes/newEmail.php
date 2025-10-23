@@ -4,6 +4,7 @@
     include "../../footerHeader.php";
     include "../../printStyles.php";
 
+    // trying to access the page without autentication
     if(! isset($_SESSION["userMail"])){
         header("location: ../login.php");
         exit();
@@ -12,6 +13,8 @@
     checkSession("insideAccount");
 
     if(isset($_POST["email"], $_POST['newEmail'])){
+        // update email address
+
         $sanitizedEmail = filter_var( $_POST["email"], FILTER_SANITIZE_EMAIL);
         
         $stmt = $mysqli->prepare("SELECT userMail FROM user_data WHERE idUser = ?");
@@ -31,7 +34,7 @@
                     header("location: newEmail.php?sameEmail=1");
                     exit();
                 }else{
-                    // change the email at Database
+                    // change the email at the Database
                     $updateEmail = $mysqli->prepare("
                         UPDATE user_data
                         SET userMail = ?

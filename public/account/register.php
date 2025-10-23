@@ -8,40 +8,26 @@
         header("location: ../mannager/admin.php?adminNotAllowed=1");
         exit();
     }
-
     if (isset($_SESSION["userMail"])) {
         header("location: account.php");
         exit();
     }
-
     if (isset($_GET["userAdd"])) {
         header("location: login.php?registered=1");
         exit();
     }
 
-    if(
-        isset(
-        $_POST["name"],
-        $_POST["email"],
-        $_POST["phone"],
-        $_POST["street"],
-        $_POST["houseNum"],
-        $_POST["district"],
-        $_POST["city"],
-        $_POST["reference"],
-        $_POST["password"]
-    )
-    ){
+    if( isset($_POST["name"], $_POST["email"], $_POST["phone"],
+        $_POST["street"], $_POST["houseNum"] ,$_POST["district"],
+        $_POST["city"], $_POST["reference"], $_POST["password"])){
         addUser();
     }
 
-    function addUser()
-    {
+    function addUser(){
         // function to register a new user as client(default)
         global $mysqli;
 
         $inputEmail = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
-
         $verifyEmail = $mysqli->prepare("
             SELECT userMail 
             FROM user_data 
@@ -49,11 +35,11 @@
         ");
         $verifyEmail->bind_param("s", $inputEmail);
 
-        if ($verifyEmail->execute()) {
+        if ($verifyEmail->execute()){
             $resultEmail = $verifyEmail->get_result();
             $verifyEmail->close();
 
-            switch ($resultEmail->num_rows) {
+            switch ($resultEmail->num_rows){
                 case 0:
                     // there's no user registered with the email input -> register new one
                     $domain = substr(strrchr($inputEmail, "@"), 1);
@@ -71,14 +57,13 @@
 
                         $insertData = $mysqli->prepare("
                                 INSERT INTO user_data (userName, userMail, userPassword, userPhone, district, localNum, referencePoint, street, city, state) VALUES 
-                                    (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                                "
+                                    (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
                         );
                         $insertData->bind_param("ssssssssss", $name, $inputEmail, $password, $phone, $district, $houseNum, $reference, $street, $city, $state);
                         if ($insertData->execute()) {
                             $insertData->close();
 
-                            // insert the user as client(default)
+                            // insert the user as client (default)
                             $clientId = $mysqli->insert_id;
                             $insertClient = $mysqli->prepare("INSERT INTO client_data (idClient) VALUES (?)");
                             $insertClient->bind_param("i", $clientId);
@@ -133,6 +118,11 @@
             background-size: cover;
             background-repeat: no-repeat;
 
+        }
+        @media(max-width: 1023px){
+            .left-container nav ul {
+                align-items: center;
+            }
         }
 
     </style>
@@ -296,6 +286,6 @@
         </div>
     </section>
 
-    <?php footerOut(); ?>
+    <?php footerOut()?>
 </body>
 </html>

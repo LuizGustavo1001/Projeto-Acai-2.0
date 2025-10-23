@@ -7,23 +7,20 @@
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
         changeColumn();
     }
-
     if (isset($_SESSION["isAdmin"])) {
         header("location: ../mannager/admin.php?adminNotAllowed=1");
         exit();
     }
-    
     if(! isset($_SESSION["userMail"])){
         header("location: login.php");
         exit();
     }
 
     checkSession("account");
-
     if(isset($_GET["logout"])){
         session_destroy(); 
         header("location: login.php?logout=1");
-        exit;
+        exit();
     }
 
     function changeColumn(){

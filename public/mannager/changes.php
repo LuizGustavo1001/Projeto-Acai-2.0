@@ -28,32 +28,45 @@
                         $removeFromChanges->execute();
 
                         header("location: changes.php?revAdd=1");
-                        exit;
+                        exit();
                         
                     case "Remover":
-
-                        //header("location: changes.php?revRem=1");
-                        exit;
+                        // not ready yet
+                        displayPopUp("", "");
+                        break;
                     case "Modificar":
-                        $getModify = $mysqli->prepare("SELECT oldValue, newValue FROM attribute_change WHERE idAttribute = ?");
+                        $getModify = $mysqli->prepare("
+                            SELECT oldValue, newValue, objectChanged 
+                            FROM attribute_change 
+                            WHERE idChange = ?
+                        ");
                         $getModify->bind_param("i", $_GET["idChange"]);
                         $getModify->execute();
 
                         $result = $getModify->get_result();
-                        
-                        while($modifiedAttribute = $result->fetch_assoc()){
-                            
-                        }
-                        $oldValue = $modifiedAttribute["oldValue"];
-                        $newValue = $modifiedAttribute["newValue"];
+                        $modifiedAttribute = $result->fetch_assoc();
+                        if($modifiedAttribute){
+                            $object   = $modifiedAttribute["objectChanged"];
+                            $oldValue = $modifiedAttribute["oldValue"];
+                            $newValue = $modifiedAttribute["newValue"];
 
-                        
+                            $query = "UPDATE $table SET `$object` = ? WHERE `$object` = ?";
+                            $reverseValues = $mysqli->prepare($query);
+                            $reverseValues->bind_param("ss", $oldValue, $newValue);
+                            $reverseValues->execute();
 
-                        //header("location: changes.php?revMod=1");
-                        exit;
+                            $removeFromChanges = $mysqli->prepare("DELETE FROM change_data WHERE idChange = ?");
+                            $removeFromChanges->bind_param("i", $_GET["idChange"]);
+                            $removeFromChanges->execute();
+
+                            header("location: changes.php?revMod=1");
+                            exit();
+                        }else{
+                            echo "Erro: mudança não encontrada.";
+                            exit();
+                        }     
                 }
             }
-            
         }
     }   
 
