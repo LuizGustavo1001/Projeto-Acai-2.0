@@ -27,11 +27,13 @@
                             case 0: // can add the product
                                 $name = trim($_POST["printName"]);
                                 $altName = trim($_POST["altName"]);
+
                                 $addProduct = $mysqli->prepare("INSERT INTO product_data (printName, altName, brandProduct, typeProduct) VALUES (?, ?, ?, ?)");
                                 $addProduct->bind_param("ssss", $name, $altName, $_POST["brandProduct"], $_POST["typeProduct"]);
                                 $addProduct->execute();
                                 $addProduct->close();
                                 $idProduct = $mysqli->insert_id;
+
                                 addChange("Adicionar", "product_data", $idProduct, "");
 
                                 header("location: products.php?addProduct=1");
@@ -42,47 +44,48 @@
                         }
                     }
                     echo "
-                        <div class='form-main'>
-                            <div class='form-title'>
-                                <div class='back-button'>
+                        <div class='form-title'>
+                            <div class='back-button'>
                                     <a href='products.php'>
                                         <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
-                                            <path stroke-linecap='round' stroke-linejoin='round' d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'/>
+                                            <path stroke-linecap='round' stroke-linejoin='round' d='M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3'/>
                                         </svg>
                                         Voltar
                                     </a>
                                 </div>
-                                <h1>
-                                    <div>
-                                        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
-                                            <path stroke-linecap='round' stroke-linejoin='round' d='m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z'/>
-                                        </svg>
-                                        Adicionar um Produto
-                                    </div>
-                                </h1>
-                            </div>
+                            <h1>
+                                <div>
+                                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor' class='size-6'>
+                                        <path d='M3.375 3C2.339 3 1.5 3.84 1.5 4.875v.75c0 1.036.84 1.875 1.875 1.875h17.25c1.035 0 1.875-.84 1.875-1.875v-.75C22.5 3.839 21.66 3 20.625 3H3.375Z'/>
+                                        <path fill-rule='evenodd' d='m3.087 9 .54 9.176A3 3 0 0 0 6.62 21h10.757a3 3 0 0 0 2.995-2.824L20.913 9H3.087Zm6.163 3.75A.75.75 0 0 1 10 12h4a.75.75 0 0 1 0 1.5h-4a.75.75 0 0 1-.75-.75Z' clip-rule='evenodd'/>
+                                    </svg>
+                                    <span>Adicionar</span> produto
+                                </div>
+                            </h1>
+                        </div>
 
+                        <div class='form-main'>
                             <div class='form-inputs'>
                                 <div class='form-regular-inputs'>
-                                    <div class='form-item'>
+                                    <div class='form-item regular-input'>
                                         <label for='iprintName'>Nome Amigável: </label>
                                         <div class='form-input'>
                                             <input type='text' name='printName' id='iprintName' maxlength='60' placeholder='Nome do Produto Aqui' required>
                                         </div>
                                     </div>
-                                    <div class='form-item'>
+                                    <div class='form-item regular-input'>
                                         <label for='ialtName'>Nome Alternativo: </label>
                                         <div class='form-input'>
                                             <input type='text' name='altName' id='ialtName' maxlength='40' placeholder='Nome Alternativo do Produto Aqui' required>
                                         </div>
                                     </div>
-                                    <div class='form-item'>
+                                    <div class='form-item regular-input'>
                                         <label for='ibrandProd'>Marca:</label>
                                         <div class='form-input'>
                                             <input type='text' name='brandProduct' id='ibrandProd' maxlength='40' placeholder='Marca do Produto Aqui' required>
                                         </div>
                                     </div>
-                                    <div class='form-item'>
+                                    <div class='form-item regular-input'>
                                         <label for='itypeProd'>Tipo: </label>
                                         <div class='form-input'>
                                             <select name='typeProduct' id='itypeProd'>
@@ -94,8 +97,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <button>Editar</button>
+                            <button class='regular-button'>Adicionar</button>
                         </div>
+
                     ";
                     break;
                 case "prodVersion":
@@ -172,38 +176,39 @@
                     }
                     
                     echo "
-                        <div class='form-main'>
-                            <div class='form-title'>
-                                <div class='back-button'>
-                                    <a href='products.php'>
-                                        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
-                                            <path stroke-linecap='round' stroke-linejoin='round' d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'/>
-                                        </svg>
-                                        Voltar
-                                    </a>
-                                </div>
-                                <h1>
-                                    <div>
-                                        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
-                                            <path stroke-linecap='round' stroke-linejoin='round' d='m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z'/>
-                                        </svg>
-                                        Adicionar uma Versão de um Produto
-                                    </div>
-                                </h1>
+                        <div class='form-title'>
+                            <div class='back-button'>
+                                <a href='products.php'>
+                                    <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
+                                        <path stroke-linecap='round' stroke-linejoin='round' d='M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3'/>
+                                    </svg>
+                                    Voltar
+                                </a>
                             </div>
+                            <h1>
+                                <div>
+                                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor' class='size-6'>
+                                        <path d='M3.375 3C2.339 3 1.5 3.84 1.5 4.875v.75c0 1.036.84 1.875 1.875 1.875h17.25c1.035 0 1.875-.84 1.875-1.875v-.75C22.5 3.839 21.66 3 20.625 3H3.375Z'/>
+                                        <path fill-rule='evenodd' d='m3.087 9 .54 9.176A3 3 0 0 0 6.62 21h10.757a3 3 0 0 0 2.995-2.824L20.913 9H3.087Zm6.163 3.75A.75.75 0 0 1 10 12h4a.75.75 0 0 1 0 1.5h-4a.75.75 0 0 1-.75-.75Z' clip-rule='evenodd'/>
+                                    </svg>
+                                    <span>Adicionar</span> versão de um produto
+                                </div>
+                            </h1>
+                        </div>
 
+                        <div class='form-main'>
                             <div class='form-inputs'>
                                 <div class='form-picture'>
-                                    <div class='form-item'>
+                                    <div class='form-item regular-input'>
                                         <label for='iprodPicture'>Foto:</label>
-                                        <div class='form-input'>
+                                        <div class='form-input form-picture-display'>
                                             <input type='file' name='imageURL' id='iprodPicture'>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class='form-regular-inputs'>
-                                    <div class='form-item'>
+                                    <div class='form-item regular-input'>
                                         <label for='iprodRef'>* Produto Referenciado: </label>
                                         <select name='idProduct' id='iprodRef'>";
                                         $getProducts = $mysqli->query("SELECT idProduct, printName FROM product_data");
@@ -213,48 +218,47 @@
                                         echo "</select>
                                     </div>
 
-                                    <div class='form-item'>
+                                    <div class='form-item regular-input'>
                                         <label for='inameProd'>* Nome: </label>
                                         <div class='form-input'>
                                             <input type='text' name='nameProduct' id='inameProd' maxlength='40' placeholder='Nome do Produto Aqui' required>
                                         </div>
                                     </div>
 
-                                    <div class='form-item'>
+                                    <div class='form-item regular-input'>
                                         <label for='isizeProduct'>* Tamanho:</label>
                                         <div class='form-input'>
                                             <input type='text' name='sizeProduct' id='isizeProduct' maxlength='20' placeholder='Tamanho/Peso do Produto Aqui' required>
                                         </div>
                                     </div>
 
-                                    <div class='form-item'>
+                                    <div class='form-item regular-input'>
                                         <label for='iflavor'>Sabor:</label>
                                         <div class='form-input'>
                                             <input type='text' name='flavor' id='iflavor' maxlength='40' placeholder='Sabor do Produto Aqui'>
                                         </div>
                                     </div>
 
-                                    <div class='form-item'>
+                                    <div class='form-item regular-input'>
                                         <label for='ipriceProd'>* Preço Individual: </label>
                                         <div class='form-input'>
                                             <input type='text' name='priceProduct' id='ipriceProd' placeholder='Preço do Produto Aqui' required>
                                         </div>
                                     </div>
 
-                                    <div class='form-item'>
+                                    <div class='form-item regular-input'>
                                         <label for='iavailability'>Disponibilidade: </label>
                                         <select name='availability' id='iavailability'>
                                             <option value='1'>Disponível</option>
                                             <option value='0'>Indisponível</option>
                                         </select>
                                     </div>
-
-                                    </div>
                                 </div>
-
                             </div>
-                            <button>Editar</button>
+
+                            <button class='regular-button'>Adicionar</button>
                         </div>
+
                     ";
                     break;
                 default:
@@ -288,7 +292,7 @@
 
     <?php displayFavicon()?>
 
-    <link rel="stylesheet" href="<?php printStyle("1", "mannager") ?>">
+    <link rel="stylesheet" href="<?php printStyle("1", "universal") ?>">
     <link rel="stylesheet" href="<?php printStyle("1", "mannagerSettings") ?>">
 
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
@@ -303,11 +307,12 @@
             <?php 
                 if(isset($_GET['add'])){
                     echo "
-                        <p class=\"errorText\">
+                        <div class=\"errorText\">
                             <i class=\"fa-solid fa-triangle-exclamation\"></i>
-                            Erro: <strong>Nome Amigável </strong> ou <strong>Nome Alternativo</strong> já estão cadastrador no sistema <br>
-                            Tente novamente com outro nome.
-                        </p>
+                            <p>
+                                Erro: <strong>Nome Amigável </strong> ou <strong>Nome Alternativo</strong> já estão cadastrador no sistema. Tente novamente com outro nome.
+                            </p>
+                        </div>
                     ";
                 }
             ?>

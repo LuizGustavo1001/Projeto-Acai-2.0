@@ -41,5 +41,3 @@
         header("location: cart.php");
         exit;
     }
-
-    

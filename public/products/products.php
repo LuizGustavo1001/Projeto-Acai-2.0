@@ -10,9 +10,11 @@
         global $mysqli;
         if($prodName !== ""){
             $getSearchReturn = $mysqli->prepare("
-                SELECT pd.altName, pv.priceProduct, pv.priceDate, pd.brandProduct, pv.imageURL
-                FROM product_data AS pd 
-                    JOIN product_version AS pv ON pd.idProduct = pv.idProduct
+                SELECT pd.idProduct, pd.printName, pd.altName, pd.brandProduct, pv.imageURL, 
+                    MIN(pv.priceProduct) AS priceProduct, pv.priceDate
+                    FROM product_version AS pv
+                        INNER JOIN product_data AS pd ON pv.idProduct = pd.idProduct
+                    GROUP BY pd.idProduct
                 WHERE pd.printName LIKE ?
             ");
 
@@ -23,6 +25,8 @@
                 $searchResult = $getSearchReturn->get_result();
                 $amount = $searchResult->num_rows;
                 $getSearchReturn->close();
+
+                echo "<li class='products-category'>";
 
                 switch($amount){
                     case 0:
@@ -38,14 +42,13 @@
                     
                     default:
                         echo "
-                            <div style=\"font-weight: normal;\">
+                            <div style='font-weight: normal; margin-bottom: 2em;'>
                                 <h1> 
                                     Produtos Encontrados com o filtro:
-                                    <strong style=\"color: var(--secondary-clr)\"><em>$prodName</em></strong>
+                                    <strong style='color: var(--secondary-clr)'><em>$prodName</em></strong>
                                 </h1>
                             </div>
-
-                            <ul class=\"products-list\"> 
+                            <ul class='products'>
                         ";
 
                         while ($row = $searchResult->fetch_assoc()) {
@@ -68,7 +71,6 @@
                 echo " ";
             }
         }
-    
     }
     
     function categoryItens($type, $filter){
@@ -108,7 +110,12 @@
             }
             $getProductFilter->close();
         }else{
-            echo "<p class='errorText'>Erro: Nenhum Produto encontrado com o Tipo Inserido</p>";
+            echo "
+            <div class='errorText'>
+                <i class=\"fa-solid fa-triangle-exclamation\"></i>
+                <p>Erro: Nenhum Produto encontrado com o Tipo Inserido</p>
+            </div>
+            ";
         }
     }
 ?>
@@ -119,6 +126,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="stylesheet" href="<?php printStyle("1", "universal") ?>">
     <link rel="stylesheet" href="<?php printStyle("1", "general") ?>">
     <link rel="stylesheet" href="<?php printStyle("1", "products") ?>">
     
@@ -132,114 +140,124 @@
     <?php displayFavicon()?>
     
     <title>Açaí e Polpas Amazônia - Produtos</title>
-    
 </head>
 <body>
     
-    <?php headerOut(1)?>
+    <?php displayHeader(1)?>
 
     <main>
+        <!-- Pop Up Box -->
         <?php 
             if(isset($_GET["prodAdd"])){
                 $name = "{$_GET['id']} - {$_GET['size']}";
                 displayPopUp("prodAdd", $name);
                 verifyOrders();
-            } 
+            }
         ?>
+        <!-- Pop Up Box -->
 
         <section class="header-feature">
             <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1754316874/feature_xabuwx.png" alt="feature Products Image">
         </section>
 
-        <section class="products-header">
-            <div class="section-header-title">
+        <section class="products-title">
+            <div class="title">
                 <h1>Nossos Produtos</h1>
                 <p>Adicione Produtos ao carrinho para realizar sua compra</p>
                 <p>*Preços podem ser modificados com o tempo</p>
             </div>
-            
-            <div class="products-search-div">
-                <form method="get" class="products-search-item">
-                    <div class="products-search-label">
+
+            <div class="search-form">
+                <form method="GET">
+                    <div class="search-label">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                         </svg>
                         <label for="inameProd">Pesquisar pelo Nome</label>
                     </div>
-
-                    <div class="search-input generic-button">
+                    <div class="search-input regular-input">
                         <input type="text" name="nameProd" id="inameProd" placeholder="<?= htmlspecialchars($_GET['nameProd'] ?? 'Nome do Produto') ?>">
-                        <button>Pesquisar</button>
-                    </div>          
+                        <button class="regular-button">Pesquisar</button>
+                    </div>
                 </form>
 
-                <form method="get" class="products-search-item">
-                    <div class="products-search-label">
+                <form method="GET">
+                    <div class="search-label">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
                         </svg>
                         <label for="ifilter">Filtrar Por</label>
                     </div>
-                    <div class="search-input generic-button">
+                    <div class="search-input regular-input">
                         <select name="filter" id="ifilter">
                             <option value="idProd"     <?php returnSelected("idProd")?>>Id</option>
-                            <option value="nameDesc"   <?php returnSelected("nameDesc")?>>Ordem Alfabética(A-Z)</option>
-                            <option value="nameAsc"    <?php returnSelected("nameAsc")?>>Ordem Alfabética(Z-A)</option>
+                            <option value="nameAsc"    <?php returnSelected("nameAsc")?>>Ordem Alfabética(A-Z)</option>
+                            <option value="nameDesc"   <?php returnSelected("nameDesc")?>>Ordem Alfabética(Z-A)</option>
                             <option value="priceDesc"  <?php returnSelected("priceDesc")?>>Maior Preço</option>
                             <option value="priceAsc"   <?php returnSelected("priceAsc")?>>Menor Preço</option>
                         </select>
-                        <button>Filtar</button>
+                        <button class="regular-button">Filtrar</button>
                     </div>
                 </form>
             </div>
         </section>
 
-        <section class="products-main">
-            <?php 
+        <section class="products-hero">
+            <ul class="products-list">
+                <?php 
                 if(isset($_GET["nameProd"])){
                     echo prodSearchOutput($_GET["nameProd"]);
+                    echo "</li>";
                 }
-            ?>
-            <div class="index-title">
-                <h1>Cremes</h1>
-            </div>
-            <ul class="products-list">
-                <?php 
-                    if(isset($_GET["filter"])){
-                        categoryItens("Creme", $_GET["filter"]);
-                    }else{
-                        categoryItens("Creme", "noFilter");
-                    }
                 ?>
-            </ul>
+                <li class="products-category">
+                    <div class='section-title'>
+                        <h1>Cremes</h1>
+                    </div>
 
-            <div class="index-title">
-                <h1>Adicionais</h1>
-            </div>
-            <ul class="products-list">
-                <?php 
-                    if(isset($_GET["filter"])){
-                        categoryItens("Adicional", $_GET["filter"]);
-                    }else{
-                        categoryItens("Adicional", "noFilter");
-                    }
-                ?>          
-            </ul>
+                    <ul class="products">
+                        <?php 
+                            if(isset($_GET["filter"])){
+                                categoryItens("Creme", $_GET["filter"]);
+                            }else{
+                                categoryItens("Creme", "noFilter");
+                            }
+                        ?>
+                    </ul>
+                </li>
+                <li class="products-category">
+                    <div class='section-title'>
+                        <h1>Adicionais</h1>
+                    </div>
 
-            <div class="index-title">
-                <h1>Outros</h1>
-            </div>
-            <ul class="products-list">
-                <?php 
-                    if(isset($_GET["filter"])){
-                        categoryItens("Outro", $_GET["filter"]);
-                    }else{
-                        categoryItens("Outro", "noFilter");
-                    }
-                ?> 
+                    <ul class="products">
+                        <?php
+                            if(isset($_GET["filter"])){
+                                categoryItens("Adicional", $_GET["filter"]);
+                            }else{
+                                categoryItens("Adicional", "noFilter");
+                            }
+                        ?> 
+                    </ul>
+                </li>
+                <li class="products-category">
+                    <div class='section-title'>
+                        <h1>Outros</h1>
+                    </div>
+
+                    <ul class="products">
+                        <?php
+                            if(isset($_GET["filter"])){
+                                categoryItens("Outro", $_GET["filter"]);
+                            }else{
+                                categoryItens("Outro", "noFilter");
+                            }
+                        ?> 
+                    </ul>
+                </li>
             </ul>
         </section>
     </main>
-    <?php footerOut();?>
+    <?php displayFooter();?>
 </body>
 </html>

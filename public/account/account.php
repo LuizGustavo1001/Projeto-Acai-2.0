@@ -101,6 +101,7 @@
 
     <?php displayFavicon()?>
 
+    <link rel="stylesheet" href="<?php printStyle("1", "universal") ?>">
     <link rel="stylesheet" href="<?php printStyle("1", "general") ?>">
     <link rel="stylesheet" href="<?php printStyle("1", "account") ?>">
 
@@ -111,187 +112,180 @@
             background: url(https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751727599/accountBg_xgmzw6.png) right center;
             background-size: cover;
             background-repeat: no-repeat;
-
         }
-
     </style>
 
     <title>Açaí e Polpas Amazônia - Minha Conta</title>
 
 </head>
 <body>
-    <?php headerOut(1)?>
+    <?php displayHeader(1)?>
     
-    <main class="container">
-        <div class="left-container">
-            <nav>
-                <ul>
-                    <li>
-                        <a href="../index.php">Página Principal</a>
-                    </li>
+    
+    <main>
+        <section class="container">
+            <div class="left-container">
+                <nav class="nav-bar">
+                    <ul>
+                        <li><a href="../index.php">Página Principal</a></li>
+                        <li>/</li>
+                        <li><a href="account.php">Página do Usuário</a></li>
+                    </ul>
 
-                    <li>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                        </svg>
-                    </li>
+                    <a href="account.php?logout=1" class="link-button">Sair</a>
+                </nav>
+                
+                <div class="container-forms">
+                    <div class="container-forms-title">
+                        <h1>Área do Usuário</h1>
+                        <p>Edite <strong>seus dados</strong> aqui.</p>
+                        <p>Ao clicar em <strong>"editar"</strong> todos os campos preenchidos serão <strong>verificados</strong>.</p>
+                    </div>
 
-                    <li>
-                        <a href="account.php">Página do Usuário</a>
-                    </li>
-                </ul>
-                <a href="account.php?logout=1">
-                    <button>Sair</button>
-                </a>
-            </nav>
+                    <form method="post">
+                        <?php
+                            // mapping to show better names for the client
+                            $fieldLabels = [
+                                "userName"       => "Nome de Usuário",
+                                "userPhone"      => "Telefone de Contato",
+                                "district"       => "Bairro",
+                                "localNum"       => "Número da Residência",
+                                "referencePoint" => "Ponto de Referência",
+                                "street"         => "Rua",
+                                "city"           => "Cidade",
+                                "state"          => "Estado"
+                            ];
 
-            <div class="container-forms">
-                <div class="container-forms-title">
-                    <h1>Área do Usuário</h1>
-                    <p>Edite <strong>Seus Dados</strong> individualmente aqui</p>
-                    <p>Ao clicar em <strong>"editar"</strong> todos os campos preenchidos serão <strong>verificados</strong> </p>
-                </div>
-                <form method="POST">
-                    <?php
-                        // mapping to show better names for the client
-                        $fieldLabels = [
-                            "userName"       => "Nome de Usuário",
-                            "userPhone"      => "Telefone de Contato",
-                            "district"       => "Bairro",
-                            "localNum"       => "Número da Residência",
-                            "referencePoint" => "Ponto de Referência",
-                            "street"         => "Rua",
-                            "city"           => "Cidade",
-                            "state"          => "Estado"
-                        ];
+                            // go throught all the GET parameters
+                            foreach ($_GET as $key => $value) {
+                                // Example: $key = "cuserName", $value = "1"
+                                if (preg_match('/^c(.+)$/', $key, $matches)) {
+                                    $field = $matches[1]; // take "userName", "city", etc.
 
-                        // go throught all the GET parameters
-                        foreach ($_GET as $key => $value) {
-                            // Example: $key = "cuserName", $value = "1"
-                            if (preg_match('/^c(.+)$/', $key, $matches)) {
-                                $field = $matches[1]; // take "userName", "city", etc.
-
-                                if (isset($fieldLabels[$field])) {
-                                    $label = $fieldLabels[$field];
-                                    switch ($value) {
-                                        case "1":
-                                            echo "<p class='successText'>Sucesso ao alterar <strong>{$label}</strong></p>";
-                                            break;
-                                        case "2":
-                                            echo "
-                                            <p class='errorText'>
-                                                <i class=\"fa-solid fa-triangle-exclamation\"></i> 
-                                                O valor inserido em <strong>{$label}</strong> é o mesmo já cadastrado.
-                                            </p>";
-                                            break;
+                                    if (isset($fieldLabels[$field])) {
+                                        $label = $fieldLabels[$field];
+                                        switch ($value) {
+                                            case "1":
+                                                echo "
+                                                    <div class='successText'>
+                                                        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
+                                                            <path stroke-linecap='round' stroke-linejoin='round' d='M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z' />
+                                                        </svg>
+                                                        <p>Sucesso ao alterar <span>{$label}</span></p>
+                                                    </div>
+                                                ";
+                                                break;
+                                            case "2":
+                                                echo "
+                                                    <p class='errorText'>
+                                                        <i class=\"fa-solid fa-triangle-exclamation\"></i> 
+                                                        O valor inserido em <span>{$label}</span> é o mesmo já cadastrado.
+                                                    </p>
+                                                    ";
+                                                break;
+                                        }
                                     }
                                 }
                             }
-                        }
-                    ?>
-
-                    <div class="form-item">
-                        <label for="iuserName">Nome: </label>
-                        <div class="form-input">
-                            <input type="text" name="userName" id="iuserName" maxlength="30" minlength="8" placeholder="<?php echo $_SESSION['userName']; ?>" >
+                        ?>
+                        <div class="form-item regular-input">
+                            <label for="iuserName">Nome: </label>
+                            <div class="form-input">
+                                <input type="text" name="userName" id="iuserName" maxlength="30" minlength="8" placeholder="<?php echo $_SESSION['userName']; ?>" >
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-item">
-                        <label for="iuserPhone">Telefone de Contato:</label>
-                        <div class="form-input">
-                            <input type="text" name="userPhone" id="iuserPhone" minlength="15" maxlength="16" pattern="\(\d{2}\) \d \d{4} \d{4}" placeholder="<?php echo $_SESSION['userPhone']; ?>" >
+                        <div class="form-item regular-input">
+                            <label for="iuserPhone">Telefone de Contato:</label>
+                            <div class="form-input">
+                                <input type="text" name="userPhone" id="iuserPhone" minlength="15" maxlength="16" pattern="\(\d{2}\) \d \d{4} \d{4}" placeholder="<?php echo $_SESSION['userPhone']; ?>" >
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-item">
-                        <label for="istreet">Rua: </label>
-                        <div class="form-input">
-                            <input type="text" name="street" id="istreet" maxlength="50" placeholder="<?php echo $_SESSION['street']; ?>" >
+                        <div class="form-item regular-input">
+                            <label for="istreet">Rua: </label>
+                            <div class="form-input">
+                                <input type="text" name="street" id="istreet" maxlength="50" placeholder="<?php echo $_SESSION['street']; ?>" >
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-item">
-                        <label for="ilocalNum">Número: </label>
-                        <div class="form-input">
-                            <input type="number" name="localNum" id="ilocalNum" max="99999999" placeholder="<?php echo $_SESSION['localNum']; ?>">
+                        <div class="form-item regular-input">
+                            <label for="ilocalNum">Número: </label>
+                            <div class="form-input">
+                                <input type="number" name="localNum" id="ilocalNum" max="99999999" placeholder="<?php echo $_SESSION['localNum']; ?>">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-item">
-                        <label for="iuserDistrict">Bairro: </label>
-                        <div class="form-input">
-                            <input type="text" name="district" id="iuserDistrict" maxlength="40" placeholder="<?php echo $_SESSION['district']; ?>" >
+                        <div class="form-item regular-input">
+                            <label for="iuserDistrict">Bairro: </label>
+                            <div class="form-input">
+                                <input type="text" name="district" id="iuserDistrict" maxlength="40" placeholder="<?php echo $_SESSION['district']; ?>" >
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-item">
-                        <label for="iuserCity">Cidade: </label>
-                        <div class="form-input">
-                            <input type="text" name="city" id="iuserCity" maxlength="40" placeholder="<?php echo $_SESSION['city']; ?>">
+                        <div class="form-item regular-input">
+                            <label for="iuserCity">Cidade: </label>
+                            <div class="form-input">
+                                <input type="text" name="city" id="iuserCity" maxlength="40" placeholder="<?php echo $_SESSION['city']; ?>">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-item">
-                        <label for="istate">Estado</label>
-                        <select name="state" id="istate">
-                            <option value="AC" <?php echo optionSelect("state","AC") ?>>Acre</option>
-                            <option value="AL" <?php echo optionSelect("state","AL") ?>>Alagoas</option>
-                            <option value="AP" <?php echo optionSelect("state","AP") ?>>Amapá</option>
-                            <option value="AM" <?php echo optionSelect("state","AM") ?>>Amazonas</option>
-                            <option value="BA" <?php echo optionSelect("state","BA") ?>>Bahia</option>
-                            <option value="CE" <?php echo optionSelect("state","CE") ?>>Ceará</option>
-                            <option value="DF" <?php echo optionSelect("state","DF") ?>>Distrito Federal</option>
-                            <option value="ES" <?php echo optionSelect("state","ES") ?>>Espírito Santo</option>
-                            <option value="GO" <?php echo optionSelect("state","GO") ?>>Goiás</option>
-                            <option value="MA" <?php echo optionSelect("state","MA") ?>>Maranhão</option>
-                            <option value="MT" <?php echo optionSelect("state","MT") ?>>Mato Grosso</option>
-                            <option value="MS" <?php echo optionSelect("state","MS") ?>>Mato Grosso do Sul</option>
-                            <option value="MG" <?php echo optionSelect("state","MG") ?>>Minas Gerais</option>
-                            <option value="PA" <?php echo optionSelect("state","PA") ?>>Pará</option>
-                            <option value="PB" <?php echo optionSelect("state","PB") ?>>Paraíba</option>
-                            <option value="PR" <?php echo optionSelect("state","PR") ?>>PARANÁ</option>
-                            <option value="PE" <?php echo optionSelect("state","PE") ?>>Pernambuco</option>
-                            <option value="PI" <?php echo optionSelect("state","PI") ?>>Piauí</option>
-                            <option value="RJ" <?php echo optionSelect("state","RJ") ?>>Rio de Janeiro</option>
-                            <option value="RN" <?php echo optionSelect("state","RN") ?>>Rio Grande do Norte</option>
-                            <option value="RS" <?php echo optionSelect("state","RS") ?>>Rio Grande do Sul</option>
-                            <option value="RO" <?php echo optionSelect("state","RO") ?>>Rondônia</option>
-                            <option value="RR" <?php echo optionSelect("state","RR") ?>>Roraima</option>
-                            <option value="SC" <?php echo optionSelect("state","SC") ?>>Santa Catarina</option>
-                            <option value="SP" <?php echo optionSelect("state","SP") ?>>São Paulo</option>
-                            <option value="SE" <?php echo optionSelect("state","SE") ?>>Sergipe</option>
-                            <option value="TO" <?php echo optionSelect("state","TO") ?>>Tocantins</option>
-                        </select>
-                    </div>
-
-                    <div class="form-item">
-                        <label for="ireferencePoint">Ponto de Referência: </label>
-                        <div class="form-input">
-                            <input type="text" name="referencePoint" id="ireferencePoint" maxlength="50" placeholder="<?php echo $_SESSION['referencePoint']; ?>">
+                        <div class="form-item regular-input">
+                            <label for="istate">Estado</label>
+                            <select name="state" id="istate">
+                                <option value="AC" <?php echo optionSelect("state","AC") ?>>Acre</option>
+                                <option value="AL" <?php echo optionSelect("state","AL") ?>>Alagoas</option>
+                                <option value="AP" <?php echo optionSelect("state","AP") ?>>Amapá</option>
+                                <option value="AM" <?php echo optionSelect("state","AM") ?>>Amazonas</option>
+                                <option value="BA" <?php echo optionSelect("state","BA") ?>>Bahia</option>
+                                <option value="CE" <?php echo optionSelect("state","CE") ?>>Ceará</option>
+                                <option value="DF" <?php echo optionSelect("state","DF") ?>>Distrito Federal</option>
+                                <option value="ES" <?php echo optionSelect("state","ES") ?>>Espírito Santo</option>
+                                <option value="GO" <?php echo optionSelect("state","GO") ?>>Goiás</option>
+                                <option value="MA" <?php echo optionSelect("state","MA") ?>>Maranhão</option>
+                                <option value="MT" <?php echo optionSelect("state","MT") ?>>Mato Grosso</option>
+                                <option value="MS" <?php echo optionSelect("state","MS") ?>>Mato Grosso do Sul</option>
+                                <option value="MG" <?php echo optionSelect("state","MG") ?>>Minas Gerais</option>
+                                <option value="PA" <?php echo optionSelect("state","PA") ?>>Pará</option>
+                                <option value="PB" <?php echo optionSelect("state","PB") ?>>Paraíba</option>
+                                <option value="PR" <?php echo optionSelect("state","PR") ?>>PARANÁ</option>
+                                <option value="PE" <?php echo optionSelect("state","PE") ?>>Pernambuco</option>
+                                <option value="PI" <?php echo optionSelect("state","PI") ?>>Piauí</option>
+                                <option value="RJ" <?php echo optionSelect("state","RJ") ?>>Rio de Janeiro</option>
+                                <option value="RN" <?php echo optionSelect("state","RN") ?>>Rio Grande do Norte</option>
+                                <option value="RS" <?php echo optionSelect("state","RS") ?>>Rio Grande do Sul</option>
+                                <option value="RO" <?php echo optionSelect("state","RO") ?>>Rondônia</option>
+                                <option value="RR" <?php echo optionSelect("state","RR") ?>>Roraima</option>
+                                <option value="SC" <?php echo optionSelect("state","SC") ?>>Santa Catarina</option>
+                                <option value="SP" <?php echo optionSelect("state","SP") ?>>São Paulo</option>
+                                <option value="SE" <?php echo optionSelect("state","SE") ?>>Sergipe</option>
+                                <option value="TO" <?php echo optionSelect("state","TO") ?>>Tocantins</option>
+                            </select>
                         </div>
-                    </div>
-                    <button>Editar</button>
-                    <ul style="display: flex; justify-content: space-between; border: none">
-                        <li >
-                            <a href="changes/newPassword.php">
-                                Alterar Senha
-                            </a>
-                        </li>
-                        <li>
-                            <a href="changes/newEmail.php">
-                                Alterar Email
-                            </a>
-                        </li>
-                    </ul>
-                </form>
+
+                        <div class="form-item regular-input">
+                            <label for="ireferencePoint">Ponto de Referência: </label>
+                            <div class="form-input">
+                                <input type="text" name="referencePoint" id="ireferencePoint" maxlength="50" placeholder="<?php echo $_SESSION['referencePoint']; ?>">
+                            </div>
+                        </div>
+                        <button class="regular-button">Editar</button>
+
+                        <div class="form-footer">
+                            <a href="changes/newPassword.php">Alterar Senha</a>
+                            <a href="changes/newEmail.php">Alterar Email</a>
+                        </div>
+
+                    </form>
+                </div>
             </div>
-        </div>
-
-        <div class="right-container">
-            <div class="container-background"></div>
-        </div>
+            
+            <div class="right-container">
+                <div class="container-background"></div>
+            </div>
+        </section>
     </main>
-    <?php footerOut();?>
+
+    <?php displayFooter();?>
 </body>
 </html>

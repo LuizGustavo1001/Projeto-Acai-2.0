@@ -1,147 +1,125 @@
-
-body {
-    height: 100%;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-    background: linear-gradient(to right, #eec0df20, #f79ac15e);
-}
-
-form {
-    width: 70vw;
-
-    padding: 2em;
-
+body{
+    background: var(--primary-bg-clr);
+    min-height: 95vh;
     display: flex;
     flex-direction: column;
-    gap: 2em;
+    align-items: center;
+    justify-content: center;
 
-    background: var(--tertiary-clr);
-    border-radius: var(--border-radius);
-    box-shadow: 4px 4px 4px var(--shadow-clr);
+    padding-block: 2em;
 }
 
-.form-title {
-    font-size: 1.2em;
+main{
+    display: flex;
+    width: 100%;
+}
+
+form{
+    background: var(--tertiary-clr);
+    padding: 2em 1em 2em 1em;
+
+    box-shadow: 4px 4px 4px var(--shadow-clr);
+    border-radius: var(--border-radius);
+
+    width: 100%;
+    margin: 0 auto;
+}
+
+form .regular-input input{
+    padding: 1.2em;
+}
+
+.form-title{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
 }
 
 .form-title h1 {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 0.5em;
+    margin-bottom: 1em;
 
-    font-size: 0.8em;
+    font-size: 1.3em;
 }
 
-.form-title h1 div {
-    display: flex;
-    align-items: center;
-    gap: 0.3em;
+.form-title h1 span{
+    font-weight: normal;
 }
 
-.form-title h1 a {
-    color: red;
-}
 
-.form-title h1 a:hover {
+.form-title h1 a:hover{
     text-decoration: underline;
 }
 
-.back-button {
-    margin-bottom: 2em;
-}
-
-.back-button a {
+.form-title h1 div{
     display: flex;
     align-items: center;
     gap: 0.3em;
-    
-    color: var(--secondary-clr);
 }
 
-.back-button svg {
-    color: var(--secondary-clr);
-}
-
-.form-main {
+.form-main{
     display: flex;
     flex-direction: column;
     gap: 2em;
 }
 
-.form-main button {
-    width: 100%;
+.form-inputs .form-picture .form-item{
+    margin-bottom: 1em;
 }
 
-.form-main input, 
-.form-main select {
-    width: 100%;
-    padding: 1em;
+.form-inputs .form-picture .form-item div{
+    display: flex;
+    gap: 2em;
+}
 
+.form-inputs .form-picture .form-item div img{
     border-radius: var(--border-radius);
-    background: var(--tertiary-clr);
-    border: 1px solid var(--primary-clr);
-    outline: none;
-    box-sizing: border-box;
-
-    transition: var(--transition);
-}
-
-.form-main input:hover, 
-.form-main select:hover, 
-.form-main input:focus, 
-.form-main select:focus {
-    border-color: var(--secondary-clr);
-    box-shadow: 4px 2px 4px var(--shadow-clr);
-}
-
-.form-inputs {
-    display: flex;
-    flex-direction: column;
-    gap: 2em;
-}
-
-.form-regular-inputs {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-}
-
-.form-inputs img {
-    width: 60px;
-    border-radius: 50%;
     aspect-ratio: 1/1;
     object-fit: cover;
+    width: 60px;
 }
 
-.form-picture-display {
+.form-inputs .form-regular-inputs{
     display: flex;
+    flex-direction: column;
     gap: 1em;
+}
+
+.form-links{
+    display: flex;
+    justify-content: space-between
+}
+
+.form-links a:hover{
+    text-decoration: underline;
+}
+
+.regular-button{
+    font-size: 1.2em;
+    font-weight: bold;
 }
 
 
 @media(min-width: 1024px){
-    form {
+    form{
         width: 50vw;
+        padding: 2em;
+    }
+
+    .form-inputs .form-picture .form-item{
+        margin-bottom: 0;
+    }
+
+    .form-inputs .form-regular-inputs{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin-top: 1em;
     }
 
     .form-title h1 {
-        font-size: 1.1em;
-    }
-
-    .form-main input, 
-    .form-main select {
-        padding: 1.2em;
-    }
-
-    .form-main button {
-        padding: 0.7em;
-    }
-
-    .form-regular-inputs {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
+        flex-direction: row;
+        justify-content: space-between;
     }
 }

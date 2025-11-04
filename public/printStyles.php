@@ -2,7 +2,7 @@
     // function to print the style file and the version at the correct page 
     // everytime that you change something at the styles you are supose to change the version too at $version
     function printStyle($local, $fileName){
-        $version = "?v=3.4";
+        $version = "?v=3.23";
 
         $directory = match($local){
             "1" => "../CSS/",
@@ -11,6 +11,7 @@
         };
 
         $cssFile = match($fileName){
+            "universal"         => "universal-styles.css",
             "general"           => "general-styles.css",
             "account"           => "account.css",
             "cart"              => "cart.css",

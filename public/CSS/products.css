@@ -1,74 +1,107 @@
+main{
+    padding-inline: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
+
+.search-form{
+    display: flex;
+    justify-content: space-between;
+    gap: 2em;
+    align-items: center;
+}
+
+.search-form form .search-label{
+    display: flex;
+    align-items: center;
+}
+
+.search-form form .search-label svg{
+    width: 25px;
+}
+
+.search-input{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    
+}
+
+.search-input input,
+.search-input select,
+.search-input button{
+    width: 40vw;
+}
+
+.search-input button{
+    padding: 0.7em;
+    font-size: 1.1em;
+}
+
+
+.products-list{
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    
+}
+
+.products-list .products{
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    align-items: center;
+}
+
 .header-feature img {
     width: 100%;
-    margin-block: 1em;
 
     border-radius: var(--border-radius);
 }
 
-.products-header {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
 
-.products-search-div {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5em;
+@media(min-width: 1024px){
+    .products-title{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
-    margin-top: 2em;
-}
-
-.products-search-div button {
-    width: 100%;
-
-    padding: 0.8em;
-    margin-top: 0.3em;
-}
-
-.products-search-div input:focus, 
-.products-search-div select:focus {
-    border-color: var(--secondary-clr);
-}
-
-.products-search-label {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    margin-bottom: 0.3em;
-}
-
-.products-search-label svg {
-    width: 20px;
-}
-
-.products-main {
-    display: flex;
-    flex-direction: column;
-    gap: 2em;
-
-    margin-bottom: 5em;
-}
-
-
-@media(min-width: 1024px) {
-    .header-feature img {
-        margin: 2em 0 2em 0;
     }
 
-    .products-header {
-        flex-direction: row;
-        margin-top: 2em;
+    .search-input input,
+    .search-input select,
+    .search-input button{
+        width: 200px;
     }
 
-    .products-search-div {
+    .search-input button{
+        padding: 0.5em;
+        font-size: 1em;
+    }
+
+    .products-list{
+        gap: 6em;
+        
+    }
+
+    .products-list .products{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr ;
         gap: 2em;
-        margin: 0;
+
     }
 
-    .products-search-div button {
-        padding: 0.6em;
+    .product-view {
+        margin: 0 auto;
     }
+}
+
+@media(min-width: 1400px){
+    .products-list .products{
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+
+    }
+
 }

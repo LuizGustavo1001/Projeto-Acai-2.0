@@ -24,10 +24,11 @@
             $sanitizedNewEmail = filter_var($_POST["newEmail"], FILTER_SANITIZE_EMAIL);
             $domain = substr(strrchr($sanitizedNewEmail, "@"), 1);
             if(checkdnsrr($domain, "MX")){ // checking if the email domain exists
-                $result = $result->fetch_assoc();
+                $result = $stmt->get_result();
+                $row = $result->fetch_assoc();
                 $stmt->close();
 
-                if($result["userMail"] != $sanitizedEmail){
+                if($row["userMail"] != $sanitizedEmail){
                     header("location: newEmail.php?wrongEmail=1");
                     exit();
                 }else if($sanitizedNewEmail == $sanitizedMail){
@@ -77,7 +78,7 @@
 
     <?php displayFavicon()?>
 
-
+    <link rel="stylesheet" href="<?php printStyle("2", "universal") ?>">
     <link rel="stylesheet" href="<?php printStyle("2", "general") ?>">
     <link rel="stylesheet" href="<?php printStyle("2", "account") ?>">
 
@@ -88,7 +89,6 @@
             background: url(https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751724099/forgotPassword_lx206b.png) center center;
             background-size: cover;
             background-repeat: no-repeat;
-
         }
     </style>
 
@@ -96,84 +96,74 @@
 
 </head>
 <body>
-    <?php headerOut(2)?>
+    <?php displayHeader(2)?>
 
-    <section class="container">
-        <div class="left-container">
-            <nav>
-                <ul>
-                    <li><a href="../../index.php">Página Principal</a></li>
-                    <li><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                        </svg>
-                    </li>
-
-                    <li><a href="../account.php">Página do Usuário</a></li>
-                    <li>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                        </svg>
-                    </li>
-
-                    <li><a href="newEmail.php">Alterar Email</a></li>
-                </ul>
-            </nav>
-            <div class="container-forms">
-                <div class="container-forms-title">
-                    <h1>Alterar Email</h1>
-                    <p>
-                        Insira o <strong>Endereço de Email Vinculado</strong> a sua conta e o <strong>Novo Email</strong> para realizar a alteração.
-                    </p>
+    <main>
+        <section class="container">
+            <div class="left-container">
+                <nav class="nav-bar">
+                    <ul>
+                        <li><a href="../../index.php">Página Principal</a></li>
+                        <li>/</li>
+                        <li><a href="../account.php">Página do Usuário</a></li>
+                        <li>/</li>
+                        <li><a href="newEmail.php">Alterar Email</a></li>
+                    </ul>
+                </nav>
+                <div class="container-forms">
+                    <div class="container-forms-title">
+                        <h1>Alterar Email</h1>
+                        <p>
+                            Insira o <strong>endereço de email vinculado</strong> a sua conta e o <strong>novo email</strong> para realizar a alteração.
+                        </p>
+                    </div>
+                    <form method="POST">
+                        <?php
+                            if(isset($_GET["wrongEmail"])) {
+                                echo "
+                                    <div class=\"errorText\">
+                                        <i class=\"fa-solid fa-triangle-exclamation\"></i>
+                                        <p>
+                                            Erro: <strong>Email Anterior Inserido</strong> não está cadastrado. Tente Novamente com outro Endereço de Correspondências Eletrônicas.
+                                        </p>
+                                    </div>
+                                ";
+                            }else if(isset($_GET["sameEmail"])){
+                                echo "
+                                    <div class=\"errorText\">
+                                        <i class=\"fa-solid fa-triangle-exclamation\"></i>
+                                        <p>
+                                            Erro: <strong>Email Anterior</strong> e <strong>Novo Email</strong> inseridos são os mesmos. Tente Novamente com outro Endereço de Correspondências Eletrônicas.
+                                        </p>
+                                    </div>
+                                ";
+                            }
+                        ?>
+                        <div class="form-item regular-input">
+                            <label for="iemail">Email anterior: </label>
+                            <input type="email" name="email" id="iemail" maxlength="50" placeholder="exemplo@dominio.com" required>
+                        </div>
+                        <div class="form-item regular-input">
+                            <label for="inewEmail">Novo email: </label>
+                            <input type="email" name="newEmail" id="inewEmail" maxlength="50" placeholder="exemplo@dominio.com" required>
+                        </div>
+                        <div>
+                            <button class="regular-button">
+                                Enviar Código
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                <form method="POST">
-                    <?php 
-                        if(isset($_GET["wrongEmail"])) {
-                            echo "
-                                <p class=\"errorText\">
-                                    <i class=\"fa-solid fa-triangle-exclamation\"></i>
-                                    Erro: <strong>Email Anterior Inserido</strong> não está cadastrado <br>
-                                    Tente Novamente com outro Endereço de Correspondências Eletrônicas.
-                                </p>
-                            ";
-
-                        }else if(isset($_GET["sameEmail"])){
-                            echo "
-                                <p class=\"errorText\">
-                                    <i class=\"fa-solid fa-triangle-exclamation\"></i>
-                                    Erro: <strong>Email Anterior</strong> e <strong>Novo Email</strong> inseridos são os mesmos<br>
-                                    Tente Novamente com outro Endereço de Correspondências Eletrônicas.
-                                </p>
-                            ";
-                        }
-                    ?>
-
-                    <div class="form-item">
-                        <label for="iemail">Email Anterior: </label>
-                        <input type="email" name="email" id="iemail" maxlength="50" placeholder="• • • • • • • • • •" required>
-                    </div>
-
-                    <div class="form-item">
-                        <label for="inewEmail">Novo Email: </label>
-                        <input type="email" name="newEmail" id="inewEmail" maxlength="50" placeholder="• • • • • • • • • •" required>
-                    </div>
-
-                    <div>
-                        <button>
-                            Enviar Código
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
-                            </svg>
-                        </button>
-                    </div>
-                </form>
             </div>
-        </div>
-
-        <div class="right-container">
-            <div class="container-background"></div>
-        </div>
-    </section>
+            <div class="right-container">
+                <div class="container-background"></div>
+            </div>
+        </section>
+    </main>
  
-    <?php footerOut();?>
+    <?php displayFooter();?>
 </body>
 </html>

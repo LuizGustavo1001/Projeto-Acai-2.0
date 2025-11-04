@@ -93,7 +93,7 @@
                             echo "
                                 <li>
                                     <div style=\"position: relative; display: inline-block;\">
-                                        <div class=\"item-amount\"><abbr title=\"Quantidade de Itens Adicionados\">" . $row["amount"] ."</abbr></div>
+                                        <div class=\"item-amount\">" . $row["amount"] ."</div>
                                         <img src=" . $prodData["imageURL"] .  ">
                                     </div>
                                     <ul>
@@ -210,22 +210,22 @@
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
     <script src="../JS/generalScripts.js"></script>
 
+    <link rel="stylesheet" href="<?php printStyle("1", "universal") ?>">
     <link rel="stylesheet" href="<?php printStyle("1", "general") ?>">
     <link rel="stylesheet" href="<?php printStyle("1", "cart") ?>">
 
     <title>Açaí e Polpas Amazônia - Carrinho</title>
 </head>
 <body>
-
-    <?php headerOut(1)?>
+    <?php displayHeader(1)?>
 
     <main>
         <?php 
             if(isset($_GET["noItem"]))
                 displayPopUp("noItem", "");
         ?>
-        
-        <section class="cart-header section-header-title">
+
+        <section class="title">
             <h1>Carrinho</h1>
             <p>Clique em <strong>Confirmar Pedido</strong> para efetuá-lo</p>
             <p>
@@ -234,11 +234,12 @@
             </p>
         </section>
 
-        <section class="hero-div">
-            <div class="hero-top-div">
+        <section class="hero-section">
+            <div class="hero-top">
                 <div class="order-info section-bg">
                     <div class="order-info-header">
                         <h1>Informações do Cliente</h1>
+
                         <a href="../account/account.php">
                             <div>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -253,6 +254,7 @@
                         <ol>
                             <li>
                                 <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751475315/user_iqkn7x.png" alt="user icon">
+                                
                                 <ul class="list-item-text">
                                     <li><strong>Cliente:</strong></li>
                                     <li><span><?php echo $_SESSION["userName"]?></span></li>
@@ -261,6 +263,7 @@
                             
                             <li>
                                 <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751475314/pin_zqdhx7.png" alt="maps pin icon">
+                                
                                 <ul class="list-item-text">
                                     <li><strong>Endereço:</strong></li>
                                     <li> 
@@ -273,6 +276,7 @@
 
                             <li>
                                 <img src="https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751475315/phone_plvmle.png" alt="phone icon">
+                                
                                 <ul class="list-item-text">
                                     <li><strong>Telefone:</strong></li>
                                     <li> <span><?php echo $_SESSION["userPhone"]?></span> </li>
@@ -285,7 +289,7 @@
                 <div class="order-review section-bg">
                     <h1>Revisão dos Itens</h1>
                     <ol style="overflow: auto;height: 400px">
-                        <?php GetCartProd();?>
+                        <?php GetCartProd()?>
                     </ol>
                 </div>
             </div>
@@ -306,7 +310,7 @@
                         <li class="list-item-text">
                             <ul>
                                 <li>Taxa de Entrega:</li>
-                                <li><span>R$ 00,00</span></li>
+                                <li><span>R$ -----</span></li>
                             </ul>
                         </li>
                         <li class="list-item-text">
@@ -320,12 +324,11 @@
                         </li>
                     </ol>
                 </div>
-                <div class="button-submit">
-                    <a href="cart.php?orderConfirmed=1"><button>Confirmar Pedido</button></a>
-                </div>
+                <a href="cart.php?orderConfirmed=1" class="link-button">Confirmar Pedido</a>
             </div>
         </section>
     </main>
-    <?php footerOut();?>
+    
+    <?php displayFooter()?>
 </body>
 </html>

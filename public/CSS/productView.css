@@ -1,90 +1,86 @@
-.back-button {
-    margin-block: 2em;
+main{
+    padding-inline: 2em;
 
     display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
+.product-hero{
+    display: flex;
+    flex-direction: column;
     align-items: center;
-
-    font-size: 1.3em;
+    gap: 2em;
 }
 
-.product-main-img img {
+.product-hero .product-img img{
     width: 100%;
-    margin-bottom: 1vw;
+    border-radius: var(--border-radius);
 }
 
-.product-forms-div small {
-    font-size: 1em;
-    color: var(--fifth-clr);
-}
-
-.product-forms-div {
+.product-hero .product-data{
+    width: 100%;
+    
     display: flex;
     flex-direction: column;
     gap: 1em;
 }
 
-.product-forms-div h1 {
-    font-size: 2em;
+.product-hero .product-data .data-title span{
+    color: var(--fifth-clr);
+    font-weight: bold;
 }
 
-.product-forms-div .product-price-value {
+.product-hero .product-data .price{
     color: var(--secondary-clr);
     font-size: 2em;
 }
 
-.forms-text {
+.product-hero .product-data form ul{
     display: flex;
     flex-direction: column;
     gap: 1em;
-
-    box-shadow: none;
-    margin-bottom: 2em;
 }
 
-.forms-text label {
+.regular-button{
     font-size: 1.2em;
+    font-weight: bold;
 }
 
-.forms-item {
-    display: grid;
-    grid-template-columns: 40% auto;
-    align-items: center;
-}
-
-button {
-    width: 100%;
-}
-
-.forms-item:hover select,
-.forms-item:active select,
-.forms-item:focus-within select,
-.forms-item:hover input,
-.forms-item:active input,
-.forms-item:focus-within input {
-    border: 1px solid var(--secondary-clr);
-}
-
-
-@media(min-width: 1024px) {
-    main section {
+@media(min-width: 1024px){
+    .product-hero{
         display: grid;
-        grid-template-columns: 45% auto;
-        align-items: center;
+        grid-template-columns: auto 50%;
+    }
+
+    .product-hero .product-img{
+        width: 80%;
+    }
+
+    .product-hero .product-data{
         gap: 3em;
     }
 
-    .product-forms-div h1 {
-        font-size: 3.5em;
+}
+
+@media(min-width: 1800px){
+    .product-hero .product-data .data-title h1,
+    .product-hero .product-data .price{
+        font-size: 2vw;
+
+    }
+    .product-hero .product-data .data-title span{
+        font-size: 1vw;
     }
 
-    .product-forms-div small {
-        font-size: 1.3em;
+    .product-var label{
+        font-size: 1vw;
     }
 
-    .product-forms-div .product-price-value {
-        margin-block: 1em;
-
-        color: var(--secondary-clr);
-        font-size: 3em;
+    .product-var input,
+    .product-var select,
+    .regular-button{
+        padding: 1vw;
     }
+
 }

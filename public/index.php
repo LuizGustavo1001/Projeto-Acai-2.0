@@ -3,7 +3,7 @@
     include "generalPHP.php";
     include "footerHeader.php";
     include "printStyles.php";
-    function featureItens(){
+    function featureItems(){
         // feature 4 random products from Database
         global $mysqli;
 
@@ -42,133 +42,135 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="<?php printStyle("0", "universal") ?>">
     <link rel="stylesheet" href="<?php printStyle("0", "general") ?>">
     <link rel="stylesheet" href="<?php printStyle("0", "index") ?>">
-
+    
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
     <script src="JS/generalScripts.js"></script>
     
     <?php displayFavicon()?>
-    
+
     <title>Açaí e Polpas Amazônia</title>
 
 </head>
 <body>
-    <?php headerOut(0)?>
+    <?php displayHeader(0)?>
     <main>
-        <?php 
-            if(isset($_GET["orderConfirmed"])){
-                displayPopUp("orderConfirmed", "");
-                verifyOrders();
-            }else if(isset($_GET["loginSuccess"]))
-                displayPopUp("loginSuccess", "");
-            else if(isset($_GET["notAdmin"]))
-                displayPopUp("notAdmin", "");
-        ?>
+    <!-- Pop Up Box -->
+    <?php 
+        if(isset($_GET["orderConfirmed"])){
+            displayPopUp("orderConfirmed", "");
+            verifyOrders();
+        }else if(isset($_GET["loginSuccess"]))
+            displayPopUp("loginSuccess", "");
+        else if(isset($_GET["notAdmin"]))
+            displayPopUp("notAdmin", "");
+    ?>
+    <!-- Pop Up Box -->
 
-        <section class="main-section">
-            <div class="left-content">
-                <h1>Açaí e Polpas <br><span>Amazônia</span></h1>
+        <section class='index-title'>
+            <div class='title-text'>
+                <h1>Açaí e Polpas <br> <span>Amazônia</span></h1>
                 <p>Qualidade Superior, Preço Inferior</p>
-
-                <div>
-                    <button type="button" onclick="window.location.href='products/products.php'">
-                        Compre Agora
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5" style="width: 25px;">
-                            <path fill-rule="evenodd" d="M2 10a.75.75 0 0 1 .75-.75h12.59l-2.1-1.95a.75.75 0 1 1 1.02-1.1l3.5 3.25a.75.75 0 0 1 0 1.1l-3.5 3.25a.75.75 0 1 1-1.02-1.1l2.1-1.95H2.75A.75.75 0 0 1 2 10Z" clip-rule="evenodd" />
-                        </svg>
-                    </button>
-                </div>
+                <a href="products/products.php" class="link-button"><strong>Compre Agora</strong></a>
             </div>
-            <div class="right-content"></div>
+
+            <div class='title-img'></div>
         </section>
 
-        <section class="about-us-section">
-            <div class="index-title">
+
+        <section class='index-about-us'>
+            <div class='section-title'>
                 <h1>Sobre Nós</h1>
             </div>
 
-            <ul>
-                <li class="about-us-item">
-                    <div class="about-us-item-svg">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
-                            <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-5.5-2.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM10 12a5.99 5.99 0 0 0-4.793 2.39A6.483 6.483 0 0 0 10 16.5a6.483 6.483 0 0 0 4.793-2.11A5.99 5.99 0 0 0 10 12Z" clip-rule="evenodd" />
+            <div class='section-hero'>
+                <ul>
+                    <li>
+                        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor' class='size-6'>
+                            <path d='M4.5 6.375a4.125 4.125 0 1 1 8.25 0 4.125 4.125 0 0 1-8.25 0ZM14.25 8.625a3.375 3.375 0 1 1 6.75 0 3.375 3.375 0 0 1-6.75 0ZM1.5 19.125a7.125 7.125 0 0 1 14.25 0v.003l-.001.119a.75.75 0 0 1-.363.63 13.067 13.067 0 0 1-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 0 1-.364-.63l-.001-.122ZM17.25 19.128l-.001.144a2.25 2.25 0 0 1-.233.96 10.088 10.088 0 0 0 5.06-1.01.75.75 0 0 0 .42-.643 4.875 4.875 0 0 0-6.957-4.611 8.586 8.586 0 0 1 1.71 5.157v.003Z'/>
                         </svg>
-                    </div>
-                    <div class="about-us-item-text">
-                        <h1>Quem Somos?</h1>
-                        <p>Açaí e Polpas Amazônia, distribuidora de <strong>Cremes e Polpas Variadas</strong>.</p>
-                        <p>
-                            Vendemos também
-                            <strong>Picolés</strong>, <strong>Sorvetes</strong>, <strong>Adicionais Variados para Açaí e Sorvete</strong>
-                            e <strong>Outros tipos de Cremes.</strong>
-                        </p>
-                        <p>Ofereçemos apenas produtos com qualidade comprovada.</p>
-                    </div>
-                </li>
+                        <div class='list-text'>
+                            <h1>Quem Somos?</h1>
+                            <p>
+                                Açaí Amazônia Ipatinga, distribuidora de <span>Cremes</span> e <span>Polpas Variadas</span>.
+                                <br>
+                                Vendemos também <span>Picolés</span>, <span>Sorvetes</span>, <span>Adicionais Variados para Açaí</span> e <span>Sorvete</span> e <span>Outros</span> tipos de <span>Cremes</span>. 
+                                <br>
+                                Ofereçemos apenas produtos com qualidade comprovada.
+                            </p>
+                        </div>
+                    </li>
 
-                <li class="about-us-item">
-                    <div class="about-us-item-svg">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
-                        <path d="M14.916 2.404a.75.75 0 0 1-.32 1.011l-.596.31V17a1 1 0 0 1-1 1h-2.26a.75.75 0 0 1-.75-.75v-3.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.5a.75.75 0 0 1-.75.75h-3.5a.75.75 0 0 1 0-1.5H2V9.957a.75.75 0 0 1-.596-1.372L2 8.275V5.75a.75.75 0 0 1 1.5 0v1.745l10.404-5.41a.75.75 0 0 1 1.012.319ZM15.861 8.57a.75.75 0 0 1 .736-.025l1.999 1.04A.75.75 0 0 1 18 10.957V16.5h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75V9.21a.75.75 0 0 1 .361-.64Z" />
-                    </svg>
-                    </div>
-                    <div class="about-us-item-text">
-                        <h1>Nossa Produção</h1>
-                        <p>Nossa Fábrica está localizada na cidade de <strong>*******</strong>.</p>
-                        <p>
-                            Contamos com todas as <strong>Alvarás e Licenças </strong> exigidos pela 
-                            <strong>Vigilância Sanitária</strong>, <strong>Ministério da Agricultura</strong> 
-                            e demais orgãos reguladores.
-                        </p>
-                        <p>Nossa Produção é <strong>supervisionada</strong> por <strong>Engenheiro de Alimentos</strong> altamente qualificado.</p>
-                    </div>
-                </li>
-
-                <li class="about-us-item">
-                    <div class="about-us-item-svg">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
-                            <path fill-rule="evenodd" d="m9.69 18.933.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 0 0 .281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 1 0 3 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 0 0 2.273 1.765 11.842 11.842 0 0 0 .976.544l.062.029.018.008.006.003ZM10 11.25a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5Z" clip-rule="evenodd" />
+                    <li>
+                        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor' class='size-6'>
+                            <path d='M19.006 3.705a.75.75 0 1 0-.512-1.41L6 6.838V3a.75.75 0 0 0-.75-.75h-1.5A.75.75 0 0 0 3 3v4.93l-1.006.365a.75.75 0 0 0 .512 1.41l16.5-6Z'/>
+                            <path fill-rule='evenodd' d='M3.019 11.114 18 5.667v3.421l4.006 1.457a.75.75 0 1 1-.512 1.41l-.494-.18v8.475h.75a.75.75 0 0 1 0 1.5H2.25a.75.75 0 0 1 0-1.5H3v-9.129l.019-.007ZM18 20.25v-9.566l1.5.546v9.02H18Zm-9-6a.75.75 0 0 0-.75.75v4.5c0 .414.336.75.75.75h3a.75.75 0 0 0 .75-.75V15a.75.75 0 0 0-.75-.75H9Z' clip-rule='evenodd'/>
                         </svg>
-                    </div>
-                    <div class="about-us-item-text">
-                        <h1>Localização</h1>
-                        <p>Nosso Depósito está localizado na <strong>Rua ******, *** - ******, ****, ****</strong>.</p>
-                    </div>
-                </li>
+                        <div class='list-text'>
+                            <h1>Nossa Produção</h1>
+                            <p>
+                                Nossa Fábrica está localizada na cidade de <span>*******</span>.
+                                <br>
+                                Contamos com todas as <span>Alvarás e Licenças</span> exigidos pela 
+                                <span>Vigilância Sanitária</span>, <span>Ministério da Agricultura </span>e demais orgãos reguladores.
+                                <br>
+                                Nossa Produção é <span>supervisionada</span> por <span>Engenheiro de Alimentos</span> altamente qualificado.
+                            </p>
+                        </div>
+                    </li>
 
-                <li class="about-us-item">
-                    <div class="about-us-item-svg">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
-                            <path d="M6.5 3c-1.051 0-2.093.04-3.125.117A1.49 1.49 0 0 0 2 4.607V10.5h9V4.606c0-.771-.59-1.43-1.375-1.489A41.568 41.568 0 0 0 6.5 3ZM2 12v2.5A1.5 1.5 0 0 0 3.5 16h.041a3 3 0 0 1 5.918 0h.791a.75.75 0 0 0 .75-.75V12H2Z" />
-                            <path d="M6.5 18a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM13.25 5a.75.75 0 0 0-.75.75v8.514a3.001 3.001 0 0 1 4.893 1.44c.37-.275.61-.719.595-1.227a24.905 24.905 0 0 0-1.784-8.549A1.486 1.486 0 0 0 14.823 5H13.25ZM14.5 18a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
+                    <li>
+                        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor' class='size-6'>
+                            <path d='M3.375 4.5C2.339 4.5 1.5 5.34 1.5 6.375V13.5h12V6.375c0-1.036-.84-1.875-1.875-1.875h-8.25ZM13.5 15h-12v2.625c0 1.035.84 1.875 1.875 1.875h.375a3 3 0 1 1 6 0h3a.75.75 0 0 0 .75-.75V15Z'/>
+                            <path d='M8.25 19.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0ZM15.75 6.75a.75.75 0 0 0-.75.75v11.25c0 .087.015.17.042.248a3 3 0 0 1 5.958.464c.853-.175 1.522-.935 1.464-1.883a18.659 18.659 0 0 0-3.732-10.104 1.837 1.837 0 0 0-1.47-.725H15.75Z'/>
+                            <path d='M19.5 19.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0Z' />
                         </svg>
-                    </div>
-                    <div class="about-us-item-text">
-                        <h1>Entregas</h1>
-                        <p>
-                            Atendemos e Entregamos em toda Região do  <strong>**** ** ***</strong>, <strong>**** ** *** ****</strong>, <strong></strong> e <strong>Região</strong>.
-                        </p>
-                        <p>Realizamos entregas tanto para <strong>Sua Loja</strong> como para <strong>Consumo Próprio</strong>*.</p>
-                        
-                    </div>
-                </li>
-            </ul>
+                        <div class='list-text'>
+                            <h1>Entregas</h1>
+                            <p>
+                                Atendemos e Entregamos no <span>**** ** ***</span>, <span>**** ** *** ****</span>, e <span>Região</span>.
+                                <br>
+                                Realizamos entregas tanto para <span>Sua Loja</span> como para <span>Consumo Próprio*</span>.
+                            </p>
+                        </div>
+                    </li>
 
-            <p style="text-align: center; margin-top: 1em;">
-                * Entregas Domiciliares Apenas em <strong>********</strong>.
-            </p>
+                    <li>
+                        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor' class='size-6'>
+                            <path fill-rule='evenodd' d='m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z' clip-rule='evenodd' />
+                        </svg>
+                        <div class='list-text'>
+                            <h1>Localização</h1>
+                            <p>
+                                Nosso Depósito está localizado na <span>Rua ******, *** - ******, ****, ****</span>.
+                                <br>
+                                Venha nos visitar e comprar pessoalmente!
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+                <p class='disclaimer'>* Entregas Domiciliares Apenas em ********.</p>
+            </div>
         </section>
 
-        <section class="feature-products">
-            <div class="index-title feature-list-title">
+
+        <section class='index-feature'>
+            <div class='section-title'>
                 <h1>Destaques</h1>
             </div>
-            <ul class="products-list">
-                <?php featureItens()?>
-            </ul>
+
+            <div class='section-hero'>
+                <ul class='product-list'>
+                    <?php featureItems()?>
+                    
+                </ul>
+            </div>
         </section>
     </main>
-    <?php footerOut()?>
+    
+
+    <?php displayFooter()?>
 </body>
 </html>

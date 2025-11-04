@@ -17,7 +17,7 @@
         exit();
     }else{
         $token = bin2hex(random_bytes(3));
-        $emailReciever = $_SESSION["userMail"];
+        $emailReciever = $_SESSION["sendMail"];
         $email = new PHPMailer;
 
         try{

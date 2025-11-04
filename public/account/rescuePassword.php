@@ -43,6 +43,7 @@
 
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
 
+    <link rel="stylesheet" href="<?php printStyle("1", "universal") ?>">
     <link rel="stylesheet" href="<?php printStyle("1", "general") ?>">
     <link rel="stylesheet" href="<?php printStyle("1", "account") ?>">
     
@@ -51,85 +52,75 @@
             background: url(https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751724099/rescuePassword_gtxplo.png) center center;
             background-size: cover;
             background-repeat: no-repeat;
-
         }
-        @media(max-width: 1023px){
-            .left-container nav ul {
-                align-items: center;
-            }
-        }
-
     </style>
 
     <title>Açaí e Polpas Amazônia - Recuperar Senha</title>
 
 </head>
 <body>
-    <?php headerOut(1)?>
+    <?php displayHeader(1)?>
 
-    <section class="container">
-        <div class="left-container">
-            <nav>
-                <ul>
-                    <li><a href="../index.php">Página Principal</a></li>
-                    <li><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                        </svg>
-                    </li>
+    <main>
+        <section class="container">
+            <div class="left-container">
+                <nav class="nav-bar">
+                    <ul>
+                        <li><a href="../index.php">Página Principal</a></li>
+                        <li>/</li>
+                        <li><a href="login.php">Página de Login</a></li>
+                        <li>/</li>
+                        <li><a href="password.php">Recuperação de Senha</a></li>
+                    </ul>
+                </nav>
 
-                    <li><a href="login.php">Página de Login</a></li>
-                    <li>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                        </svg>
-                    </li>
+                <div class="container-forms">
+                    <div class="container-forms-title">
+                        <h1>Código para Verificação de Email</h1>
+                        <p>
+                            Insira o <strong>token</strong> enviado para o email  
+                            <strong style="color: var(--secondary-clr)" ><?php echo $_SESSION["sendMail"]?></strong> 
+                            no campo abaixo para <strong>alterar sua senha</strong>.
+                        </p>
+                    </div>
 
-                    <li><a href="password.php">Recuperação de Senha</a></li>
-                </ul>
-            </nav>
-            <div class="container-forms">
-                <div class="container-forms-title">
-                    <h1>Código para Verificação de Email</h1>
-                    <p>
-                        Insira o <strong>Código</strong> enviado para o Email  
-                        <strong style="color: var(--secondary-clr)" ><?php echo $_SESSION["userMail"]?></strong> 
-                        abaixo para <strong>alterar sua senha</strong>
-                    </p>
+                    <form method="POST">
+                        <?php 
+                            if(isset($_GET["wrongToken"])) {
+                                echo "
+                                    <div class=\"errorText\">
+                                        <i class=\"fa-solid fa-triangle-exclamation\"></i>
+                                        <p>
+                                            Erro: <strong>token inserido</strong> incorreto. Tente Novamente.
+                                        </p>
+                                    </div>
+                                ";
+                            }
+                        ?>
+
+                        <div class="form-item regular-input">
+                            <label for="itoken">Token de Recuperação: </label>
+                            <input type="text" name="token" id="itoken" maxlength="50" placeholder="Digite o Token de Recuperação Aqui" required>
+                        </div>
+
+                        <div>
+                            <button class="regular-button">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                                </svg>
+                                Enviar
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                <form method="POST">
-                    <?php 
-                        if(isset($_GET["wrongToken"])) {
-                            echo "
-                                <p class=\"errorText\">
-                                    <i class=\"fa-solid fa-triangle-exclamation\"></i>
-                                    Erro: <strong>Token Inserido</strong> Incorreto <br>
-                                    Tente Novamente com outro Token.
-                                </p>
-                            ";
-                        }
-                    ?>
-
-                    <div class="form-item">
-                        <label for="itoken">Token de Recuperação: </label>
-                        <input type="text" name="token" id="itoken" maxlength="50" placeholder="Digite o Token de Recuperação Aqui" required>
-                    </div>
-
-                    <div>
-                        <button>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
-                            </svg>
-                            Enviar
-                        </button>
-                    </div>
-                </form>
             </div>
-        </div>
+            
+            <div class="right-container">
+                <div class="container-background"></div>
+            </div>
+        </section>
+    </main>
 
-        <div class="right-container">
-            <div class="container-background"></div>
-        </div>
-    </section>
-    <?php footerOut();?>
+    <?php displayFooter()?>
 </body>
 </html>

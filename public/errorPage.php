@@ -12,6 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="<?php printStyle("0", "universal") ?>">
     <link rel="stylesheet" href="<?php printStyle("0", "general") ?>">
     <link rel="stylesheet" href="<?php printStyle("0", "index") ?>">
 

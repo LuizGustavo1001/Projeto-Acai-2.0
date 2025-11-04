@@ -115,9 +115,8 @@
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
     <script src="../JS/generalScripts.js"></script>
 
-    <link rel="stylesheet" href="<?php printStyle("1", "mannager") ?>">
+    <link rel="stylesheet" href="<?php printStyle("1", "universal") ?>">
     <link rel="stylesheet" href="<?php printStyle("1", "mannagerSettings") ?>">
-
 
     <title>Açaí e Polpas Amazônia - Configurações</title>
 </head>
@@ -127,13 +126,13 @@
         <form method="POST" enctype="multipart/form-data">
             <div class="form-title">
                 <div class='back-button'>
-                    <a href='users.php'>
-                        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
-                            <path stroke-linecap='round' stroke-linejoin='round' d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'/>
-                        </svg>
-                        Voltar
-                    </a>
-                </div>
+                        <a href='admin.php'>
+                            <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
+                                <path stroke-linecap='round' stroke-linejoin='round' d='M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3'/>
+                            </svg>
+                            Voltar
+                        </a>
+                    </div>
                 <h1>
                     <div>
                         <svg xmlns='http://www.w3.org/2000/svg' fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -166,14 +165,22 @@
 
                             switch ($value) {
                                 case "1":
-                                    echo "<p class='successText'>Sucesso ao alterar <strong>{$label}</strong></p>";
+                                    echo "
+                                        <div class='successText'>
+                                            <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
+                                                <path stroke-linecap='round' stroke-linejoin='round' d='M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z' />
+                                            </svg>
+                                            <p>Sucesso ao alterar <strong>{$label}</strong></p>
+                                        </div>
+                                    ";
                                     break;
                                 case "2":
                                     echo "
-                                    <p class='errorText'>
-                                        <i class=\"fa-solid fa-triangle-exclamation\"></i> 
-                                        O valor inserido em <strong>{$label}</strong> é o mesmo já cadastrado.
-                                    </p>";
+                                        <div class='errorText'>
+                                            <i class=\"fa-solid fa-triangle-exclamation\"></i> 
+                                            <p>O valor inserido em <strong>{$label}</strong> é o mesmo já cadastrado.</p>
+                                        </div>
+                                    ";
                                     break;
                             }
                         }
@@ -184,7 +191,7 @@
             <div class="form-main">
                 <div class='form-inputs'>
                     <div class="form-picture">
-                        <div class="form-item">
+                        <div class="form-item regular-input">
                             <label for="iadminPicture">Foto de Perfil:</label>
                             <div class="form-input form-picture-display">
                                 <img src="<?php echo $_SESSION["adminPicture"]?>" alt="Current Admin Picture">
@@ -194,49 +201,49 @@
                     </div>
                     
                     <div class="form-regular-inputs">
-                        <div class="form-item">
+                        <div class="form-item regular-input">
                             <label for="iadminName">Nome: </label>
                             <div class="form-input">
                                 <input type="text" name="userName" id="iadminName" maxlength="30" minlength="8" placeholder="<?php echo $_SESSION['userName']; ?>" >
                             </div>
                         </div>
 
-                        <div class="form-item">
+                        <div class="form-item regular-input">
                             <label for="iadminPhone">Telefone de Contato:</label>
                             <div class="form-input">
                                 <input type="text" name="userPhone" id="iadminPhone" minlength="15" maxlength="16" pattern="\(\d{2}\) \d \d{4} \d{4}" placeholder="<?php echo $_SESSION['userPhone']; ?>" >
                             </div>
                         </div>
 
-                        <div class="form-item">
+                        <div class="form-item regular-input">
                             <label for="istreet">Rua: </label>
                             <div class="form-input">
                                 <input type="text" name="street" id="istreet" maxlength="50" placeholder="<?php echo $_SESSION['street']; ?>" >
                             </div>
                         </div>
 
-                        <div class="form-item">
-                            <label for="ilocalNum">Número: </label>
+                        <div class="form-item regular-input">
+                            <label for="ilocalNum">Número da Residência: </label>
                             <div class="form-input">
                                 <input type="number" name="localNum" id="ilocalNum" max="99999999" placeholder="<?php echo $_SESSION['localNum']; ?>">
                             </div>
                         </div>
 
-                        <div class="form-item">
+                        <div class="form-item regular-input">
                             <label for="iuserDistrict">Bairro: </label>
                             <div class="form-input">
                                 <input type="text" name="district" id="iuserDistrict" maxlength="40" placeholder="<?php echo $_SESSION['district']; ?>" >
                             </div>
                         </div>
 
-                        <div class="form-item">
+                        <div class="form-item regular-input">
                             <label for="iuserCity">Cidade: </label>
                             <div class="form-input">
                                 <input type="text" name="city" id="iuserCity" maxlength="40" placeholder="<?php echo $_SESSION['city']; ?>">
                             </div>
                         </div>
 
-                        <div class="form-item">
+                        <div class="form-item regular-input">
                             <label for="istate">Estado: </label>
                             <div class="form-input">
                                 <select name="state" id="istate">
@@ -271,7 +278,7 @@
                             </div>
                         </div>
 
-                        <div class="form-item">
+                        <div class="form-item regular-input">
                             <label for="ireferencePoint">Ponto de Referência: </label>
                             <div class="form-input">
                                 <input type="text" name="referencePoint" id="ireferencePoint" maxlength="50" placeholder="<?php echo $_SESSION['referencePoint']; ?>">
@@ -279,9 +286,10 @@
                         </div>
                     </div>
                 </div>
-                <button>Editar</button>
 
-                <div style="display: flex; justify-content: space-between; border: none">
+                <button class="regular-button">Editar</button>
+
+                <div class="form-links">
                     <a href="../account/changes/newPassword.php">Alterar Senha</a>
                     <a href="../account/changes/newEmail.php">Alterar Email</a>
                 </div>

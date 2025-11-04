@@ -8,9 +8,8 @@
         unset($_SESSION["passwordToken"]);
     }
 
-    function getProductByName($prodName, $page){
+    function getProductByName($prodName, $page): void{
         // print the product data with the $prodName above
-
         global $mysqli;
 
         $getAllNames = $mysqli->query("SELECT altName FROM product_data");
@@ -23,19 +22,18 @@
         if(in_array($prodName, $allowedNames)){
             $getProducts = $mysqli->prepare("
                 SELECT pd.idProduct, pd.printName, pd.altName, pd.brandProduct, pv.imageURL, 
-                       MIN(pv.priceProduct) AS priceProduct, pv.priceDate
-                FROM product_data AS pd 
-                    JOIN product_version AS pv ON pd.idProduct = pv.idProduct
+                    MIN(pv.priceProduct) AS priceProduct, pv.priceDate
+                    FROM product_version AS pv
+                        INNER JOIN product_data AS pd ON pv.idProduct = pd.idProduct
                 WHERE pd.altName = ?
+                GROUP BY pd.idProduct
             ");
 
             $getProducts->bind_param("s", $prodName);
             if($getProducts->execute()){
                 $products = $getProducts->get_result();
                 $getProducts->close();
-                if($products->num_rows <= 0){
-                    echo "<li class=\"products-item item-translate-alt\"><a><p><em>Nenhum produto encontrado com o nome selecionado</em></p></a></li>";
-                }else{
+                if($products->num_rows > 0){
                     $row = $products->fetch_assoc();
                     $name           = $row["printName"];
                     $link           = "productView.php?id={$row['altName']}";
@@ -47,24 +45,17 @@
                     if($page == "index"){
                         $link = "products/productView.php?id={$row['altName']}";
                     }
+
                     echo "
-                        <li class=\"products-item item-translate-alt\" id='{$prodName}'>
-                            <a href=\"{$link}\">
-                                <img src=\"{$imageURL}\" alt=\"{$name} Image\">
-                                <hr>
-                                <div>
-                                    <p>{$brand}</p>
-                                    <h2>{$name}</h2>
-                                    <p class=\"price\">
-                                        <em>A partir de</em>: 
-                                        <span style=\"font-size: 1.3em;\">{$price}</span>
-                                    </p>
-                                    <p style=\"color: var(--primary-clr)\">
-                                        <small>
-                                            Preço Atualizado em:
-                                            <strong>{$priceDate}</strong>
-                                        </small>
-                                    </p>
+                        <li class='product-view' id='{$prodName}'>
+                            <a href='{$link}' class='translate'>
+                                <div class='product-img'><img src='{$imageURL}' alt='{$name} Image'></div>
+                                
+                                <div class='product-text'>
+                                    <p><span>{$brand}</span></p>
+                                    <h1>{$name}</h1>
+                                    <p class='product-price'><small>a partir de:</small> <span>{$price}</span></p>
+                                    <p><span>Preço Atualizado: <strong>{$priceDate}</strong></span></p>
                                 </div>
                             </a>
                         </li>
@@ -108,16 +99,20 @@
             }
         }
     }
-
+    
     function verifyOrders(){
         // remove orders that wasn't confirmed(Pendente/Pending) for more then 1 day
         global $mysqli;
 
         $getOrders = $mysqli->prepare("
-            SELECT od.idOrder 
+            SELECT idOrder
             FROM order_data AS od
-            LEFT JOIN product_order AS po ON od.idOrder = po.idOrder
-            WHERE (od.orderDate < (NOW() - INTERVAL 1 DAY) AND po.idOrder IS NULL) OR od.orderStatus = 'Pendente'
+            WHERE 
+                od.orderDate < NOW() - INTERVAL 1 DAY
+                AND od.orderStatus <> 'Pendente'
+                AND NOT EXISTS (
+                    SELECT 1 FROM product_order WHERE idOrder = od.idOrder
+                );
         ");
 
         $getOrders->execute();
@@ -126,7 +121,7 @@
         while ($row = $result->fetch_assoc()) {
             $idOrder = $row["idOrder"];
 
-            $deleteOrder = $mysqli->prepare("DELETE FROM order_data WHERE idOrder = ?");
+            $deleteOrder = $mysqli->prepare(query: "DELETE FROM order_data WHERE idOrder = ?");
 
             $deleteOrder->bind_param("i", $idOrder);
             $deleteOrder->execute();
@@ -135,7 +130,12 @@
         $getOrders->close();
     }
 
-    function optionSelect($local, $option){
+/**
+ * @param $local
+ * @param $option
+ * @return string
+ */
+function optionSelect($local, $option){
         // display if the option is "selected" or not at <option> using the special variable $_SESSION
         if(isset($_SESSION[$local]) && $_SESSION[$local] == $option)
             return " selected";
@@ -156,41 +156,42 @@
             "revAdd", "revMod", "revRem" => "Alteração",
             "orderConfirmed"        => "Pedido Confirmado",
             "loginSuccess"          => "Login Realizado com Sucesso",
-            "notAdmin", "adminNotAllowed", "noItem" => "Erro",
+            "notAdmin", "adminNotAllowed", "noItem", "outOfOrder" => "Erro",
             "prodAdd"               => "Carrinho Atualizado",
             "makeClient", "removeS", "addProduct", "addVersion", "makeAdmin"  => "Atualização",
             default => "Erro",
         };
 
         $mainMessage = match($item){
-            "revAdd"            => "Reversão de Adição <strong>Realizada com Sucesso</strong>",
-            "revMod"            => "Reversão de Modificação <strong>Realizada com Sucesso</strong>",
-            "revRem"            => "Reversão de Remoção <strong>Realizada com Sucesso</strong>",
-            "OrderConfirmed"    => "Pedido no nome de <strong>$_SESSION[userMail]</strong> foi enviado para nossa central",
-            "loginSuccess"      => "Agora voce pode navegar pelo site e fazer compras em seu nome",
-            "notAdmin"          => "É preciso fazer <strong>Login como Administrador</strong> para acessar a Página de Gerenciamento",
-            "prodAdd"           => "Produto <strong style='color: var(--secondary-clr)'>{$variable}</strong> foi Adicionado com sucesso ao Carrinho",
-            "adminNotAllowed"   => "É preciso fazer <strong>Login como Cliente</strong> para acessar A Página Anterior",
-            "makeClient"        => "<strong>Novo Cliente Adicionado</strong> com Sucesso",
-            "removeS"           => "Sucesso ao <strong>Remover um Item</strong> do Banco de Dados",
-            "addProduct"        => "Sucesso ao <strong>Adicinar Produto</strong> ao Banco de Dados",
-            "addVersion"        => "Sucesso ao <strong>Adicinar Versão de um Produto</strong> ao Banco de Dados",
-            "makeAdmin"         => "<strong>Novo Administrador Adicionado</strong> com Sucesso",
-            "noItem"            => "É preciso adicionar algum produto ao carrinho para concluir a compra",
-            ""                  => "Função ainda em <strong>Desenvolvimento</strong> <br> <a href='changes.php'>Clique aqui</a> para retornar a Página Principal",
+            "revAdd"            => "Reversão de adição <strong>realizada com sucesso</strong>.",
+            "revMod"            => "Reversão de modificação <strong>realizada com sucesso</strong>.",
+            "revRem"            => "Reversão de remoção <strong>realizada com sucesso</strong>.",
+            "orderConfirmed"    => "Pedido no nome de <strong>$_SESSION[userMail]</strong> foi enviado para nossa central.",
+            "loginSuccess"      => "Agora voce pode navegar pelo site e fazer compras em seu nome.",
+            "notAdmin"          => "É preciso fazer <strong>login como administrador</strong> para acessar a página de gerenciamento.",
+            "prodAdd"           => "Produto <strong style='color: var(--secondary-clr)'>{$variable}</strong> foi adicionado com sucesso ao <strong>carrinho</strong>.",
+            "adminNotAllowed"   => "É preciso fazer <strong>login como cliente</strong> para acessar A página anterior.",
+            "makeClient"        => "<strong>Novo cliente adicionado</strong> com sucesso.",
+            "removeS"           => "Sucesso ao <strong>remover um item</strong> no banco de dados.",
+            "addProduct"        => "Sucesso ao <strong>adicinar produto</strong> no banco de dados.",
+            "addVersion"        => "Sucesso ao <strong>adicinar versão de um produto</strong> ao banco de dados.",
+            "makeAdmin"         => "<strong>Novo administrador Adicionado</strong> com sucesso.",
+            "noItem"            => "É preciso adicionar algum produto ao carrinho para concluir a compra.",
+            "outOfOrder"        => "Versão do Produto <strong>{$variable}</strong> selecionado está indisponível.",
+            ""                  => "Função ainda em <strong>desenvolvimento</strong> <br> <a href='changes.php'>clique aqui</a> para retornar a página principal.",
             default             => "...",
         };
 
         echo "
-            <section class='popup-box show'>
+            <div class='popup-box show'>
                 <div class='popup-div'>
-                    <div><h1>{$title}</h1></div>
-                    <div>
+                    <div class='popup-title'><h1>{$title}</h1></div>
+                    <div class='popup-body'>
                         <p>{$mainMessage}</p>
-                        <p>Clique no botão abaixo para fechar a janela</p>
-                        <button class='popup-button'>Fechar</button>
+                        <p>Clique no botão abaixo para fechar a janela.</p>
+                        <button class=' popup-button regular-button'>Fechar</button>
                     </div>
                 </div>
-            </section>
+            </div>
         ";
     }

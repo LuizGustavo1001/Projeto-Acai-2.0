@@ -1,10 +1,9 @@
-
-.hero-div {
+.hero-section {
     margin-top: 2em;
 }
 
-.hero-div,
-.hero-top-div {
+.hero-section,
+.hero-top {
     display: flex;
     flex-direction: column;
     gap: 2em;
@@ -16,6 +15,15 @@
     background: var(--primary-bg-clr);
     border-radius: var(--border-radius);
     box-shadow: 4px 4px 4px var(--shadow-clr);
+}
+
+.order-info-header a div{
+    transition: var(--transition);
+}
+
+.order-info-header a div:hover{
+    text-decoration: underline;
+    color: var(--primary-clr);
 }
 
 .order-review h1,
@@ -113,13 +121,13 @@
 }
 
 
-.order-review ol {
+.order-review ol{
     display: flex;
     flex-direction: column;
     gap: 1em;
 }
 
-.order-review ol li {
+.order-review ol li{
     padding: 1em;
 
     display: flex;
@@ -131,6 +139,25 @@
     border-radius: var(--border-radius);
 }
 
+.order-review svg{
+    color: black;
+    align-self: baseline;
+}
+
+.order-review img{
+    width: 125px;
+    height: 125px;
+
+    border-radius: var(--border-radius);
+}
+
+.order-review strong{
+    font-size: 1.2em;
+}
+
+.order-review .price{
+    color: var(--secondary-clr);
+}
 
 @media(max-width: 1023px){
     .order-review ol li {
@@ -138,29 +165,12 @@
     }
 }
 
-.order-review svg {
-    color: black;
-    align-self: baseline;
-}
-
-.order-review img {
-    width: 125px;
-    height: 125px;
-
-    border-radius: var(--border-radius);
-}
-
-.order-review strong {
-    font-size: 1.2em;
-}
-
-.order-review .price {
-    color: var(--secondary-clr);
-}
-
-
 @media(min-width: 1024px){
-    .hero-div {
+    main{
+        padding-inline: 2em;
+    }
+
+    .hero-section {
         display: grid;
         grid-template-columns: 35% auto;
     }
@@ -181,7 +191,7 @@
         gap: 2em;
     }
 
-    .hero-div {
+    .hero-section {
         margin-block: 3em;
     }
 

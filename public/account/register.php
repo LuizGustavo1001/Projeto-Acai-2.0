@@ -109,22 +109,17 @@
 
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
 
+    <link rel="stylesheet" href="<?php printStyle("1", "universal") ?>">
     <link rel="stylesheet" href="<?php printStyle("1", "general") ?>">
     <link rel="stylesheet" href="<?php printStyle("1", "account") ?>">
+    
 
     <style>
         .container-background{
             background: url(https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751724099/signUpBg_l5rd50.png) center center;
             background-size: cover;
             background-repeat: no-repeat;
-
         }
-        @media(max-width: 1023px){
-            .left-container nav ul {
-                align-items: center;
-            }
-        }
-
     </style>
 
     <title>Açaí e Polpas Amazônia - Registrar</title>
@@ -132,160 +127,158 @@
 </head>
 
 <body>
-    <?php headerOut(1) ?>
+    <?php displayHeader(1) ?>
 
-    <section class="container">
-        <div class="left-container">
-            <nav>
-                <ul>
-                    <li><a href="../index.php">Página Principal</a></li>
-                    <li><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                        </svg>
-                    </li>
+    <main>
+        <section class="container">
+            <div class="left-container">
+                <nav class="nav-bar">
+                    <ul>
+                        <li><a href="../index.php">Página Principal</a></li>
+                        <li>/</li>
+                        <li><a href="login.php">Página de Login</a></li>
+                        <li>/</li>
+                        <li><a href="register.php">Página de Registro</a></li>
+                    </ul>
+                </nav>
 
-                    <li><a href="login.php">Página de Login</a></li>
-                    <li>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                        </svg>
-                    </li>
+                <div class="container-forms">
+                    <div class="container-forms-title">
+                        <h1>Área de Registro</h1>
+                        <p><strong>Registre-se</strong> para <strong>começar a comprar</strong> em nosso site.</p>
+                    </div>
 
-                    <li><a href="register.php">Página de Registro</a></li>
-                </ul>
-            </nav>
-            <div class="container-forms">
-                <div class="container-forms-title">
-                    <h1>Área de Registro</h1>
-                    <p><strong>Registre-se</strong> para <strong>Continuar Comprando</strong> em nosso site</p>
+                    <form method="POST">
+                        <?php
+                            if (isset($_GET["invalidDomain"])) {
+                                echo "
+                                        <div class=\"errorText\">
+                                            <i class=\"fa-solid fa-triangle-exclamation\"></i>
+                                            <p>Erro: <span>Domínio</span> do email digitado <span>inválido</span>. Tente novamente.</p>
+                                        </div>
+                                    ";
+                            }
+                            if (isset($_GET["emailExists"])) {
+                                echo "
+                                        <div class=\"errorText\">
+                                            <i class=\"fa-solid fa-triangle-exclamation\"></i>
+                                            <p>Email <span>já cadastrado</span>, tente novamente com <span>outro endereço de email</span></p>
+                                        </div>
+                                    ";
+                            }
+                        ?>
+                        <div class="form-item regular-input">
+                            <label for="iname">Nome: <span>*</span></label>
+                            <input type="text" name="name" id="iname" maxlength="30" minlength="8"
+                                placeholder="Nome Completo" value="<?= htmlspecialchars($_POST['name'] ?? '') ?>" required>
+                        </div>
+
+                        <div class="form-item regular-input">
+                            <label for="iemail">Email: <span>*</span></label>
+                            <input type="email" name="email" id="iemail" maxlength="50"
+                                placeholder="email@exemplo.com" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" required>
+                        </div>
+
+                        <div class="form-item regular-input">
+                            <label for="inumber">Telefone de Contato: <span>*</span></label>
+                            <input type="text" name="phone" id="inumber" minlength="15" maxlength="16"
+                                pattern="\(\d{2}\) \d \d{4} \d{4}" placeholder="(XX) 9 8888 8888" value="<?= htmlspecialchars($_POST['phone'] ?? '') ?>" required>
+                        </div>
+
+                        <div class="form-item regular-input">
+                            <label for="istreet">Rua: <span>*</span></label>
+                            <input type="text" name="street" id="istreet" maxlength="50"
+                                placeholder="Nome da Rua Aqui" value="<?= htmlspecialchars($_POST['street'] ?? '') ?>" required>
+                        </div>
+
+                        <div class="form-item regular-input">
+                            <label for="ihouseNum">Número da Residência: <span>*</span></label>
+                            <input type="number" name="houseNum" id="ihouseNum" max="99999999"
+                                placeholder="Número  da Residência Aqui" value="<?= htmlspecialchars($_POST['houseNum'] ?? '') ?>" required>
+                        </div>
+
+                        <div class="form-item regular-input">
+                            <label for="idistrict">Bairro: <span>*</span></label>
+                            <input type="text" name="district" id="idistrict" maxlength="40"
+                                placeholder="Nome do Bairro Aqui" value="<?= htmlspecialchars($_POST['district'] ?? '') ?>" required>
+                        </div>
+
+                        <div class="form-item regular-input">
+                            <label for="icity">Cidade: <span>*</span></label>
+                            <input type="text" name="city" id="icity" maxlength="40"
+                                placeholder="Nome da Cidade Aqui" value="<?= htmlspecialchars($_POST['city'] ?? '') ?>" required>
+                        </div>
+
+                        <div class="form-item regular-input">
+                            <label for="istate">Estado: </label>
+                            <select name="state" id="istate">
+                                <option value="AC">Acre</option>
+                                <option value="AL">Alagoas</option>
+                                <option value="AP">Amapá</option>
+                                <option value="AM">Amazonas</option>
+                                <option value="BA">Bahia</option>
+                                <option value="CE">Ceará</option>
+                                <option value="DF">Distrito Federal</option>
+                                <option value="ES">Espírito Santo</option>
+                                <option value="GO">Goiás</option>
+                                <option value="MA">Maranhão</option>
+                                <option value="MT">Mato Grosso</option>
+                                <option value="MS">Mato Grosso do Sul</option>
+                                <option value="MG">Minas Gerais</option>
+                                <option value="PA">Pará</option>
+                                <option value="PB">Paraíba</option>
+                                <option value="PR">PARANÁ</option>
+                                <option value="PE">Pernambuco</option>
+                                <option value="PI">Piauí</option>
+                                <option value="RJ">Rio de Janeiro</option>
+                                <option value="RN">Rio Grande do Norte</option>
+                                <option value="RS">Rio Grande do Sul</option>
+                                <option value="RO">Rondônia</option>
+                                <option value="RR">Roraima</option>
+                                <option value="SC">Santa Catarina</option>
+                                <option value="SP">São Paulo</option>
+                                <option value="SE">Sergipe</option>
+                                <option value="TO">Tocantins</option>
+                            </select>
+                        </div>
+
+                        <div class="form-item regular-input">
+                            <label for="ireference">Ponto de Referência:</label>
+                            <input type="text" name="reference" id="ireference" maxlength="50"
+                                value="<?= htmlspecialchars($_POST['reference'] ?? null) ?>">
+                        </div>
+
+                        <div class="form-item regular-input">
+                            <label for="ipassword">Senha: <span>*</span></label>
+                            <input type="password" name="password" id="ipassword" maxlength="30"
+                                placeholder="• • • • • • • •" required>
+                        </div>
+
+                        <div>
+                            <button class="regular-button">
+                                Cadastrar-se
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <div class="form-footer">
+                            <a href="login.php">Já possui cadastro? Clique Aqui!</a>
+                        </div>
+
+                    </form>
                 </div>
-                <form method="POST">
-                    <?php
-                        if (isset($_GET["invalidDomain"])) {
-                            echo "
-                                    <p class=\"errorText\">
-                                        <i class=\"fa-solid fa-triangle-exclamation\"></i>
-                                        Erro: Domínio do Email Digitado <strong>É Inválido</strong>, tente novamente com outro domínio ou <strong>cadastre-se</strong> no link abaixo
-                                    </p>
-                                ";
-                        }
-                        if (isset($_GET["emailExists"])) {
-                            echo "
-                                    <p class=\"errorText\">
-                                        <i class=\"fa-solid fa-triangle-exclamation\"></i>
-                                        Email <strong>já cadastrado</strong>, tente novamente com <strong>Outro Endereço de Email</strong>
-                                    </p>
-                                ";
-                        }
-                    ?>
-                    <div class="form-item">
-                        <label for="iname">Nome: <span>*</span></label>
-                        <input type="text" name="name" id="iname" maxlength="30" minlength="8"
-                            placeholder="Nome Completo" value="<?= htmlspecialchars($_POST['name'] ?? '') ?>" required>
-                    </div>
-
-                    <div class="form-item">
-                        <label for="iemail">Email: <span>*</span></label>
-                        <input type="email" name="email" id="iemail" maxlength="50"
-                            placeholder="email@exemplo.com" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" required>
-                    </div>
-
-                    <div class="form-item">
-                        <label for="inumber">Telefone de Contato: <span>*</span></label>
-                        <input type="text" name="phone" id="inumber" minlength="15" maxlength="16"
-                            pattern="\(\d{2}\) \d \d{4} \d{4}" placeholder="(XX) 9 8888 8888" value="<?= htmlspecialchars($_POST['phone'] ?? '') ?>" required>
-                    </div>
-
-                    <div class="form-item">
-                        <label for="istreet">Rua: <span>*</span></label>
-                        <input type="text" name="street" id="istreet" maxlength="50" 
-                            placeholder="Nome da Rua Aqui" value="<?= htmlspecialchars($_POST['street'] ?? '') ?>" required>
-                    </div>
-
-                    <div class="form-item">
-                        <label for="ihouseNum">Número da Residência: <span>*</span></label>
-                        <input type="number" name="houseNum" id="ihouseNum" max="99999999"
-                            placeholder="Número  da Residência Aqui" value="<?= htmlspecialchars($_POST['houseNum'] ?? '') ?>" required>
-                    </div>
-
-                    <div class="form-item">
-                        <label for="idistrict">Bairro: <span>*</span></label>
-                        <input type="text" name="district" id="idistrict" maxlength="40"
-                            placeholder="Nome do Bairro Aqui" value="<?= htmlspecialchars($_POST['district'] ?? '') ?>" required>
-                    </div>
-
-                    <div class="form-item">
-                        <label for="icity">Cidade: <span>*</span></label>
-                        <input type="text" name="city" id="icity" maxlength="40" 
-                            placeholder="Nome da Cidade Aqui" value="<?= htmlspecialchars($_POST['city'] ?? '') ?>" required>
-                    </div>
-
-                    <div class="form-item">
-                        <label for="istate">Estado: </label>
-                        <select name="state" id="istate">
-                            <option value="AC">Acre</option>
-                            <option value="AL">Alagoas</option>
-                            <option value="AP">Amapá</option>
-                            <option value="AM">Amazonas</option>
-                            <option value="BA">Bahia</option>
-                            <option value="CE">Ceará</option>
-                            <option value="DF">Distrito Federal</option>
-                            <option value="ES">Espírito Santo</option>
-                            <option value="GO">Goiás</option>
-                            <option value="MA">Maranhão</option>
-                            <option value="MT">Mato Grosso</option>
-                            <option value="MS">Mato Grosso do Sul</option>
-                            <option value="MG">Minas Gerais</option>
-                            <option value="PA">Pará</option>
-                            <option value="PB">Paraíba</option>
-                            <option value="PR">PARANÁ</option>
-                            <option value="PE">Pernambuco</option>
-                            <option value="PI">Piauí</option>
-                            <option value="RJ">Rio de Janeiro</option>
-                            <option value="RN">Rio Grande do Norte</option>
-                            <option value="RS">Rio Grande do Sul</option>
-                            <option value="RO">Rondônia</option>
-                            <option value="RR">Roraima</option>
-                            <option value="SC">Santa Catarina</option>
-                            <option value="SP">São Paulo</option>
-                            <option value="SE">Sergipe</option>
-                            <option value="TO">Tocantins</option>
-                        </select>
-                    </div>
-
-                    <div class="form-item">
-                        <label for="ireference">Ponto de Referência:</label>
-                        <input type="text" name="reference" id="ireference" maxlength="50" 
-                            value="<?= htmlspecialchars($_POST['reference'] ?? null) ?>">
-                    </div>
-
-                    <div class="form-item">
-                        <label for="ipassword">Senha: <span>*</span></label>
-                        <input type="password" name="password" id="ipassword" maxlength="30"
-                            placeholder="• • • • • • • •" required>
-                    </div>
-
-                    <div>
-                        <button>
-                            Cadastrar-se
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor" class="size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
-                            </svg>
-                        </button>
-                    </div>
-                </form>
             </div>
-        </div>
 
-        <div class="right-container">
-            <div class="container-background"></div>
-        </div>
-    </section>
+            <div class="right-container">
+                <div class="container-background"></div>
+            </div>
+        </section>
+    </main>
 
-    <?php footerOut()?>
+    <?php displayFooter()?>
 </body>
 </html>

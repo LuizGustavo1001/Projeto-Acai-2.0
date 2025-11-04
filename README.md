@@ -51,7 +51,7 @@
     <li><strong>Password</strong>***</li>
 </ul>
 <p>* Email is <em>validated</em> and <em>normalized</em> (invalid characters are removed and the domain is verified).</p>
-<p>** Profile Pictureis only available for Administrators.</p>
+<p>** Profile picture only available for Administrators.</p>
 <p>*** Passwords are encrypted with <code>password_hash()</code> in PHP and securely stored in the database.</p>
 <p>The system allows users to <strong>reset their password</strong> via email, using the <strong>PHPmailer</strong> Library to send a verification token.</p>
 <hr>
@@ -83,7 +83,7 @@
     For security reasons, <em>image upload(product version or admin)</em> and <em>spreadsheet editing</em> features are disabled by default.
 </p>
 <p>
-    Those features require <em>private API tokens</em> from <strong>Cloudinary</strong> and <strong>Google Sheets</strong>.
+    Those features requires <em>private API tokens</em> from <strong>Cloudinary</strong> and <strong>Google Sheets</strong>.
 </p>
 <p>To enable them, you must <strong>setup your own connections</strong>, as described in the <em>"How to Run"</em> section.</p>
 <hr>

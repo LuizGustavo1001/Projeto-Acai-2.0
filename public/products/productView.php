@@ -35,10 +35,9 @@
             $productData = $getProductData->get_result();
             $productData = $productData->fetch_assoc();
             $getProductData->close();
-            $urlName = $productData["altName"];
             switch($productData["availability"]){
-                case "0":
-                    header("Location: $urlName.php?outOfOrder=1");
+                case "indisponivel":
+                    header("Location: productView.php?id={$productData["altName"]}&outOfOrder=1");
                     exit();
                 default:
                     // verify if the product is already at the cart
@@ -84,8 +83,8 @@
         }
     }
 
-    if(isset($_GET['size'], $_GET['amount-product'])){
-        add2Cart($_GET['size'], $_GET['amount-product']);
+    if(isset($_GET['size'], $_GET['amount'])){
+        add2Cart($_GET['size'], $_GET['amount']);
     }
 
     $defaultMoney = numfmt_create("pt-BR", NumberFormatter::CURRENCY);
@@ -122,18 +121,18 @@
             }
         }else{
             echo"
-                <p class='errorText'>
+                <div class='errorText'>
                     <small>
                         <i class=\"fa-solid fa-triangle-exclamation\"></i> 
-                        Erro ao tentar imprimir o Produto, tente novamente mais tarde
+                        <p>Erro ao tentar imprimir o Produto, tente novamente mais tarde</p>
                     </small>
-                </p>
+                </div>
             ";
         }
         $getProductData->close();
          
         function getOptions($nameProd){
-            // returning the options that's gonna be inside the select tag at HTML
+            // returning the options that's gonna be inside the select HTML tag
             global $defaultMoney, $mysqli;
             $getOptions = $mysqli->prepare("
                 SELECT pv.sizeProduct, pv.priceProduct, pv.nameProduct, pv.flavor
@@ -169,14 +168,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="stylesheet" href="<?php printStyle("1", "universal") ?>">
     <link rel="stylesheet" href="<?php printStyle("1", "general") ?>">
     <link rel="stylesheet" href="<?php printStyle("1", "productVersion") ?>">
-
+    
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&display=swap" rel="stylesheet"> 
+
+    <script src="../JS/generalScripts.js"></script>
 
     <?php displayFavicon()?>
 
@@ -207,67 +209,68 @@
 
 </head>
 <body>
-    <?php headerOut(1)?>
-
+    <?php displayHeader(1)?>
     <main>
         <?php 
+            if(isset($_GET["outOfOrder"])){
+                displayPopUp("outOfOrder", $_GET['id']);
+            }
+            
             if(in_array($_GET["id"], $allowedNames)){
-                echo "
-                    <a href='products.php#{$linkName}' class='back-button'>
-                        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
-                            <path stroke-linecap='round' stroke-linejoin='round' d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'/>
-                        </svg>
-                        Voltar
-                    </a>
+                $submitButton = "";
+                if(! isset($_SESSION["isAdmin"])){
+                    $submitButton = "<li><button class='regular-button'>Adicionar ao Carrinho</button> </li>";
+                }
 
-                    <section>
-                        <div class='product-main-img'>
-                            <img src=".$image." alt='Product Image'>
+                echo "
+                    <div class='back-button'>
+                        <a href='products.php#{$linkName}'>
+                            <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
+                                <path stroke-linecap='round' stroke-linejoin='round' d='M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3'/>
+                            </svg>
+                            Voltar
+                        </a>
+                    </div>
+
+                    <div class='product-hero'>
+                        <div class='product-img'>
+                            <img src='{$image}' alt='Product Image'>
                         </div>
 
-                        <div class='product-forms-div'>
-                            <div>
-                                <p><small>" .$brand."</small></p>
-                                <h1>".$printName ."</h1>
-                                <p class='product-price-value'> ---- </p>
+                        <div class='product-data'>
+                            <div class='data-title'>
+                                <p><span>{$brand}</span></p>
+                                <h1>{$printName}</h1>
                             </div>
-
-                            <form method='get' class='product-forms'>
-                                <div class='forms-text'>
-                                    <div class='forms-item product-size'>
+                            <p class='price product-price-value'>--</p>
+                            <form method='GET'>
+                                <ul class='product-var-list'>
+                                    <li class='product-var regular-input'>
                                         <label for='isize'>Tamanho: </label>
-                                        <select name='size' id='isize' class='product-size-selector'>
-                        ";
-                        getOptions($realName);
-                        echo "
-                                        </select>
-                                    </div>
-                                    <div class='forms-item product-amount'>
-                                        <label for='iamount-product'>Quantidade: </label>
-                                        <input type='number' name='amount-product' id='iamount-product' value='1' max='150' min='1'>
-                                    </div>
-                                </div>
-                        ";
-                        if(! isset($_SESSION["isAdmin"])){
-                            echo "
-                                <button type=\"submit\">
-                                    <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"size-6\">
-                                        <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z\"/>
-                                    </svg>
-                                    Adicionar Ao Carrinho
-                                </button>
-                            ";
-                        }
-                        echo "
+                                        <select name='size' id='isize' class='product-size-selector'>";
+                                             getOptions($realName);
+                echo "                  </select>
+                                    </li>
+                                    <li class='product-var regular-input'>
+                                        <label for='iamount'>Quantidade: </label>
+                                        <input type='number' name='amount' id='iamount' value='1'>
+                                    </li>
+                                    {$submitButton}
+                                </ul>
                             </form>
                         </div>
-                    </section>
-                ";
+                    </div>
+                ";                   
             }else{
-                echo "<p class= 'errorText'>Erro: Nenhum Produto encontrado com o Id Selecionado</p>";
+                echo "
+                    <div class= 'errorText'>
+                        <i class=\"fa-solid fa-triangle-exclamation\"></i>
+                        <p>Erro: Nenhum Produto encontrado com o Id Selecionado</p>
+                    </div>
+                ";
             }
         ?>
     </main>
-    <?php footerOut();?>
+    <?php displayFooter();?>
 </body>
 </html>
