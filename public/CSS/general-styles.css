@@ -1,4 +1,5 @@
 /* Styles for non-manager pages*/
+
 header{
     margin-bottom: 3em;
     padding: 0.5em 1em 0.5em 1em;
@@ -8,63 +9,58 @@ header{
     align-items: center;
 
     background: var(--primary-clr);
-    border-radius: var(--border-radius);
     color: var(--tertiary-clr);
+
+    border-radius: var(--border-radius);
     box-shadow: 4px 4px 4px var(--shadow-clr);
 }
-
 header a{
     display: flex;
     flex-direction: column;
     align-items: center;
 
     color: var(--tertiary-clr);
+
     transition: var(--transition);
 }
-
 header li:hover a{
     text-decoration: underline;
 }
-
 header li:hover a, header nav ul li a svg:hover svg{
     color: var(--hover-clr-1);
 }
-
 header .left-header{
     display: flex;
     align-items: center;
     gap: 0.5em;
 }
-
 header .left-header p span{
     font-family: var(--tertiary-font);
     font-size: 0.9em;
 }
-
 header nav ul{
     display: flex;
     align-items: center;
     gap: 1em;
 }
-
 header nav ul li a svg{
     width: 25px;
     transition: var(--transition);
 }
-
 header nav ul li a{
     position: relative;
 }
 
 .numberItems{
-    background: var(--secondary-clr);
-    border-radius: 50px;
     padding: 0em 0.2em 0em 0.2em;
 
     position: absolute;
     top: -5px;    
     right: -5px;
 
+    border-radius: 50px;
+
+    background: var(--secondary-clr);
 }
 
 footer{
@@ -76,37 +72,32 @@ footer{
     gap: 2em;
 
     background: var(--primary-clr);
+    
     border-radius: var(--border-radius);
     text-align: center;
     box-shadow: 4px 4px 4px var(--shadow-clr);
 }
-
 footer p span{
     color: var(--placeholder-clr)
 }
-
 footer nav{
     display: flex;
     flex-direction: column;
     gap: 1em;
 }
-
 footer nav ul{
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
 footer nav ul li svg, 
 footer nav ul li svg path{
     color: var(--tertiary-clr);
     fill: var(--tertiary-clr);
 }
-
 footer nav ul li a{
-    color: #f7bee9ff;
+    color: var(--footer-font-clr);
 }
-
 footer nav ul li{
     display: flex;
     align-items: center;
@@ -114,12 +105,10 @@ footer nav ul li{
 }
 
 
-
 @media(min-width: 1024px){
     header .left-header p span{
         font-size: 1em;
     }
-    
     header nav ul{
         gap: 3.5em;
     }
@@ -133,33 +122,28 @@ footer nav ul li{
         gap: 2em;
 
         background: var(--primary-clr);
+
         border-radius: var(--border-radius);
         text-align: center;
     }
-
     footer nav{
         display: flex;
         flex-direction: row;
         gap: 2em;
     }
-
     footer p {
         width: 25vw;
     }
-
     footer nav ul{
         display: flex;
         gap: 1.5em;
     }
-
     footer nav ul li svg{
         width: 25px;
     }
-
     footer nav ul li a{
         font-size: 0.8em;
     }
-
     footer p span{
         font-size: 0.9em;
     }

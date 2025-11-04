@@ -9,7 +9,7 @@
     --tertiary-clr: #FFFFFF;
     --fourth-clr: #555555;
     --fifth-clr: #A00093;
-    --link-hover-clr: #ecb1e7;
+    --footer-font-clr: #f7bee9ff;
 
     --placeholder-clr: #9a6b94;
     --hover-clr-1: #f7bee9ff;
@@ -21,21 +21,19 @@
     --transition: all 0.3s;
 
     --border-radius: 10px;
-    --border-radius-alt: 50px;
-
-    --primary-shadow-clr: #41005F;
 
     --shadow-clr: #80518052;
 }
-* {
+*{
     margin: 0;
     padding: 0;
 }
 
 body{
     padding: 0.5em;
-    font-family: var(--primary-font);
+
     color: var(--primary-clr);
+    font-family: var(--primary-font);
 }
 
 a{
@@ -67,8 +65,8 @@ li{
 .regular-button, 
 .link-button{
     width: 100%;
+
     padding: 1em;
-    box-sizing: border-box;
 
     display: flex;
     align-items: center;
@@ -77,12 +75,13 @@ li{
 
     background: var(--primary-clr);
     color: var(--tertiary-clr);
-    
     border: 2px solid var(--primary-clr);
+
     border-radius: var(--border-radius);
     font-size: 1em;
-    cursor: pointer;
 
+    cursor: pointer;
+    box-sizing: border-box;
     transition: var(--transition);
 }
 
@@ -107,116 +106,98 @@ li{
     
     margin: 0 auto;
 
-    color: white;
+    color: var(--tertiary-clr);
     background: var(--secondary-clr);
+
     text-align: center;
     border-radius: 50px;
     font-size: 1.5em;
-
     font-weight: normal;
 }
 
 .regular-input input{
     color: var(--placeholder-clr);
 }
-
 .regular-input input, 
 .regular-input select{
     width: 100%;
-    box-sizing: border-box;
 
-    border-radius: var(--border-radius);
+    padding: 1em;
 
     border: 1px solid var(--primary-clr);
     background: var(--tertiary-clr);
 
+    box-sizing: border-box;
+    border-radius: var(--border-radius);
     outline: none;
-    padding: 1em;
-
     transition: var(--transition);
-    
 }
-
 .regular-input input::placeholder, 
 .regular-input select {
     color: var(--placeholder-clr);
 }
-
 .regular-input input:hover, 
 .regular-input select:hover{
     border-color: var(--secondary-clr);
     cursor: pointer;
 }
-
 .regular-input input:focus,
-.regular-input select:active
-{
+.regular-input select:active{
     border-color: var(--secondary-clr);
     box-shadow: 4px 4px 4px var(--shadow-clr);
 }
 
 .product-view a{
+    width: 350px;
+    height: 100%;
+
+    padding: 2em 1.5em 2em 1.5em;
+
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1em;
 
-    width: 350px;
-    height: 100%;
-
     border: 1px solid transparent;
 
     border-radius: var(--border-radius);
-
-    padding: 2em 1.5em 2em 1.5em;
     text-align: center;
-
     box-shadow: 4px 4px 4px var(--shadow-clr);
-
     transition: var(--transition);
 
 }
-
 .product-view a:hover{
     border-color: var(--secondary-clr);
 }
-
-
 .product-view a .product-img{
     padding-inline: 1.5em;
 }
-
 .product-view a .product-img img{
     width: 250px;
     height: 250px;
-    object-fit: contain;
-    padding-bottom: 0.5em;
-    border-radius: var(--border-radius);
-    
-}
 
+    padding-bottom: 0.5em;
+
+    object-fit: contain;
+    border-radius: var(--border-radius);
+}
 .product-view a .product-img{
     border-bottom: 2px solid var(--fifth-clr);
 }
-
 .product-view a .product-text{
     display: flex;
     flex-direction: column;
     gap: 0.3em;
-
 }
-
 .product-view a .product-text .product-price span{
     font-size: 1.5em;
+
     font-weight: bold;
     color: var(--secondary-clr);
 }
-
 .product-view a .product-text span{
     color: var(--fifth-clr);
-    
 }
-
 .product-view a .product-text h1{
     color: var(--primary-clr);
 }
@@ -233,12 +214,9 @@ li{
     background: var(--primary-clr);
     color: var(--tertiary-clr);
     font-family: var(--tertiary-font);
-    font-size: 1.3em;
 
-    border-bottom-right-radius: 50px;
-    border-top-left-radius: var(--border-radius);
-    border-top-right-radius: var(--border-radius);
-    border-bottom-left-radius: var(--border-radius);
+    font-size: 1.3em;
+    border-radius: var(--border-radius) var(--border-radius) 50px var(--border-radius);
 }
 
 .title p{
@@ -246,19 +224,18 @@ li{
 }
 
 .back-button a{
+    width: 30%;
+
     display: flex;
     align-items: center;
     gap: 0.2em;
 
-    width: 30%;
     color: var(--primary-clr);
     
     font-size: 1.1em;
 }
-
 .back-button a:hover{
     color: var(--secondary-clr);
-
 }
 
 .nav-bar{
@@ -266,16 +243,13 @@ li{
     flex-direction: column;
     gap: 1em;
 }
-
 .nav-bar ul{
     display: flex;
     align-items: top;
     gap: 1em;
 
     color: var(--secondary-clr);
-
 }
-
 .nav-bar ul li a:hover{
     text-decoration: underline;
 }
@@ -284,7 +258,7 @@ li{
     display: none;
 }
 
-.popup-box.hidden-box {
+.popup-box .hidden-box {
   display: none;
 }
 
@@ -302,7 +276,6 @@ li{
     align-items: center;
     justify-content: center;
 }
-
 .popup-div {
     width: 90%;
     max-width: 500px;
@@ -310,11 +283,11 @@ li{
     padding-bottom: 1em;
 
     background: var(--tertiary-clr);
+
     border-radius: var(--border-radius);
     box-shadow: 4px 4px 4px var(--shadow-clr);
     text-align: center;
 }
-
 .popup-div .popup-title h1 {
     padding: 0.5em;
 
@@ -322,22 +295,21 @@ li{
 
     background: var(--primary-clr);
     color: var(--tertiary-clr);
-    border-top-left-radius: var(--border-radius);
-    border-top-right-radius: var(--border-radius);
-}
 
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
 .popup-div .popup-body p {
     padding: 1em;
     font-size: 0.9em;
 }
-
 .popup-div .regular-button{
     width: 90%;
+
+    padding: 0.8em;
     
     margin: 0 auto;
     margin-top: 1em;
-    padding: 0.8em;
-
+    
     font-size: 1.2em;
     font-weight: bold;
 }
@@ -349,16 +321,13 @@ li{
     align-items: center;
     gap: 0.2em;
 }
-
 .successText span, 
 .errorText span{
     font-weight: bold;
 }
-
 .errorText{
     color: red;
 }
-
 .successText{
     color: green;
 }
@@ -372,7 +341,6 @@ li{
     .section-title{
         background-size: contain;
     }
-
     .section-title h1{
         width: 20%;
         font-size: 1.5em;
@@ -382,38 +350,28 @@ li{
         width: 260px;
         height: 100%;
     }
-
     .product-view a .product-img img{
         width: 240px;
         height: 240px;
     }
-
     .product-view .product-text h1 {
         margin-top: 0.5em;
         font-size: 1.3em;
     }
-
-     .product-view .product-text .product-price {
+    .product-view .product-text .product-price {
         font-size: 1em;
-    }
-
-    .title h1{
-        font-size: 1.5em;
-        margin-bottom: 0.3em;
     }
 
     .title{
         width: 30vw;
     }
-
+    .title h1{
+        margin-bottom: 0.3em;
+        font-size: 1.5em;
+    }
 
     .back-button a{
         width: 10%;
-    }
-
-    .nav-bar ul{
-        align-items: center;
-        gap: 0.5em;
     }
 
     .nav-bar{
@@ -421,14 +379,15 @@ li{
         justify-content: space-between;
         align-items: center;
     }
+    .nav-bar ul{
+        align-items: center;
+        gap: 0.5em;
+    }
 
     .popup-div {
         width: 25%;
     }
-
     .popup-div .regular-button{
         padding: 0.8em;
     }
-
-
 }

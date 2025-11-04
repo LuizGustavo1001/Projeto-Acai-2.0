@@ -13,58 +13,49 @@ main {
 .index-title {
     text-align: center;
 }
-
 .index-title .title-text {
     display: flex;
     flex-direction: column;
     gap: 1em;
 }
-
 .index-title .title-text h1 {
     font-family: var(--secondary-font);
     font-size: 3.5em;
 }
-
 .index-title .title-text h1 span {
     color: var(--secondary-clr);
 }
-
 .index-title .title-text .link-button {
     width: 40%;
     margin: 0 auto;
 }
-
 .index-about-us .section-hero ul {
     display: flex;
     flex-direction: column;
     gap: 2em;
 }
-
 .index-about-us .section-hero ul li {
+    padding: 1em;
+
     display: flex;
     gap: 1em;
 
-    padding: 1em;
-
     background: var(--tertiary-clr);
+
     border-left: 3px solid var(--secondary-clr);
 }
-
 .index-about-us .section-hero ul li .list-text {
     width: 90%;
     margin: 0 auto;
 }
-
 .index-about-us .section-hero ul li .list-text h1,
 .index-about-us .section-hero ul li svg {
     color: var(--secondary-clr);
 }
-
 .index-about-us .section-hero ul li .list-text h1 {
-    font-size: 1.5em;
     margin-bottom: 0.5em;
+    font-size: 1.5em;
 }
-
 .index-about-us .section-hero ul li .list-text span {
     font-weight: bold;
 }
@@ -89,7 +80,6 @@ main {
         justify-content: space-around;
         align-items: center;
     }
-
     .index-title .title-img {
         width: 25vw;
         height: 50vh;
@@ -98,12 +88,10 @@ main {
         background-size: contain;
         background-repeat: no-repeat;
     }
-
     .index-title .title-text .link-button {
         width: 60%;
         margin: 0 auto;
     }
-
     .index-about-us .section-hero ul {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -119,7 +107,6 @@ main {
         justify-content: space-between;
         align-items: center;
     }
-
     .product-list {
         overflow: auto;
     }
@@ -129,6 +116,5 @@ main {
 @media(min-width: 1800px) {
     .index-title .title-text h1 {
         font-size: 4em;
-
     }
 }

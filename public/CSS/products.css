@@ -1,53 +1,44 @@
 main{
     padding-inline: 1em;
+
     display: flex;
     flex-direction: column;
     gap: 2em;
 }
-
 
 .search-form{
     display: flex;
     justify-content: space-between;
-    gap: 2em;
     align-items: center;
+    gap: 2em;
 }
-
 .search-form form .search-label{
     display: flex;
     align-items: center;
 }
-
 .search-form form .search-label svg{
     width: 25px;
 }
-
 .search-input{
     display: flex;
     flex-direction: column;
     gap: 0.5em;
-    
 }
-
 .search-input input,
 .search-input select,
 .search-input button{
     width: 40vw;
 }
-
 .search-input button{
     padding: 0.7em;
     font-size: 1.1em;
 }
 
-
 .products-list{
     display: flex;
     flex-direction: column;
     gap: 2em;
-    
 }
-
 .products-list .products{
     display: flex;
     flex-direction: column;
@@ -57,7 +48,6 @@ main{
 
 .header-feature img {
     width: 100%;
-
     border-radius: var(--border-radius);
 }
 
@@ -67,7 +57,6 @@ main{
         display: flex;
         align-items: center;
         justify-content: space-between;
-
     }
 
     .search-input input,
@@ -75,7 +64,6 @@ main{
     .search-input button{
         width: 200px;
     }
-
     .search-input button{
         padding: 0.5em;
         font-size: 1em;
@@ -83,14 +71,11 @@ main{
 
     .products-list{
         gap: 6em;
-        
     }
-
     .products-list .products{
         display: grid;
         grid-template-columns: 1fr 1fr 1fr ;
         gap: 2em;
-
     }
 
     .product-view {
@@ -98,10 +83,9 @@ main{
     }
 }
 
+
 @media(min-width: 1400px){
     .products-list .products{
         grid-template-columns: 1fr 1fr 1fr 1fr;
-
     }
-
 }

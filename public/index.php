@@ -6,7 +6,7 @@
     function featureItems(){
         // feature 4 random products from Database
         global $mysqli;
-
+        
         // query to avoid products without versions
         $query = $mysqli->query("
             SELECT pd.idProduct, pd.altName

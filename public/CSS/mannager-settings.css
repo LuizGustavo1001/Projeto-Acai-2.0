@@ -1,28 +1,31 @@
 body{
-    background: var(--primary-bg-clr);
     min-height: 95vh;
+
+    padding-block: 2em;
+
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 
-    padding-block: 2em;
+    background: var(--primary-bg-clr);
 }
 
 main{
-    display: flex;
     width: 100%;
+    display: flex;
 }
 
 form{
-    background: var(--tertiary-clr);
-    padding: 2em 1em 2em 1em;
-
-    box-shadow: 4px 4px 4px var(--shadow-clr);
-    border-radius: var(--border-radius);
-
     width: 100%;
+
+    padding: 2em 1em 2em 1em;
     margin: 0 auto;
+
+    background: var(--tertiary-clr);
+
+    border-radius: var(--border-radius);
+    box-shadow: 4px 4px 4px var(--shadow-clr);
 }
 
 form .regular-input input{
@@ -34,64 +37,54 @@ form .regular-input input{
     flex-direction: column;
     gap: 1em;
 }
-
 .form-title h1 {
+    margin-bottom: 1em;
+
     display: flex;
     flex-direction: column;
     gap: 0.5em;
-    margin-bottom: 1em;
-
+    
     font-size: 1.3em;
 }
-
 .form-title h1 span{
     font-weight: normal;
 }
-
-
 .form-title h1 a:hover{
     text-decoration: underline;
 }
-
 .form-title h1 div{
     display: flex;
     align-items: center;
     gap: 0.3em;
 }
-
 .form-main{
     display: flex;
     flex-direction: column;
     gap: 2em;
 }
-
 .form-inputs .form-picture .form-item{
     margin-bottom: 1em;
 }
-
 .form-inputs .form-picture .form-item div{
     display: flex;
     gap: 2em;
 }
-
 .form-inputs .form-picture .form-item div img{
+    width: 60px;
+
     border-radius: var(--border-radius);
     aspect-ratio: 1/1;
     object-fit: cover;
-    width: 60px;
 }
-
 .form-inputs .form-regular-inputs{
     display: flex;
     flex-direction: column;
     gap: 1em;
 }
-
 .form-links{
     display: flex;
     justify-content: space-between
 }
-
 .form-links a:hover{
     text-decoration: underline;
 }
@@ -111,11 +104,11 @@ form .regular-input input{
     .form-inputs .form-picture .form-item{
         margin-bottom: 0;
     }
-
     .form-inputs .form-regular-inputs{
+        margin-top: 1em;
+
         display: grid;
         grid-template-columns: 1fr 1fr;
-        margin-top: 1em;
     }
 
     .form-title h1 {
