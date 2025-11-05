@@ -105,6 +105,16 @@ footer nav ul li{
 }
 
 
+@media(max-width: 768px){
+    header a{
+        font-size: 0.7em;
+    }
+    header svg{
+        width: 20px;
+    }
+}
+
+
 @media(min-width: 1024px){
     header .left-header p span{
         font-size: 1em;

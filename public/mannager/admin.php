@@ -64,12 +64,7 @@
             </div>
         </form>
 
-        <?php 
-            if(isset($_GET["query"])){
-                echo "<h1>Administradores encontrados com o filtro <strong>\"{$_GET["query"]}\"</strong></h1>";
-            }
-        ?>
-        
+
         <?php 
             if(isset($_GET["query"])){
                 searchColumns($_GET["query"], "admin");

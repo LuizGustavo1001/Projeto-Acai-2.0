@@ -15,6 +15,9 @@ main{
 .search-form form .search-label{
     display: flex;
     align-items: center;
+
+    font-size: 0.8em;
+
 }
 .search-form form .search-label svg{
     width: 25px;
@@ -51,8 +54,20 @@ main{
     border-radius: var(--border-radius);
 }
 
+.search-result h1{
+    font-size: 1.3em;
+}
+
 
 @media(min-width: 1024px){
+    .search-form form .search-label{
+        display: flex;
+        align-items: center;
+
+        font-size: 1em;
+
+    }
+
     .products-title{
         display: flex;
         align-items: center;
@@ -80,6 +95,10 @@ main{
 
     .product-view {
         margin: 0 auto;
+    }
+
+    .search-result h1{
+        font-size: 1.5em;
     }
 }
 

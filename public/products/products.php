@@ -12,10 +12,10 @@
             $getSearchReturn = $mysqli->prepare("
                 SELECT pd.idProduct, pd.printName, pd.altName, pd.brandProduct, pv.imageURL, 
                     MIN(pv.priceProduct) AS priceProduct, pv.priceDate
-                    FROM product_version AS pv
-                        INNER JOIN product_data AS pd ON pv.idProduct = pd.idProduct
-                    GROUP BY pd.idProduct
+                FROM product_version AS pv
+                    INNER JOIN product_data AS pd ON pv.idProduct = pd.idProduct
                 WHERE pd.printName LIKE ?
+                GROUP BY pd.idProduct
             ");
 
             $likeProdName = "%{$prodName}%";
@@ -31,7 +31,7 @@
                 switch($amount){
                     case 0:
                         echo "
-                            <div style=\"font-weight: normal;\">
+                            <div style=\"font-weight: normal;\" class='search-result'>
                                 <h1> 
                                     Nenhum Produto Encontrado com o Nome:
                                     <strong style=\"color: var(--secondary-clr)\"><em>$prodName</em></strong>
@@ -42,7 +42,7 @@
                     
                     default:
                         echo "
-                            <div style='font-weight: normal; margin-bottom: 2em;'>
+                            <div style='font-weight: normal; margin-bottom: 2em;'class='search-result'>
                                 <h1> 
                                     Produtos Encontrados com o filtro:
                                     <strong style='color: var(--secondary-clr)'><em>$prodName</em></strong>
@@ -138,6 +138,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap" rel="stylesheet">
 
     <?php displayFavicon()?>
+
+    
     
     <title>Açaí e Polpas Amazônia - Produtos</title>
 </head>

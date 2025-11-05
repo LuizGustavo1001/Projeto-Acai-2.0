@@ -218,6 +218,15 @@
                     WHERE u.userMail LIKE ? OR u.userName LIKE ?
                 ";
                 $pageTitle = "Administradores";
+                $tableTitle = "
+                    <li class='small-col'>Id</li>
+                    <li class='image-col'>Imagem</li>
+                    <li class='big-col'>Nome</li>
+                    <li class='big-col'>Email</li>
+                    <li class='regular-col'>Telefone</li>
+                    <li class='big-col'>Endereço</li>
+                    <li class='small-col'></li>
+                ";
 
                 break;
 
@@ -229,6 +238,14 @@
                     WHERE u.userMail LIKE ? OR u.userName LIKE ?
                 ";
                 $pageTitle = "Clientes";
+                $tableTitle = "
+                    <li class='small-col'>Id</li>
+                    <li class='big-col'>Nome</li>
+                    <li class='big-col'>Email</li>
+                    <li class='regular-col'>Telefone</li>
+                    <li class='big-col'>Endereço</li>
+                    <li class='regular-col'></li>
+                ";
 
                 break;
             
@@ -243,6 +260,13 @@
                     ORDER BY od.idOrder
                 ";
                 $pageTitle = "Pedidos";
+                $tableTitle = "
+                    <li class='small-col'>Id</li>
+                    <li class='big-col'>Nome Cliente</li>
+                    <li class='regular-col'>Data-Hora</li>
+                    <li class='big-col'>Produtos</li>
+                    <li class='regular-col'>Situação</li>
+                ";
 
                 break;
             
@@ -253,8 +277,32 @@
                     WHERE printName LIKE ? OR brandProduct LIKE ? 
                 ";
                 $pageTitle = "Produtos";
+                $tableTitle = "
+                    <li class='smaller-col'></li>
+                    <li class='small-col'>Id</li>
+                    <li class='big-col'>Nome</li>
+                    <li class='big-col'>Nome Alternativo</li>
+                    <li class='regular-col'>Marca</li>
+                    <li class='regular-col'>Tipo</li>
+                    <li class='regular-col'></li>       
+                ";
 
             break;
+            case "change":
+                $query = "
+                    SELECT cd.idChange, cd.changeDate, cd.changeHour, ud.userName 
+                    FROM change_data AS cd JOIN user_data AS ud ON cd.idAdmin = ud.idUser
+                    WHERE cd.idChange LIKE ? OR ud.userName LIKE ? 
+                ";
+                $pageTitle = "Alterações";
+                $tableTitle = "
+                    <li class='smaller-col'></li>
+                    <li class='small-col'>Id</li>
+                    <li class='big-col'>Administrador</li>
+                    <li class='regular-col'>Data-Hora</li>
+                ";
+
+                break;
             
         }
 
@@ -281,21 +329,15 @@
                         <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
                             <path stroke-linecap='round' stroke-linejoin='round' d='m15.75 15.75-2.489-2.489m0 0a3.375 3.375 0 1 0-4.773-4.773 3.375 3.375 0 0 0 4.774 4.774ZM21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z' />
                         </svg>
-                        {$pageTitle} encontrados com o filtro <strong>{$formInput}</strong>
+                        <p>{$pageTitle} encontrados com o filtro <strong>{$formInput}</strong></p>
                     </h1>
                     <div class='table-container'>
                         <div class='table-header'>
                             <ul>
-                                <li class='small-col'>Id</li>
-                                <li class='big-col'>Nome</li>
-                                <li class='big-col'>Email</li>
-                                <li class='regular-col'>Telefone</li>
-                                <li class='big-col'>Endereço</li>
-                                
+                                {$tableTitle}
                             </ul>
                         </div>
                         <div class='table-body'>
-
             ";
 
             while ($itens = $result->fetch_assoc()){
@@ -344,7 +386,6 @@
                     <li class='small-col'>Id</li>
                     <li class='big-col'>Administrador</li>
                     <li class='regular-col'>Data-Hora</li>
-                    
                 ";
                 
                 break;

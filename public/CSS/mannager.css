@@ -143,6 +143,7 @@ main {
     font-size: 1.5em;
 }
 
+
 .desktop {
     display: none;
 }
@@ -190,7 +191,7 @@ main {
     align-items: center;
     gap: 0.3em;
 
-    font-size: 1.5em;
+    font-size: 1em;
 }
 .table-container {
     height: 100%;
@@ -377,6 +378,10 @@ details[open] .rotate-icon {
     }
     .info-section ul .amount span {
         font-size: 2em;
+    }
+
+    .table-section h1 {
+        font-size: 1.2em;
     }
 
     .mobile {

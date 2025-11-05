@@ -121,9 +121,8 @@
     padding: 1em;
 
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
 
     background: var(--tertiary-clr);
     border-radius: var(--border-radius);
@@ -135,6 +134,7 @@
 .order-review img{
     width: 125px;
     height: 125px;
+    margin: 0 auto;
 
     border-radius: var(--border-radius);
 }
@@ -173,8 +173,6 @@
     }
 
     .order-review ol li {
-        flex-direction: row;
-        justify-content: left;
         gap: 2em;
     }
 
