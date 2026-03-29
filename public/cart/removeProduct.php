@@ -1,6 +1,6 @@
 <?php 
-    include "../../databaseConnection.php";
-    include "../generalPHP.php";
+    require_once __DIR__ . '/../../databaseConnection.php';
+    require_once "../generalPHP.php";
 
     if(isset($_GET["name"])){
         $getAllProducts = $mysqli->query("SELECT nameProduct FROM product_version");

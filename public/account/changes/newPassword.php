@@ -1,8 +1,8 @@
 <?php 
-    include "../../../databaseConnection.php";
-    include "../../generalPHP.php";
-    include "../../footerHeader.php";
-    include "../../printStyles.php";
+    require_once __DIR__ . '/../../../databaseConnection.php';
+    require_once "../../generalPHP.php";
+    require_once "../../footerHeader.php";
+    require_once "../../printStyles.php";
 
     // trying to access the page without autentication
     if(! isset($_SESSION["userMail"])){
@@ -67,16 +67,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="<?php printStyle("universal") ?>">
+    <link rel="stylesheet" href="<?php printStyle("general") ?>">
+    <link rel="stylesheet" href="<?php printStyle("account") ?>">
 
     <?php displayFavicon()?>
-
-    <link rel="stylesheet" href="<?php printStyle("2", "universal") ?>">
-    <link rel="stylesheet" href="<?php printStyle("2", "general") ?>">
-    <link rel="stylesheet" href="<?php printStyle("2", "account") ?>">
 
     <style>
         .container-background{
@@ -159,6 +155,6 @@
         </section>
     </main>
 
-    <?php displayFooter();?>
+    <?php displayFooter()?>
 </body>
 </html>

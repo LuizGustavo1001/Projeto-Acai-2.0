@@ -1,8 +1,8 @@
 <?php 
-    include "../../databaseConnection.php";
-    include "../generalPHP.php";
-    include "../footerHeader.php";
-    include "../printStyles.php";
+    require_once __DIR__ . '/../../databaseConnection.php';
+    require_once "../generalPHP.php";
+    require_once "../footerHeader.php";
+    require_once "../printStyles.php";
 
     checkSession("all-product");
     function prodSearchOutput($prodName){ 
@@ -10,12 +10,20 @@
         global $mysqli;
         if($prodName !== ""){
             $getSearchReturn = $mysqli->prepare("
-                SELECT pd.idProduct, pd.printName, pd.altName, pd.brandProduct, pv.imageURL, 
-                    MIN(pv.priceProduct) AS priceProduct, pv.priceDate
+                SELECT 
+                    pd.idProduct, 
+                    pd.printName, 
+                    pd.altName, 
+                    pd.brandProduct, 
+                    ANY_VALUE(pv.imageURL) AS imageURL,
+                    MIN(pv.priceProduct) AS priceProduct,
+                    MIN(pv.priceDate) AS priceDate
                 FROM product_version AS pv
-                    INNER JOIN product_data AS pd ON pv.idProduct = pd.idProduct
+                INNER JOIN product_data AS pd 
+                    ON pv.idProduct = pd.idProduct
                 WHERE pd.printName LIKE ?
-                GROUP BY pd.idProduct
+                GROUP BY 
+                    pd.idProduct, pd.printName, pd.altName, pd.brandProduct
             ");
 
             $likeProdName = "%{$prodName}%";
@@ -126,20 +134,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="<?php printStyle("1", "universal") ?>">
-    <link rel="stylesheet" href="<?php printStyle("1", "general") ?>">
-    <link rel="stylesheet" href="<?php printStyle("1", "products") ?>">
+    <link rel="stylesheet" href="<?php printStyle("universal") ?>">
+    <link rel="stylesheet" href="<?php printStyle("general") ?>">
+    <link rel="stylesheet" href="<?php printStyle("products") ?>">
     
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
-    <script src="../JS/generalScripts.js"></script>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Leckerli+One&family=Lemon&display=swap" rel="stylesheet">
+    <script src="/js/generalScripts.js"></script>
 
     <?php displayFavicon()?>
-
-    
     
     <title>Açaí e Polpas Amazônia - Produtos</title>
 </head>
@@ -260,6 +262,6 @@
             </ul>
         </section>
     </main>
-    <?php displayFooter();?>
+    <?php displayFooter()?>
 </body>
 </html>

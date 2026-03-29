@@ -1,9 +1,9 @@
 <?php
-    include "../../databaseConnection.php";
+    require_once __DIR__ . '/../../databaseConnection.php';
 
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
-    require __DIR__ . '/../../composer/vendor/autoload.php';
+    require __DIR__ . '/../composer/vendor/autoload.php';
 
     if(! isset($_SESSION)){
         session_start();

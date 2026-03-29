@@ -446,7 +446,7 @@
                         LEFT JOIN product_order AS po 
                             ON od.idOrder = po.idOrder
                         LEFT JOIN product_version AS pv 
-                            ON po.idProduct = pv.idProduct
+                            ON po.idVersion = pv.idVersion
                     GROUP BY od.idOrder
                     ORDER BY od.idOrder;
                 ";
@@ -651,9 +651,9 @@
                     
                 }else if(isset($row["orderDate"])){ // order
                     $getAllProducts = $mysqli->prepare("
-                        SELECT po.idProduct, pd.printName, pv.sizeProduct, pv.flavor, po.amount, po.totPrice
+                        SELECT po.idVersion, pd.printName, pv.sizeProduct, pv.flavor, po.amount, po.totPrice
                         FROM product_order AS po 
-                            JOIN product_version AS pv ON po.idProduct = pv.idVersion
+                            JOIN product_version AS pv ON po.idVersion = pv.idVersion
                             JOIN product_data AS pd ON pv.idProduct = pd.idProduct
                         WHERE po.idOrder = ?
                     ");

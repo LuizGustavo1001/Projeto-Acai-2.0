@@ -125,7 +125,7 @@ function displayHeader($local){
 function displayFooter(){
     echo "
         <footer>
-            <p><span class='footer-copy'>2025 &copy; Açaí e Polpas Amazônia Todos os Direitos Reservados.</span></p>
+            <p><span class='footer-copy'>2026 &copy; Açaí e Polpas Amazônia Todos os Direitos Reservados.</span></p>
 
             <nav>
                 <ul>

@@ -1,18 +1,14 @@
 <?php 
     // function to print the style file and the version at the correct page 
     // everytime that you change something at the styles you are supose to change the version too at $version
-    function printStyle($local, $fileName){
+    function printStyle($fileName){
         $version = "?v=3.23";
 
-        $directory = match($local){
-            "1" => "../CSS/",
-            "2" => "../../CSS/",
-            default => "CSS/",
-        };
+        $directory = "/css/";
 
         $cssFile = match($fileName){
-            "universal"         => "universal-styles.css",
-            "general"           => "general-styles.css",
+            "universal"         => "universal.css",
+            "general"           => "general.css",
             "account"           => "account.css",
             "cart"              => "cart.css",
             "index"             => "index.css",
@@ -20,7 +16,7 @@
             "mannagerSettings"  => "mannager-settings.css",
             "products"          => "products.css",
             "productVersion"    => "productView.css",
-            default             => "general-styles.css",
+            default             => "general.css",
         };
 
         echo "{$directory}{$cssFile}{$version}";

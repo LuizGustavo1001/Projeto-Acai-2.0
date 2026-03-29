@@ -1,6 +1,39 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.3
+-- https://www.phpmyadmin.net/
+--
+-- Host: container_database
+-- Generation Time: Mar 22, 2026 at 06:54 PM
+-- Server version: 8.0.45
+-- PHP Version: 8.3.26
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Despejando dados para a tabela `admin_data`
+-- Database: `acai_admin`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_data`
+--
+
+CREATE TABLE `admin_data` (
+  `idAdmin` int NOT NULL,
+  `adminPicture` varchar(200) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `admin_data`
 --
 
 INSERT INTO `admin_data` (`idAdmin`, `adminPicture`) VALUES
@@ -9,44 +42,62 @@ INSERT INTO `admin_data` (`idAdmin`, `adminPicture`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `attribute_change`
+-- Table structure for table `attribute_change`
 --
 
 CREATE TABLE `attribute_change` (
-  `idChange` int(11) NOT NULL,
+  `idChange` int NOT NULL,
   `tableName` varchar(30) NOT NULL,
-  `idAttribute` int(11) NOT NULL,
+  `idAttribute` int NOT NULL,
   `objectChanged` varchar(40) NOT NULL,
   `oldValue` varchar(250) DEFAULT NULL,
   `newValue` varchar(250) DEFAULT NULL,
-  `typeChange` enum('Remover','Modificar','Adicionar') NOT NULL DEFAULT 'Modificar'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `typeChange` enum('Remover','Modificar','Adicionar') DEFAULT 'Modificar'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `attribute_change`
+--
+
+INSERT INTO `attribute_change` (`idChange`, `tableName`, `idAttribute`, `objectChanged`, `oldValue`, `newValue`, `typeChange`) VALUES
+(1, 'product_version', 1, 'nameProduct', 'acaiT10', 'acaiT12', 'Modificar'),
+(2, 'product_version', 1, 'availability', 'disponivel', 'indisponivel', 'Modificar'),
+(3, 'product_version', 1, 'nameProduct', 'acaiT12', 'acaiT10', 'Modificar');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `change_data`
+-- Table structure for table `change_data`
 --
 
 CREATE TABLE `change_data` (
-  `idChange` int(11) NOT NULL,
+  `idChange` int NOT NULL,
   `changeDate` date NOT NULL,
   `changeHour` time NOT NULL,
-  `idAdmin` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `idAdmin` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `change_data`
+--
+
+INSERT INTO `change_data` (`idChange`, `changeDate`, `changeHour`, `idAdmin`) VALUES
+(1, '2026-03-21', '17:54:41', 1),
+(2, '2026-03-21', '17:54:41', 1),
+(3, '2026-03-21', '17:54:53', 1);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `client_data`
+-- Table structure for table `client_data`
 --
 
 CREATE TABLE `client_data` (
-  `idClient` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `idClient` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Despejando dados para a tabela `client_data`
+-- Dumping data for table `client_data`
 --
 
 INSERT INTO `client_data` (`idClient`) VALUES
@@ -55,33 +106,43 @@ INSERT INTO `client_data` (`idClient`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `order_data`
+-- Table structure for table `order_data`
 --
 
 CREATE TABLE `order_data` (
-  `idOrder` int(11) NOT NULL,
-  `idClient` int(11) NOT NULL,
+  `idOrder` int NOT NULL,
+  `idClient` int NOT NULL,
   `orderDate` date NOT NULL,
   `orderHour` time NOT NULL,
   `orderStatus` enum('Pendente','Finalizado') DEFAULT 'Pendente'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `order_data`
+--
+
+INSERT INTO `order_data` (`idOrder`, `idClient`, `orderDate`, `orderHour`, `orderStatus`) VALUES
+(1, 2, '2026-03-21', '16:29:05', 'Pendente'),
+(2, 2, '2026-03-21', '16:30:00', 'Pendente'),
+(3, 2, '2026-03-21', '17:31:19', 'Pendente'),
+(4, 2, '2026-03-21', '17:47:51', 'Finalizado');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `product_data`
+-- Table structure for table `product_data`
 --
 
 CREATE TABLE `product_data` (
-  `idProduct` int(11) NOT NULL,
+  `idProduct` int NOT NULL,
   `printName` varchar(60) NOT NULL,
   `altName` varchar(40) NOT NULL,
   `brandProduct` varchar(40) DEFAULT 'Outra Marca',
-  `typeProduct` enum('Outro','Adicional','Creme','') DEFAULT 'Outro'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `typeProduct` enum('Outro','Adicional','Creme') DEFAULT 'Outro'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Despejando dados para a tabela `product_data`
+-- Dumping data for table `product_data`
 --
 
 INSERT INTO `product_data` (`idProduct`, `printName`, `altName`, `brandProduct`, `typeProduct`) VALUES
@@ -108,41 +169,48 @@ INSERT INTO `product_data` (`idProduct`, `printName`, `altName`, `brandProduct`,
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `product_order`
+-- Table structure for table `product_order`
 --
 
 CREATE TABLE `product_order` (
-  `idOrder` int(11) NOT NULL,
-  `idProduct` int(11) NOT NULL,
-  `amount` int(11) NOT NULL,
-  `totPrice` decimal(10,2) DEFAULT 0.00,
-  `singlePrice` decimal(8,2) DEFAULT 0.00
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `idOrder` int NOT NULL,
+  `idVersion` int NOT NULL,
+  `amount` int NOT NULL,
+  `totPrice` decimal(10,2) DEFAULT '0.00',
+  `singlePrice` decimal(8,2) DEFAULT '0.00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `product_order`
+--
+
+INSERT INTO `product_order` (`idOrder`, `idVersion`, `amount`, `totPrice`, `singlePrice`) VALUES
+(3, 1, 1, 110.00, 110.00);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `product_version`
+-- Table structure for table `product_version`
 --
 
 CREATE TABLE `product_version` (
-  `idVersion` int(11) NOT NULL,
-  `idProduct` int(11) NOT NULL,
+  `idVersion` int NOT NULL,
+  `idProduct` int NOT NULL,
   `nameProduct` varchar(50) NOT NULL,
   `sizeProduct` varchar(20) NOT NULL,
-  `priceProduct` decimal(8,2) DEFAULT 0.00,
+  `priceProduct` decimal(8,2) DEFAULT '0.00',
   `priceDate` date NOT NULL,
   `availability` enum('disponivel','indisponivel') DEFAULT 'disponivel',
-  `imageURL` varchar(250) DEFAULT 'https://res.cloudinary.com/dw2eqq9kk/image/upload/v1750079685/LogoAcai_x1zv8k.png',
+  `imageURL` varchar(250) DEFAULT NULL,
   `flavor` varchar(40) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Despejando dados para a tabela `product_version`
+-- Dumping data for table `product_version`
 --
 
 INSERT INTO `product_version` (`idVersion`, `idProduct`, `nameProduct`, `sizeProduct`, `priceProduct`, `priceDate`, `availability`, `imageURL`, `flavor`) VALUES
-(1, 1, 'acaiT10', '10l', 110.00, '2025-10-03', 'disponivel', 'https://res.cloudinary.com/dw2eqq9kk/image/upload/v1759519124/Projeto_Acai/Products/acaiT10.jpg', NULL),
+(1, 1, 'acaiT10', '10l', 110.00, '2025-10-03', 'indisponivel', 'https://res.cloudinary.com/dw2eqq9kk/image/upload/v1759519124/Projeto_Acai/Products/acaiT10.jpg', NULL),
 (2, 1, 'acaiT5', '5l', 65.00, '2025-10-03', 'disponivel', 'https://res.cloudinary.com/dw2eqq9kk/image/upload/v1759519173/Projeto_Acai/Products/acaiT5.jpg', NULL),
 (3, 1, 'acaiT1', '1l', 18.00, '2025-11-03', 'disponivel', 'https://res.cloudinary.com/dw2eqq9kk/image/upload/v1758995467/Projeto_Acai/Products/acaiT1.jpg', NULL),
 (4, 2, 'colher200', '200 unidades', 30.00, '2025-09-25', 'disponivel', 'https://res.cloudinary.com/dw2eqq9kk/image/upload/v1755311857/caixa-colher_eurc6f.jpg', NULL),
@@ -196,11 +264,11 @@ INSERT INTO `product_version` (`idVersion`, `idProduct`, `nameProduct`, `sizePro
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `user_data`
+-- Table structure for table `user_data`
 --
 
 CREATE TABLE `user_data` (
-  `idUser` int(11) NOT NULL,
+  `idUser` int NOT NULL,
   `userName` varchar(30) NOT NULL,
   `userMail` varchar(50) NOT NULL,
   `userPhone` varchar(16) NOT NULL,
@@ -211,154 +279,155 @@ CREATE TABLE `user_data` (
   `localNum` varchar(10) NOT NULL,
   `referencePoint` varchar(50) DEFAULT '',
   `state` enum('AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO') DEFAULT 'MG'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Despejando dados para a tabela `user_data`
+-- Dumping data for table `user_data`
 --
 
 INSERT INTO `user_data` (`idUser`, `userName`, `userMail`, `userPhone`, `userPassword`, `city`, `district`, `street`, `localNum`, `referencePoint`, `state`) VALUES
 (1, 'Ademir 2', 'admin@dominio.com', '(32) 9 7854 0244', '$2y$10$UUybSCbs3zBwsUca6AoOj.Wud9R1PUs8dw7voaBpEMCHKN.VAQ9Jm', 'Cidade Legal', 'Bairro Legal', 'Rua Legal', '993', 'ponto de referência', 'MG'),
-(2, 'Cliente Teste 1', 'client@dominio.com', '(35) 9 7824 4343', '$2y$10$GJjEFjXpkKI/LNMsZ.WE8e6zd5XEvMd11iQitZ7/vMwiP9lYALrtu', 'Cidade Top', 'Bairro Legal', 'Rua', '111', '', 'RS'),
+(2, 'Cliente Teste', 'client@dominio.com', '(35) 9 7824 4343', '$2y$10$GJjEFjXpkKI/LNMsZ.WE8e6zd5XEvMd11iQitZ7/vMwiP9lYALrtu', 'Cidade Top', 'Bairro Legal', 'Rua', '111', '', 'RS');
+
 --
--- Índices para tabelas despejadas
+-- Indexes for dumped tables
 --
 
 --
--- Índices de tabela `admin_data`
+-- Indexes for table `admin_data`
 --
 ALTER TABLE `admin_data`
   ADD PRIMARY KEY (`idAdmin`);
 
 --
--- Índices de tabela `attribute_change`
+-- Indexes for table `attribute_change`
 --
 ALTER TABLE `attribute_change`
-  ADD PRIMARY KEY (`idChange`,`tableName`,`idAttribute`,`objectChanged`);
+  ADD PRIMARY KEY (`idChange`,`idAttribute`,`objectChanged`);
 
 --
--- Índices de tabela `change_data`
+-- Indexes for table `change_data`
 --
 ALTER TABLE `change_data`
   ADD PRIMARY KEY (`idChange`),
   ADD KEY `idAdmin` (`idAdmin`);
 
 --
--- Índices de tabela `client_data`
+-- Indexes for table `client_data`
 --
 ALTER TABLE `client_data`
   ADD PRIMARY KEY (`idClient`);
 
 --
--- Índices de tabela `order_data`
+-- Indexes for table `order_data`
 --
 ALTER TABLE `order_data`
   ADD PRIMARY KEY (`idOrder`),
   ADD KEY `idClient` (`idClient`);
 
 --
--- Índices de tabela `product_data`
+-- Indexes for table `product_data`
 --
 ALTER TABLE `product_data`
   ADD PRIMARY KEY (`idProduct`);
 
 --
--- Índices de tabela `product_order`
+-- Indexes for table `product_order`
 --
 ALTER TABLE `product_order`
-  ADD PRIMARY KEY (`idOrder`,`idProduct`),
+  ADD PRIMARY KEY (`idOrder`,`idVersion`),
+  ADD KEY `idVersion` (`idVersion`);
+
+--
+-- Indexes for table `product_version`
+--
+ALTER TABLE `product_version`
+  ADD PRIMARY KEY (`idVersion`),
   ADD KEY `idProduct` (`idProduct`);
 
 --
--- Índices de tabela `product_version`
---
-ALTER TABLE `product_version`
-  ADD PRIMARY KEY (`idVersion`,`idProduct`,`nameProduct`),
-  ADD KEY `product_version_ibfk_1` (`idProduct`);
-
---
--- Índices de tabela `user_data`
+-- Indexes for table `user_data`
 --
 ALTER TABLE `user_data`
   ADD PRIMARY KEY (`idUser`);
 
 --
--- AUTO_INCREMENT para tabelas despejadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de tabela `change_data`
+-- AUTO_INCREMENT for table `change_data`
 --
 ALTER TABLE `change_data`
-  MODIFY `idChange` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `idChange` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT de tabela `order_data`
+-- AUTO_INCREMENT for table `order_data`
 --
 ALTER TABLE `order_data`
-  MODIFY `idOrder` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `idOrder` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT de tabela `product_data`
+-- AUTO_INCREMENT for table `product_data`
 --
 ALTER TABLE `product_data`
-  MODIFY `idProduct` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `idProduct` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
--- AUTO_INCREMENT de tabela `product_version`
+-- AUTO_INCREMENT for table `product_version`
 --
 ALTER TABLE `product_version`
-  MODIFY `idVersion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `idVersion` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
--- AUTO_INCREMENT de tabela `user_data`
+-- AUTO_INCREMENT for table `user_data`
 --
 ALTER TABLE `user_data`
-  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `idUser` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- Restrições para tabelas despejadas
+-- Constraints for dumped tables
 --
 
 --
--- Restrições para tabelas `admin_data`
+-- Constraints for table `admin_data`
 --
 ALTER TABLE `admin_data`
   ADD CONSTRAINT `admin_data_ibfk_1` FOREIGN KEY (`idAdmin`) REFERENCES `user_data` (`idUser`) ON DELETE CASCADE;
 
 --
--- Restrições para tabelas `attribute_change`
+-- Constraints for table `attribute_change`
 --
 ALTER TABLE `attribute_change`
   ADD CONSTRAINT `attribute_change_ibfk_1` FOREIGN KEY (`idChange`) REFERENCES `change_data` (`idChange`) ON DELETE CASCADE;
 
 --
--- Restrições para tabelas `change_data`
+-- Constraints for table `change_data`
 --
 ALTER TABLE `change_data`
   ADD CONSTRAINT `change_data_ibfk_1` FOREIGN KEY (`idAdmin`) REFERENCES `admin_data` (`idAdmin`);
 
 --
--- Restrições para tabelas `client_data`
+-- Constraints for table `client_data`
 --
 ALTER TABLE `client_data`
   ADD CONSTRAINT `client_data_ibfk_1` FOREIGN KEY (`idClient`) REFERENCES `user_data` (`idUser`) ON DELETE CASCADE;
 
 --
--- Restrições para tabelas `order_data`
+-- Constraints for table `order_data`
 --
 ALTER TABLE `order_data`
   ADD CONSTRAINT `order_data_ibfk_1` FOREIGN KEY (`idClient`) REFERENCES `client_data` (`idClient`) ON DELETE CASCADE;
 
 --
--- Restrições para tabelas `product_order`
+-- Constraints for table `product_order`
 --
 ALTER TABLE `product_order`
   ADD CONSTRAINT `product_order_ibfk_1` FOREIGN KEY (`idOrder`) REFERENCES `order_data` (`idOrder`) ON DELETE CASCADE,
-  ADD CONSTRAINT `product_order_ibfk_2` FOREIGN KEY (`idProduct`) REFERENCES `product_version` (`idVersion`) ON DELETE CASCADE;
+  ADD CONSTRAINT `product_order_ibfk_2` FOREIGN KEY (`idVersion`) REFERENCES `product_version` (`idVersion`) ON DELETE CASCADE;
 
 --
--- Restrições para tabelas `product_version`
+-- Constraints for table `product_version`
 --
 ALTER TABLE `product_version`
   ADD CONSTRAINT `product_version_ibfk_1` FOREIGN KEY (`idProduct`) REFERENCES `product_data` (`idProduct`) ON DELETE CASCADE;

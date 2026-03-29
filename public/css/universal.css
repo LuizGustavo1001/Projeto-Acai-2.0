@@ -1,4 +1,5 @@
 /* Styles for all pages*/
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Courgette&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 
 :root {
     --primary-bg-clr: #FFF6FC;
@@ -14,9 +15,9 @@
     --placeholder-clr: #9a6b94;
     --hover-clr-1: #f7bee9ff;
 
-    --primary-font: "Exo 2", sans-serif;
-    --secondary-font: "Leckerli One", cursive, sans-serif;
-    --tertiary-font: "Lemon", cursive, sans-serif;
+    --primary-font: "Lato", sans-serif;
+    --secondary-font: "Courgette", cursive, sans-serif;
+    --tertiary-font: "Bricolage Grotesque", cursive, sans-serif;
 
     --transition: all 0.3s;
 

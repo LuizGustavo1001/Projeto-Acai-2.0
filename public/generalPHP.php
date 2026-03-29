@@ -21,12 +21,17 @@
 
         if(in_array($prodName, $allowedNames)){
             $getProducts = $mysqli->prepare("
-                SELECT pd.idProduct, pd.printName, pd.altName, pd.brandProduct, pv.imageURL, 
-                    MIN(pv.priceProduct) AS priceProduct, pv.priceDate
-                    FROM product_version AS pv
-                        INNER JOIN product_data AS pd ON pv.idProduct = pd.idProduct
+                SELECT pd.idProduct, pd.printName, pd.altName, pd.brandProduct,
+                    pv.imageURL, pv.priceProduct, pv.priceDate
+                FROM product_data pd
+                JOIN product_version pv 
+                    ON pv.idProduct = pd.idProduct
                 WHERE pd.altName = ?
-                GROUP BY pd.idProduct
+                AND pv.priceProduct = (
+                    SELECT MIN(pv2.priceProduct)
+                    FROM product_version pv2
+                    WHERE pv2.idProduct = pd.idProduct
+                )
             ");
 
             $getProducts->bind_param("s", $prodName);
