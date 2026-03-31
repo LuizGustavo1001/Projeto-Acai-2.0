@@ -66,7 +66,6 @@ To enable them, visit **"How to run"** section to **setup your own connections**
 
 ## How to Run
 
-```
 ### API Keys (any OS)
 - Create a [Google Cloud Project](https://www.youtube.com/watch?v=k_PB4ORz2r0) and enable the **Google Sheets API**.
 - Create a service account and download the `credentials.json` file. Place it in project root:
@@ -135,9 +134,11 @@ composer require google/apiclient:^2.0
 ```
 
 ### Database
-> - phpmyadmin user: user, 1111
-> - admin: admin@dominio.com 1901
-> - client: client@dominio.com 1901
+```
+phpmyadmin user: user, 1111
+admin: admin@dominio.com 1901
+client: client@dominio.com 1901
+```
 
 - Access **phpmyadmin** web page:
 ```

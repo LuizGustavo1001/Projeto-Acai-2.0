@@ -1,0 +1,135 @@
+@use "mixins" as m;
+@use "variables";
+
+
+.hero{
+    max-width: clamp(0px, calc(100% - 15vw), 1500px);
+    margin-inline: auto;
+
+    @include m.flex-center;
+    flex-direction: column;
+    gap: 2em;
+
+    @include m.respond(tablet){
+        flex-direction: row;
+    }
+
+    @include m.respond(desktop){
+       justify-content: space-between;
+    }
+
+    .title{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        gap: 0.5em;
+
+        @include m.respond(desktop){
+            max-width: clamp(0px, calc(100% - 10vw), 500px);
+        }
+        
+        h1, span{
+            font-weight: normal;
+            font-family: var(--font-style);
+        }
+
+        h1{
+            font-size: clamp(2.5em, 4vw, 4em);
+        }
+        p{
+            font-size: clamp(1em, 2vw, 1.2em);
+        }
+
+        span{
+            color: var(--pink-500);
+        }
+
+        .regular-btn{
+            width: 100%;
+
+            @include m.respond(desktop){
+                width: 50%;
+            }
+
+        }
+    }
+
+    .image{
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+
+        width: 100%;
+        max-width: 400px;
+
+        background: var(--white);
+        padding: 1em;
+        font-weight: bold;
+        color: var(--pink-450);
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.073);
+
+        svg{
+            color: var(--pink-500);
+        }
+
+        .top, .bottom{
+            @include m.flex-center;
+            justify-content: space-between;
+        }
+
+        .top span, .bottom span{
+            @include m.flex-center;
+        }
+
+        .top{
+            span{
+                gap: 0.5em;
+            }
+            p{
+                font-family: var(--font-serif);
+            }
+        }
+
+        img{
+            width: 100%;
+            background: var(--pink-150);
+            padding: 2em;
+        }
+
+        .bottom{
+            span{
+                gap: 1em;
+            }
+        }
+    }
+}
+
+
+
+
+.dark-mode{
+    .hero{
+        .title{
+            h1{
+                color: var(--pink-200);
+            }
+            span{
+                color: var(--pink-350);
+            }
+        }
+
+        .image{
+            background: var(--pink-900);
+            color: var(--pink-300);
+
+            svg{
+                color: var(--pink-350);
+            }
+
+            img{
+                background: var(--pink-950);
+            }
+        }
+    }
+}

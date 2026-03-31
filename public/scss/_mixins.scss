@@ -5,7 +5,7 @@
         @media (min-width: $mobile){ @content; }
     }
     @else if ($size == tablet){
-        @media (min-width: $table){ @content; }
+        @media (min-width: $tablet){ @content; }
     }
     @else if($size == desktop){
         @media (min-width: $desktop){ @content; }
@@ -13,8 +13,6 @@
     @else{
         @media (min-width: $desktop_outer){ @content; }
     }
-
-    @media (min-width: $size){ @content; }
 }
 
 @mixin flex-center{

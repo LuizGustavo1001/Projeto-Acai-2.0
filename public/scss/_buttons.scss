@@ -61,6 +61,27 @@
     }
 }
 
+/* =-=-=-=-=-=-=-=-=-= REGULAR BUTTON =-=-=-=-=-=-=-=-=-= */
+.regular-btn{
+    background: linear-gradient(to left, var(--pink-400), var(--pink-500) 80%);
+    background-size: 200% 100%;
+    background-position: left;
+    padding: 1em;
+
+    font-weight: bold;
+
+    border-radius: var(--radius-sm);
+
+    color: var(--pink-150);
+
+    text-align: center;
+    cursor: pointer;
+
+    &:hover{
+        background-position: right;
+        box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.28);
+    }
+}
 
 /* =-=-=-=-=-=-=-=-=-= OUTER BUTTON =-=-=-=-=-=-=-=-=-= */
 .button-outer{

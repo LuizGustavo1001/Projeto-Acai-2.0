@@ -71,6 +71,23 @@
   width: 25px;
 }
 
+/* =-=-=-=-=-=-=-=-=-= REGULAR BUTTON =-=-=-=-=-=-=-=-=-= */
+.regular-btn {
+  background: linear-gradient(to left, var(--pink-400), var(--pink-500) 80%);
+  background-size: 200% 100%;
+  background-position: left;
+  padding: 1em;
+  font-weight: bold;
+  border-radius: var(--radius-sm);
+  color: var(--pink-150);
+  text-align: center;
+  cursor: pointer;
+}
+.regular-btn:hover {
+  background-position: right;
+  box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.28);
+}
+
 /* =-=-=-=-=-=-=-=-=-= OUTER BUTTON =-=-=-=-=-=-=-=-=-= */
 .button-outer {
   /* --size: 50px; */
@@ -78,12 +95,6 @@
   height: var(--size, 40px);
 }
 @media (min-width: 1024px) {
-  .button-outer {
-    width: var(--size, 35px);
-    height: var(--size, 35px);
-  }
-}
-@media (min-width: desktop) {
   .button-outer {
     width: var(--size, 35px);
     height: var(--size, 35px);
@@ -117,55 +128,6 @@
   color: var(--pink-500);
 }
 
-.dark-mode {
-  background: var(--pink-950);
-  color: var(--pink-200);
-}
-.dark-mode header .icon-button.menu {
-  background: var(--pink-900);
-}
-.dark-mode header .icon-button.menu:hover {
-  color: var(--pink-350);
-}
-.dark-mode header nav {
-  background: var(--pink-900);
-}
-.dark-mode header nav .nav-links .item:hover {
-  background: var(--pink-950);
-}
-.dark-mode header nav .nav-links .item .cart-amount {
-  background: var(--pink-350);
-  color: var(--pink-900);
-}
-.dark-mode .toggle-theme {
-  background: var(--pink-950);
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.308);
-}
-.dark-mode .toggle-theme .selected-bg {
-  background: var(--pink-900);
-}
-.dark-mode .toggle-theme .icon-bg.active .toggle-icon {
-  color: var(--pink-350);
-}
-.dark-mode .button-outer .icon-bg {
-  color: var(--pink-900);
-}
-.dark-mode .button-outer .icon {
-  color: var(--pink-200);
-}
-.dark-mode .button-outer:hover .icon-bg {
-  color: var(--pink-950);
-}
-.dark-mode .button-outer:hover .icon {
-  color: var(--pink-350);
-}
-.dark-mode footer {
-  background: var(--pink-900);
-}
-.dark-mode footer span {
-  color: var(--pink-300);
-}
-
 * {
   padding: 0;
   margin: 0;
@@ -181,15 +143,11 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 2em;
   background: var(--pink-150);
   color: var(--pink-850);
 }
 @media (min-width: 1024px) {
-  body {
-    padding: 1em;
-  }
-}
-@media (min-width: desktop) {
   body {
     padding: 1em;
   }
@@ -203,6 +161,10 @@ a {
 svg {
   width: 30px;
   height: 30px;
+}
+
+img {
+  width: 100px;
 }
 
 .dazzles-bg {
@@ -228,11 +190,6 @@ header {
   padding: 0.5em;
 }
 @media (min-width: 1024px) {
-  header {
-    padding: 0;
-  }
-}
-@media (min-width: desktop) {
   header {
     padding: 0;
   }
@@ -287,32 +244,12 @@ header nav.open {
     z-index: inherit;
   }
 }
-@media (min-width: desktop) {
-  header nav {
-    position: initial;
-    height: 100%;
-    width: 100%;
-    min-width: 0;
-    max-width: fit-content;
-    padding: 0.3em;
-    border-radius: var(--radius-lg);
-    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.029);
-    transform: translateX(0);
-    z-index: inherit;
-  }
-}
 header nav .nav-links {
   display: flex;
   flex-direction: column;
   gap: 1em;
 }
 @media (min-width: 1024px) {
-  header nav .nav-links {
-    flex-direction: row;
-    gap: 1em;
-  }
-}
-@media (min-width: desktop) {
   header nav .nav-links {
     flex-direction: row;
     gap: 1em;
@@ -328,18 +265,13 @@ header nav .nav-links .item {
   font-size: 0.8em;
   border-radius: var(--radius-lg);
 }
-header nav .nav-links .item:hover {
+header nav .nav-links .item:hover, header nav .nav-links .item.selected {
   background: var(--pink-150);
 }
-@media (min-width: 1024px) {
-  header nav .nav-links .item {
-    min-width: 80px;
-    max-width: 80px;
-    font-size: 0.7em;
-    gap: 0.3em;
-  }
+header nav .nav-links .item:hover svg, header nav .nav-links .item.selected svg {
+  color: var(--pink-500);
 }
-@media (min-width: desktop) {
+@media (min-width: 1024px) {
   header nav .nav-links .item {
     min-width: 80px;
     max-width: 80px;
@@ -388,15 +320,6 @@ footer {
     font-size: 0.9em;
   }
 }
-@media (min-width: desktop) {
-  footer {
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 0;
-    padding: 0.5em;
-    font-size: 0.9em;
-  }
-}
 footer span {
   color: var(--pink-700);
 }
@@ -408,11 +331,6 @@ footer nav {
 }
 
 @media (min-width: 1024px) {
-  .mobile {
-    display: none !important;
-  }
-}
-@media (min-width: desktop) {
   .mobile {
     display: none !important;
   }
@@ -430,10 +348,66 @@ footer nav {
     display: inherit;
   }
 }
-@media (min-width: desktop) {
-  .desktop {
-    display: inherit;
-  }
+
+/* =-=-=-=-=-=-=-=-=-= DARK MODE =-=-=-=-=-=-=-=-=-= */
+.dark-mode {
+  background: var(--pink-950);
+  color: var(--pink-200);
+}
+.dark-mode header .icon-button.menu {
+  background: var(--pink-900);
+}
+.dark-mode header .icon-button.menu:hover {
+  color: var(--pink-350);
+}
+.dark-mode header nav {
+  background: var(--pink-900);
+}
+.dark-mode header nav .nav-links .item:hover, .dark-mode header nav .nav-links .item.selected {
+  background: var(--pink-950);
+}
+.dark-mode header nav .nav-links .item:hover svg, .dark-mode header nav .nav-links .item.selected svg {
+  color: var(--pink-350);
+}
+.dark-mode header nav .nav-links .item .cart-amount {
+  background: var(--pink-350);
+  color: var(--pink-900);
+}
+.dark-mode .toggle-theme {
+  background: var(--pink-950);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.308);
+}
+.dark-mode .toggle-theme .selected-bg {
+  background: var(--pink-900);
+}
+.dark-mode .toggle-theme .icon-bg.active .toggle-icon {
+  color: var(--pink-350);
+}
+.dark-mode .regular-btn {
+  background: linear-gradient(to left, var(--pink-350), var(--pink-450) 80%);
+  background-size: 200% 100%;
+  background-position: left;
+}
+.dark-mode .regular-btn:hover {
+  background-position: right;
+}
+.dark-mode .button-outer .icon-bg {
+  color: var(--pink-900);
+}
+.dark-mode .button-outer .icon {
+  color: var(--pink-200);
+}
+.dark-mode .button-outer:hover .icon-bg {
+  color: var(--pink-950);
+}
+.dark-mode .button-outer:hover .icon {
+  color: var(--pink-350);
+}
+.dark-mode footer {
+  background: var(--pink-900);
+}
+.dark-mode footer span {
+  color: var(--pink-300);
 }
 
 /*# sourceMappingURL=main.css.map */
