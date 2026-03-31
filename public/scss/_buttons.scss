@@ -1,3 +1,5 @@
+@use "mixins" as m;
+
 /* =-=-=-=-=-=-=-=-=-= TOGGLE THEME =-=-=-=-=-=-=-=-=-= */
 .toggle-theme{
     $width: 25px;
@@ -56,5 +58,48 @@
 
     .toggle-icon{
         width: $width;
+    }
+}
+
+
+/* =-=-=-=-=-=-=-=-=-= OUTER BUTTON =-=-=-=-=-=-=-=-=-= */
+.button-outer{
+    /* --size: 50px; */
+    width: var(--size, 40px);
+    height: var(--size, 40px);
+
+    @include m.respond(desktop){
+        width: var(--size, 35px);
+        height: var(--size, 35px);
+    }
+
+    position: relative;
+
+    .icon-bg,
+    .icon{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .icon-bg{
+        width: 100%;
+        height: 100%;
+        color: var(--white);
+        z-index: 0;
+    }
+    .icon{
+        width: calc(100% - 0.8em);
+
+        color: var(--pink-800);
+        z-index: 1;
+    }
+
+    &:hover .icon-bg{
+        color: var(--pink-150);
+    }
+    &:hover .icon{
+        color: var(--pink-500);
     }
 }

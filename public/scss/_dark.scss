@@ -39,4 +39,28 @@
             color: var(--pink-350);
         }
     }
+
+    .button-outer{
+        .icon-bg{
+            color: var(--pink-900);
+        }
+        .icon{
+            color: var(--pink-200);
+        }
+        
+        &:hover .icon-bg{
+            color: var(--pink-950);
+        }
+        &:hover .icon{
+            color: var(--pink-350);
+        }
+    }
+
+    footer{
+        background: var(--pink-900);
+
+        span{
+            color: var(--pink-300);
+        }
+    }
 }

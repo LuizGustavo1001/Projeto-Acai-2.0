@@ -8,7 +8,7 @@
     margin: 0;
     box-sizing: border-box;
 
-    font-family: var(--font-serif);
+    font-family: var(--font-sans);
 
     transition: var(--time, 0.2s) linear;
 }
@@ -18,6 +18,10 @@
 body{
     position: relative;
     min-height: 100dvh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     background: var(--pink-150);
     color: var(--pink-850);
@@ -188,6 +192,37 @@ header{
                 }
             }
         }
+    }
+}
+
+/* =-=-=-=-=-=-=-=-=-= FOOTER =-=-=-=-=-=-=-=-=-= */
+footer{
+    @include m.flex-center;
+    flex-direction: column;
+    gap: 1em;
+
+    padding: 1em;
+    margin: 0.5em;
+
+    border-radius: var(--radius-sm);
+    background: var(--white);
+
+    @include m.respond(desktop){
+        flex-direction: row;
+        justify-content: space-between;
+        margin: 0;
+        padding: 0.5em;
+
+        font-size: 0.9em;
+    }
+
+    span{
+        color: var(--pink-700);
+    }
+
+    nav{
+        @include m.flex-center;
+        gap: 1em;
     }
 }
 
