@@ -1,0 +1,209 @@
+@use "mixins" as m;
+@use "variables";
+@use "buttons";
+@use "dark";
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+
+    font-family: var(--font-serif);
+
+    transition: var(--time, 0.2s) linear;
+}
+
+
+/* =-=-=-=-=-=-=-=-=-= GENERAL =-=-=-=-=-=-=-=-=-= */
+body{
+    position: relative;
+    min-height: 100dvh;
+
+    background: var(--pink-150);
+    color: var(--pink-850);
+
+    @include m.respond(desktop){
+        padding: 1em;
+    }
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+svg{
+    width: 30px;
+    height: 30px;
+}
+
+.dazzles-bg{
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100dvw;
+    height: 100dvh;
+
+    background: var(--pink-950-outer);
+
+    transition-timing-function: ease;
+    transform: translateX(-100%);
+    z-index: 1;
+
+    &.open{
+        transform: translateX(0);
+    }
+}
+
+/* =-=-=-=-=-=-=-=-=-= HEADER =-=-=-=-=-=-=-=-=-= */
+header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0.5em;
+
+    @include m.respond(desktop){
+        padding: 0;
+    }
+
+    .brand-logo{
+        width: 50px;
+        height: 50px;
+    }
+
+    .icon-button.menu{
+        @include m.flex-center;
+
+        padding: 0.5em;
+        
+        background: var(--white);
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+
+        &:hover{
+            color: var(--pink-500);
+        }
+    }
+
+    nav{
+        position: fixed;
+        top: 0;
+        left: 0;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+
+        height: 100dvh;
+        min-width: 150px;
+        max-width: 60dvw;
+        padding: 1em;
+
+        background: var(--white);
+
+        transition-timing-function: ease;
+        transform: translateX(-100%);
+        z-index: 2;
+
+        &.open{
+            transform: translateX(0);
+        }
+
+        @include m.respond(desktop){
+            position: initial;
+            
+            height: 100%;
+            width: 100%;
+            min-width: 0;
+            max-width: fit-content;
+            padding: 0.3em;
+
+            border-radius: var(--radius-lg);
+            box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.029);
+
+            transform: translateX(0);
+            z-index: inherit;
+        }
+
+        .nav-links{
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+
+            @include m.respond(desktop){
+                flex-direction: row;
+                gap: 1em;
+            }
+
+            .item{
+                position: relative;
+
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5em;
+
+                padding: 0.5em 1em;
+
+                font-size: 0.8em;
+                border-radius: var(--radius-lg);
+
+                &:hover{
+                    background: var(--pink-150);
+                }
+
+                @include m.respond(desktop){
+                    min-width: 80px;
+                    max-width: 80px;
+                    font-size: 0.7em;
+                    gap: 0.3em;
+                }
+
+                svg{
+                    width: 25px;
+                    height: 25px;
+                }
+
+                .cart-amount{
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    width: 20px;
+                    height: 20px;
+                    
+                    background: var(--pink-500);
+                    color: var(--white);
+
+                    font-size: 15px;
+                    font-weight: bold;
+                    border-radius: var(--radius-m);
+                }
+            }
+        }
+    }
+}
+
+.mobile {
+    @include m.respond(desktop){
+        display: none !important;
+    }
+}
+
+.inactive{
+    display: none;
+}
+
+.desktop{
+    display: none;
+    @include m.respond(desktop){
+        display: inherit;
+    }
+}

@@ -1,0 +1,60 @@
+/* =-=-=-=-=-=-=-=-=-= TOGGLE THEME =-=-=-=-=-=-=-=-=-= */
+.toggle-theme{
+    $width: 25px;
+
+    position: relative;
+
+    display: flex;
+
+    width: 100%;
+    max-width: 120px;
+    padding: 0.3em;
+
+    background: var(--white);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.202);
+    border-radius: var(--radius-lg);
+
+    cursor: pointer;
+
+    .selected-bg{
+        position: absolute;
+        top: 50%;
+        left: 0.3em;
+
+        width: calc(50% - 0.3em);
+        height: calc(100% - 0.3em);
+
+        transform: translateY(-50%) translateX(0);
+
+        background: var(--pink-150);
+        border-radius: var(--radius-lg);
+
+        z-index: 0;
+
+        &.outer{
+            transform: translateY(-50%) translateX(100%);
+        }
+    }
+
+    .icon-bg{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 50%;
+        
+        z-index: 1;
+
+        &.active .toggle-icon{
+            color: var(--pink-500);
+        }
+
+        svg{
+            width: $width;  
+        }
+    }
+
+    .toggle-icon{
+        width: $width;
+    }
+}

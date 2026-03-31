@@ -7,7 +7,7 @@
         $directory = "/css/";
 
         $cssFile = match($fileName){
-            "universal"         => "universal.css",
+            "main"              => "main.css",
             "general"           => "general.css",
             "account"           => "account.css",
             "cart"              => "cart.css",
