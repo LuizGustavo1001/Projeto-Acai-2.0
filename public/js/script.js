@@ -54,3 +54,18 @@ function toggleSidebar(){
     dazzlesBg.classList.toggle("open")
     cardNav.classList.toggle("open")
 }
+
+
+
+/* toggle warning display */
+const warningBox = document.querySelector(".warning")
+if (warningBox) {
+    const removeBox = () => {
+        warningBox.classList.add("fade-out")
+        setTimeout(() => warningBox.remove(), 500)
+    }
+
+    warningBox.addEventListener("click", removeBox)
+
+    setTimeout(removeBox, 10000)
+}

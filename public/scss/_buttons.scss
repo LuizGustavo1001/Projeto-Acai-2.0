@@ -24,7 +24,7 @@
         left: 0.3em;
 
         width: calc(50% - 0.3em);
-        height: calc(100% - 0.3em);
+        height: calc(100% - 0.5em);
 
         transform: translateY(-50%) translateX(0);
 
@@ -116,11 +116,11 @@
         color: var(--pink-800);
         z-index: 1;
     }
-
-    &:hover .icon-bg{
+    
+    &.hover:hover .icon-bg{
         color: var(--pink-150);
     }
-    &:hover .icon{
+    &.hover:hover .icon{
         color: var(--pink-500);
     }
 }

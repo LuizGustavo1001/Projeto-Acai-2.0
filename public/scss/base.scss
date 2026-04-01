@@ -1,7 +1,6 @@
 @use "mixins" as m;
 @use "variables";
 @use "buttons";
-@use "dark";
 
 *{
     padding: 0;
@@ -63,6 +62,60 @@ img{
     &.open{
         transform: translateX(0);
     }
+}
+
+.horizontal-line{
+    height: 5px;
+    width: calc(100% - 1em);
+    margin: 2em auto;
+
+    background: linear-gradient(to left, transparent, var(--pink-300), transparent);
+}
+
+
+.warning{
+    position: fixed;
+    top: 1em;
+    right: 1em;
+
+    @include m.flex-center;
+    gap: 0.5em;
+
+    padding: 0.5em;
+    width: clamp(0px, 90dvw, 500px);
+
+    border-left: 4px solid var(--cyan-400);
+    background: var(--cyan-400-outer);
+    
+    font-size: 0.9em;
+    z-index: 2;
+    cursor: pointer;
+
+    &, svg{
+        color: var(--cyan-400);
+    }
+
+    svg{
+        min-width: 30px;
+    }
+
+    &.error{
+        border-color: var(--red-400);
+        background: var(--red-400-outer);
+
+        &, svg{
+            color: var(--red-400);
+        }
+
+    }
+}
+
+.fade-in{
+    animation: fade-in 0.5s linear;
+}
+
+.fade-out{
+    animation: fade-out 0.5s linear;
 }
 
 /* =-=-=-=-=-=-=-=-=-= HEADER =-=-=-=-=-=-=-=-=-= */
@@ -162,6 +215,7 @@ header{
 
                 &:hover,
                 &.selected{
+                    color: var(--pink-500);
                     background: var(--pink-150);
                 }
 
@@ -206,6 +260,14 @@ header{
     }
 }
 
+
+.main{
+    flex: 1;
+}
+
+
+
+
 /* =-=-=-=-=-=-=-=-=-= FOOTER =-=-=-=-=-=-=-=-=-= */
 footer{
     @include m.flex-center;
@@ -229,6 +291,7 @@ footer{
 
     span{
         color: var(--pink-700);
+        font-size: clamp(0.8em, 2vw, 1em);
     }
 
     nav{
@@ -254,6 +317,66 @@ footer{
     }
 }
 
+/* =-=-=-=-=-=-=-=-=-= OTHERS =-=-=-=-=-=-=-=-=-= */
+.product{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+
+    min-width: 260px;
+    max-width: 260px;
+    height: fit-content;
+    padding: 1em;
+
+    border: 1px solid transparent;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.095);
+    background: var(--white);
+
+    &:hover{
+        border-color: var(--pink-400);
+        scale: 0.985;
+    }
+
+    img{ 
+        width: 100%;
+        aspect-ratio: 1/1;
+     }
+
+    .content{
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+
+        .title{
+            border-left: 4px solid var(--pink-350);
+            padding-left: 0.5em;
+
+            h1, p{
+                @include m.line-clamp;
+            }
+
+            h1{ font-size: clamp(1.2em, 2vw, 1.4em) }
+            p{ 
+                color: var(--pink-450);
+                font-size: clamp(0.9em, 2vw, 1em)
+            }
+        }
+
+        .price{
+            color: var(--pink-450);
+
+            .value{
+                font-weight: bold;
+                font-size: clamp(1.1em, 2vw, 1.3em);
+            }
+        }
+
+        .others{ 
+            color: var(--pink-700);
+            font-size: 0.8em;
+        }
+    }
+}
 
 
 /* =-=-=-=-=-=-=-=-=-= DARK MODE =-=-=-=-=-=-=-=-=-= */
@@ -265,9 +388,7 @@ footer{
         .icon-button.menu{
             background: var(--pink-900);
 
-            &:hover{
-                color: var(--pink-350);
-            }
+            &:hover{ color: var(--pink-350) }
         }
 
         nav{
@@ -276,13 +397,11 @@ footer{
             .nav-links .item{
                 &:hover,
                 &.selected{
+                    color: var(--pink-350);
                     background: var(--pink-950);
                 }
 
-                &:hover svg,
-                &.selected svg{
-                    color: var(--pink-350);
-                }
+                &:hover svg, &.selected svg{ color: var(--pink-350) }
 
                 .cart-amount{
                     background: var(--pink-350);
@@ -293,18 +412,17 @@ footer{
         }
     }
 
+    .horizontal-line{
+        background: linear-gradient(to left, transparent, var(--pink-800), transparent);
+    }
 
     .toggle-theme{
         background: var(--pink-950);
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.308);
 
-        .selected-bg{
-            background: var(--pink-900);
-        }
+        .selected-bg{ background: var(--pink-900) }
 
-        .icon-bg.active .toggle-icon{
-            color: var(--pink-350);
-        }
+        .icon-bg.active .toggle-icon{ color: var(--pink-350) }
     }
 
     .regular-btn{
@@ -312,32 +430,55 @@ footer{
         background-size: 200% 100%;
         background-position: left;
 
-        &:hover{
-            background-position: right;
-        }
+        &:hover{ background-position: right }
     }
 
     .button-outer{
-        .icon-bg{
-            color: var(--pink-900);
-        }
-        .icon{
-            color: var(--pink-200);
-        }
+        .icon-bg{ color: var(--pink-900) }
+        .icon{ color: var(--pink-200) }
         
-        &:hover .icon-bg{
-            color: var(--pink-950);
-        }
-        &:hover .icon{
-            color: var(--pink-350);
-        }
+        &.hover:hover .icon-bg{ color: var(--pink-950) }
+        &.hover:hover .icon{ color: var(--pink-350) }
     }
 
     footer{
         background: var(--pink-900);
 
-        span{
-            color: var(--pink-300);
+        span{ color: var(--pink-300) }
+    }
+
+    .product{
+        background: var(--pink-900);
+        &:hover{
+            border-color: var(--pink-350);
         }
+
+        .content{
+            .title{
+                border-color: var(--pink-400);
+                p{ color: var(--pink-350) }
+            }
+
+            .price{ color: var(--pink-300) }
+        }
+    }
+}
+
+
+@keyframes fade-out{
+    from{
+        opacity: 1;
+    }
+    to{
+        opacity: 0;
+    }
+}
+
+@keyframes fade-in {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
     }
 }

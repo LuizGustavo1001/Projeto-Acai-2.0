@@ -1,22 +1,33 @@
 @use "mixins" as m;
 @use "variables";
 
+.section-title{
+    border-left: 4px solid var(--pink-500);
+    padding: 0.5em;
+
+    margin-bottom: 1em;
+
+    h1{
+        font-family: var(--font-serif);
+        color: var(--pink-450);
+    }
+}
 
 .hero{
     max-width: clamp(0px, calc(100% - 15vw), 1500px);
+
+    min-height: 80dvh;
+    max-height: 1000px;
+
     margin-inline: auto;
 
     @include m.flex-center;
     flex-direction: column;
     gap: 2em;
 
-    @include m.respond(tablet){
-        flex-direction: row;
-    }
+    @include m.respond(tablet){ flex-direction: row }
 
-    @include m.respond(desktop){
-       justify-content: space-between;
-    }
+    @include m.respond(desktop){ justify-content: space-between  }
 
     .title{
         width: 100%;
@@ -25,21 +36,16 @@
 
         gap: 0.5em;
 
-        @include m.respond(desktop){
-            max-width: clamp(0px, calc(100% - 10vw), 500px);
-        }
+        @include m.respond(desktop){ max-width: clamp(0px, calc(100% - 10vw), 500px) }
         
         h1, span{
             font-weight: normal;
             font-family: var(--font-style);
         }
 
-        h1{
-            font-size: clamp(2.5em, 4vw, 4em);
-        }
-        p{
-            font-size: clamp(1em, 2vw, 1.2em);
-        }
+        h1{ font-size: clamp(2.5em, 4vw, 4em) }
+
+        p{ font-size: clamp(1em, 2vw, 1.2em) }
 
         span{
             color: var(--pink-500);
@@ -48,10 +54,7 @@
         .regular-btn{
             width: 100%;
 
-            @include m.respond(desktop){
-                width: 50%;
-            }
-
+            @include m.respond(desktop){ width: 50%  }
         }
     }
 
@@ -69,26 +72,18 @@
         color: var(--pink-450);
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.073);
 
-        svg{
-            color: var(--pink-500);
-        }
+        svg{ color: var(--pink-500) }
 
         .top, .bottom{
             @include m.flex-center;
             justify-content: space-between;
         }
 
-        .top span, .bottom span{
-            @include m.flex-center;
-        }
+        .top span, .bottom span{@include m.flex-center }
 
         .top{
-            span{
-                gap: 0.5em;
-            }
-            p{
-                font-family: var(--font-serif);
-            }
+            span{ gap: 0.5em }
+            p{ font-family: var(--font-serif) }
         }
 
         img{
@@ -98,38 +93,124 @@
         }
 
         .bottom{
-            span{
-                gap: 1em;
+            span{ gap: 1em }
+        }
+    }
+}
+
+.about-us{
+    .button-outer{
+        --size: 50px;
+        @include m.respond(desktop){
+            width: var(--size, 35px);
+            height: var(--size, 35px);
+        }
+
+        .icon{ color: var(--pink-500) }
+    }
+
+    .container{
+        display: flex;
+        justify-content: space-between;
+        gap: 1em;
+
+        overflow: scroll;
+
+        .item{
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+
+            padding: 1em;
+            min-height: 300px;
+            min-width: 400px;
+            max-width: 400px;
+
+            background: var(--white);
+            border-radius: var(--radius-sm);
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.095);
+            line-height: 1.5em;
+
+            .title{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5em;
+                
+                padding: 0.5em;
+                width: 100%;
+
+                background: var(--pink-150) url("https://res.cloudinary.com/dw2eqq9kk/image/upload/v1775004022/damascus-pattern-grey-free-png_1_dsvn0g.png");
+                background-size: cover;
+                border-radius: var(--radius-sm);
+
+                p{
+                    font-family: var(--font-serif);
+                    font-weight: bold;
+                    color: var(--pink-500);
+                }
             }
         }
     }
 }
 
 
+.features{
+    .container{
+        display: flex;
+        justify-content: space-between;
+        gap: 1em;
 
+        overflow: scroll;
+    }
+}
+
+
+.features,
+.about-us{
+    padding: 0.5em;
+}
 
 .dark-mode{
+    .section-title{
+        border-color: var(--pink-350);
+
+        h1{ color: var(--pink-300) }
+    }
+
     .hero{
         .title{
-            h1{
-                color: var(--pink-200);
-            }
-            span{
-                color: var(--pink-350);
-            }
+            h1{ color: var(--pink-200) }
+            span{ color: var(--pink-350) }
         }
 
         .image{
             background: var(--pink-900);
             color: var(--pink-300);
 
-            svg{
-                color: var(--pink-350);
-            }
+            svg{ color: var(--pink-350) }
 
-            img{
-                background: var(--pink-950);
+            img{ background: var(--pink-950) }
+        }
+    }
+
+    .about-us{
+        .button-outer{
+            .icon{ color: var(--pink-300) }
+        }
+
+        .container{
+            .item{
+                background: var(--pink-900);
+
+                .title{
+                    background: var(--pink-950) url("https://res.cloudinary.com/dw2eqq9kk/image/upload/v1775004022/damascus-pattern-grey-free-png_1_dsvn0g.png");
+                    background-size: cover;
+
+                    p{ color: var(--pink-200) }
+                }
             }
         }
     }
+
 }

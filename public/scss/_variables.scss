@@ -21,9 +21,9 @@ $desktop_outer: 1500px;
     --black: #000000;
     --white: #FFFFFF;
 
-    --pink-950: #33272C;
+    --pink-950: #271d21;
     --pink-950-outer: #33272c53;
-    --pink-900: #402D34;
+    --pink-900: #342329;
     --pink-850: #583F48;
     --pink-800: #705861;
     --pink-700: #A17F8C;
@@ -36,6 +36,14 @@ $desktop_outer: 1500px;
     --pink-200: #EFE6EA;
     --pink-150: #F5EFEF;
     --pink-150-outer: #f5efef53;
+
+    --red-400: #E04E4E;
+    --red-400-outer: #e04e4e20;
+    --red-300: #E08585;
+
+    --cyan-400: #308D97;
+    --cyan-400-outer: #308d9720;
+    --cyan-300: #8BD6DE;
 
     --time: #{$default-time};
 }

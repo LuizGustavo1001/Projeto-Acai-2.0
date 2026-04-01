@@ -10,9 +10,9 @@
   --radius-xg: calc(var(--radius) + 5em);
   --black: #000000;
   --white: #FFFFFF;
-  --pink-950: #33272C;
+  --pink-950: #271d21;
   --pink-950-outer: #33272c53;
-  --pink-900: #402D34;
+  --pink-900: #342329;
   --pink-850: #583F48;
   --pink-800: #705861;
   --pink-700: #A17F8C;
@@ -25,11 +25,29 @@
   --pink-200: #EFE6EA;
   --pink-150: #F5EFEF;
   --pink-150-outer: #f5efef53;
+  --red-400: #E04E4E;
+  --red-400-outer: #e04e4e20;
+  --red-300: #E08585;
+  --cyan-400: #308D97;
+  --cyan-400-outer: #308d9720;
+  --cyan-300: #8BD6DE;
   --time: 0.2s;
+}
+
+.section-title {
+  border-left: 4px solid var(--pink-500);
+  padding: 0.5em;
+  margin-bottom: 1em;
+}
+.section-title h1 {
+  font-family: var(--font-serif);
+  color: var(--pink-450);
 }
 
 .hero {
   max-width: clamp(0px, 100% - 15vw, 1500px);
+  min-height: 80dvh;
+  max-height: 1000px;
   margin-inline: auto;
   display: flex;
   justify-content: center;
@@ -120,6 +138,72 @@
   gap: 1em;
 }
 
+.about-us .button-outer {
+  --size: 50px;
+}
+@media (min-width: 1024px) {
+  .about-us .button-outer {
+    width: var(--size, 35px);
+    height: var(--size, 35px);
+  }
+}
+.about-us .button-outer .icon {
+  color: var(--pink-500);
+}
+.about-us .container {
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
+  overflow: scroll;
+}
+.about-us .container .item {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  padding: 1em;
+  min-height: 300px;
+  min-width: 400px;
+  max-width: 400px;
+  background: var(--white);
+  border-radius: var(--radius-sm);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.095);
+  line-height: 1.5em;
+}
+.about-us .container .item .title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.5em;
+  width: 100%;
+  background: var(--pink-150) url("https://res.cloudinary.com/dw2eqq9kk/image/upload/v1775004022/damascus-pattern-grey-free-png_1_dsvn0g.png");
+  background-size: cover;
+  border-radius: var(--radius-sm);
+}
+.about-us .container .item .title p {
+  font-family: var(--font-serif);
+  font-weight: bold;
+  color: var(--pink-500);
+}
+
+.features .container {
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
+  overflow: scroll;
+}
+
+.features,
+.about-us {
+  padding: 0.5em;
+}
+
+.dark-mode .section-title {
+  border-color: var(--pink-350);
+}
+.dark-mode .section-title h1 {
+  color: var(--pink-300);
+}
 .dark-mode .hero .title h1 {
   color: var(--pink-200);
 }
@@ -135,6 +219,19 @@
 }
 .dark-mode .hero .image img {
   background: var(--pink-950);
+}
+.dark-mode .about-us .button-outer .icon {
+  color: var(--pink-300);
+}
+.dark-mode .about-us .container .item {
+  background: var(--pink-900);
+}
+.dark-mode .about-us .container .item .title {
+  background: var(--pink-950) url("https://res.cloudinary.com/dw2eqq9kk/image/upload/v1775004022/damascus-pattern-grey-free-png_1_dsvn0g.png");
+  background-size: cover;
+}
+.dark-mode .about-us .container .item .title p {
+  color: var(--pink-200);
 }
 
 /*# sourceMappingURL=index.css.map */

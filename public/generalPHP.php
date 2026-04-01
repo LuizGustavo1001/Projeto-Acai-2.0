@@ -52,18 +52,23 @@
                     }
 
                     echo "
-                        <li class='product-view' id='{$prodName}'>
-                            <a href='{$link}' class='translate'>
-                                <div class='product-img'><img src='{$imageURL}' alt='{$name} Image'></div>
-                                
-                                <div class='product-text'>
-                                    <p><span>{$brand}</span></p>
+                        <div class='product' id='{$prodName}'>
+                            <img src='{$imageURL}' alt='{$name} Image'>
+                            <div class='content'>
+                                <div class='title'>
+                                    <p>{$brand}</p>
                                     <h1>{$name}</h1>
-                                    <p class='product-price'><small>a partir de:</small> <span>{$price}</span></p>
-                                    <p><span>Preço Atualizado: <strong>{$priceDate}</strong></span></p>
                                 </div>
-                            </a>
-                        </li>
+
+                                <div class='price'>A partir de: <span class='value'>{$price}</span></div>
+
+                                <div class='others'>
+                                    <span>Atualizado em: <strong>{$priceDate}</strong></span>
+                                </div>
+
+                                <a class='regular-btn' href='{$link}'>Adicionar ao Carrinho</a>
+                            </div>
+                        </div>
                     ";
                 }
             }else{
@@ -135,12 +140,7 @@
         $getOrders->close();
     }
 
-/**
- * @param $local
- * @param $option
- * @return string
- */
-function optionSelect($local, $option){
+    function optionSelect($local, $option){
         // display if the option is "selected" or not at <option> using the special variable $_SESSION
         if(isset($_SESSION[$local]) && $_SESSION[$local] == $option)
             return " selected";
@@ -154,18 +154,31 @@ function optionSelect($local, $option){
         return "";
     }
 
-    function displayPopUp($item, $variable){
-        // displays a popup box with a warning on the screen
-        
-        $title = match($item){
-            "revAdd", "revMod", "revRem" => "Alteração",
-            "orderConfirmed"        => "Pedido Confirmado",
-            "loginSuccess"          => "Login Realizado com Sucesso",
-            "notAdmin", "adminNotAllowed", "noItem", "outOfOrder" => "Erro",
-            "prodAdd"               => "Carrinho Atualizado",
-            "makeClient", "removeS", "addProduct", "addVersion", "makeAdmin"  => "Atualização",
-            default => "Erro",
-        };
+    
+    function FillWarning($item, $variable, $type){
+        $smileFace = "
+            <svg viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                <path d='M15 26.6667C16.4173 27.7172 18.141 28.3334 20 28.3334C21.859 28.3334 23.5827 27.7172 25 26.6667' stroke='currentColor' stroke-width='2' stroke-linecap='round'/>
+                <path d='M25.0007 20C25.9211 20 26.6673 18.8807 26.6673 17.5C26.6673 16.1193 25.9211 15 25.0007 15C24.0802 15 23.334 16.1193 23.334 17.5C23.334 18.8807 24.0802 20 25.0007 20Z' fill='currentColor'/>
+                <path d='M15.0007 20C15.9211 20 16.6673 18.8807 16.6673 17.5C16.6673 16.1193 15.9211 15 15.0007 15C14.0802 15 13.334 16.1193 13.334 17.5C13.334 18.8807 14.0802 20 15.0007 20Z' fill='currentColor'/>
+                <path d='M36.6673 19.9999C36.6673 27.8566 36.6673 31.7851 34.2265 34.2258C31.7858 36.6666 27.8573 36.6666 20.0007 36.6666C12.1439 36.6666 8.21553 36.6666 5.77477 34.2258C3.33398 31.7851 3.33398 27.8566 3.33398 19.9999C3.33398 12.1432 3.33398 8.2148 5.77477 5.77404C8.21553 3.33325 12.1439 3.33325 20.0007 3.33325C27.8573 3.33325 31.7858 3.33325 34.2265 5.77404C35.8495 7.39694 36.3933 9.6775 36.5755 13.3333' stroke='currentColor' stroke-width='2' stroke-linecap='round'/>
+            </svg>
+        ";
+        $sadFace = "
+            <svg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                <path d='M9 17C9.85038 16.3697 10.8846 16 12 16C13.1154 16 14.1496 16.3697 15 17' stroke='currentColor' stroke-width='1.5' stroke-linecap='round'/>
+                    <ellipse cx='15' cy='10.5' rx='1' ry='1.5' fill='currentColor'/>
+                    <ellipse cx='9' cy='10.5' rx='1' ry='1.5' fill='currentColor'/>
+                <path d='M22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C21.5093 4.43821 21.8356 5.80655 21.9449 8' stroke='currentColor' stroke-width='1.5' stroke-linecap='round'/>
+            </svg>
+        ";
+        $icon = $sadFace;
+        $class = "error";
+
+        if($type == 1){ 
+            $icon = $smileFace; 
+            $class = "success";
+        }
 
         $mainMessage = match($item){
             "revAdd"            => "Reversão de adição <strong>realizada com sucesso</strong>.",
@@ -188,15 +201,11 @@ function optionSelect($local, $option){
         };
 
         echo "
-            <div class='popup-box show'>
-                <div class='popup-div'>
-                    <div class='popup-title'><h1>{$title}</h1></div>
-                    <div class='popup-body'>
-                        <p>{$mainMessage}</p>
-                        <p>Clique no botão abaixo para fechar a janela.</p>
-                        <button class=' popup-button regular-button'>Fechar</button>
-                    </div>
-                </div>
+            <div class='warning {$class} fade-in'>
+                {$icon}
+                <span>
+                    {$mainMessage} <em>Clique no botão abaixo para fechar esta mensagem</em>.
+                </span>
             </div>
         ";
     }
