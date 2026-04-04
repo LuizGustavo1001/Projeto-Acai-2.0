@@ -129,7 +129,7 @@ cd public/composer
 composer install
 composer require cloudinary/cloudinary_php
 composer require vlucas/phpdotenv
-composer require phpmailer/phpmailer
+composer require symfony/mailer
 composer require google/apiclient:^2.0
 ```
 

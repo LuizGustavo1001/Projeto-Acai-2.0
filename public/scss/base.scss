@@ -41,8 +41,25 @@ svg{
     height: 30px;
 }
 
+abbr{
+    text-decoration: none;
+}
+
 img{
     width: 100px;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+
+    .wrap{
+        display: grid;
+        align-items: center;
+        gap: 0.5em;
+        grid-template-columns: auto 30%;
+    }
 }
 
 .dazzles-bg{
@@ -65,7 +82,7 @@ img{
 }
 
 .horizontal-line{
-    height: 5px;
+    height: 3px;
     width: calc(100% - 1em);
     margin: 2em auto;
 
@@ -184,7 +201,7 @@ header{
             padding: 0.3em;
 
             border-radius: var(--radius-lg);
-            box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.029);
+            box-shadow: 0px 4px 10px var(--light-shadow);
 
             transform: translateX(0);
             z-index: inherit;
@@ -208,32 +225,27 @@ header{
                 align-items: center;
                 gap: 0.5em;
 
-                padding: 0.5em 1em;
+                padding-block: 0.3em;
 
                 font-size: 0.8em;
                 border-radius: var(--radius-lg);
-
-                &:hover,
-                &.selected{
-                    color: var(--pink-500);
-                    background: var(--pink-150);
-                }
-
-                &:hover svg,
-                &.selected svg{
-                    color: var(--pink-500);
-                }
 
                 @include m.respond(desktop){
                     min-width: 80px;
                     max-width: 80px;
                     font-size: 0.7em;
-                    gap: 0.3em;
+                    gap: 0.2em;
                 }
 
-                svg{
-                    width: 25px;
-                    height: 25px;
+                .icon{
+                    padding: 0.2em 1em;
+
+                    border-radius: var(--radius-lg);
+                    
+                    svg{
+                        width: 25px;
+                        height: 25px;
+                    }
                 }
 
                 .cart-amount{
@@ -255,6 +267,20 @@ header{
                     font-weight: bold;
                     border-radius: var(--radius-m);
                 }
+
+                    &:hover,
+                    &.selected{
+                        color: var(--pink-500);
+
+                        .icon{
+                            background: var(--pink-150);
+                        }
+                    }
+
+                    &:hover svg,
+                    &.selected svg{
+                        color: var(--pink-500);
+                    }
             }
         }
     }
@@ -329,11 +355,11 @@ footer{
     padding: 1em;
 
     border: 1px solid transparent;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.095);
+    box-shadow: 0px 0px 10px var(--light-shadow);
     background: var(--white);
 
     &:hover{
-        border-color: var(--pink-400);
+        border-color: var(--pink-300);
         scale: 0.985;
     }
 
@@ -394,21 +420,27 @@ footer{
         nav{
             background: var(--pink-900);
 
-            .nav-links .item{
-                &:hover,
-                &.selected{
-                    color: var(--pink-350);
-                    background: var(--pink-950);
-                }
-
-                &:hover svg, &.selected svg{ color: var(--pink-350) }
-
+            .item{
                 .cart-amount{
                     background: var(--pink-350);
                     color: var(--pink-900);
                 }
-            }
 
+                &:hover,
+                &.selected{
+                    color: var(--pink-350);
+
+                    .icon{
+                        background: var(--pink-950);
+                    }
+                }
+
+                &:hover svg,
+                &.selected svg{
+                    color: var(--pink-350);
+                }
+
+            }
         }
     }
 
@@ -418,7 +450,7 @@ footer{
 
     .toggle-theme{
         background: var(--pink-950);
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.308);
+        box-shadow: 0px 0px 10px var(--darker-shadow);
 
         .selected-bg{ background: var(--pink-900) }
 
@@ -426,19 +458,49 @@ footer{
     }
 
     .regular-btn{
-        background: linear-gradient(to left, var(--pink-350), var(--pink-450) 80%);
+        background: linear-gradient(to left, var(--pink-400), var(--pink-450) 70%);
         background-size: 200% 100%;
         background-position: left;
 
         &:hover{ background-position: right }
     }
 
-    .button-outer{
+    .icon-box{
         .icon-bg{ color: var(--pink-900) }
         .icon{ color: var(--pink-200) }
         
         &.hover:hover .icon-bg{ color: var(--pink-950) }
         &.hover:hover .icon{ color: var(--pink-350) }
+    }
+
+    .regular-input{
+        input, select{
+            border-color: var(--pink-700);
+            color: var(--pink-200);
+
+            &::placeholder{ color: var(--pink-700) }
+        }
+
+        &:hover input,
+        &:focus-within input{
+            background: var(--pink-950);
+
+            &::placeholder{
+                color: var(--pink-300);
+            }
+        }
+    }
+
+    .back-button{
+        &:hover{
+            span, svg{
+                color: var(--pink-300);
+            }
+        }
+
+        span, svg{
+            color: var(--pink-350);
+        }
     }
 
     footer{
@@ -450,7 +512,7 @@ footer{
     .product{
         background: var(--pink-900);
         &:hover{
-            border-color: var(--pink-350);
+            border-color: var(--pink-800);
         }
 
         .content{
@@ -465,6 +527,7 @@ footer{
 }
 
 
+/* =-=-=-=-=-=-=-=-=-= ANIMATIONS =-=-=-=-=-=-=-=-=-= */
 @keyframes fade-out{
     from{
         opacity: 1;
@@ -479,6 +542,22 @@ footer{
         opacity: 0;
     }
     to{
+        opacity: 1;
+    }
+}
+
+
+.rise-above{
+    animation: rise-above var(--time-outer, 0.4s) ease-in;
+}
+
+@keyframes rise-above{
+    from{
+        transform: translateY(10px);
+        opacity: 0;
+    }
+    to{
+        transform: translateY(0);
         opacity: 1;
     }
 }

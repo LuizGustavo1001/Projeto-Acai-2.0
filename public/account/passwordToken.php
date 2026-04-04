@@ -1,8 +1,9 @@
 <?php
     require_once __DIR__ . '/../../databaseConnection.php';
 
-    use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\Exception;
+    use Symfony\Component\Mime\Email;
+    use Symfony\Component\Mailer\MailerInterface;
+
     require __DIR__ . '/../composer/vendor/autoload.php';
 
     if(! isset($_SESSION)){
@@ -30,7 +31,7 @@
             $email->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $email->Port = 587; 
 
-            $email->setFrom("testemailsluiz@gmail.com", "Açaí Amazônia Ipatinga");
+            $email->setFrom("testemailsluiz@gmail.com", "Açaí e Polpas Amazônia");
             $email->addAddress($emailReciever);
             $email->isHTML(true); 
             $email->CharSet = "UTF-8";

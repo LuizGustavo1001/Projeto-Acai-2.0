@@ -112,139 +112,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
-
-    <link rel="stylesheet" href="<?php printStyle("universal") ?>">
-    <link rel="stylesheet" href="<?php printStyle("general") ?>">
+    <link rel="stylesheet" href="<?php printStyle("main") ?>">
     <link rel="stylesheet" href="<?php printStyle("account") ?>">
 
     <?php displayFavicon()?>
 
-    <style>
-        .container-background{
-            background: url(https://res.cloudinary.com/dw2eqq9kk/image/upload/v1751727177/loginBg_gqxl8c.png) center center;
-            background-size: cover;
-            background-repeat: no-repeat;
-        }
-    </style>
-
-    <title>Açaí e Polpas Amazônia - Login</title>
+    <title>Açaí e Polpas Amazônia | Login</title>
 </head>
+
 <body>
-    <?php displayHeader(1)?>
+    <?php 
+        if(isset($_GET["errorLogin"])){
+            FillWarning("errorLogin", "", 0);
+        }else if(isset($_GET["timeout"]))
+            FillWarning("timeout", "", 0);
+        else if(isset($_GET["unkUser"]))
+            FillWarning("unkUser", "", 0);
+        else if(isset($_GET["registered"]))
+            FillWarning("registered", "", 1);
+        else if(isset($_GET["newEmail"]))
+            FillWarning("newEmail", "", 1);
+        else if(isset($_GET["newPassword"]))
+            FillWarning("newPassword", "", 1);
+    ?>
 
-    <main>
-        <section class="container">
-            <div class="left-container">
-                <nav class="nav-bar">
-                    <ul>
-                        <li><a href="../index.php">Página Principal</a></li>
-                        <li>/</li>
-                        <li><a href="login.php">Página de Login</a></li>
-                    </ul>
-                </nav>
+    <main class="rise-above">
+        <div class="back-button" onclick="window.location.href = '/index.php'">
+            <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21.875 12.5C21.875 17.6777 17.6777 21.875 12.5 21.875C7.32233 21.875 3.125 17.6777 3.125 12.5C3.125 7.32233 7.32233 3.125 12.5 3.125C17.6777 3.125 21.875 7.32233 21.875 12.5Z" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M8.33398 12.5H16.6673" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M11.4586 9.375L8.42427 12.4094C8.3742 12.4594 8.3742 12.5406 8.42427 12.5906L11.4586 15.625" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Voltar</span>
+        </div>
 
-                <div class="container-forms">
-                    <div class="container-forms-title">
-                        <h1>Área de Login</h1>
-                        <p>Realize seu <strong>login</strong> para <strong>continuar comprando</strong> em nosso site.</p>
-                    </div>
+        <div class="hero">
+            <div class="icon-box">
+                <svg class='icon-bg' viewBox='0 0 250 250' fill='none' xmlns='http://www.w3.org/2000/svg' aria-label='icon-bg'>
+                    <path d='M77.4903 246.66C83.6098 244.613 89.1887 241.685 95.3897 239.168C109.056 233.67 124.206 233.131 138.226 237.643C149.445 241.389 160.021 246.23 171.75 248.205C186.763 250.743 203.204 251.409 217.442 244.531C232.241 237.366 243.491 222.955 247.948 207.204C254.73 183.223 242.736 159.969 235.709 137.606C231.313 123.655 236.025 112.673 241.43 99.9103C248.682 82.8076 253.047 60.1883 247.387 42.0928C244.408 32.8762 239.299 24.4977 232.476 17.6421C225.653 10.7864 217.311 5.64808 208.13 2.6471C191.037 -2.68533 169.537 1.01974 153.188 7.58037C146.61 10.221 140.449 14.0079 133.504 15.6455C126.055 17.3106 118.276 16.6279 111.229 13.6907C89.923 5.04209 64.3335 -4.83468 41.0286 2.6471C26.3113 7.37567 13.899 18.3066 6.68828 31.9294C-2.14412 48.4896 -1.17521 67.2197 3.53677 84.916C7.11665 98.3853 16.408 111.312 16.3978 125.293C16.3978 133.88 13.0627 139.95 9.85 147.646C2.30268 165.711 -3.40881 189.528 2.60865 208.78C5.43498 217.752 10.4064 225.894 17.0891 232.495C23.7718 239.096 31.9626 243.955 40.947 246.649C49.8764 249.377 59.2899 250.124 68.5355 248.84C71.5815 248.394 74.5794 247.664 77.4903 246.66Z' fill='currentColor'/>
+                </svg>
+                <svg class="icon" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M25 6.77075C24.1371 6.77075 23.4375 7.47031 23.4375 8.33325C23.4375 9.19619 24.1371 9.89575 25 9.89575C33.3419 9.89575 40.1042 16.6581 40.1042 24.9999C40.1042 33.3418 33.3419 40.1041 25 40.1041C24.1371 40.1041 23.4375 40.8037 23.4375 41.6666C23.4375 42.5295 24.1371 43.2291 25 43.2291C35.0677 43.2291 43.2292 35.0676 43.2292 24.9999C43.2292 14.9322 35.0677 6.77075 25 6.77075Z" fill="currentColor"/>
+                    <path d="M21.8125 19.8548C21.2023 19.2447 21.2023 18.2553 21.8125 17.6451C22.4227 17.035 23.4119 17.035 24.0221 17.6451L30.2721 23.8952C30.8823 24.5054 30.8823 25.4946 30.2721 26.1048L24.0221 32.3548C23.4119 32.965 22.4227 32.965 21.8125 32.3548C21.2023 31.7446 21.2023 30.7554 21.8125 30.1452L25.395 26.5625H8.33398C7.47105 26.5625 6.77148 25.8629 6.77148 25C6.77148 24.1371 7.47105 23.4375 8.33398 23.4375H25.395L21.8125 19.8548Z" fill="currentColor"/>
+                </svg>
+            </div>
 
-                    <form method="POST">
-                        <?php 
-                            if(isset($_GET["errorLogin"])){
-                                echo "
-                                    <div class=\"errorText\">
-                                        <i class=\"fa-solid fa-triangle-exclamation\"></i> 
-                                        <p>Erro: Email ou Senha <span>Incorretos</span>, tente novamente ou <span>cadastre-se</span> no link abaixo.</p>
-                                    </div>
-                                ";
-                            }
+            <div class="title">
+                <h1>Área de Login</h1>
+                <p>Realize seu <strong>login</strong> para <strong>continuar comprando</strong> em nosso site.</p>
+            </div>
 
-                            if(isset($_GET["timeout"])){
-                                echo "
-                                    <div class=\"errorText\">
-                                        <i class=\"fa-solid fa-triangle-exclamation\"></i>
-                                        <p>Erro: <span>Sessão Expirada</span>, realize seus Login novamente.</p>
-                                    </div>
-                                ";
-                            }
-
-                            if(isset($_GET["unkUser"])){
-                                echo "
-                                    <div class=\"errorText\">
-                                        <i class=\"fa-solid fa-triangle-exclamation\"></i>
-                                        <p>Erro: <span>Realize seu login</span> para <span>Adicionar Produtos</span> ao carrinho.</p>
-                                    </div>
-                                ";
-                            }
-
-                            if(isset($_GET["registered"])){
-                                echo "
-                                    <div class =\"successText\">
-                                        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
-                                            <path stroke-linecap='round' stroke-linejoin='round' d='M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z' />
-                                        </svg>
-                                        <p>Credencias <span>Cadastradas com Sucesso</span>, <span>realize seu Login</span>.</p>
-                                    </div>
-                                ";
-                            }
-
-                            if(isset($_GET["newEmail"])){
-                                echo "
-                                    <div class = \"successText\">
-                                        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
-                                            <path stroke-linecap='round' stroke-linejoin='round' d='M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z' />
-                                        </svg>
-                                        <p>Email <span>Alterado com sucesso</span> Realize seu Login.</p>
-                                    </div>
-                                ";
-                            }
-
-                            if(isset($_GET["newPassword"])){
-                                echo "
-                                    <div class=\"successText\">
-                                        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
-                                            <path stroke-linecap='round' stroke-linejoin='round' d='M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z' />
-                                        </svg>
-                                        <p>Senha <span>Alterada com sucesso</span> Realize seu Login.</p>
-                                    </div>
-                                ";
-                            }
-                        ?>
-                        <div class="form-item regular-input">
-                            <label for="iemail">Email: </label>
-                            <input type="email" name="email" id="iemail" maxlength="50" required value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
-                        </div>
-
-                        <div class="form-item regular-input">
-                            <label for="ipassword">Senha: </label>
-                            <input type="password" name="password" id="ipassword" maxlength="30" required>
-                        </div>
-
-                        <div>
-                            <button class="regular-button">
-                                Entrar
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25" />
-                                </svg>
-                            </button>
-                        </div>
-
-                        <div class="form-footer">
-                            <a href="password.php">Esqueceu a senha?</a>
-                            <a href="register.php">Ainda não está registrado?</a>
-                        </div>
-                    </form>
+            <form method="post">
+                <div class="regular-input">
+                    <label for="imail">Endereço de Email</label>
+                    <input type="email" name="email" id="imail" placeholder="exemplo@dominio.com" required value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
                 </div>
-            </div>
 
-            <div class="right-container">
-                <div class="container-background"></div>
+                <div class="regular-input">
+                    <label for="ipassword">Senha</label>
+                    <input type="password" name="password" id="ipassword" placeholder="********" required>
+                </div>
+
+                <button class="regular-btn">Entrar</button>
+            </form>
+
+            <div class="fot">
+                <a href="password.php">Esqueceu sua senha?</a>
+                <a href="register.php">Ainda não está registrado?</a>
             </div>
-        </section>        
+        </div>
     </main>
 
-    <?php displayFooter()?>
+    <script src="/js/script.js"></script>
 </body>
 </html>

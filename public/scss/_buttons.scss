@@ -13,7 +13,7 @@
     padding: 0.3em;
 
     background: var(--white);
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.202);
+    box-shadow: 0px 0px 10px var(--light-shadow);
     border-radius: var(--radius-lg);
 
     cursor: pointer;
@@ -47,7 +47,7 @@
         
         z-index: 1;
 
-        &.active .toggle-icon{
+        &.active{
             color: var(--pink-500);
         }
 
@@ -71,6 +71,8 @@
     font-weight: bold;
 
     border-radius: var(--radius-sm);
+    outline: none;
+    border: none;
 
     color: var(--pink-150);
 
@@ -79,12 +81,12 @@
 
     &:hover{
         background-position: right;
-        box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.28);
+        box-shadow: inset 0px 0px 10px var(--darker-shadow);
     }
 }
 
-/* =-=-=-=-=-=-=-=-=-= OUTER BUTTON =-=-=-=-=-=-=-=-=-= */
-.button-outer{
+/* =-=-=-=-=-=-=-=-=-= OUTER BUTTON 1 =-=-=-=-=-=-=-=-=-= */
+.icon-box{
     /* --size: 50px; */
     width: var(--size, 40px);
     height: var(--size, 40px);
@@ -112,6 +114,7 @@
     }
     .icon{
         width: calc(100% - 0.8em);
+        height: calc(100% - 0.8em);
 
         color: var(--pink-800);
         z-index: 1;
@@ -124,3 +127,68 @@
         color: var(--pink-500);
     }
 }
+
+
+/* =-=-=-=-=-=-=-=-=-= BACK BUTTON =-=-=-=-=-=-=-=-=-= */
+.back-button{
+    @include m.flex-center;
+    justify-content: start;
+    gap: 0.3em;
+
+    width: fit-content;
+
+    cursor: pointer;
+
+    &:hover{
+        span, svg{
+            color: var(--pink-400);
+        }
+    }
+
+    span, svg{
+        color: var(--pink-500);
+    }
+}
+
+
+/* =-=-=-=-=-=-=-=-=-= REGULAR INPUT =-=-=-=-=-=-=-=-=-= */
+.regular-input{
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+
+    cursor: pointer;
+
+    label{
+        cursor: pointer;
+    }
+
+    select{
+        cursor: pointer;
+    }
+
+    input, select{
+        width: 100%;
+        background-color: transparent;
+        padding: 1em;
+        border: none;
+        border-bottom: 1px solid var(--pink-300);
+        outline: none;
+
+        color: var(--pink-800);
+
+        &::placeholder{
+            color: var(--pink-300);
+        }
+    }
+
+    &:hover input,
+    &:focus-within input{
+        background: var(--pink-150);
+
+        &::placeholder{
+            color: var(--pink-400);
+        }
+    }   
+}
+

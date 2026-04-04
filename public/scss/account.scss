@@ -1,0 +1,89 @@
+@use "mixins" as m;
+
+body{
+    align-items: center;
+    justify-content: center;
+}
+
+main{
+    width: clamp(0px, calc(100dvw - 1em), 600px);
+    margin-inline: auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.hero{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+
+    padding: 1.5em;
+
+    border-radius: var(--radius-m);
+
+    background: var(--white);
+    box-shadow: 0px 0px 10px var(--light-shadow);
+
+    .icon-box{
+        --size: 55px;
+        align-self: center;
+
+        .icon-bg{ color: var(--pink-150) }
+        .icon{ color: var(--pink-850) }
+    }
+
+    .regular-btn{
+        font-size: 1em;
+    }
+
+    .title{
+        h1{
+            font-family: var(--font-serif);
+            font-weight: normal;
+            font-size: clamp(1.7em, 4vw, 2em);
+        }
+        p{
+            color: var(--pink-700);
+            font-size: 0.9em;
+        }
+    }
+
+    .fot{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: var(--pink-500);
+
+        a{
+            font-size: clamp(0.8em, 2vw, 1em);
+
+            &:hover{
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+
+
+.dark-mode{
+    .hero{
+        background: var(--pink-900);
+
+        .icon-box{
+            .icon-bg{ color: var(--pink-950) }
+            .icon{ color: var(--pink-300) }
+        }
+
+        .title{
+            h1{ color: var(--pink-250) }
+            p{ color: var(--pink-300) }
+        }
+
+        .fot{
+            color: var(--pink-350);
+        }
+    }
+}

@@ -3,9 +3,12 @@ const body = document.body
 
 // toggle theme + last localStorage theme 
 const toggleThemeBox = document.querySelectorAll(".toggle-theme")
-toggleThemeBox.forEach(box => {
-    box.addEventListener("click", toggleTheme)
-})
+if(toggleThemeBox){
+    toggleThemeBox.forEach(box => {
+        box.addEventListener("click", toggleTheme)
+    })
+
+}
 
 function toggleTheme(){
     const selectedBg = document.querySelectorAll(".toggle-theme .selected-bg")

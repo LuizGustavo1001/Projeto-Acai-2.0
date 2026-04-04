@@ -57,7 +57,7 @@
                             <div class='content'>
                                 <div class='title'>
                                     <p>{$brand}</p>
-                                    <h1>{$name}</h1>
+                                    <abbr title='{$name}'><h1>{$name}</h1></abbr>
                                 </div>
 
                                 <div class='price'>A partir de: <span class='value'>{$price}</span></div>
@@ -196,7 +196,23 @@
             "makeAdmin"         => "<strong>Novo administrador Adicionado</strong> com sucesso.",
             "noItem"            => "É preciso adicionar algum produto ao carrinho para concluir a compra.",
             "outOfOrder"        => "Versão do Produto <strong>{$variable}</strong> selecionado está indisponível.",
-            ""                  => "Função ainda em <strong>desenvolvimento</strong> <br> <a href='changes.php'>clique aqui</a> para retornar a página principal.",
+            "errorLogin"        => "Email ou senha <strong>incorretos</strong>, tente novamente ou <strong>cadastre-se</strong> no link abaixo.",
+            "timeout"           => "<strong>Sessão expirada</strong>, realize seus login novamente.",
+            "unkUser"           => "<strong>Realize seu login</strong> para <strong>adicionar produtos</strong> ao carrinho.",
+            "registered"        => "Credencias <strong>cadastradas com sucesso</strong>, <strong>realize seu Login</strong>.",
+            "newEmail"          => "Email <strong>alterado com sucesso</strong>. Autentique-se novamente para continuar.",
+            "newPassword"       => "Senha <span>alterada com sucesso</span>. Autentique-se novamente para continuar..",
+            "logout"            => "Deslogado com sucesso. ",
+            "emailExists"       => "Email inserido já está <strong>cadastrado</strong> no site.",
+            "invalidDomain"     => "<strong>Domínio</strong> do email digitado <strong>inválido</strong>.",
+            "sameMail"          => "<strong>Email Anterior</strong> e <strong>Novo Email</strong> inseridos são os mesmos. ",
+            "wrongMail"         => "<strong>Email Inserido</strong> não está cadastrado. Tente Novamente.",
+            "wrongToken"        => "<strong>Token inserido</strong> incorreto. Tente Novamente.",
+            "successText"       => "Sucesso ao alterar <strong>{$variable}</strong>",
+            "errorText"         => "O valor inserido em <strong>{$variable}</strong> é o mesmo já cadastrado.",
+            "wrongP"            => "<strong>Senha Anterior Inserida</strong> não está cadastrada.",
+            "sameP"             => "<strong>Senha Anterior</strong> e <strong>Nova Senha</strong> inseridas são as mesmas.",
+            ""                  => "Função ainda em <strong>desenvolvimento</strong>",
             default             => "...",
         };
 
@@ -204,7 +220,7 @@
             <div class='warning {$class} fade-in'>
                 {$icon}
                 <span>
-                    {$mainMessage} <em>Clique no botão abaixo para fechar esta mensagem</em>.
+                    {$mainMessage} <em>Clique nesta mensagem para fechá-la</em>.
                 </span>
             </div>
         ";
