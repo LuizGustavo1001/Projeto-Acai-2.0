@@ -10,56 +10,43 @@
         exit();
     }
 
-    checkSession("insideAccount");
+    checkSession();
 
     if(isset($_POST['password'], $_POST['newPassword'])){
         // update the password
-        
         $sanitizedPassword = htmlspecialchars($_POST["password"], ENT_QUOTES, 'UTF-8');
 
-        $stmt = $mysqli->prepare("SELECT userPassword FROM user_data WHERE idUser = ?");
+        $stmt = $mysqli->prepare("SELECT userPassword FROM user_data WHERE idUser = ?") or die($mysqli->errno);
         $stmt->bind_param("i", $_SESSION["idUser"]);
 
-        if($stmt->execute()){
-            $result = $stmt->get_result();
-            $stmt->close();
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
 
-            $result = $result->fetch_assoc();
+        $result = $result->fetch_assoc();
 
-            if(! password_verify($sanitizedPassword, $result["userPassword"])){
-                header("location: newPassword.php?wrongP");
-                exit();
+        if(! password_verify($sanitizedPassword, $result["userPassword"])){
+            setCookies("wrongP", "newPassword.php", 0);
 
-            }else if($_POST["password"] == $_POST["newPassword"]){
-                header("location: newPassword.php?sameP");
-                exit();
-            }else{
-                $hashedPassword = password_hash($_POST['newPassword'], PASSWORD_DEFAULT);
-                
-                $updatePassword = $mysqli->prepare("
-                    UPDATE user_data
-                    SET userPassword = ?
-                    WHERE idUser = ?
-                ");
-
-                $updatePassword->bind_param("si", $hashedPassword, $_SESSION["idUser"]);
-                if($updatePassword->execute()){
-                    $updatePassword->close();
-                    session_destroy();
-
-                    header("location: ../login.php?newPassword");
-                    exit();
-                }else{
-                    header("location: ../../errorPage.php");
-                    exit();
-                }
-            }
+        }else if($_POST["password"] == $_POST["newPassword"]){
+            setCookies("sameP", "newPassword.php", 0);
         }else{
-            header("location: ../../errorPage.php");
-            exit();
+            $hashedPassword = password_hash($_POST['newPassword'], PASSWORD_DEFAULT);
+            
+            $updatePassword = $mysqli->prepare("
+                UPDATE user_data
+                SET userPassword = ?
+                WHERE idUser = ?
+            ");
+
+            $updatePassword->bind_param("si", $hashedPassword, $_SESSION["idUser"]) or die($mysqli->errno);
+            $updatePassword->execute();
+            $updatePassword->close();
+            session_destroy();
+
+            setCookies("newPassword", "../login.php", 0);
         }
     }
-
 ?>
 
 <!DOCTYPE html>
@@ -77,13 +64,6 @@
 </head>
 
 <body>
-    <?php 
-        if(isset($_GET["wrongP"])){
-            FillWarning("wrongP", "", 0);
-        }else if(isset($_GET["sameP"]))
-            FillWarning("sameP", "", 0);
-    ?>
-
     <main class="rise-above">
         <div class="back-button" onclick="window.location.href = '/index.php'">
             <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">

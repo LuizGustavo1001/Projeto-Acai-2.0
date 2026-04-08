@@ -1,20 +1,8 @@
 @use "mixins" as m;
 @use "variables";
 
-.section-title{
-    border-left: 4px solid var(--pink-500);
-    padding: 0.5em;
-
-    margin-bottom: 1em;
-
-    h1{
-        font-family: var(--font-serif);
-        color: var(--pink-450);
-    }
-}
-
 .hero{
-    max-width: clamp(0px, calc(100% - 15vw), 1500px);
+    max-width: clamp(0px, calc(100% - 15vw), 1350px);
 
     min-height: 80dvh;
     max-height: 1000px;
@@ -43,7 +31,7 @@
             font-family: var(--font-style);
         }
 
-        h1{ font-size: clamp(2.5em, 4vw, 4em) }
+        h1{ font-size: clamp(3em, 4vw, 5em) }
 
         p{ font-size: clamp(1em, 2vw, 1.2em) }
 
@@ -64,7 +52,7 @@
         gap: 1em;
 
         width: 100%;
-        max-width: 400px;
+        max-width: 480px;
 
         background: var(--white);
         padding: 1em;
@@ -131,7 +119,6 @@
             background: var(--white);
             border-radius: var(--radius-sm);
             box-shadow: 0px 0px 10px var(--shadow);
-            line-height: 1.5em;
 
             .title{
                 display: flex;
@@ -151,6 +138,12 @@
                     font-weight: bold;
                     color: var(--pink-500);
                 }
+            }
+
+            .text{
+                display: flex;
+                flex-direction: column;
+                gap: 1em;
             }
         }
     }
@@ -176,12 +169,6 @@
 }
 
 .dark-mode{
-    .section-title{
-        border-color: var(--pink-350);
-
-        h1{ color: var(--pink-300) }
-    }
-
     .hero{
         .title{
             h1{ color: var(--pink-200) }

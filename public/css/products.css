@@ -1,110 +1,162 @@
-main{
-    padding-inline: 1em;
-
-    display: flex;
-    flex-direction: column;
-    gap: 2em;
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Delius+Swash+Caps&family=Quicksand:wght@300..700&display=swap");
+:root {
+  --font-style: "Delius Swash Caps", "cursive";
+  --font-serif: "Bricolage Grotesque", "serif";
+  --font-sans: "Quicksand", "sans-serif";
+  --radius: 0.5em;
+  --radius-sm: var(--radius);
+  --radius-m: calc(var(--radius) + 1em);
+  --radius-lg: calc(var(--radius) + 3em);
+  --radius-xg: calc(var(--radius) + 5em);
+  --black: #000000;
+  --white: #FFFFFF;
+  --light-shadow: #0000000c;
+  --shadow: #00000026;
+  --darker-shadow: #0000004d;
+  --pink-950: #271d21;
+  --pink-950-outer: #33272c53;
+  --pink-900: #342329;
+  --pink-850: #583F48;
+  --pink-800: #705861;
+  --pink-700: #A17F8C;
+  --pink-500: #89475F;
+  --pink-450: #AC5373;
+  --pink-400: #C8809A;
+  --pink-350: #FBB2C8;
+  --pink-300: #E4D1D8;
+  --pink-250: #E8DCE0;
+  --pink-200: #EFE6EA;
+  --pink-150: #F5EFEF;
+  --pink-150-outer: #f5efef53;
+  --red-400: #E04E4E;
+  --red-400-outer: #e04e4e20;
+  --red-300: #E08585;
+  --cyan-400: #308D97;
+  --cyan-400-outer: #308d9720;
+  --cyan-300: #8BD6DE;
+  --time: 0.2s;
 }
 
-.search-form{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 2em;
+main {
+  padding-inline: 0.5em;
+  width: 100%;
+  max-width: 1920px;
+  margin: 0 auto;
 }
-.search-form form .search-label{
-    display: flex;
-    align-items: center;
-
-    font-size: 0.8em;
-
-}
-.search-form form .search-label svg{
-    width: 25px;
-}
-.search-input{
-    display: flex;
-    flex-direction: column;
-    gap: 0.5em;
-}
-.search-input input,
-.search-input select,
-.search-input button{
-    width: 40vw;
-}
-.search-input button{
-    padding: 0.7em;
-    font-size: 1.1em;
+@media (min-width: 1024px) {
+  main {
+    margin: 0;
+    padding: 0;
+  }
 }
 
-.products-list{
-    display: flex;
-    flex-direction: column;
-    gap: 2em;
+.title-hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 2em 1em;
+  margin-bottom: 1.5em;
+  border-radius: var(--radius-sm);
+  box-shadow: 0px 0px 10px var(--light-shadow);
+  background: var(--white) url("https://res.cloudinary.com/dw2eqq9kk/image/upload/v1775004022/damascus-pattern-grey-free-png_1_dsvn0g.png");
+  background-size: cover;
 }
-.products-list .products{
-    display: flex;
-    flex-direction: column;
-    gap: 2em;
-    align-items: center;
+.title-hero h1 {
+  font-family: var(--font-serif);
 }
-
-.header-feature img {
-    width: 100%;
-    border-radius: var(--border-radius);
-}
-
-.search-result h1{
-    font-size: 1.3em;
-}
-
-
-@media(min-width: 1024px){
-    .search-form form .search-label{
-        display: flex;
-        align-items: center;
-
-        font-size: 1em;
-
-    }
-
-    .products-title{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .search-input input,
-    .search-input select,
-    .search-input button{
-        width: 200px;
-    }
-    .search-input button{
-        padding: 0.5em;
-        font-size: 1em;
-    }
-
-    .products-list{
-        gap: 6em;
-    }
-    .products-list .products{
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr ;
-        gap: 2em;
-    }
-
-    .product-view {
-        margin: 0 auto;
-    }
-
-    .search-result h1{
-        font-size: 1.5em;
-    }
+.title-hero p {
+  color: var(--pink-700);
+  font-size: 0.9em;
 }
 
-
-@media(min-width: 1400px){
-    .products-list .products{
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-    }
+.hero .filter-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1em;
+  width: 100%;
 }
+.hero .container {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+.hero .container .category .products {
+  padding-inline: 1em;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1em;
+}
+.hero .container .category .products .product {
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+.product-view {
+  width: clamp(0px, 98vw, 800px);
+}
+.product-view .hero {
+  margin-top: 0.5em;
+  padding: 1em;
+  background: var(--white);
+  border-radius: var(--radius-sm);
+  box-shadow: 0px 0px 10px var(--light-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+@media (min-width: 768px) {
+  .product-view .hero {
+    flex-direction: row;
+  }
+}
+.product-view .hero img {
+  margin-inline: auto;
+  width: clamp(150px, 80vw, 350px);
+  border-radius: var(--radius-sm);
+}
+.product-view .hero .container {
+  flex: 1;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.product-view .hero .container .title {
+  border-left: 4px solid var(--pink-350);
+  padding-left: 0.5em;
+}
+.product-view .hero .container .title h1 {
+  font-weight: normal;
+}
+.product-view .hero .container .title p {
+  color: var(--pink-500);
+}
+.product-view .hero .container .price {
+  color: var(--pink-450);
+  font-size: clamp(1.6em, 3vw, 2em);
+  font-weight: bold;
+}
+.product-view .hero .container form, .product-view .hero .container form .inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+.product-view .hero .container form {
+  gap: 1em;
+}
+
+.dark-mode .title-hero {
+  box-shadow: 0px 0px 10px var(--shadow);
+  background: var(--pink-900) url("https://res.cloudinary.com/dw2eqq9kk/image/upload/v1775004022/damascus-pattern-grey-free-png_1_dsvn0g.png");
+  background-size: cover;
+}
+.dark-mode .title-hero p {
+  color: var(--pink-300);
+}
+
+/*# sourceMappingURL=products.css.map */

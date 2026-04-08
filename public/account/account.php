@@ -4,20 +4,16 @@
     require_once "../footerHeader.php";
     require_once "../printStyles.php";
 
-    if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        changeColumn();
-    }
-    if (isset($_SESSION["isAdmin"])) {
-        header("location: ../mannager/admin.php?adminNotAllowed=1");
-        exit();
-    }
+    if ($_SERVER["REQUEST_METHOD"] === "POST") { changeColumn(); }
+
+    if (isset($_SESSION["isAdmin"])){ setCookies("adminNotAllowed", "../mannager/admin.php", 0); }
+
     if(! isset($_SESSION["userMail"])){
         header("location: login.php");
         exit();
     }
 
-    checkSession("account");
-
+    checkSession();
 
     function changeColumn(){
         // function to change the value on Database associated to the value changed at the form in HTML
@@ -26,16 +22,13 @@
             "userName", "userPhone", "district", "localNum", 
             "referencePoint", "street", "city", "state"
         ];
-        $getChanges = "";
 
         for($i = 0; $i < sizeof($allowedInputs); $i++){
             if(isset($_POST[$allowedInputs[$i]])){
                 $newValue = trim($_POST[$allowedInputs[$i]]);
 
                 if($newValue != ""){
-                    $changeData = $mysqli->prepare(
-                        "UPDATE user_data SET $allowedInputs[$i] = ? WHERE idUser = ?;"
-                    );
+                    $changeData = $mysqli->prepare("UPDATE user_data SET $allowedInputs[$i] = ? WHERE idUser = ?;") or die($mysqli->errno);
                     $changeData->bind_param("si", $newValue, $_SESSION["idUser"]);
 
                     if($allowedInputs[$i] == "referencePoint" or $allowedInputs[$i] == "state"){
@@ -54,8 +47,6 @@
                                     $_SESSION[$allowedInputs[$i]] = $newValue;
                                     break;
                             }
-
-                            $getChanges .= "c{$allowedInputs[$i]}=1&";
                         }
                     }else{
                         if($newValue != $_SESSION[$allowedInputs[$i]]){
@@ -71,17 +62,11 @@
                                     $_SESSION[$allowedInputs[$i]] = $newValue;
                                     break;
                             }
-                            $getChanges .= "c{$allowedInputs[$i]}=1&";
-                        }else{
-                            // writed value in the form is the same as the one at the Database -> no change
-                            $getChanges .= "c{$allowedInputs[$i]}=2&";
                         }
                     }
                 }
             }
         }
-        header("location: account.php?" . rtrim($getChanges, "&"));
-        exit();
     }
 ?>
 
@@ -100,40 +85,6 @@
 
 </head>
 <body>
-    <?php
-        // mapping to show better names for the client
-        $fieldLabels = [
-            "userName"       => "Nome de Usuário",
-            "userPhone"      => "Telefone de Contato",
-            "district"       => "Bairro",
-            "localNum"       => "Número da Residência",
-            "referencePoint" => "Ponto de Referência",
-            "street"         => "Rua",
-            "city"           => "Cidade",
-            "state"          => "Estado"
-        ];
-
-        // go throught all the GET parameters
-        foreach ($_GET as $key => $value) {
-            // Example: $key = "cuserName", $value = "1"
-            if (preg_match('/^c(.+)$/', $key, $matches)) {
-                $field = $matches[1]; // take "userName", "city", etc.
-
-                if (isset($fieldLabels[$field])) {
-                    $label = $fieldLabels[$field];
-                    switch ($value) {
-                        case "1":
-                            fillWarning("successText", $label, 1);
-                            break;
-                        case "2":
-                            fillWarning("errorText", $label, 0);
-                            break;
-                    }
-                }
-            }
-        }
-    ?>
-
     <main class="rise-above">
         <div class="back-button" onclick="window.location.href = '/index.php'">
             <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -159,7 +110,7 @@
                 <p>Ao clicar em <strong>"editar"</strong> todos os campos preenchidos serão <strong>verificados</strong>.</p>
             </div>
 
-            <form method="post">
+            <form method="post" class="regular-form">
                 <div class="regular-input">
                     <label for="iuserName">Nome: </label>
                     <div class="form-input">

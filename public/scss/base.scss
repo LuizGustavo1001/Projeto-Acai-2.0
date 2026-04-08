@@ -18,10 +18,13 @@ body{
     position: relative;
     min-height: 100dvh;
 
+    max-width: 2200px;
+    margin-inline: auto;
+
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 2em;
+    gap: 1em;
 
     background: var(--pink-150);
     color: var(--pink-850);
@@ -49,21 +52,53 @@ img{
     width: 100px;
 }
 
-form{
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
+details{
+    position: relative;
+    summary{
+        list-style-type: none;
+        cursor: pointer;
+    }
 
-    .wrap{
-        display: grid;
-        align-items: center;
-        gap: 0.5em;
-        grid-template-columns: auto 30%;
+    nav{
+        position: absolute;
+        top: 50%;
+        left: -50px;
+
+        display: flex;
+        flex-direction: column;
+        gap: 0.3em;
+
+        background: var(--white);
+
+        transform: translateX(-60%);
+
+        a{
+            padding: 0.5em;
+            
+            &:hover{
+                background: var(--pink-200);
+                color: var(--pink-500);
+            }
+        }
+    }
+}
+
+
+.section-title{
+    border-left: 4px solid var(--pink-500);
+    padding: 0.5em;
+
+    margin-bottom: 1em;
+
+    h1{
+        font-family: var(--font-serif);
+        color: var(--pink-450);
     }
 }
 
 .dazzles-bg{
-    position: absolute;
+    display: none;
+    position: fixed;
     top: 0;
     left: 0;
 
@@ -73,11 +108,10 @@ form{
     background: var(--pink-950-outer);
 
     transition-timing-function: ease;
-    transform: translateX(-100%);
     z-index: 1;
 
     &.open{
-        transform: translateX(0);
+        display: block;
     }
 }
 
@@ -133,6 +167,19 @@ form{
 
 .fade-out{
     animation: fade-out 0.5s linear;
+}
+
+.regular-form{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+
+    .wrap{
+        display: grid;
+        align-items: center;
+        gap: 0.5em;
+        grid-template-columns: auto 30%;
+    }
 }
 
 /* =-=-=-=-=-=-=-=-=-= HEADER =-=-=-=-=-=-=-=-=-= */
@@ -351,21 +398,23 @@ footer{
 
     min-width: 260px;
     max-width: 260px;
-    height: fit-content;
+    
     padding: 1em;
 
     border: 1px solid transparent;
+    border-radius: var(--radius-sm);
     box-shadow: 0px 0px 10px var(--light-shadow);
     background: var(--white);
 
     &:hover{
         border-color: var(--pink-300);
-        scale: 0.985;
+        transform: scale(0.985);
     }
 
     img{ 
         width: 100%;
         aspect-ratio: 1/1;
+        border-radius: var(--radius-sm);
      }
 
     .content{
@@ -381,7 +430,10 @@ footer{
                 @include m.line-clamp;
             }
 
-            h1{ font-size: clamp(1.2em, 2vw, 1.4em) }
+            h1{ 
+                font-size: clamp(1.2em, 2vw, 1.4em);
+                font-weight: normal;
+            }
             p{ 
                 color: var(--pink-450);
                 font-size: clamp(0.9em, 2vw, 1em)
@@ -442,6 +494,24 @@ footer{
 
             }
         }
+    }
+
+    details{
+        nav{
+            background: var(--pink-900);
+            a{
+                &:hover{
+                    background: var(--pink-850);
+                    color: var(--pink-350);
+                }
+            }
+        }
+    }
+
+    .section-title{
+        border-color: var(--pink-350);
+
+        h1{ color: var(--pink-300) }
     }
 
     .horizontal-line{

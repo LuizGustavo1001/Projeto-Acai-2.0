@@ -71,7 +71,6 @@
     font-weight: bold;
 
     border-radius: var(--radius-sm);
-    outline: none;
     border: none;
 
     color: var(--pink-150);
@@ -152,6 +151,24 @@
 
 
 /* =-=-=-=-=-=-=-=-=-= REGULAR INPUT =-=-=-=-=-=-=-=-=-= */
+input,
+select{
+    width: 100%;
+    background-color: transparent;
+    padding: 1em;
+    border: none;
+    
+    color: var(--pink-800);
+
+    &::placeholder{
+        color: var(--pink-300);
+    }
+}
+
+select{
+    cursor: pointer;
+}
+
 .regular-input{
     display: flex;
     flex-direction: column;
@@ -163,23 +180,8 @@
         cursor: pointer;
     }
 
-    select{
-        cursor: pointer;
-    }
-
     input, select{
-        width: 100%;
-        background-color: transparent;
-        padding: 1em;
-        border: none;
         border-bottom: 1px solid var(--pink-300);
-        outline: none;
-
-        color: var(--pink-800);
-
-        &::placeholder{
-            color: var(--pink-300);
-        }
     }
 
     &:hover input,
@@ -192,3 +194,71 @@
     }   
 }
 
+
+.search-input{
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+
+    width: 100%;
+    max-width: 450px;
+    
+    background: var(--white);
+
+    border-radius: var(--radius-sm);
+
+    label{
+        @include m.flex-center;
+        padding-inline: 0.5em;
+        border-right: 1px solid var(--pink-700);
+        svg{
+            color: var(--pink-700);
+        }
+    }
+
+    input{
+        padding: 1em 1em 1em 0.5em;
+        font-size: 1em;
+    }
+}
+
+.sort-btn{
+    background: var(--pink-500);
+    border-radius: var(--radius-sm);
+
+    &:hover,
+    &:focus-within{
+        background: var(--pink-450);
+    }
+
+    summary{
+        @include m.flex-center;
+        padding: 0.3em;
+
+        svg{
+            color: var(--pink-150);
+        }
+    }
+}
+
+.dark-mode{
+    .search-input{
+        background: var(--pink-900);
+
+        label{
+            border-right: 1px solid var(--pink-300);
+            svg{
+                color: var(--pink-300);
+            }
+        }
+    }
+
+    .sort-btn{
+        background: var(--pink-450);
+
+        &:hover,
+        &:focus-within{
+            background: var(--pink-500);
+        }
+    }
+}

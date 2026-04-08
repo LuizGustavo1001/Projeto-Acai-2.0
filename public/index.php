@@ -4,7 +4,7 @@
     require_once "footerHeader.php";
     require_once "printStyles.php";
 
-    // feature 4 random products from Database
+    // feature 6 random products from Database
     function featureItems(){
         global $mysqli;
 
@@ -15,21 +15,19 @@
                 JOIN product_version AS pv ON pd.idProduct = pv.idProduct
             GROUP BY pd.idProduct
             ORDER BY RAND() LIMIT 6
-        ");
-        if($query){
-            // verify if the product version exists on the database
-            while($row = $query->fetch_assoc()){
-                $verifyVersions = $mysqli->prepare("SELECT nameProduct FROM product_version WHERE idProduct = ?");
-                $verifyVersions->bind_param("i", $row["idProduct"]);
-                $verifyVersions->execute();
+        ") or die($mysqli->errno);
+        
+        // verify if the product version exists on the database
+        while($row = $query->fetch_assoc()){
+            $verifyVersions = $mysqli->prepare("SELECT nameProduct FROM product_version WHERE idProduct = ?") or die($mysqli->errno);
+            $verifyVersions->bind_param("i", $row["idProduct"]);
+            $verifyVersions->execute();
 
-                $result = $verifyVersions->get_result();
-                $amountVersion = $result->num_rows;
-                if($amountVersion > 0)
-                    getProductByName($row["altName"], "index");
-            }
-        }else
-            header("location: errorPage.php");
+            $result = $verifyVersions->get_result();
+            $amountVersion = $result->num_rows;
+
+            if($amountVersion > 0) getProductByName($row["altName"], "index");
+        }
     }
 ?>
 
@@ -42,28 +40,14 @@
     <link rel="stylesheet" href="<?php printStyle("main") ?>">
     <link rel="stylesheet" href="<?php printStyle("index") ?>">
 
-    <script src="/js/generalScripts.js"></script>
-    
     <?php displayFavicon()?>
 
     <title>Açaí e Polpas Amazônia | Página Inicial</title>
 </head>
 <body>
-    <?php 
-        if(isset($_GET["orderConfirmed"])){
-            FillWarning("orderConfirmed", "", 1);
-            verifyOrders();
-        }else if(isset($_GET["loginSuccess"]))
-            FillWarning("loginSuccess", "", 1);
-        else if(isset($_GET["notAdmin"]))
-            FillWarning("notAdmin", "", 0);
-        else if(isset($_GET["logout"]))
-            FillWarning("logout", "", 1);
-    ?>
+    <div class="dazzles-bg fade-in mobile"></div>
 
-    <div class="dazzles-bg mobile"></div>
-
-    <?php displayHeader()?>
+    <?php displayHeader() ?>
 
     <main>
         <section class="hero rise-above">
@@ -135,9 +119,9 @@
                         <p>Quem Somos?</p>
                     </div>
                     <div class="text">
-                        Açaí Amazônia Ipatinga, distribuidora de <strong>cremes e polpas variados</strong>. <br> 
-                        Vendemos também <strong>picolés, sorvetes, adicionais variados para açaí e sorvete e outros tipos de cremes</strong>. <br>
-                        Ofereçemos apenas produtos com qualidade comprovada.
+                        <p>Açaí Amazônia Ipatinga, distribuidora de <strong>cremes e polpas variados</strong>.</p>
+                        <p>Vendemos também <strong>picolés, sorvetes, adicionais variados para açaí e sorvete e outros tipos de cremes</strong>. <br></p>
+                        <p>Ofereçemos apenas produtos com qualidade comprovada.</p>
                     </div>
                 </div>
 
@@ -163,9 +147,11 @@
                         <p>Produção</p>
                     </div>
                     <div class="text">
-                        Nossa fábrica está localizada na cidade de <strong>*******</strong>. <br>
-                        Contamos com todas as <strong>alvarás e licenças</strong> exigidos pela <strong>Vigilância Sanitária</strong>, <strong>Ministério da Agricultura</strong> e demais orgãos reguladores. <br>
-                        Nossa produção é <strong>supervisionada por engenheiro de alimentos</strong> altamente qualificado.
+                        <p>Nossa fábrica está localizada na cidade de <strong>*******</strong>.</p>
+                        <p>
+                            Contamos com todas as <strong>alvarás e licenças</strong> exigidos pela <strong>Vigilância Sanitária</strong>, <strong>Ministério da Agricultura</strong> e demais orgãos reguladores.
+                        </p>
+                        <p>Nossa produção é <strong>supervisionada por engenheiro de alimentos</strong> altamente qualificado.</p>
                     </div>
                 </div>
 
@@ -184,8 +170,8 @@
                         <p>Entregas</p>
                     </div>
                     <div class="text">
-                        Atendemos e entregamos no <strong>**** ** ***, **** ** *** ****</strong>, e região. br
-                        Realizamos entregas tanto para <strong>sua loja</strong> como para <strong>consumo próprio*</strong>.
+                        <p>Atendemos e entregamos no <strong>**** ** ***, **** ** *** ****</strong>, e região.</p>
+                        <p>Realizamos entregas tanto para <strong>sua loja</strong> como para <strong>consumo próprio*</strong>.</p>
                     </div>
                 </div>
 
@@ -204,7 +190,7 @@
                         <p>Endereço</p>
                     </div>
                     <div class="text">
-                        Nosso depósito está localizado na <strong>Rua ******, *** - ******, ****, ****</strong>.
+                        <p>Nosso depósito está localizado na <strong>Rua ******, *** - ******, ****, ****</strong>.</p>
                     </div>
                 </div>
             </div>

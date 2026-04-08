@@ -10,57 +10,45 @@
         exit();
     }
 
-    checkSession("insideAccount");
+    checkSession();
 
     if(isset($_POST["email"], $_POST['newEmail'])){
         // update email address
-
         $sanitizedEmail = filter_var( $_POST["email"], FILTER_SANITIZE_EMAIL);
         
-        $stmt = $mysqli->prepare("SELECT userMail FROM user_data WHERE idUser = ?");
+        $stmt = $mysqli->prepare("SELECT userMail FROM user_data WHERE idUser = ?") or die($mysqli->errno);
         $stmt->bind_param("i", $_SESSION["idUser"]);
 
-        if($stmt->execute()){
-            $sanitizedNewEmail = filter_var($_POST["newEmail"], FILTER_SANITIZE_EMAIL);
-            $domain = substr(strrchr($sanitizedNewEmail, "@"), 1);
-            if(checkdnsrr($domain, "MX")){ // checking if the email domain exists
-                $result = $stmt->get_result();
-                $row = $result->fetch_assoc();
-                $stmt->close();
+        $stmt->execute();
+        $sanitizedNewEmail = filter_var($_POST["newEmail"], FILTER_SANITIZE_EMAIL);
+        $domain = substr(strrchr($sanitizedNewEmail, "@"), 1);
 
-                if($row["userMail"] != $sanitizedEmail){
-                    header("location: newEmail.php?wrongMail=1");
-                    exit();
-                }else if($sanitizedNewEmail == $sanitizedMail){
-                    header("location: newEmail.php?sameMail=1");
-                    exit();
-                }else{
-                    // change the email at the Database
-                    $updateEmail = $mysqli->prepare("
-                        UPDATE user_data
-                        SET userMail = ?
-                        WHERE idUser = ?
-                    ");
+        if(checkdnsrr($domain, "MX")){ // checking if the email domain exists
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+            $stmt->close();
 
-                    $updateEmail->bind_param("si", $sanitizedNewEmail, $_SESSION["idUser"]);
-                    if($updateEmail->execute()){
-                        $updateEmail->close();
-                        session_destroy();
-
-                        header("location: ../login.php?newEmail");
-                        exit();
-                    }else{
-                        header("location: ../../errorPage.php");
-                        exit();
-                    }
-                }
+            if($row["userMail"] != $sanitizedEmail){
+                setCookies("wrongMail", "newEmail.php", 0);
+            }else if($sanitizedNewEmail == $sanitizedMail){
+                setCookies("sameMail", "newEmail.php", 0);
             }else{
-                header("location: newEmail.php?wrongMail=1");
-                exit();
+                // change the email at the Database
+                $updateEmail = $mysqli->prepare("
+                    UPDATE user_data
+                    SET userMail = ?
+                    WHERE idUser = ?
+                ");
+
+                $updateEmail->bind_param("si", $sanitizedNewEmail, $_SESSION["idUser"]) or die($mysqli->errno);
+                $updateEmail->execute();
+                $updateEmail->close();
+                session_destroy();
+
+                setCookies("newEmail", "../login.php", 1);
             }
         }else{
-            header("location: ../../errorPage.php");
-            exit();
+            setCookies("wrongMail", "newEmail.php", 0);
         }
     }
 ?>
@@ -80,13 +68,6 @@
 </head>
 
 <body>
-    <?php 
-        if(isset($_GET["wrongMail"])){
-            FillWarning("wrongMail", "", 0);
-        }else if(isset($_GET["sameMail"]))
-            FillWarning("sameMail", "", 0);
-    ?>
-
     <main class="rise-above">
         <div class="back-button" onclick="window.location.href = '/index.php'">
             <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">

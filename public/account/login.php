@@ -7,103 +7,89 @@
     $currentDate = date("Y-m-d");
     $currentHour = date("H:i:s");
 
-    if (isset($_SESSION["isAdmin"])) {
-        header("location: ../mannager/admin.php?adminNotAllowed=1");
-        exit();
-    }
+    if (isset($_SESSION["isAdmin"])){ setCookies("adminNotAllowed", "../mannager/admin.php", 0); }
+    
     if(isset($_SESSION["clientMail"])){
         header("location: account.php");
         exit(); 
     }
-    if(isset($_POST["email"])){
-        login();
-    }
 
-    function login() {
-    global $mysqli;
-    if(! isset($_SESSION)){
-        session_start();
-    }
-    $inputEmail = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
-    if (!filter_var($inputEmail, FILTER_VALIDATE_EMAIL)) {
-        header("location: login.php?invalidEmail=1");
-        exit();
-    }
+    if(isset($_POST["email"])){ login(); }
 
-    $inputPassword = $_POST["password"];
+    function login(){
+        global $mysqli;
 
-    $getUser = $mysqli->prepare("
-        SELECT idUser, userMail, userPassword, userName, userPhone, district, city, street, localNum, referencePoint, state
-        FROM user_data
-        WHERE userMail = ?
-        LIMIT 1
-    ");
-    $getUser->bind_param("s", $inputEmail);
-    $getUser->execute();
-    $result = $getUser->get_result();
-    $getUser->close();
+        // verify email domain
+        $inputEmail = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
+        if (!filter_var($inputEmail, FILTER_VALIDATE_EMAIL)){ setCookies("invalidEmail", "login.php", 0); }
 
-    if ($result->num_rows === 0) {
-        header("location: login.php?errorLogin=1");
-        exit();
-    }
+        $inputPassword = $_POST["password"];
 
-    $user = $result->fetch_assoc();
-    if (!password_verify($inputPassword, $user["userPassword"])) {
-        header("location: login.php?errorLogin=1");
-        exit();
-    }
+        $getUser = $mysqli->prepare("
+            SELECT idUser, userMail, userPassword, userName, userPhone, district, city, street, localNum, referencePoint, state
+            FROM user_data
+            WHERE userMail = ?
+            LIMIT 1
+        ") or die($mysqli->errno);
+        $getUser->bind_param("s", $inputEmail);
 
-    // verificar tipo de usuário
-    $getUserType = $mysqli->prepare("SELECT idClient FROM client_data WHERE idClient = ?");
-    $getUserType->bind_param("i", $user["idUser"]);
-    $getUserType->execute();
-    $userType = $getUserType->get_result();
-    $getUserType->close();
+        $getUser->execute();
+        $result = $getUser->get_result();
+        $getUser->close();
 
-    $uType = $userType->num_rows === 0 ? "admin" : "client";
+        if($result->num_rows === 0){ setCookies("errorLogin", "login.php", 0); }
 
-    // iniciar sessão
-    session_regenerate_id(true);
-    $_SESSION = [
-        "idUser"         => $user["idUser"],
-        "userPhone"      => $user["userPhone"],
-        "userName"       => $user["userName"],
-        "userMail"       => $inputEmail,
-        "district"       => $user["district"],
-        "localNum"       => $user["localNum"],
-        "referencePoint" => $user["referencePoint"],
-        "street"         => $user["street"],
-        "city"           => $user["city"],
-        "state"          => $user["state"],
-        "lastActivity"   => time()
-    ];
+        $user = $result->fetch_assoc();
+        if(! password_verify($inputPassword, $user["userPassword"])){ setCookies("errorLogin", "login.php", 0); }
 
-    if ($uType === "client") {
-        $currentDate = date("Y-m-d");
-        $currentHour = date("H:i:s");
+        // verify user type
+        $getUserType = $mysqli->prepare("SELECT idClient FROM client_data WHERE idClient = ?") or die($mysqli->error);
+        $getUserType->bind_param("i", $user["idUser"]);
 
-        $newOrder = $mysqli->prepare("INSERT INTO order_data (idClient, orderDate, orderHour) VALUES (?, ?,?)");
-        $newOrder->bind_param("iss", $_SESSION["idUser"], $currentDate, $currentHour);
+        $getUserType->execute();
+        $userType = $getUserType->get_result();
+        $getUserType->close();
 
-        if ($newOrder->execute()) {
+        $uType = $userType->num_rows === 0 ? "admin" : "client";
+
+        // start session
+        session_regenerate_id(true);
+        $_SESSION = [
+            "idUser"         => $user["idUser"],
+            "userPhone"      => $user["userPhone"],
+            "userName"       => $user["userName"],
+            "userMail"       => $inputEmail,
+            "district"       => $user["district"],
+            "localNum"       => $user["localNum"],
+            "referencePoint" => $user["referencePoint"],
+            "street"         => $user["street"],
+            "city"           => $user["city"],
+            "state"          => $user["state"],
+            "lastActivity"   => time()
+        ];
+
+        if($uType === "client"){
+            $currentDate = date("Y-m-d");
+            $currentHour = date("H:i:s");
+
+            $newOrder = $mysqli->prepare("INSERT INTO order_data (idClient, orderDate, orderHour) VALUES (?, ?,?)") or die($mysqli->error);
+            $newOrder->bind_param("iss", $_SESSION["idUser"], $currentDate, $currentHour);
+
+            $newOrder->execute();
+
             $_SESSION["idOrder"] = $mysqli->insert_id;
             $newOrder->close();
             verifyOrders();
-            header("Location: ../index.php?loginSuccess=1");
-            exit();
-        } else {
-            header("location: ../errorPage.php");
+
+            setCookies("loginSuccess", "../index.php", 1);
+        }else{
+            $_SESSION["isAdmin"] = true;
+            verifyOrders();
+
+            header("location: ../mannager/admin.php");
             exit();
         }
-    } else {
-        $_SESSION["isAdmin"] = true;
-        verifyOrders();
-        header("location: ../mannager/admin.php");
-        exit();
     }
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -121,21 +107,6 @@
 </head>
 
 <body>
-    <?php 
-        if(isset($_GET["errorLogin"])){
-            FillWarning("errorLogin", "", 0);
-        }else if(isset($_GET["timeout"]))
-            FillWarning("timeout", "", 0);
-        else if(isset($_GET["unkUser"]))
-            FillWarning("unkUser", "", 0);
-        else if(isset($_GET["registered"]))
-            FillWarning("registered", "", 1);
-        else if(isset($_GET["newEmail"]))
-            FillWarning("newEmail", "", 1);
-        else if(isset($_GET["newPassword"]))
-            FillWarning("newPassword", "", 1);
-    ?>
-
     <main class="rise-above">
         <div class="back-button" onclick="window.location.href = '/index.php'">
             <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -162,7 +133,7 @@
                 <p>Realize seu <strong>login</strong> para <strong>continuar comprando</strong> em nosso site.</p>
             </div>
 
-            <form method="post">
+            <form method="post" class="regular-form">
                 <div class="regular-input">
                     <label for="imail">Endereço de Email</label>
                     <input type="email" name="email" id="imail" placeholder="exemplo@dominio.com" required value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">

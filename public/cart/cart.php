@@ -4,131 +4,119 @@
     require_once "../footerHeader.php";
     require_once "../printStyles.php";
     
-    require '../composer/vendor/autoload.php';
+    //require '../composer/vendor/autoload.php';
 
-    if(! isset($_SESSION["userMail"])){
-        header("location: ../account/login.php?unkUser=1");
-        exit();
-    }
-    if (isset($_SESSION["isAdmin"])) {
-        header("location: ../mannager/admin.php?adminNotAllowed=1");
-        exit();
-    }
+    if (isset($_SESSION["isAdmin"])){ setCookies("adminNotAllowed", "../mannager/admin.php", 0); }
+
+    if(! isset($_SESSION["userMail"])){ setCookies("unkUser", "../account/login.php", 0); }
+
 
     $defaultMoney = numfmt_create("pt-BR", NumberFormatter::CURRENCY);
 
     // path to the JSON credentials file downloaded from Google Cloud
+    /*
     $client = new Google_Client();
     $client->setAuthConfig(__DIR__ . '/../../projetoacai-472803-2e77e7899901.json');
     $client->addScope(Google_Service_Sheets::SPREADSHEETS);
 
     // spreadsheet ID (come from Google Sheets URL)
     $spreadsheetId = "1xJdM0OgynL5SKLoJ5gxH91abtQ18SY7Xp2dsMVkPvKk"; 
+    */
 
+    // return the total price on the cart
     function getCartTotal($clientOrder){
-        // return the total price on the cart
         global $mysqli, $defaultMoney;
 
         $getTotalPrice = $mysqli->prepare("
             SELECT SUM(totPrice) AS totalPrice
             FROM product_order 
             WHERE idOrder = ?
-        ");
+        ") or die($mysqli->errno);
         $getTotalPrice->bind_param("i", $clientOrder);
-        if($getTotalPrice->execute()){
-            $result = $getTotalPrice->get_result();
-            $price = $result->fetch_assoc();
-            $getTotalPrice->close();
-            if($price['totalPrice'] != null){
-                return numfmt_format_currency($defaultMoney, $price['totalPrice'], "BRL");
-            }else{
-                return "R$ 00,00";
-            }
+
+        $getTotalPrice->execute();
+        $result = $getTotalPrice->get_result();
+        $getTotalPrice->close();
+
+        $price = $result->fetch_assoc();
+
+        if($price["totalPrice"]){
+            return numfmt_format_currency($defaultMoney, $price['totalPrice'], "BRL");
+        }else{
+            return "R$ 00,00";
         }
     }
 
+    // print all the products in the cart
     function GetCartProd(){
-        // print all the products in the cart
         global $mysqli;
 
         $getProdsFromCart = $mysqli->prepare("
             SELECT *
             FROM product_order 
             WHERE idOrder = ?
-        ");
+        ") or die($mysqli->errno);
 
         $getProdsFromCart->bind_param("i", $_SESSION['idOrder']);
         
-        if($getProdsFromCart->execute()){
-            $result = $getProdsFromCart->get_result();
-            $amount = $result->num_rows;
-            $getProdsFromCart->close();
+        $getProdsFromCart->execute();
+        $result = $getProdsFromCart->get_result();
+        $getProdsFromCart->close();
+
+        $amount = $result->num_rows;
+        
+        switch($amount){
+            case 0:
+                echo "<small style=\"text-align:center\">Nenhum Produto no Seu Carrinho ainda</small>";
+                break;
             
-            switch($amount){
-                case 0:
-                    echo "<small style=\"text-align:center\">Nenhum Produto no Seu Carrinho ainda</small>";
-                    break;
-                
-                default:
-                    while($row = $result->fetch_assoc()) {
-                        $rescueProd = $mysqli->prepare("
-                            SELECT pd.printName, pv.nameProduct, pv.imageURL, pv.sizeProduct, pv.flavor
-                            FROM product_data AS pd 
-                                JOIN product_version AS pv ON pv.idProduct = pd.idProduct 
-                            WHERE pv.idVersion = ?
-                        ");
-                        $rescueProd->bind_param("i" ,$row["idVersion"]);
-                        $totalPrice = $row["totPrice"];
-                        
-                        if($rescueProd->execute()){
-                            $prodResult = $rescueProd->get_result();
-                            $prodData = $prodResult->fetch_assoc();
-                            $rescueProd->close();
+            default:
+                while($row = $result->fetch_assoc()){
+                    $rescueProd = $mysqli->prepare("
+                        SELECT pd.printName, pv.nameProduct, pv.imageURL, pv.sizeProduct, pv.flavor
+                        FROM product_data AS pd 
+                            JOIN product_version AS pv ON pv.idProduct = pd.idProduct 
+                        WHERE pv.idVersion = ?
+                    ") or die($mysqli->errno);
+                    $rescueProd->bind_param("i" ,$row["idVersion"]);
 
-                            if($prodData["flavor"] == null){
-                                $prodName = $prodData["printName"] . " - " . $prodData["sizeProduct"];
-                            }else{
-                                $prodName = $prodData["printName"] . " - " . $prodData["flavor"];
-                            }
+                    $totalPrice = $row["totPrice"];
+                    
+                    $rescueProd->execute();
+                    $prodResult = $rescueProd->get_result();
+                    $rescueProd->close();
 
-                            echo "
-                                <li>
-                                    <div style=\"position: relative; display: inline-block;\">
-                                        <div class=\"item-amount\">" . $row["amount"] ."</div>
-                                        <img src=" . $prodData["imageURL"] .  ">
-                                    </div>
-                                    <ul>
-                                        <li><strong>". $prodName . "</strong></li>
-                                        <li> Quantidade: ". $row["amount"] . "</li>
-                                        <li class=\"price\"> Total: "
-                                        .numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $totalPrice  , "BRL") ." 
-                                        </li>
-                                        
-                                    </ul>
-                                    <a href=\"removeProduct.php?name=" . $prodData["nameProduct"] . "\">
-                                        <abbr title=\"Remover Item do Carrinho\">
-                                            <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"size-6\">
-                                                <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0\" />
-                                            </svg>
-                                        </abbr>
-                                    </a>
+                    $prodData = $prodResult->fetch_assoc();
+
+                    $prodName = $prodData["flavor"] == null ? $prodName = $prodData["printName"] . " - " . $prodData["sizeProduct"] : $prodName = $prodData["printName"] . " - " . $prodData["flavor"];
+
+                    echo "
+                        <li>
+                            <div style=\"position: relative; display: inline-block;\">
+                                <div class=\"item-amount\">" . $row["amount"] ."</div>
+                                <img src=" . $prodData["imageURL"] .  ">
+                            </div>
+                            <ul>
+                                <li><strong>". $prodName . "</strong></li>
+                                <li> Quantidade: ". $row["amount"] . "</li>
+                                <li class=\"price\"> Total: "
+                                .numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $totalPrice  , "BRL") ." 
                                 </li>
-                            ";
-                        }else{
-                            header("location: ../errorPage.php");
-                            exit();
-                        }
-                    }
+                                
+                            </ul>
+                            <a href=\"removeProduct.php?name=" . $prodData["nameProduct"] . "\">
+                                <abbr title=\"Remover Item do Carrinho\">
+                                    <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"size-6\">
+                                        <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0\" />
+                                    </svg>
+                                </abbr>
+                            </a>
+                        </li>
+                    ";
+                }
             }
-        }else{
-            header("location: ../errorPage.php");
-            exit();
-        }
     }
-    if(! isset($_SESSION["userMail"])){
-        header("location: ../account/account.php");
-        exit();
-    }
+    
     if(isset($_GET["orderConfirmed"])){
         // adding the cart to the spreadsheet
         $total =  getCartTotal($_SESSION["idOrder"]);
@@ -192,7 +180,7 @@
         header("location: ../index.php?orderConfirmed=1");
         exit();
     }
-    checkSession("cart");
+    checkSession();
 ?>
 
 
@@ -202,26 +190,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
-    <script src="/js/generalScripts.js"></script>
-
-    <link rel="stylesheet" href="<?php printStyle("universal") ?>">
-    <link rel="stylesheet" href="<?php printStyle("general") ?>">
-    <link rel="stylesheet" href="<?php printStyle("cart") ?>">
+    <link rel="stylesheet" href="<?php printStyle("main") ?>">
 
     <?php displayFavicon()?>
 
-    <title>Açaí e Polpas Amazônia - Carrinho</title>
+    <title>Açaí e Polpas Amazônia | Carrinho</title>
 </head>
 <body>
-    <?php displayHeader(1)?>
+    <?php displayHeader()?>
 
     <main>
-        <?php 
-            if(isset($_GET["noItem"]))
-                displayPopUp("noItem", "");
-        ?>
-
         <section class="title">
             <h1>Carrinho</h1>
             <p>Clique em <strong>Confirmar Pedido</strong> para efetuá-lo</p>

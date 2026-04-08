@@ -1,0 +1,155 @@
+@use "mixins" as m;
+@use "variables";
+
+main{
+    padding-inline: 0.5em;
+    width: 100%;
+    max-width: 1920px;
+    margin: 0 auto;
+
+    @include m.respond(desktop){
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.title-hero{
+    @include m.flex-center;
+    flex-direction: column;
+    text-align: center;
+
+    padding: 2em 1em;
+    margin-bottom: 1.5em;
+
+    border-radius: var(--radius-sm);
+    box-shadow: 0px 0px 10px var(--light-shadow);
+
+    background: var(--white) url("https://res.cloudinary.com/dw2eqq9kk/image/upload/v1775004022/damascus-pattern-grey-free-png_1_dsvn0g.png");
+    background-size: cover;
+
+    h1{
+        font-family: var(--font-serif);
+    }
+    p{
+        color: var(--pink-700);
+        font-size: 0.9em;
+    }
+}
+
+.hero{
+    .filter-area{
+        display: flex;
+        
+        justify-content: space-between;
+        align-items: center;
+        gap: 1em;
+
+        width: 100%;
+    }
+
+    .container{
+        margin-top: 1em;
+
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+
+        .category{
+            .products{
+                padding-inline: 1em;
+
+                display: grid;  
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                gap: 1em;
+
+                .product{
+                    min-width: 0;
+                    width: 100%;
+                    max-width: 100%;
+                }
+            }
+        }
+    }
+}
+
+
+.product-view{
+    width: clamp(0px, 98vw, 800px);
+
+    
+
+    .hero{
+        margin-top: 0.5em;
+        padding: 1em;
+        background: var(--white);
+        border-radius: var(--radius-sm);
+        box-shadow: 0px 0px 10px var(--light-shadow);
+
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+
+        @include m.respond(tablet){
+            flex-direction: row;
+        }
+
+
+        img{
+            margin-inline: auto;
+            width: clamp(150px, 80vw, 350px);
+            border-radius: var(--radius-sm);
+        }
+
+        .container{
+            flex: 1;
+            margin: 0;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            .title{
+                border-left: 4px solid var(--pink-350);
+                padding-left: 0.5em;
+                
+                h1{
+                    font-weight: normal;
+                }
+
+                p{
+                    color: var(--pink-500);
+                }
+            }
+
+            .price{
+                color: var(--pink-450);
+                font-size: clamp(1.6em, 3vw, 2em);
+                font-weight: bold;
+            }
+
+            form{ 
+                &, .inputs{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.5em;
+                }
+                gap: 1em;
+
+            }
+        }
+        
+    }
+
+}
+
+
+.dark-mode{
+    .title-hero{
+        box-shadow: 0px 0px 10px var(--shadow);
+
+        background: var(--pink-900) url("https://res.cloudinary.com/dw2eqq9kk/image/upload/v1775004022/damascus-pattern-grey-free-png_1_dsvn0g.png");
+        background-size: cover;
+
+        p{ color: var(--pink-300) }
+    }
+}

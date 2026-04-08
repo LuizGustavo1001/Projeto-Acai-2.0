@@ -37,18 +37,8 @@
   --time: 0.2s;
 }
 
-.section-title {
-  border-left: 4px solid var(--pink-500);
-  padding: 0.5em;
-  margin-bottom: 1em;
-}
-.section-title h1 {
-  font-family: var(--font-serif);
-  color: var(--pink-450);
-}
-
 .hero {
-  max-width: clamp(0px, 100% - 15vw, 1500px);
+  max-width: clamp(0px, 100% - 15vw, 1350px);
   min-height: 80dvh;
   max-height: 1000px;
   margin-inline: auto;
@@ -84,7 +74,7 @@
   font-family: var(--font-style);
 }
 .hero .title h1 {
-  font-size: clamp(2.5em, 4vw, 4em);
+  font-size: clamp(3em, 4vw, 5em);
 }
 .hero .title p {
   font-size: clamp(1em, 2vw, 1.2em);
@@ -105,7 +95,7 @@
   flex-direction: column;
   gap: 1em;
   width: 100%;
-  max-width: 400px;
+  max-width: 480px;
   background: var(--white);
   padding: 1em;
   font-weight: bold;
@@ -171,7 +161,6 @@
   background: var(--white);
   border-radius: var(--radius-sm);
   box-shadow: 0px 0px 10px var(--shadow);
-  line-height: 1.5em;
 }
 .about-us .container .item .title {
   display: flex;
@@ -189,6 +178,11 @@
   font-weight: bold;
   color: var(--pink-500);
 }
+.about-us .container .item .text {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
 
 .features .container {
   display: flex;
@@ -203,12 +197,6 @@
   padding: 0.5em;
 }
 
-.dark-mode .section-title {
-  border-color: var(--pink-350);
-}
-.dark-mode .section-title h1 {
-  color: var(--pink-300);
-}
 .dark-mode .hero .title h1 {
   color: var(--pink-200);
 }

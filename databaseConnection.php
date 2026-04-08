@@ -8,5 +8,4 @@
 
     if ($mysqli->connect_errno) {
         echo "Falha ao conectar ao servidor: (" . $mysqli->connect_error . ") ";
-    } 
-
+    }

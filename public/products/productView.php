@@ -168,13 +168,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="<?php printStyle("universal") ?>">
-    <link rel="stylesheet" href="<?php printStyle("general") ?>">
-    <link rel="stylesheet" href="<?php printStyle("productVersion") ?>">
-    
-    <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
-
-    <script src="/js/generalScripts.js"></script>
+    <link rel="stylesheet" href="<?php printStyle("main") ?>">
+    <link rel="stylesheet" href="<?php printStyle("products") ?>">
 
     <?php displayFavicon()?>
 
@@ -200,19 +195,75 @@
             });
         });
     </script>
+    
+    <style>
+        body{
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
 
-
-    <title>Açaí e Polpas Amazônia - <?php echo $printName?></title>
+    <title>Açaí e Polpas Amazônia | <?php echo $printName?></title>
 
 </head>
 <body>
-    <?php displayHeader(1)?>
-    <main>
+    <main class="rise-above product-view">
+        <div class="back-button" onclick="window.location.href = 'products.php'">
+            <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21.875 12.5C21.875 17.6777 17.6777 21.875 12.5 21.875C7.32233 21.875 3.125 17.6777 3.125 12.5C3.125 7.32233 7.32233 3.125 12.5 3.125C17.6777 3.125 21.875 7.32233 21.875 12.5Z" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M8.33398 12.5H16.6673" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M11.4586 9.375L8.42427 12.4094C8.3742 12.4594 8.3742 12.5406 8.42427 12.5906L11.4586 15.625" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+
+            <span>Voltar</span>
+        </div>
+
         <?php 
-            if(isset($_GET["outOfOrder"])){
-                displayPopUp("outOfOrder", $_GET['id']);
+            if(in_array($_GET["id"], $allowedNames)){
+                $submitButton = "";
+                if(! isset($_SESSION["isAdmin"])){
+                    $submitButton = "<button class='regular-btn'>Adicionar ao Carrinho</button>";
+                }
+
+                echo "
+                    <div class='hero'>
+                        <img src='{$image}' alt='product image'>
+
+                        <div class='container'>
+                            <div class='title'>
+                                <p>{$brand}</p>
+                                <h1>{$printName}</h1>
+                            </div>
+                            
+                            <div class='price product-price-value'><span>R$ 00,00</span></div>
+
+                            <form method='GET'>
+                                <div class='inputs'>
+                                    <div class='regular-input'>
+                                        <label for='isize'>Tamanho: </label>
+                                        <select name='size' id='isize' class='product-size-selector'>";
+                                           echo getOptions($realName);
+                echo                    "</select>
+                                    </div>
+                                    <div class='regular-input'>
+                                        <label for='iamount'>Quantidade: </label>
+                                        <input type='number' name='amount' id='iamount' value='1' min='1'>
+                                    </div>
+                                </div>
+                                {$submitButton}
+                            </form>
+                        </div>
+                    </div>
+                ";
+
             }
-            
+        ?>
+
+        
+
+
+        <?php 
+            /*
             if(in_array($_GET["id"], $allowedNames)){
                 $submitButton = "";
                 if(! isset($_SESSION["isAdmin"])){
@@ -266,8 +317,8 @@
                     </div>
                 ";
             }
+               */ 
         ?>
     </main>
-    <?php displayFooter()?>
 </body>
 </html>

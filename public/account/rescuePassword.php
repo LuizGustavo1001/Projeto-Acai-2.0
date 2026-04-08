@@ -3,30 +3,24 @@
     require_once "../footerHeader.php";
     require_once "../printStyles.php";
 
-    if(! isset($_SESSION)){
-        session_start();
-    }
-    if (isset($_SESSION["isAdmin"])) {
-        header("location: ../mannager/admin.php?adminNotAllowed=1");
-        exit();
-    }
+    if (isset($_SESSION["isAdmin"])) { setCookies("adminNotAllowed", "../mannager/admin.php", 0); }
 
     if(! isset($_SESSION["passwordToken"])){
        header("location: password.php");
        exit();
-    }else{
-        if(isset($_POST["token"])){
-            // verify if the token input is the same sended to the email
-            if($_SESSION["passwordToken"] == $_POST["token"]){
-                unset($_SESSION["passwordToken"]);
-                header("location: newPassword.php");
-                exit();
-            }else{
-                header("location: rescuePassword.php?wrongToken=1");
-                exit();
-            }
+    }
+
+    if(isset($_POST["token"])){
+        // verify if the token input is the same sended to the email
+        if($_SESSION["passwordToken"] == $_POST["token"]){
+            unset($_SESSION["passwordToken"]);
+            header("location: newPassword.php");
+            exit();
+        }else{
+            setCookies("wrongToken", "rescuePassword.php", 0);
         }
     }
+    
 ?>
 
 <!DOCTYPE html>
@@ -44,10 +38,6 @@
 </head>
 
 <body>
-    <?php 
-        if(isset($_GET["wrongToken"])) FillWarning("wrongToken", "", 0);
-    ?>
-
     <main class="rise-above">
         <div class="back-button" onclick="window.location.href = '/index.php'">
             <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -75,7 +65,7 @@
                 <p>Insira o <strong>token</strong> enviado para o seu email parar alterar sua senha.</p>
             </div>
 
-            <form method="post">
+            <form method="post" class="regular-form">
                 <div class="regular-input">
                     <label for="itoken">Token de Recuperação: </label>
                     <input type="text" name="token" id="itoken" maxlength="50" placeholder="Digite o Token de Recuperação Aqui" required>

@@ -4,38 +4,33 @@
     require_once "../footerHeader.php";
     require_once "../printStyles.php";
 
-    if (isset($_SESSION["isAdmin"])) {
-        header("location: ../mannager/admin.php?adminNotAllowed=1");
-        exit();
-    }
+    if (isset($_SESSION["isAdmin"])) { setCookies("adminNotAllowed", "../mannager/admin.php", 0); }
+
     if(isset($_SESSION["userMail"])){
+        // trying to access the page without token
         header("location: login.php");
         exit();
     }
+
     // verify if the email input are in the Database
     if(isset($_POST["email"])){
         $sanitizedMail = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
 
-        $stmt = $mysqli->prepare("SELECT userMail FROM user_data WHERE userMail = ?");
+        $stmt = $mysqli->prepare("SELECT userMail FROM user_data WHERE userMail = ?") or die($mysqli->errno);
         $stmt->bind_param("s", $sanitizedMail);
 
-        if($stmt->execute()){
-            $result = $stmt->get_result();
-            $stmt->close();
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+        
+        switch($result->num_rows){
+            case 0: 
+                setCookies("wrongMail", "password.php", 0);
             
-            switch($result->num_rows){
-                case 0: 
-                    header("Location: password.php?wrongMail=1");
-                    exit();
-                
-                default: // send email
-                    $_SESSION["sendMail"] = $sanitizedMail;
-                    header("Location: passwordToken.php");
-                    exit();
-            }
-        }else{
-            header("location: ../errorPage.php");
-            exit();
+            default: // send email
+                $_SESSION["sendMail"] = $sanitizedMail;
+                header("Location: passwordToken.php");
+                exit();
         }
     }
 ?>
@@ -56,10 +51,6 @@
 </head>
 
 <body>
-    <?php 
-        if(isset($_GET["wrongMail"])) FillWarning("wrongMail", "", 0);
-    ?>
-
     <main class="rise-above">
         <div class="back-button" onclick="window.location.href = '/index.php'">
             <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -87,7 +78,7 @@
                 <p>Insira o <strong>endereço de email</strong> vinculado a esta conta para <br> enviarmos um <strong>token de recuperação</strong> para você alterá-la.</p>
             </div>
 
-            <form method="post">
+            <form method="post" class="regular-form">
                 <div class="regular-input">
                     <label for="iemail">Endereço de Email: </label>
                     <input type="email" name="email" id="iemail" maxlength="50" placeholder="email@exemplo.com" required>

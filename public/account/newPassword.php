@@ -4,10 +4,8 @@
     require_once "/footerHeader.php";
     require_once "/printStyles.php";
 
-    if (isset($_SESSION["isAdmin"])) {
-        header("location: ../mannager/admin.php?adminNotAllowed=1");
-        exit();
-    }
+    if (isset($_SESSION["isAdmin"])) { setCookies("adminNotAllowed", "../mannager/admin.php", 0); }
+
     if(! isset($_SESSION["sendMail"])){ 
         // trying to access the page without token
         header("location: password.php");
@@ -20,19 +18,14 @@
                 UPDATE user_data 
                 SET userPassword = ?
                 WHERE userMail = ?
-            ");
+            ") or die($mysqli->errno);
 
             $stmt->bind_param("ss", $newPassword, $_SESSION["userMail"]);
-            if($stmt->execute()){
-                $stmt->close();
+            $stmt->execute();
+            $stmt->close();
 
-                unset($_SESSION["userMail"]);
-                header("location: login.php?newPassword=1");
-                exit();
-            }else{
-                header("location: ../errorPage.php");
-                exit();
-            }
+            unset($_SESSION["userMail"]);
+            setCookies("newPassword", "login.php", 1); 
         }
     }
 ?>
@@ -54,11 +47,6 @@
 </head>
 
 <body>
-
-    <?php 
-        if(isset($_GET["wrongToken"])) FillWarning("wrongToken", "", 0);
-    ?>
-
     <main class="rise-above">
         <div class="back-button" onclick="window.location.href = '/index.php'">
             <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -86,7 +74,7 @@
                 <p>Insira sua <strong>nova senha</strong> no espaço abaixo.</p>
             </div>
 
-            <form method="post">
+            <form method="post" class="regular-form">
                 <div class="regular-input">
                     <label for="ipassword">Nova Senha: </label>
                     <input type="password" name="password" id="ipassword" maxlength="50" placeholder="Digite Sua nova Senha Aqui" required>
