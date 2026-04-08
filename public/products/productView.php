@@ -73,7 +73,6 @@
 
                         if($inserOrder->execute()){
                             $inserOrder->close();
-                            
                         }
                     }
                     $check->close();

@@ -145,19 +145,14 @@
             <div class="filter-area">
                 <form method="GET" class="search-input">
                     <label for="inameProd">
-                        <svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M13.75 7.5C17.2017 7.5 20 10.2982 20 13.75M20.8235 20.8186L26.25 26.25M23.75 13.75C23.75 19.2729 19.2729 23.75 13.75 23.75C8.22715 23.75 3.75 19.2729 3.75 13.75C3.75 8.22715 8.22715 3.75 13.75 3.75C19.2729 3.75 23.75 8.22715 23.75 13.75Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+                        <?php echo getIcon("search") ?>
                     </label>
 
                     <input type="text" name="nameProd" id="inameProd" placeholder="<?= htmlspecialchars($_GET['nameProd'] ?? 'Nome do Produto') ?>">
                 </form>
                 <details class="sort-btn outer-btn">
                     <summary>
-                        <svg viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M19.4154 18.125H9.58284C8.8508 18.125 8.48479 18.125 8.31531 18.2698C8.16825 18.3954 8.09021 18.5838 8.10538 18.7767C8.12287 18.9989 8.38168 19.2577 8.89929 19.7752L13.8155 24.6916C14.0549 24.9308 14.1745 25.0504 14.3124 25.0953C14.4337 25.1347 14.5644 25.1347 14.6857 25.0953C14.8237 25.0504 14.9434 24.9308 15.1826 24.6916L20.0988 19.7752C20.6165 19.2577 20.8753 18.9989 20.8928 18.7767C20.9079 18.5838 20.8299 18.3954 20.6828 18.2698C20.5134 18.125 20.1474 18.125 19.4154 18.125Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M9.58284 10.875H19.4154C20.1474 10.875 20.5134 10.875 20.6828 10.7302C20.83 10.6046 20.9079 10.4162 20.8928 10.2234C20.8753 10.0012 20.6165 9.74241 20.0988 9.22478L15.1826 4.30852C14.9434 4.06926 14.8237 3.94963 14.6857 3.90482C14.5644 3.86539 14.4337 3.86539 14.3124 3.90482C14.1745 3.94963 14.0549 4.06926 13.8155 4.30852L8.89929 9.22478C8.38168 9.74239 8.12287 10.0012 8.10538 10.2234C8.09021 10.4162 8.16825 10.6046 8.31531 10.7302C8.48479 10.875 8.8508 10.875 9.58284 10.875Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+                        <?php echo getIcon("sort") ?>
                     </summary>
 
                     <nav>

@@ -327,7 +327,7 @@ details nav a:hover {
 }
 .section-title h1 {
   font-family: var(--font-serif);
-  color: var(--pink-450);
+  color: var(--pink-500);
 }
 
 .dazzles-bg {
@@ -674,7 +674,7 @@ footer nav {
   color: var(--pink-350);
 }
 .dark-mode .section-title {
-  border-color: var(--pink-350);
+  border-color: var(--pink-300);
 }
 .dark-mode .section-title h1 {
   color: var(--pink-300);

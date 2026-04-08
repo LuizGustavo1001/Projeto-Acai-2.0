@@ -197,7 +197,7 @@
     <title>Açaí e Polpas Amazônia | Carrinho</title>
 </head>
 <body>
-    <?php displayHeader()?>
+    <?php displayHeader("cart")?>
 
     <main>
         <section class="title">
