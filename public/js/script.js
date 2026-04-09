@@ -157,7 +157,7 @@ function fillWarning(message, type){
 
         warningBox.innerHTML = `
             ${icon}
-            <span>${warningMsgs[message]}. <em>Clique nesta mensagem para fechá-la</em>.</span>
+            <span>${warningMsgs[message]} <em>Clique nesta mensagem para fechá-la</em>.</span>
         `
         body.insertAdjacentElement("afterbegin", warningBox)
 

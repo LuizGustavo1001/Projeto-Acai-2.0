@@ -27,9 +27,7 @@ main{
     background: var(--white) url("https://res.cloudinary.com/dw2eqq9kk/image/upload/v1775004022/damascus-pattern-grey-free-png_1_dsvn0g.png");
     background-size: cover;
 
-    h1{
-        font-family: var(--font-serif);
-    }
+    h1{ font-family: var(--font-serif); }
     p{
         color: var(--pink-700);
         font-size: 0.9em;
@@ -54,6 +52,11 @@ main{
         flex-direction: column;
         gap: 1em;
 
+        .search-label{
+            margin-bottom: 1em;
+            em{ font-weight: bold; }
+        }
+
         .category{
             .products{
                 padding-inline: 1em;
@@ -61,12 +64,6 @@ main{
                 display: grid;  
                 grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
                 gap: 1em;
-
-                .product{
-                    min-width: 0;
-                    width: 100%;
-                    max-width: 100%;
-                }
             }
         }
     }
@@ -76,50 +73,28 @@ main{
 .product-view{
     width: clamp(0px, 98vw, 800px);
 
-    
+    .product{
+        margin-block: 0.5em;
 
-    .hero{
-        margin-top: 0.5em;
-        padding: 1em;
-        background: var(--white);
-        border-radius: var(--radius-sm);
-        box-shadow: 0px 0px 10px var(--light-shadow);
-
+        height: 100%;
         display: flex;
         flex-direction: column;
         gap: 1em;
 
-        @include m.respond(tablet){
-            flex-direction: row;
-        }
-
+        @include m.respond(tablet){ flex-direction: row; }
 
         img{
             margin-inline: auto;
             width: clamp(150px, 80vw, 350px);
-            border-radius: var(--radius-sm);
         }
 
-        .container{
+        .content{
             flex: 1;
-            margin: 0;
-
+            width: 100%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-
-            .title{
-                border-left: 4px solid var(--pink-350);
-                padding-left: 0.5em;
-                
-                h1{
-                    font-weight: normal;
-                }
-
-                p{
-                    color: var(--pink-500);
-                }
-            }
+            gap: 1em;
 
             .price{
                 color: var(--pink-450);
@@ -127,19 +102,10 @@ main{
                 font-weight: bold;
             }
 
-            form{ 
-                &, .inputs{
-                    display: flex;
-                    flex-direction: column;
-                    gap: 0.5em;
-                }
-                gap: 1em;
-
-            }
+            h1{ font-size: clamp(1.5em, 2vw, 1.8em); }
+            p{ font-size: clamp(1em, 2vw, 1.1em); }
         }
-        
     }
-
 }
 
 
@@ -151,5 +117,9 @@ main{
         background-size: cover;
 
         p{ color: var(--pink-300) }
+    }
+
+    .product-view{
+        .price{ color: var(--pink-300); }
     }
 }

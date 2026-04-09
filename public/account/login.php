@@ -143,6 +143,7 @@
                 <a href="register.php">Ainda não está registrado?</a>
             </div>
         </div>
+        <div class="fot-copy">2026 &copy; Açaí e Polpas Amazônia</div>
     </main>
 
     <script src="/js/script.js"></script>

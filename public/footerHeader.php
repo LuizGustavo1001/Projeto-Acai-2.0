@@ -83,14 +83,21 @@ function displayHeader($page = "index"){
                         ";
                     }
     echo "      </div>
+                <div class='toggle-theme mobile'>
+                    <div class='selected-bg'></div>
+
+                    <div class='icon-bg active'> {$moon} </div>
+
+                    <div class='icon-bg'> {$sun} </div>
+                </div>
             </nav>
 
             <div class='toggle-theme desktop'>
                     <div class='selected-bg'></div>
 
-                    <div class='icon-bg active'>{$moon}</div>
+                    <div class='icon-bg active'> {$moon} </div>
 
-                    <div class='icon-bg'>{$sun}</div>
+                    <div class='icon-bg'> {$sun} </div>
                 </div>
 
             <div class='icon-button mobile menu'>

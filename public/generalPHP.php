@@ -31,56 +31,50 @@
                     WHERE pv2.idProduct = pd.idProduct
                 )
             ") or die($mysqli->errno);
-
             $getProducts->bind_param("s", $prodName);
-            if($getProducts->execute()){
-                $products = $getProducts->get_result();
-                $getProducts->close();
-                if($products->num_rows > 0){
-                    $row = $products->fetch_assoc();
-                    $name           = $row["printName"];
-                    $link           = "productView.php?id={$row['altName']}";
-                    $imageURL       = htmlspecialchars          ($row['imageURL']);
-                    $brand          = htmlspecialchars          ($row['brandProduct']);
-                    $priceDate      = htmlspecialchars          ($row['priceDate']);
-                    $price          = numfmt_format_currency    (numfmt_create("pt-BR", NumberFormatter::CURRENCY), $row['priceProduct'], "BRL");
 
-                    if($page == "index"){
-                        $link = "products/productView.php?id={$row['altName']}";
-                    }
+            $getProducts->execute();
+            $products = $getProducts->get_result();
+            $getProducts->close();
 
-                    echo "
-                        <div class='product' id='{$prodName}'>
-                            <img src='{$imageURL}' alt='{$name} Image'>
-                            <div class='content'>
-                                <div class='title'>
-                                    <p>{$brand}</p>
-                                    <abbr title='{$name}'><h1>{$name}</h1></abbr>
-                                </div>
+            if($products->num_rows > 0){
+                $row            = $products->fetch_assoc();
+                $name           = $row["printName"];
+                $link           = "productView.php?id={$row['altName']}";
+                $imageURL       = htmlspecialchars          ($row['imageURL']);
+                $brand          = htmlspecialchars          ($row['brandProduct']);
+                $priceDate      = htmlspecialchars          ($row['priceDate']);
+                $price          = numfmt_format_currency    (numfmt_create("pt-BR", NumberFormatter::CURRENCY), $row['priceProduct'], "BRL");
 
-                                <div class='price'>A partir de: <span class='value'>{$price}</span></div>
-
-                                <div class='others'>
-                                    <span>Atualizado em: <strong>{$priceDate}</strong></span>
-                                </div>
-
-                                <a class='regular-btn' href='{$link}'>Adicionar ao Carrinho</a>
-                            </div>
-                        </div>
-                    ";
+                if($page == "index"){
+                    $link = "products/productView.php?id={$row['altName']}";
                 }
-            }else{
-                $getProducts->close();
-                header("location: errorPage.php");
-                exit();
+
+                echo "
+                    <div class='product hover' id='{$prodName}'>
+                        <img src='{$imageURL}' alt='{$name} Image'>
+                        <div class='content'>
+                            <div class='title'>
+                                <p>{$brand}</p>
+                                <abbr title='{$name}'><h1>{$name}</h1></abbr>
+                            </div>
+
+                            <div class='price'>A partir de: <span class='value'>{$price}</span></div>
+
+                            <div class='others'>
+                                <span>Atualizado em: <strong>{$priceDate}</strong></span>
+                            </div>
+
+                            <a class='regular-btn' href='{$link}'>Adicionar ao Carrinho</a>
+                        </div>
+                    </div>
+                ";
             }
         }else{
         echo "
-            <li class=\"products-item item-translate-alt\">
-                <a>
-                    <p><em>Nenhum produto encontrado com o nome selecionado -> <strong>{$prodName}</strong></em></p>
-                </a>
-            </li>
+            <div class='product' id='{$prodName}'>
+                <p><em>Nenhum produto encontrado com o nome selecionado -> <strong>{$prodName}</strong></em></p>
+            </div>
             ";
         }
     }
@@ -148,6 +142,7 @@
     function setCookies($value, $page, $type){
         setcookie("warning_message", $value, time() + 20, "/");
         setcookie("warning_type", $type, time() + 20, "/");
+        
         header("Location: {$page}");
         exit();
     }

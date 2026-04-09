@@ -10,7 +10,6 @@
 
     if(! isset($_SESSION["userMail"])){ setCookies("unkUser", "../account/login.php", 0); }
 
-
     $defaultMoney = numfmt_create("pt-BR", NumberFormatter::CURRENCY);
 
     // path to the JSON credentials file downloaded from Google Cloud
@@ -42,9 +41,9 @@
 
         if($price["totalPrice"]){
             return numfmt_format_currency($defaultMoney, $price['totalPrice'], "BRL");
-        }else{
-            return "R$ 00,00";
         }
+
+        return "R$ 00,00";
     }
 
     // print all the products in the cart
@@ -305,5 +304,7 @@
     </main>
     
     <?php displayFooter()?>
+
+    <script src="/js/script.js"></script>
 </body>
 </html>

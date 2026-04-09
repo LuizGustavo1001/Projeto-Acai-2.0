@@ -159,6 +159,11 @@
         padding-block: 0.5em;
 
         overflow: scroll;
+
+        .product{
+            min-width: 260px;
+            max-width: 260px;
+        }
     }
 }
 

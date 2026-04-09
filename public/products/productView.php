@@ -5,20 +5,14 @@
     require_once "../printStyles.php";
 
     function add2Cart($prodName, $amount){
-        // add a product to the cart in database based on the product selected on productView.php
         global $mysqli;
 
-        if(! isset($_SESSION['userName'])){
-            header("Location: ../account/login.php?unkUser=1");
-            exit();
-        }
+        if(! isset($_SESSION['userName'])){ setCookies("unkUser", "/index.php", 0); }
 
-        $getAllNames = $mysqli->query("SELECT nameProduct FROM product_version");
+        // mapping the allowed product variant names
+        $getAllNames = $mysqli->query("SELECT nameProduct FROM product_version") or die("var getAllNames (productView.php): " . $mysqli->errno);
         $allowedNames = [];
-        
-        while($allNames = $getAllNames->fetch_assoc()){
-            $allowedNames[] = $allNames["nameProduct"];
-        }
+        while($allNames = $getAllNames->fetch_assoc()){ $allowedNames[] = $allNames["nameProduct"]; }
         $getAllNames->close();
 
         if(in_array($prodName, $allowedNames)){
@@ -27,42 +21,44 @@
                 FROM product_version AS pv JOIN product_data AS pd ON pv.idProduct = pd.idProduct
                 WHERE nameProduct = ?
                 LIMIT 1
-            ");
+            ") or die("var getProductData (productView.php): " . $mysqli->errno);
 
             $getProductData->bind_param("s",$prodName);
-            $getProductData->execute();
 
+            $getProductData->execute();
             $productData = $getProductData->get_result();
             $productData = $productData->fetch_assoc();
             $getProductData->close();
+
             switch($productData["availability"]){
                 case "indisponivel":
-                    header("Location: productView.php?id={$productData["altName"]}&outOfOrder=1");
-                    exit();
+                    setCookies("outOfOrder", "productView.php?id={$productData["altName"]}", 0);
                 default:
                     // verify if the product is already at the cart
                     $check = $mysqli->prepare("
                         SELECT amount FROM product_order WHERE idOrder = ? AND idVersion = ?
-                    ");
+                    ") or die("var check (productView.php): " . $mysqli->errno);
                     $check->bind_param("ii", $_SESSION["idOrder"], $productData["idVersion"]);
+
                     $check->execute();
                     $result = $check->get_result();
-                    if($result->num_rows > 0){
-                        // update product at the cart
+                    $check->close();
+
+                    if($result->num_rows > 0){ // update product variant data at the cart
                         $update = $mysqli->prepare("
                             UPDATE product_order
                             SET amount = ?, totPrice = ?
                             WHERE idOrder = ? AND idProduct = ?
-                        ");
+                        ") or die("var update (productView.php):" . $mysqli->errno);
                         $update->bind_param("idii", $amount, $productData["priceProduct"], $_SESSION["idOrder"], $productData["idVersion"]);
+
                         $update->execute();
                         $update->close();
-                    }else{
-                        // insert new product at the cart
+                    }else{ // insert new product variant at the cart
                         $totalPrice = $productData["priceProduct"] * $amount;
 
-                        $inserOrder = $mysqli->prepare("INSERT INTO product_order (idOrder, idVersion, amount, singlePrice, totPrice) VALUES (?, ?, ?, ?, ?)");
-                        $inserOrder->bind_param(
+                        $insertOrder = $mysqli->prepare("INSERT INTO product_order (idOrder, idVersion, amount, singlePrice, totPrice) VALUES (?, ?, ?, ?, ?)") or die("var insertOrder (productView.php):" . $mysqli->errno);
+                        $insertOrder->bind_param(
                             "iiidd",
                             $_SESSION["idOrder"], 
                             $productData["idVersion"], 
@@ -71,29 +67,26 @@
                             $totalPrice
                         );
 
-                        if($inserOrder->execute()){
-                            $inserOrder->close();
-                        }
+                        $insertOrder->execute();
+                        $insertOrder->close();
                     }
-                    $check->close();
+
+                    // redirect to product page
                     header("Location: products.php?prodAdd=1&id={$productData['printName']}&size={$productData['sizeProduct']}");
                     exit();
             }
         }
     }
 
-    if(isset($_GET['size'], $_GET['amount'])){
-        add2Cart($_GET['size'], $_GET['amount']);
-    }
+    if(isset($_GET['size'], $_GET['amount'])){ add2Cart($_GET['size'], $_GET['amount']); }
 
     $defaultMoney = numfmt_create("pt-BR", NumberFormatter::CURRENCY);
     $productName = $_GET["id"];
 
-    $getAllNames = $mysqli->query("SELECT altName FROM product_data");
+    // mapping the allowed product names
+    $getAllNames = $mysqli->query("SELECT altName FROM product_data") or die("var getAllNames (productView.php)" . $mysqli->errno);
     $allowedNames = [];
-    while($allNames = $getAllNames->fetch_assoc()){
-        $allowedNames[] = $allNames["altName"];
-    }
+    while($allNames = $getAllNames->fetch_assoc()){ $allowedNames[] = $allNames["altName"]; }
     $getAllNames->close();
 
     if(in_array($_GET["id"], $allowedNames)){
@@ -103,46 +96,39 @@
             FROM product_data AS pd 
                 JOIN product_version AS pv ON pd.idProduct = pv.idProduct
             WHERE pd.altName = ? 
-        ");
+        ") or die("var getProductData (productView.php)" . $mysqli->errno);
         $getProductData->bind_param("s", $productName);
 
         $realName = "";
         // returning the prices of the products with the name that matches the one above
-        if($getProductData->execute()){
-            $result = $getProductData->get_result();
-            while($productData = $result->fetch_assoc()){
-                $realName   = $productData["altName"];
-                $printName  = $productData["printName"];
-                $brand      = $productData["brandProduct"];
-                $price      = $productData["priceProduct"];
-                $image      = $productData["imageURL"];
-                $linkName   = $productData["altName"];
-            }
-        }else{
-            echo"
-                <div class='errorText'>
-                    <small>
-                        <i class=\"fa-solid fa-triangle-exclamation\"></i> 
-                        <p>Erro ao tentar imprimir o Produto, tente novamente mais tarde</p>
-                    </small>
-                </div>
-            ";
-        }
+        $getProductData->execute();
+        $result = $getProductData->get_result();
         $getProductData->close();
-         
+
+        while($productData = $result->fetch_assoc()){
+            $realName   = $productData["altName"];
+            $printName  = $productData["printName"];
+            $brand      = $productData["brandProduct"];
+            $price      = $productData["priceProduct"];
+            $image      = $productData["imageURL"];
+            $linkName   = $productData["altName"];
+        }
+        
+         // fill selectable options inside product form
         function getOptions($nameProd){
-            // returning the options that's gonna be inside the select HTML tag
             global $defaultMoney, $mysqli;
+
             $getOptions = $mysqli->prepare("
                 SELECT pv.sizeProduct, pv.priceProduct, pv.nameProduct, pv.flavor
                 FROM product_version AS pv
                     JOIN product_data AS pd ON pd.idProduct = pv.idProduct
                 WHERE  pd.altName = ?
-            ");
-
+            ") or die("var getOptions (productView.php)" . $mysqli->errno);
             $getOptions->bind_param("s", $nameProd);
+
             $getOptions->execute();
             $result = $getOptions->get_result();
+            $getOptions->close();
             
             while($options = $result->fetch_assoc()){
                 $price = numfmt_format_currency($defaultMoney, $options['priceProduct'], "BRL");
@@ -155,7 +141,6 @@
                 }
                 echo " <option value='{$options["nameProduct"]}' data-preco='{$price}'>{$text}</option>";
             }
-            $getOptions->close();
         }
     }
 ?>
@@ -173,26 +158,26 @@
     <?php displayFavicon()?>
 
     <script>
-        // Script to update the prices of each product selected in real time
+        // Update the prices of each product variant selected in real time
         document.addEventListener('DOMContentLoaded', function () {
-            const priceElements = document.querySelectorAll('.product-price-value');
-            const sizeSelectors = document.querySelectorAll('.product-size-selector');
+            const priceElements = document.querySelectorAll('.product-price-value')
+            const sizeSelectors = document.querySelectorAll('.product-size-selector')
 
-            function updatePrices() {
+            function updatePrices(){
                 sizeSelectors.forEach((selector, index) => {
-                    const selectedOption = selector.options[selector.selectedIndex];
-                    const price = selectedOption.dataset.preco || 'Preço indisponível';
-                    if (priceElements[index]) {
-                        priceElements[index].textContent = price;
+                    const selectedOption = selector.options[selector.selectedIndex]
+                    const price = selectedOption.dataset.preco || 'Preço indisponível'
+                    if(priceElements[index]){
+                        priceElements[index].textContent = price
                     }
-                });
+                })
             }
             updatePrices();
 
             sizeSelectors.forEach(selector => {
-                selector.addEventListener('change', updatePrices);
-            });
-        });
+                selector.addEventListener('change', updatePrices)
+            })
+        })
     </script>
     
     <style>
@@ -202,18 +187,13 @@
         }
     </style>
 
-    <title>Açaí e Polpas Amazônia | <?php echo $printName?></title>
-
+    <title>Açaí e Polpas Amazônia | <?php echo $printName?> </title>
 </head>
+
 <body>
     <main class="rise-above product-view">
         <div class="back-button" onclick="window.location.href = 'products.php'">
-            <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M21.875 12.5C21.875 17.6777 17.6777 21.875 12.5 21.875C7.32233 21.875 3.125 17.6777 3.125 12.5C3.125 7.32233 7.32233 3.125 12.5 3.125C17.6777 3.125 21.875 7.32233 21.875 12.5Z" stroke="currentColor" stroke-width="1.5"/>
-                <path d="M8.33398 12.5H16.6673" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M11.4586 9.375L8.42427 12.4094C8.3742 12.4594 8.3742 12.5406 8.42427 12.5906L11.4586 15.625" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-
+            <?php echo getIcon("back") ?>
             <span>Voltar</span>
         </div>
 
@@ -225,15 +205,14 @@
                 }
 
                 echo "
-                    <div class='hero'>
+                    <div class='product'>
                         <img src='{$image}' alt='product image'>
-
-                        <div class='container'>
+                        <div class='content'>
                             <div class='title'>
                                 <p>{$brand}</p>
                                 <h1>{$printName}</h1>
                             </div>
-                            
+
                             <div class='price product-price-value'><span>R$ 00,00</span></div>
 
                             <form method='GET'>
@@ -254,12 +233,10 @@
                         </div>
                     </div>
                 ";
-
             }
         ?>
 
-        
-
+        <div class="fot-copy">2026 &copy; Açaí e Polpas Amazônia</div>
 
         <?php 
             /*
@@ -319,5 +296,8 @@
                */ 
         ?>
     </main>
+
+    <script src="/js/script.js"></script>
+
 </body>
 </html>

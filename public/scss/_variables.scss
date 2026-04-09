@@ -12,11 +12,11 @@ $desktop_outer: 1500px;
     --font-serif: "Bricolage Grotesque", "serif";
     --font-sans: "Quicksand", "sans-serif";
 
-    --radius: 0.5em;
-    --radius-sm: var(--radius);
-    --radius-m: calc(var(--radius) + 1em);
-    --radius-lg: calc(var(--radius) + 3em);
-    --radius-xg: calc(var(--radius) + 5em);
+    --radius: 0.25em;
+    --radius-sm: calc(var(--radius) + 0.25em);
+    --radius-m: calc(var(--radius-sm) + 1em);
+    --radius-lg: calc(var(--radius-sm) + 3em);
+    --radius-xg: calc(var(--radius-sm) + 5em);
 
     --black: #000000;
     --white: #FFFFFF;

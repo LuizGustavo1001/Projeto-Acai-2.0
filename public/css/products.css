@@ -3,11 +3,11 @@
   --font-style: "Delius Swash Caps", "cursive";
   --font-serif: "Bricolage Grotesque", "serif";
   --font-sans: "Quicksand", "sans-serif";
-  --radius: 0.5em;
-  --radius-sm: var(--radius);
-  --radius-m: calc(var(--radius) + 1em);
-  --radius-lg: calc(var(--radius) + 3em);
-  --radius-xg: calc(var(--radius) + 5em);
+  --radius: 0.25em;
+  --radius-sm: calc(var(--radius) + 0.25em);
+  --radius-m: calc(var(--radius-sm) + 1em);
+  --radius-lg: calc(var(--radius-sm) + 3em);
+  --radius-xg: calc(var(--radius-sm) + 5em);
   --black: #000000;
   --white: #FFFFFF;
   --light-shadow: #0000000c;
@@ -84,70 +84,56 @@ main {
   flex-direction: column;
   gap: 1em;
 }
+.hero .container .search-label {
+  margin-bottom: 1em;
+}
+.hero .container .search-label em {
+  font-weight: bold;
+}
 .hero .container .category .products {
   padding-inline: 1em;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1em;
 }
-.hero .container .category .products .product {
-  min-width: 0;
-  width: 100%;
-  max-width: 100%;
-}
 
 .product-view {
   width: clamp(0px, 98vw, 800px);
 }
-.product-view .hero {
-  margin-top: 0.5em;
-  padding: 1em;
-  background: var(--white);
-  border-radius: var(--radius-sm);
-  box-shadow: 0px 0px 10px var(--light-shadow);
+.product-view .product {
+  margin-block: 0.5em;
+  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 1em;
 }
 @media (min-width: 768px) {
-  .product-view .hero {
+  .product-view .product {
     flex-direction: row;
   }
 }
-.product-view .hero img {
+.product-view .product img {
   margin-inline: auto;
   width: clamp(150px, 80vw, 350px);
-  border-radius: var(--radius-sm);
 }
-.product-view .hero .container {
+.product-view .product .content {
   flex: 1;
-  margin: 0;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 1em;
 }
-.product-view .hero .container .title {
-  border-left: 4px solid var(--pink-350);
-  padding-left: 0.5em;
-}
-.product-view .hero .container .title h1 {
-  font-weight: normal;
-}
-.product-view .hero .container .title p {
-  color: var(--pink-500);
-}
-.product-view .hero .container .price {
+.product-view .product .content .price {
   color: var(--pink-450);
   font-size: clamp(1.6em, 3vw, 2em);
   font-weight: bold;
 }
-.product-view .hero .container form, .product-view .hero .container form .inputs {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5em;
+.product-view .product .content h1 {
+  font-size: clamp(1.5em, 2vw, 1.8em);
 }
-.product-view .hero .container form {
-  gap: 1em;
+.product-view .product .content p {
+  font-size: clamp(1em, 2vw, 1.1em);
 }
 
 .dark-mode .title-hero {
@@ -156,6 +142,9 @@ main {
   background-size: cover;
 }
 .dark-mode .title-hero p {
+  color: var(--pink-300);
+}
+.dark-mode .product-view .price {
   color: var(--pink-300);
 }
 

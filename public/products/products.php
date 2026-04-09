@@ -35,37 +35,36 @@
             $amount = $searchResult->num_rows;
             $getSearchReturn->close();
 
-            echo "<li class='products-category'>";
-
+            echo '<div class="category">';
+                    
             switch($amount){
                 case 0:
                     echo "
-                        <div style=\"font-weight: normal;\" class='search-result'>
-                            <h1> 
-                                Nenhum Produto Encontrado com o Nome:
-                                <strong style=\"color: var(--secondary-clr)\"><em>$prodName</em></strong>
-                            </h1>
-                        </div>
+                    <div class='search-label'>
+                        <p>Nenhum Produto encontrado com o nome <em>$prodName</em> encontrado</p>
+                    </div>
+
+                    <div class='products'>
                     ";
                     break;
                 
                 default:
                     echo "
-                        <div style='font-weight: normal; margin-bottom: 2em;'class='search-result'>
-                            <h1> 
-                                Produtos Encontrados com o filtro:
-                                <strong style='color: var(--secondary-clr)'><em>$prodName</em></strong>
-                            </h1>
+                        <div class='search-label'>
+                            <p>Produtos encontrados com o nome: <em>$prodName</em></p>
                         </div>
-                        <ul class='products'>
+
+                        <div class='products'>
                     ";
 
                     while ($row = $searchResult->fetch_assoc()) {
                         getProductByName($row["altName"], "product");
                     }
-                    echo "</ul>";
                 break;
             }
+            echo '  </div>
+                </div>
+            ';
         }
     }
     
@@ -92,23 +91,19 @@
             $getProductFilter->bind_param("s", $type);
 
             $getProductFilter->execute();
-
-            $vector = [];
             $result = $getProductFilter->get_result();
             $getProductFilter->close();
 
-            while($row = $result->fetch_assoc()){
-                $vector[] = $row["altName"];
-            }
+            $vector = [];
+            while($row = $result->fetch_assoc()){ $vector[] = $row["altName"]; }
             $vector = array_unique($vector); // removing duplicates
 
             foreach($vector as $name){ getProductByName($name, ""); }
         }else{
             echo "
-            <div class='errorText'>
-                <i class=\"fa-solid fa-triangle-exclamation\"></i>
-                <p>Erro: Nenhum Produto encontrado com o Tipo Inserido</p>
-            </div>
+                <div class='search-label'>
+                    <p>Erro: Nenhum Produto encontrado com o Tipo Inserido</p>
+                </div>
             ";
         }
     }
@@ -169,18 +164,17 @@
                 <?php 
                     if(isset($_GET["nameProd"])){
                         echo prodSearchOutput($_GET["nameProd"]);
-                        echo "</li>";
                     }
                 ?>
+
+
 
                 <div class="category">
                     <div class='section-title'>
                         <h1>Cremes</h1>
                     </div>
 
-                    <div class="products">
-                        <?php categoryItens("Creme", $_GET["filter"] ?? "noFilter") ?> 
-                    </div>
+                    <div class="products"> <?php categoryItens("Creme", $_GET["filter"] ?? "noFilter") ?> </div>
                 </div>
 
                 <div class="category">
@@ -188,9 +182,7 @@
                         <h1>Adicionais</h1>
                     </div>
 
-                    <div class="products">
-                        <?php categoryItens("Adicional", $_GET["filter"] ?? "noFilter") ?> 
-                    </div>
+                    <div class="products"> <?php categoryItens("Adicional", $_GET["filter"] ?? "noFilter") ?> </div>
                 </div>
 
                 <div class="category">
@@ -198,9 +190,7 @@
                         <h1>Outros</h1>
                     </div>
 
-                    <div class="products">
-                        <?php categoryItens("Outro", $_GET["filter"] ?? "noFilter") ?> 
-                    </div>
+                    <div class="products"> <?php categoryItens("Outro", $_GET["filter"] ?? "noFilter") ?> </div>
                 </div>
             </div>
         </section>

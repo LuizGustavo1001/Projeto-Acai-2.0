@@ -1,5 +1,4 @@
 <?php
-
 function getIcon($name){
     $icons = [
         "indexFilled" => "

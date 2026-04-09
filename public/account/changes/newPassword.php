@@ -65,7 +65,7 @@
 
 <body>
     <main class="rise-above">
-        <div class="back-button" onclick="window.location.href = '/index.php'">
+        <div class="back-button" onclick="window.location.href = '/account/account.php'">
             <?php echo getIcon("back")?>
             <span>Voltar</span>
         </div>
@@ -81,7 +81,7 @@
                 <p>Insira a <strong>senha vinculado</strong> a sua conta e a <strong>nova senha</strong> para realizar a alteração.</p>
             </div>
 
-            <form method="post">
+            <form method="post" class="regular-form">
                 <div class="regular-input">
                     <label for="ipassword">Senha anterior: </label>
                     <input type="password" name="password" id="ipassword" maxlength="30" placeholder="• • • • • • • • • •" required>

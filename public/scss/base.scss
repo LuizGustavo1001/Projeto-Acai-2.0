@@ -12,7 +12,6 @@
     transition: var(--time, 0.2s) linear;
 }
 
-
 /* =-=-=-=-=-=-=-=-=-= GENERAL =-=-=-=-=-=-=-=-=-= */
 body{
     position: relative;
@@ -85,12 +84,12 @@ details{
 
 
 .section-title{
-    border-left: 4px solid var(--pink-500);
     padding: 0.5em;
-
     margin-bottom: 1em;
-
+    border-left: 4px solid var(--pink-500);
+    
     h1{
+        font-size: clamp(1.5em, 4vw, 2em);
         font-family: var(--font-serif);
         color: var(--pink-500);
     }
@@ -180,6 +179,11 @@ details{
         gap: 0.5em;
         grid-template-columns: auto 30%;
     }
+}
+
+.fot-copy{
+    text-align: center;
+    color: var(--pink-700);
 }
 
 /* =-=-=-=-=-=-=-=-=-= HEADER =-=-=-=-=-=-=-=-=-= */
@@ -285,7 +289,8 @@ header{
                 }
 
                 .icon{
-                    padding: 0.2em 1em;
+                    @include m.flex-center;
+                    padding: 0.3em 1em;
 
                     border-radius: var(--radius-lg);
                     
@@ -396,8 +401,9 @@ footer{
     flex-direction: column;
     gap: 1em;
 
-    min-width: 260px;
-    max-width: 260px;
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
     
     padding: 1em;
 
@@ -406,7 +412,7 @@ footer{
     box-shadow: 0px 0px 10px var(--light-shadow);
     background: var(--white);
 
-    &:hover{
+    &.hover:hover{
         border-color: var(--pink-300);
         transform: scale(0.985);
     }
@@ -414,8 +420,19 @@ footer{
     img{ 
         width: 100%;
         aspect-ratio: 1/1;
-        border-radius: var(--radius-sm);
-     }
+        border-radius: var(--radius);
+    }
+
+    form{ 
+        &, .inputs{
+            display: flex;
+            flex-direction: column;
+            gap: 0.5em;
+        }
+        gap: 1em;
+
+        .regular-btn{ font-size: 1em; }
+    }
 
     .content{
         display: flex;
@@ -423,7 +440,7 @@ footer{
         gap: 1em;
 
         .title{
-            border-left: 4px solid var(--pink-350);
+            border-left: 4px solid var(--pink-400);
             padding-left: 0.5em;
 
             h1, p{
@@ -435,8 +452,9 @@ footer{
                 font-weight: normal;
             }
             p{ 
-                color: var(--pink-450);
-                font-size: clamp(0.9em, 2vw, 1em)
+                color: var(--pink-400);
+                font-size: clamp(0.9em, 2vw, 1em);
+                font-weight: bold;
             }
         }
 
@@ -581,7 +599,7 @@ footer{
 
     .product{
         background: var(--pink-900);
-        &:hover{
+        &.hover:hover{
             border-color: var(--pink-800);
         }
 
