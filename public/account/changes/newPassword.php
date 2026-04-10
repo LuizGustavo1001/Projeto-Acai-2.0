@@ -16,7 +16,7 @@
         // update the password
         $sanitizedPassword = htmlspecialchars($_POST["password"], ENT_QUOTES, 'UTF-8');
 
-        $stmt = $mysqli->prepare("SELECT userPassword FROM user_data WHERE idUser = ?") or die($mysqli->errno);
+        $stmt = $mysqli->prepare("SELECT userPassword FROM user_data WHERE idUser = ?") or die("var stmt (newPassword.php): " . $mysqli->errno);
         $stmt->bind_param("i", $_SESSION["idUser"]);
 
         $stmt->execute();
@@ -39,7 +39,7 @@
                 WHERE idUser = ?
             ");
 
-            $updatePassword->bind_param("si", $hashedPassword, $_SESSION["idUser"]) or die($mysqli->errno);
+            $updatePassword->bind_param("si", $hashedPassword, $_SESSION["idUser"]) or die("var updatePassword (newPassword.php): " . $mysqli->errno);
             $updatePassword->execute();
             $updatePassword->close();
             session_destroy();

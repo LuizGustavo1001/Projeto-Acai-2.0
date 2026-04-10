@@ -71,9 +71,7 @@
                         $insertOrder->close();
                     }
 
-                    // redirect to product page
-                    header("Location: products.php?prodAdd=1&id={$productData['printName']}&size={$productData['sizeProduct']}");
-                    exit();
+                    setCookies("prodAdd", "products.php", 1);
             }
         }
     }
@@ -235,69 +233,9 @@
                 ";
             }
         ?>
-
         <div class="fot-copy">2026 &copy; Açaí e Polpas Amazônia</div>
-
-        <?php 
-            /*
-            if(in_array($_GET["id"], $allowedNames)){
-                $submitButton = "";
-                if(! isset($_SESSION["isAdmin"])){
-                    $submitButton = "<li><button class='regular-button'>Adicionar ao Carrinho</button> </li>";
-                }
-
-                echo "
-                    <div class='back-button'>
-                        <a href='products.php#{$linkName}'>
-                            <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'>
-                                <path stroke-linecap='round' stroke-linejoin='round' d='M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3'/>
-                            </svg>
-                            Voltar
-                        </a>
-                    </div>
-
-                    <div class='product-hero'>
-                        <div class='product-img'>
-                            <img src='{$image}' alt='Product Image'>
-                        </div>
-
-                        <div class='product-data'>
-                            <div class='data-title'>
-                                <p><span>{$brand}</span></p>
-                                <h1>{$printName}</h1>
-                            </div>
-                            <p class='price product-price-value'>--</p>
-                            <form method='GET'>
-                                <ul class='product-var-list'>
-                                    <li class='product-var regular-input'>
-                                        <label for='isize'>Tamanho: </label>
-                                        <select name='size' id='isize' class='product-size-selector'>";
-                                             getOptions($realName);
-                echo "                  </select>
-                                    </li>
-                                    <li class='product-var regular-input'>
-                                        <label for='iamount'>Quantidade: </label>
-                                        <input type='number' name='amount' id='iamount' value='1'>
-                                    </li>
-                                    {$submitButton}
-                                </ul>
-                            </form>
-                        </div>
-                    </div>
-                ";                   
-            }else{
-                echo "
-                    <div class= 'errorText'>
-                        <i class=\"fa-solid fa-triangle-exclamation\"></i>
-                        <p>Erro: Nenhum Produto encontrado com o Id Selecionado</p>
-                    </div>
-                ";
-            }
-               */ 
-        ?>
     </main>
 
     <script src="/js/script.js"></script>
-
 </body>
 </html>

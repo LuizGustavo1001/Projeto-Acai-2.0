@@ -5,6 +5,36 @@
     require_once "../printStyles.php";
 
     checkSession();
+
+    $mapCategories = [
+        "cream" => [
+            "title" => "Cremes",
+            "label" => "Creme",
+        ],
+        "additional" => [
+            "title" => "Adicionais",
+            "label" => "Adicional",
+        ],
+        "other" => [
+            "title" => "Outros",
+            "label" => "Outro",
+        ],
+    ];
+
+    function displayCategories($map){
+        foreach($map as $item){
+            echo "
+                <div class='category'>
+                    <div class='section-title'><h1>{$item['title']}</h1></div>
+
+                    <div class='products'>";
+                    categoryItens($item["label"], $_GET['filter'] ?? 'nofilter');
+            echo "  </div>
+                </div>
+            ";
+        }
+    }
+
     function prodSearchOutput($prodName){ 
         // search bar result at products.php
         global $mysqli;
@@ -72,6 +102,7 @@
         // print the products based on the selected filter on HTML
         global $mysqli;
 
+        // mapping the allowed producs type
         $getAllTypes = $mysqli->query("SELECT typeProduct FROM product_data") or die($mysqli->errno);
         $allowedTypes = [];
         while($allTypes = $getAllTypes->fetch_assoc()){ $allowedTypes[] = $allTypes["typeProduct"]; }
@@ -101,9 +132,7 @@
             foreach($vector as $name){ getProductByName($name, ""); }
         }else{
             echo "
-                <div class='search-label'>
-                    <p>Erro: Nenhum Produto encontrado com o Tipo Inserido</p>
-                </div>
+                <div class='search-label'> <p>Erro: Nenhum Produto encontrado com o Tipo Inserido</p> </div>
             ";
         }
     }
@@ -139,16 +168,12 @@
         <section class="hero rise-above">
             <div class="filter-area">
                 <form method="GET" class="search-input">
-                    <label for="inameProd">
-                        <?php echo getIcon("search") ?>
-                    </label>
-
+                    <label for="inameProd"> <?php echo getIcon("search") ?> </label>
                     <input type="text" name="nameProd" id="inameProd" placeholder="<?= htmlspecialchars($_GET['nameProd'] ?? 'Nome do Produto') ?>">
                 </form>
+
                 <details class="sort-btn outer-btn">
-                    <summary>
-                        <?php echo getIcon("sort") ?>
-                    </summary>
+                    <summary> <?php echo getIcon("sort") ?> </summary>
 
                     <nav>
                         <a href="products.php?filter=idProd">Identificador</a>
@@ -162,36 +187,10 @@
 
             <div class="container">
                 <?php 
-                    if(isset($_GET["nameProd"])){
-                        echo prodSearchOutput($_GET["nameProd"]);
-                    }
+                    if(isset($_GET["nameProd"])){ echo prodSearchOutput($_GET["nameProd"]); } 
+
+                    displayCategories($mapCategories);
                 ?>
-
-
-
-                <div class="category">
-                    <div class='section-title'>
-                        <h1>Cremes</h1>
-                    </div>
-
-                    <div class="products"> <?php categoryItens("Creme", $_GET["filter"] ?? "noFilter") ?> </div>
-                </div>
-
-                <div class="category">
-                    <div class='section-title'>
-                        <h1>Adicionais</h1>
-                    </div>
-
-                    <div class="products"> <?php categoryItens("Adicional", $_GET["filter"] ?? "noFilter") ?> </div>
-                </div>
-
-                <div class="category">
-                    <div class='section-title'>
-                        <h1>Outros</h1>
-                    </div>
-
-                    <div class="products"> <?php categoryItens("Outro", $_GET["filter"] ?? "noFilter") ?> </div>
-                </div>
             </div>
         </section>
     </main>

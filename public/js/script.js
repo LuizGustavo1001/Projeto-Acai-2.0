@@ -148,6 +148,7 @@ function fillWarning(message, type){
             errorText         : "O <strong>valor inserido</strong> é o mesmo já cadastrado.",
             wrongP            : "<strong>Senha Anterior Inserida</strong> não está cadastrada.",
             sameP             : "<strong>Senha Anterior</strong> e <strong>Nova Senha</strong> inseridas são as mesmas.",
+            prodRem           : "<strong>Produto</strong> removido do carrinho com <strong>sucesso</strong>.",
             dev               : "Função ainda em <strong>desenvolvimento</strong>",
     }
 

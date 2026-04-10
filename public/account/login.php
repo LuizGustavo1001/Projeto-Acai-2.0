@@ -30,7 +30,7 @@
             FROM user_data
             WHERE userMail = ?
             LIMIT 1
-        ") or die($mysqli->errno);
+        ") or die("var getUser (login.php): " . $mysqli->errno);
         $getUser->bind_param("s", $inputEmail);
 
         $getUser->execute();
@@ -43,7 +43,7 @@
         if(! password_verify($inputPassword, $user["userPassword"])){ setCookies("errorLogin", "login.php", 0); }
 
         // verify user type
-        $getUserType = $mysqli->prepare("SELECT idClient FROM client_data WHERE idClient = ?") or die($mysqli->error);
+        $getUserType = $mysqli->prepare("SELECT idClient FROM client_data WHERE idClient = ?") or die("var getUserType (login.php): " . $mysqli->error);
         $getUserType->bind_param("i", $user["idUser"]);
 
         $getUserType->execute();
@@ -72,13 +72,13 @@
             $currentDate = date("Y-m-d");
             $currentHour = date("H:i:s");
 
-            $newOrder = $mysqli->prepare("INSERT INTO order_data (idClient, orderDate, orderHour) VALUES (?, ?,?)") or die($mysqli->error);
+            $newOrder = $mysqli->prepare("INSERT INTO order_data (idClient, orderDate, orderHour) VALUES (?, ?,?)") or die("var newOrder (login.php): " . $mysqli->error);
             $newOrder->bind_param("iss", $_SESSION["idUser"], $currentDate, $currentHour);
 
             $newOrder->execute();
+            $newOrder->close();
 
             $_SESSION["idOrder"] = $mysqli->insert_id;
-            $newOrder->close();
             verifyOrders();
 
             setCookies("loginSuccess", "../index.php", 1);

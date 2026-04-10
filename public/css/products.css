@@ -50,27 +50,6 @@ main {
   }
 }
 
-.title-hero {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  text-align: center;
-  padding: 2em 1em;
-  margin-bottom: 1.5em;
-  border-radius: var(--radius-sm);
-  box-shadow: 0px 0px 10px var(--light-shadow);
-  background: var(--white) url("https://res.cloudinary.com/dw2eqq9kk/image/upload/v1775004022/damascus-pattern-grey-free-png_1_dsvn0g.png");
-  background-size: cover;
-}
-.title-hero h1 {
-  font-family: var(--font-serif);
-}
-.title-hero p {
-  color: var(--pink-700);
-  font-size: 0.9em;
-}
-
 .hero .filter-area {
   display: flex;
   justify-content: space-between;
@@ -136,14 +115,6 @@ main {
   font-size: clamp(1em, 2vw, 1.1em);
 }
 
-.dark-mode .title-hero {
-  box-shadow: 0px 0px 10px var(--shadow);
-  background: var(--pink-900) url("https://res.cloudinary.com/dw2eqq9kk/image/upload/v1775004022/damascus-pattern-grey-free-png_1_dsvn0g.png");
-  background-size: cover;
-}
-.dark-mode .title-hero p {
-  color: var(--pink-300);
-}
 .dark-mode .product-view .price {
   color: var(--pink-300);
 }

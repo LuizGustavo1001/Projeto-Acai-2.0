@@ -28,7 +28,7 @@
             SELECT userMail 
             FROM user_data 
             WHERE userMail = ?
-        ") or die($mysqli->errno);
+        ") or die("var verifyEmail (register.php): " . $mysqli->errno);
         $verifyEmail->bind_param("s", $inputEmail);
 
         $verifyEmail->execute();
@@ -54,7 +54,7 @@
                     $insertData = $mysqli->prepare("
                             INSERT INTO user_data (userName, userMail, userPassword, userPhone, district, localNum, referencePoint, street, city, state) VALUES 
                                 (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-                    ) or die($mysqli->errno);
+                    ) or die("var insertData (register.php): " . $mysqli->errno);
 
                     $insertData->bind_param("ssssssssss", $name, $inputEmail, $password, $phone, $district, $houseNum, $reference, $street, $city, $state);
                     $insertData->execute();
@@ -62,7 +62,7 @@
 
                     // insert the user as client (default)
                     $clientId = $mysqli->insert_id;
-                    $insertClient = $mysqli->prepare("INSERT INTO client_data (idClient) VALUES (?)") or die($mysqli->errno);
+                    $insertClient = $mysqli->prepare("INSERT INTO client_data (idClient) VALUES (?)") or die("var insertClient (register.php): " . $mysqli->errno);
                     $insertClient->bind_param("i", $clientId);
                     $insertClient->execute();
                     $insertClient->close();

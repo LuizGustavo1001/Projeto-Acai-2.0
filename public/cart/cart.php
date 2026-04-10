@@ -30,20 +30,18 @@
             SELECT SUM(totPrice) AS totalPrice
             FROM product_order 
             WHERE idOrder = ?
-        ") or die($mysqli->errno);
+        ") or die("var getTotalPrice (cart.php): " . $mysqli->errno);
         $getTotalPrice->bind_param("i", $clientOrder);
 
         $getTotalPrice->execute();
+
         $result = $getTotalPrice->get_result();
         $getTotalPrice->close();
-
         $price = $result->fetch_assoc();
 
-        if($price["totalPrice"]){
-            return numfmt_format_currency($defaultMoney, $price['totalPrice'], "BRL");
-        }
+        $totalPrice = numfmt_format_currency($defaultMoney, $price['totalPrice'], "BRL");
 
-        return "R$ 00,00";
+        return $price["totalPrice"] ? $totalPrice : "R$ 00,00";
     }
 
     // print all the products in the cart
@@ -54,7 +52,7 @@
             SELECT *
             FROM product_order 
             WHERE idOrder = ?
-        ") or die($mysqli->errno);
+        ") or die("var getProdsFromCart(cart.php): " . $mysqli->errno);
 
         $getProdsFromCart->bind_param("i", $_SESSION['idOrder']);
         
@@ -76,10 +74,10 @@
                         FROM product_data AS pd 
                             JOIN product_version AS pv ON pv.idProduct = pd.idProduct 
                         WHERE pv.idVersion = ?
-                    ") or die($mysqli->errno);
+                    ") or die("var rescueProd(cart.php): " . $mysqli->errno);
                     $rescueProd->bind_param("i" ,$row["idVersion"]);
 
-                    $totalPrice = $row["totPrice"];
+                    $totalPrice = isset($row["totPrice"]) ? (float)$row["totPrice"] : 0.0;
                     
                     $rescueProd->execute();
                     $prodResult = $rescueProd->get_result();
@@ -89,43 +87,32 @@
 
                     $prodName = $prodData["flavor"] == null ? $prodName = $prodData["printName"] . " - " . $prodData["sizeProduct"] : $prodName = $prodData["printName"] . " - " . $prodData["flavor"];
 
+                    $trashBin = getIcon("trash-bin");
+                    $totalPrice = numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $totalPrice, "BRL");
+
                     echo "
                         <li>
-                            <div style=\"position: relative; display: inline-block;\">
-                                <div class=\"item-amount\">" . $row["amount"] ."</div>
-                                <img src=" . $prodData["imageURL"] .  ">
+                            <div>
+                                <img src='{$prodData['imageURL']}' alt='product image'>
+                                <span>
+                                    <p class='line-clamp'><strong>{$prodName}</strong></p>
+                                    <p class='line-clamp'>Quantidade: <strong>{$row["amount"]}</strong></p>
+                                    <p class='line-clamp'>Total: <strong>{$totalPrice}</strong></p>
+                                </span>
                             </div>
-                            <ul>
-                                <li><strong>". $prodName . "</strong></li>
-                                <li> Quantidade: ". $row["amount"] . "</li>
-                                <li class=\"price\"> Total: "
-                                .numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $totalPrice  , "BRL") ." 
-                                </li>
-                                
-                            </ul>
-                            <a href=\"removeProduct.php?name=" . $prodData["nameProduct"] . "\">
-                                <abbr title=\"Remover Item do Carrinho\">
-                                    <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"size-6\">
-                                        <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0\" />
-                                    </svg>
-                                </abbr>
-                            </a>
+                            <a href='removeProduct.php?name={$prodData['nameProduct']}' aria-label='Remover item do carrinho'> {$trashBin} </a>
                         </li>
                     ";
                 }
-            }
+        }
     }
     
     if(isset($_GET["orderConfirmed"])){
         // adding the cart to the spreadsheet
         $total =  getCartTotal($_SESSION["idOrder"]);
-        if($total == 'R$ 00,00'){
-            header("location: cart.php?noItem=1");
-            exit();
-        }
+        if($total == 'R$ 00,00'){ setCookies("noItem", "cart.php", 0); }
 
-        $Address = $_SESSION["street"]  . ", " . $_SESSION["localNum"] . ", " .
-                $_SESSION["district"] . " - " . $_SESSION["city"];
+        $Address = $_SESSION["street"]  . ", " . $_SESSION["localNum"] . ", " . $_SESSION["district"] . " - " . $_SESSION["city"];
         $currentDate = date("Y-m-d");
         $currentHour = date("H:i:s");
 
@@ -136,7 +123,7 @@
                 JOIN product_order AS o ON pv.idVersion = o.idVersion
                 JOIN product_data AS pd ON pv.idProduct = pd.idProduct
             WHERE idOrder = ?;
-        ");
+        ") or die("var rescueProd(cart.php): ". $mysqli->errno);
         $rescueProd->bind_param("i", $_SESSION["idOrder"]);
 
         $rescueProd->execute();
@@ -144,11 +131,9 @@
         
         $allProd = "";
         while($row = $rescueProd->fetch_assoc()){
-            if($row["flavor"] == null){
-                $name = $row["name"] . " - " . $row["sizeProduct"];
-            }else{
-                $name = $row["name"] . " - " . $row["flavor"];
-            }
+
+            $name = $row["flavor"] == null ? $row["name"] . " - " . $row["sizeProduct"] : $row["name"] . " - " . $row["flavor"];
+
             $allProd .= "($name / {$row['amount']} / R$ {$row['totPrice']} ) \n";
         }
         $rescueProd->close();
@@ -168,18 +153,48 @@
 
         // creating a new order after confirming the last one
         $ordeStatus = "Finalizado";
-        $newOrder = $mysqli->prepare("INSERT INTO order_data (idClient, orderDate, orderHour, orderStatus) VALUES (?, ?, ?, ?);");
+        $newOrder = $mysqli->prepare("INSERT INTO order_data (idClient, orderDate, orderHour, orderStatus) VALUES (?, ?, ?, ?);") or die("var newOrder(cart.php): ". $mysqli->errno);
         $newOrder->bind_param("isss", $_SESSION["idUser"], $currentDate,  $currentHour, $ordeStatus);
+        
         $newOrder->execute();
         $newIdOrder = $mysqli->insert_id;
         $newOrder->close();
 
         $_SESSION["idOrder"] = $newIdOrder;
 
-        header("location: ../index.php?orderConfirmed=1");
-        exit();
+        setCookies("orderConfirmed", "/index.php", 1);
     }
     checkSession();
+
+    $address = "{$_SESSION['street']}, {$_SESSION['localNum']} - {$_SESSION['district']}, {$_SESSION['city']} - {$_SESSION['state']} <br> <em>{$_SESSION['referencePoint']}</em>";
+
+    function fillCostumerInfo($icon, $label, $value){
+        $icon = getIcon($icon);
+        $iconBg = getIcon("iconBg");
+
+        echo "
+            <li>
+                <div class='icon-box'>
+                    {$iconBg}
+                    {$icon}
+                </div>
+
+                <div class='text'>
+                    <p class='line-clamp'><strong>{$label}</strong></p>
+                    <p class='line-clamp'>{$value}</p>
+                </div>
+            </li>
+        ";
+    }
+
+    function fillOrderOverview($label, $value){
+        echo "
+            <li>
+                <div class='label line-clamp'>{$label}</div>
+                <p class='text line-clamp'><strong>{$value}</strong></p>
+            </li>
+        ";
+    }
 ?>
 
 
@@ -190,14 +205,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="<?php printStyle("main") ?>">
+    <link rel="stylesheet" href="<?php printStyle("cart") ?>">
 
     <?php displayFavicon()?>
 
     <title>Açaí e Polpas Amazônia | Carrinho</title>
 </head>
 <body>
+    <div class="dazzles-bg fade-in mobile"></div>
+
     <?php displayHeader("cart")?>
 
+    <main>
+        <section class="title-hero rise-above" style="--time-outer: 0.5s">
+            <h1>Carrinho</h1>
+            <p>
+                Caso algum de seus <strong>dados pessoais</strong> estejam incorretos, clique no botão <strong>Editar</strong>. <br>
+                Clique em <strong>confirmar pedido</strong> para finalizar a compra.
+            </p>
+        </section>
+
+        <section class="hero rise-above">
+            <div class="left container">
+                <div class="item costumer">
+                    <div class="title"><h1>Informações do Cliente</h1></div>
+
+                    <ul class="content">
+                        <?php 
+                            fillCostumerInfo("userFilled", "Cliente", $_SESSION["userName"]);
+                            fillCostumerInfo("maps_outer", "Endereço", $address);
+                            fillCostumerInfo("phone", "Telefone", $_SESSION["userPhone"]);
+                        ?>
+                        <a href="../account/account.php" class="regular-btn">Editar dados pessoais</a>
+                    </ul>
+                </div>
+
+                <div class="item overview">
+                    <div class="title"><h1>Resumo do Pedido</h1></div>
+
+                    <ul class="content">
+                        <?php 
+                            fillOrderOverview("Subtotal", getCartTotal($_SESSION["idOrder"]));
+                            fillOrderOverview("Taxa de entrega", "R$ 00,00");
+                            fillOrderOverview("Total", getCartTotal($_SESSION["idOrder"]));
+                        ?>
+                        <a href="cart.php?orderConfirmed=1" class="regular-btn">Confirmar Pedido</a>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="right container">
+                <div class="item review">
+                    <div class="title"><h1>Revisão dos Itens</h1></div>
+
+                    <ul class="content">
+                        <?php GetCartProd() ?>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+                <!--
     <main>
         <section class="title">
             <h1>Carrinho</h1>
@@ -302,7 +371,7 @@
             </div>
         </section>
     </main>
-    
+            -->
     <?php displayFooter()?>
 
     <script src="/js/script.js"></script>

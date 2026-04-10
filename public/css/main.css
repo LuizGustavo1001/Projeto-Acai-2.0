@@ -114,7 +114,7 @@
   position: relative;
 }
 .icon-box .icon-bg,
-.icon-box .icon {
+.icon-box .icon-svg {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -126,7 +126,7 @@
   color: var(--white);
   z-index: 0;
 }
-.icon-box .icon {
+.icon-box .icon-svg {
   width: calc(100% - 0.8em);
   height: calc(100% - 0.8em);
   color: var(--pink-800);
@@ -135,7 +135,7 @@
 .icon-box.hover:hover .icon-bg {
   color: var(--pink-150);
 }
-.icon-box.hover:hover .icon {
+.icon-box.hover:hover .icon-svg {
   color: var(--pink-500);
 }
 
@@ -266,7 +266,6 @@ body {
   margin-inline: auto;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   gap: 1em;
   background: var(--pink-150);
   color: var(--pink-850);
@@ -280,6 +279,10 @@ body {
 a {
   text-decoration: none;
   color: inherit;
+}
+
+li {
+  list-style-type: none;
 }
 
 svg {
@@ -321,9 +324,9 @@ details nav a:hover {
 }
 
 .section-title {
-  border-left: 4px solid var(--pink-500);
   padding: 0.5em;
   margin-bottom: 1em;
+  border-left: 4px solid var(--pink-500);
 }
 .section-title h1 {
   font-size: clamp(1.5em, 4vw, 2em);
@@ -406,6 +409,27 @@ details nav a:hover {
 .fot-copy {
   text-align: center;
   color: var(--pink-700);
+}
+
+.title-hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 2em 1em;
+  margin-bottom: 1.5em;
+  border-radius: var(--radius-sm);
+  box-shadow: 0px 0px 10px var(--light-shadow);
+  background: var(--white) url("https://res.cloudinary.com/dw2eqq9kk/image/upload/v1775004022/damascus-pattern-grey-free-png_1_dsvn0g.png");
+  background-size: cover;
+}
+.title-hero h1 {
+  font-family: var(--font-serif);
+}
+.title-hero p {
+  color: var(--pink-700);
+  font-size: 0.9em;
 }
 
 /* =-=-=-=-=-=-=-=-=-= HEADER =-=-=-=-=-=-=-=-=-= */
@@ -725,13 +749,13 @@ footer nav {
 .dark-mode .icon-box .icon-bg {
   color: var(--pink-900);
 }
-.dark-mode .icon-box .icon {
+.dark-mode .icon-box .icon-svg {
   color: var(--pink-200);
 }
 .dark-mode .icon-box.hover:hover .icon-bg {
   color: var(--pink-950);
 }
-.dark-mode .icon-box.hover:hover .icon {
+.dark-mode .icon-box.hover:hover .icon-svg {
   color: var(--pink-350);
 }
 .dark-mode .regular-input input, .dark-mode .regular-input select {
@@ -752,6 +776,14 @@ footer nav {
 }
 .dark-mode .back-button span, .dark-mode .back-button svg {
   color: var(--pink-350);
+}
+.dark-mode .title-hero {
+  box-shadow: 0px 0px 10px var(--shadow);
+  background: var(--pink-900) url("https://res.cloudinary.com/dw2eqq9kk/image/upload/v1775004022/damascus-pattern-grey-free-png_1_dsvn0g.png");
+  background-size: cover;
+}
+.dark-mode .title-hero p {
+  color: var(--pink-300);
 }
 .dark-mode footer {
   background: var(--pink-900);

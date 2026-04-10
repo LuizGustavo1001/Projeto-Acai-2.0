@@ -28,7 +28,7 @@
                 $newValue = trim($_POST[$allowedInputs[$i]]);
 
                 if($newValue != ""){
-                    $changeData = $mysqli->prepare("UPDATE user_data SET $allowedInputs[$i] = ? WHERE idUser = ?;") or die($mysqli->errno);
+                    $changeData = $mysqli->prepare("UPDATE user_data SET $allowedInputs[$i] = ? WHERE idUser = ?;") or die("var changeData (login.php): " . $mysqli->errno);
                     $changeData->bind_param("si", $newValue, $_SESSION["idUser"]);
 
                     if($allowedInputs[$i] == "referencePoint" or $allowedInputs[$i] == "state"){

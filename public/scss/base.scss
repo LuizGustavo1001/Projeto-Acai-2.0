@@ -22,7 +22,6 @@ body{
 
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     gap: 1em;
 
     background: var(--pink-150);
@@ -36,6 +35,10 @@ body{
 a{
     text-decoration: none;
     color: inherit;
+}
+
+li{
+    list-style-type: none;
 }
 
 svg{
@@ -185,6 +188,28 @@ details{
     text-align: center;
     color: var(--pink-700);
 }
+
+.title-hero{
+    @include m.flex-center;
+    flex-direction: column;
+    text-align: center;
+
+    padding: 2em 1em;
+    margin-bottom: 1.5em;
+
+    border-radius: var(--radius-sm);
+    box-shadow: 0px 0px 10px var(--light-shadow);
+
+    background: var(--white) url("https://res.cloudinary.com/dw2eqq9kk/image/upload/v1775004022/damascus-pattern-grey-free-png_1_dsvn0g.png");
+    background-size: cover;
+
+    h1{ font-family: var(--font-serif); }
+    p{
+        color: var(--pink-700);
+        font-size: 0.9em;
+    }
+}
+
 
 /* =-=-=-=-=-=-=-=-=-= HEADER =-=-=-=-=-=-=-=-=-= */
 header{
@@ -555,10 +580,10 @@ footer{
 
     .icon-box{
         .icon-bg{ color: var(--pink-900) }
-        .icon{ color: var(--pink-200) }
+        .icon-svg{ color: var(--pink-200) }
         
         &.hover:hover .icon-bg{ color: var(--pink-950) }
-        &.hover:hover .icon{ color: var(--pink-350) }
+        &.hover:hover .icon-svg{ color: var(--pink-350) }
     }
 
     .regular-input{
@@ -590,6 +615,16 @@ footer{
             color: var(--pink-350);
         }
     }
+
+    .title-hero{
+        box-shadow: 0px 0px 10px var(--shadow);
+
+        background: var(--pink-900) url("https://res.cloudinary.com/dw2eqq9kk/image/upload/v1775004022/damascus-pattern-grey-free-png_1_dsvn0g.png");
+        background-size: cover;
+
+        p{ color: var(--pink-300) }
+    }
+
 
     footer{
         background: var(--pink-900);

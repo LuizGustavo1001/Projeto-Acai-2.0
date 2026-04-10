@@ -6,6 +6,4 @@
 
     $mysqli = new mysqli($host, $user, $password, $db);
 
-    if ($mysqli->connect_errno) {
-        echo "Falha ao conectar ao servidor: (" . $mysqli->connect_error . ") ";
-    }
+    if ($mysqli->connect_errno) echo "Falha ao conectar ao servidor: {$mysqli->connect_error}";

@@ -16,7 +16,7 @@
     if(isset($_POST["email"])){
         $sanitizedMail = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
 
-        $stmt = $mysqli->prepare("SELECT userMail FROM user_data WHERE userMail = ?") or die($mysqli->errno);
+        $stmt = $mysqli->prepare("SELECT userMail FROM user_data WHERE userMail = ?") or die("var stmt (password.php):" . $mysqli->errno);
         $stmt->bind_param("s", $sanitizedMail);
 
         $stmt->execute();

@@ -16,7 +16,7 @@
         // update email address
         $sanitizedEmail = filter_var( $_POST["email"], FILTER_SANITIZE_EMAIL);
         
-        $stmt = $mysqli->prepare("SELECT userMail FROM user_data WHERE idUser = ?") or die($mysqli->errno);
+        $stmt = $mysqli->prepare("SELECT userMail FROM user_data WHERE idUser = ?") or die("var stmt (newEmail.php): " . $mysqli->errno);
         $stmt->bind_param("i", $_SESSION["idUser"]);
 
         $stmt->execute();
@@ -40,7 +40,7 @@
                     WHERE idUser = ?
                 ");
 
-                $updateEmail->bind_param("si", $sanitizedNewEmail, $_SESSION["idUser"]) or die($mysqli->errno);
+                $updateEmail->bind_param("si", $sanitizedNewEmail, $_SESSION["idUser"]) or die("var updateEmail (newEmail.php): " . $mysqli->errno);
                 $updateEmail->execute();
                 $updateEmail->close();
                 session_destroy();

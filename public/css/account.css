@@ -66,7 +66,7 @@ main {
 .hero .icon-box .icon-bg {
   color: var(--pink-150);
 }
-.hero .icon-box .icon {
+.hero .icon-box .icon-svg {
   color: var(--pink-850);
 }
 .hero .regular-btn {

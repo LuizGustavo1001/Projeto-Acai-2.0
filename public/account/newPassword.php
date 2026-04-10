@@ -18,7 +18,7 @@
                 UPDATE user_data 
                 SET userPassword = ?
                 WHERE userMail = ?
-            ") or die($mysqli->errno);
+            ") or die("var stmt (newPassword.php): " . $mysqli->errno);
 
             $stmt->bind_param("ss", $newPassword, $_SESSION["userMail"]);
             $stmt->execute();

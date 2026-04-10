@@ -4,7 +4,7 @@ function verifyCartAmount(){
     global $mysqli;
 
     if(isset($_SESSION["idOrder"])){
-        $getCartAmount = $mysqli->prepare("SELECT COUNT(*) AS itemCount FROM product_order WHERE idOrder = ?") or die("idOrder Function:" . $mysqli->errno);
+        $getCartAmount = $mysqli->prepare("SELECT COUNT(*) AS itemCount FROM product_order WHERE idOrder = ?") or die("var getCartAmount (FooterHeader.php):" . $mysqli->errno);
         $getCartAmount->bind_param("i", $_SESSION["idOrder"]);
         
         $getCartAmount->execute();
@@ -93,12 +93,12 @@ function displayHeader($page = "index"){
             </nav>
 
             <div class='toggle-theme desktop'>
-                    <div class='selected-bg'></div>
+                <div class='selected-bg'></div>
 
-                    <div class='icon-bg active'> {$moon} </div>
+                <div class='icon-bg active'> {$moon} </div>
 
-                    <div class='icon-bg'> {$sun} </div>
-                </div>
+                <div class='icon-bg'> {$sun} </div>
+            </div>
 
             <div class='icon-button mobile menu'>
                 {$menuIcon}

@@ -3,39 +3,30 @@
     require_once "../generalPHP.php";
 
     if(isset($_GET["name"])){
-        $getAllProducts = $mysqli->query("SELECT nameProduct FROM product_version");
+        // mapping the allowed product variants
+        $getAllProducts = $mysqli->query("SELECT nameProduct FROM product_version") or die("var getAllProducts (removeProduct.php)". $mysqli->errno);
         $allowedProducts = [];
-        while($allProducts = $getAllProducts->fetch_assoc()){
-            $allowedProducts[] = $allProducts["nameProduct"];
-        }
+        while($allProducts = $getAllProducts->fetch_assoc()){ $allowedProducts[] = $allProducts["nameProduct"]; }
 
         $getAllProducts->close();
 
         if(in_array($_GET["name"], $allowedProducts)){
             $removeProd = $mysqli->prepare("
                 DELETE FROM product_order 
-                WHERE idProduct = (
+                WHERE idVersion = (
                     SELECT idVersion 
                     FROM product_version
                     WHERE nameProduct = ?
                 )
                 LIMIT 1;
-            ");
+            ") or die("var removeProd (removeProduct.php): " . $mysqli->errno);
 
             $removeProd->bind_param("s", $_GET["name"]);
 
-            if($removeProd->execute()){
-                $removeProd->close();
-                header("location: cart.php");
-                exit();
-            }else{
-                $removeProd->close();
-                header("../errorPage.php");
-                exit();
-            }
-        }else{
-            header("../errorPage.php");
-            exit();
+            $removeProd->execute();
+            $removeProd->close();
+
+            setCookies("prodRem", "cart.php", 1);
         }
     }else{
         header("location: cart.php");

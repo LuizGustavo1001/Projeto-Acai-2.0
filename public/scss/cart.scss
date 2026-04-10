@@ -1,0 +1,141 @@
+@use "mixins" as m;
+@use "variables";
+
+main{
+    padding: 0.5em;
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.line-clamp { @include m.line-clamp; }
+
+.hero{
+    min-height: 0;
+
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+
+    @include m.respond(desktop){
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: stretch;
+    }
+
+    .container{
+        @include m.respond(desktop){ margin-inline: 0; }
+
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+
+        flex: 1;
+        min-height: 0;
+
+        .item{
+            width: clamp(0px, calc(100dvw - 1em), 500px);
+            display: flex;
+            flex-direction: column;
+
+            .title, .content{ background: var(--white); }
+
+            .title{
+                border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+                padding: 0.5em;
+
+                width: 70%;
+
+                h1{
+                    font-size: clamp(1.2em, 3vw, 1.5em);
+                    font-family: var(--font-serif);
+                }
+            }
+
+            .content{
+                border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+                padding: 1em;
+                
+                display: flex;
+                flex-direction: column;
+                gap: 1em;
+
+                li{
+                    --size: 45px;
+                    display: flex;
+                    gap: 1em;
+                    align-items: center;
+
+                    .icon-box{
+                        .icon-bg{ color: var(--pink-150); }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.costumer{
+    li{
+        display: grid;
+        grid-template-columns: var(--size) auto;
+        gap: 1em;
+    }
+}
+
+.review{
+    @include m.respond(desktop){margin-left: auto}
+    flex: 1;
+    min-height: 0;
+    max-height: 700px;
+    
+    .content{
+        flex: 1;
+        overflow: auto;
+    }
+
+    img{
+        border-radius: var(--radius-sm);
+    }
+}
+
+.overview,
+.review{
+    .content{
+        li{
+            justify-content: space-between;
+
+            div{
+                display: flex;
+                gap: 1em;
+
+                span{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                }
+            }
+        }
+    }
+}
+
+
+.dark-mode{
+    .hero{
+        .container{
+            .item{
+                .title, .content{ background: var(--pink-900); }
+
+                .content{
+                    li{
+                        .icon-box{
+                            .icon-bg{ color: var(--pink-950); }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

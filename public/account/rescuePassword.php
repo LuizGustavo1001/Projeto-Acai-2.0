@@ -12,6 +12,7 @@
 
     if(isset($_POST["token"])){
         // verify if the token input is the same sended to the email
+
         if($_SESSION["passwordToken"] == $_POST["token"]){
             unset($_SESSION["passwordToken"]);
             header("location: newPassword.php");
@@ -20,7 +21,6 @@
             setCookies("wrongToken", "rescuePassword.php", 0);
         }
     }
-    
 ?>
 
 <!DOCTYPE html>
