@@ -55,6 +55,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="stylesheet" href="<?php printStyle("base") ?>">
     <link rel="stylesheet" href="<?php printStyle("main") ?>">
     <link rel="stylesheet" href="<?php printStyle("account") ?>">
 
@@ -71,7 +72,7 @@
         </div>
 
         <div class="hero">
-            <div class="icon-box">
+            <div class="icon-wrapper">
                 <?php echo getIcon("iconBg")?>
                 <?php echo getIcon("key")?>
             </div>
@@ -82,11 +83,11 @@
             </div>
 
             <form method="post" class="regular-form">
-                <div class="regular-input">
+                <div class="regular-input-box">
                     <label for="ipassword">Senha anterior: </label>
                     <input type="password" name="password" id="ipassword" maxlength="30" placeholder="• • • • • • • • • •" required>
                 </div>
-                <div class="regular-input">
+                <div class="regular-input-box">
                     <label for="inewPassword">Nova senha: </label>
                     <input type="password" name="newPassword" id="inewPassword" maxlength="30" placeholder="• • • • • • • • • •" required>
                 </div>
@@ -96,6 +97,7 @@
         </div>
     </main>
 
+    <script src="/js/general.js"></script>
     <script src="/js/script.js"></script>
     <!--
     <main>

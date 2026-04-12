@@ -144,6 +144,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="stylesheet" href="<?php printStyle("base") ?>">
     <link rel="stylesheet" href="<?php printStyle("main") ?>">
     <link rel="stylesheet" href="<?php printStyle("products") ?>">
 
@@ -167,13 +168,16 @@
 
         <section class="hero rise-above">
             <div class="filter-area">
-                <form method="GET" class="search-input">
+
+                <form method="GET" class="outer-input-box">
                     <label for="inameProd"> <?php echo getIcon("search") ?> </label>
                     <input type="text" name="nameProd" id="inameProd" placeholder="<?= htmlspecialchars($_GET['nameProd'] ?? 'Nome do Produto') ?>">
                 </form>
 
-                <details class="sort-btn outer-btn">
-                    <summary> <?php echo getIcon("sort") ?> </summary>
+                <details class="regular-details" aria-label="sort button">
+                    <summary class="icon-btn outer-color" aria-label="clique aqui para filtrar os produtos"> 
+                        <?php echo getIcon("sort") ?> 
+                    </summary>
 
                     <nav>
                         <a href="products.php?filter=idProd">Identificador</a>
@@ -197,6 +201,7 @@
 
     <?php displayFooter()?>
 
+    <script src="/js/general.js"></script>
     <script src="/js/script.js"></script>
 </body>
 </html>

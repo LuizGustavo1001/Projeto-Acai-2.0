@@ -12,24 +12,21 @@
     transition: var(--time, 0.2s) linear;
 }
 
-/* =-=-=-=-=-=-=-=-=-= GENERAL =-=-=-=-=-=-=-=-=-= */
 body{
     position: relative;
-    min-height: 100dvh;
-
-    max-width: 2200px;
-    margin-inline: auto;
 
     display: flex;
     flex-direction: column;
     gap: 1em;
 
+    min-height: 100dvh;
+    max-width: 2200px;
+    margin-inline: auto;
+
     background: var(--pink-150);
     color: var(--pink-850);
 
-    @include m.respond(desktop){
-        padding: 1em;
-    }
+    @include m.respond(desktop){ padding: 1em; }
 }
 
 a{
@@ -37,66 +34,16 @@ a{
     color: inherit;
 }
 
-li{
-    list-style-type: none;
-}
+li{ list-style-type: none; }
 
 svg{
     width: 30px;
     height: 30px;
 }
 
-abbr{
-    text-decoration: none;
-}
+abbr{ text-decoration: none; }
 
-img{
-    width: 100px;
-}
-
-details{
-    position: relative;
-    summary{
-        list-style-type: none;
-        cursor: pointer;
-    }
-
-    nav{
-        position: absolute;
-        top: 50%;
-        left: -50px;
-
-        display: flex;
-        flex-direction: column;
-        gap: 0.3em;
-
-        background: var(--white);
-
-        transform: translateX(-60%);
-
-        a{
-            padding: 0.5em;
-            
-            &:hover{
-                background: var(--pink-200);
-                color: var(--pink-500);
-            }
-        }
-    }
-}
-
-
-.section-title{
-    padding: 0.5em;
-    margin-bottom: 1em;
-    border-left: 4px solid var(--pink-500);
-    
-    h1{
-        font-size: clamp(1.5em, 4vw, 2em);
-        font-family: var(--font-serif);
-        color: var(--pink-500);
-    }
-}
+img{ width: 100px; }
 
 .dazzles-bg{
     display: none;
@@ -112,9 +59,7 @@ details{
     transition-timing-function: ease;
     z-index: 1;
 
-    &.open{
-        display: block;
-    }
+    &.open{ display: block; }
 }
 
 .horizontal-line{
@@ -124,7 +69,6 @@ details{
 
     background: linear-gradient(to left, transparent, var(--pink-300), transparent);
 }
-
 
 .warning{
     position: fixed;
@@ -144,31 +88,16 @@ details{
     z-index: 2;
     cursor: pointer;
 
-    &, svg{
-        color: var(--cyan-400);
-    }
+    &, svg{ color: var(--cyan-400); }
 
-    svg{
-        min-width: 30px;
-    }
+    svg{ min-width: 30px; }
 
     &.error{
         border-color: var(--red-400);
         background: var(--red-400-outer);
 
-        &, svg{
-            color: var(--red-400);
-        }
-
+        &, svg{ color: var(--red-400); }
     }
-}
-
-.fade-in{
-    animation: fade-in 0.5s linear;
-}
-
-.fade-out{
-    animation: fade-out 0.5s linear;
 }
 
 .regular-form{
@@ -178,366 +107,30 @@ details{
 
     .wrap{
         display: grid;
+        grid-template-columns: auto 30%;
         align-items: center;
         gap: 0.5em;
-        grid-template-columns: auto 30%;
-    }
-}
-
-.fot-copy{
-    text-align: center;
-    color: var(--pink-700);
-}
-
-.title-hero{
-    @include m.flex-center;
-    flex-direction: column;
-    text-align: center;
-
-    padding: 2em 1em;
-    margin-bottom: 1.5em;
-
-    border-radius: var(--radius-sm);
-    box-shadow: 0px 0px 10px var(--light-shadow);
-
-    background: var(--white) url("https://res.cloudinary.com/dw2eqq9kk/image/upload/v1775004022/damascus-pattern-grey-free-png_1_dsvn0g.png");
-    background-size: cover;
-
-    h1{ font-family: var(--font-serif); }
-    p{
-        color: var(--pink-700);
-        font-size: 0.9em;
     }
 }
 
 
-/* =-=-=-=-=-=-=-=-=-= HEADER =-=-=-=-=-=-=-=-=-= */
-header{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 0.5em;
-
-    @include m.respond(desktop){
-        padding: 0;
-    }
-
-    .brand-logo{
-        width: 50px;
-        height: 50px;
-    }
-
-    .icon-button.menu{
-        @include m.flex-center;
-
-        padding: 0.5em;
-        
-        background: var(--white);
-        border-radius: var(--radius-sm);
-        cursor: pointer;
-
-        &:hover{
-            color: var(--pink-500);
-        }
-    }
-
-    nav{
-        position: fixed;
-        top: 0;
-        left: 0;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-
-        height: 100dvh;
-        min-width: 150px;
-        max-width: 60dvw;
-        padding: 1em;
-
-        background: var(--white);
-
-        transition-timing-function: ease;
-        transform: translateX(-100%);
-        z-index: 2;
-
-        &.open{
-            transform: translateX(0);
-        }
-
-        @include m.respond(desktop){
-            position: initial;
-            
-            height: 100%;
-            width: 100%;
-            min-width: 0;
-            max-width: fit-content;
-            padding: 0.3em;
-
-            border-radius: var(--radius-lg);
-            box-shadow: 0px 4px 10px var(--light-shadow);
-
-            transform: translateX(0);
-            z-index: inherit;
-        }
-
-        .nav-links{
-            display: flex;
-            flex-direction: column;
-            gap: 1em;
-
-            @include m.respond(desktop){
-                flex-direction: row;
-                gap: 1em;
-            }
-
-            .item{
-                position: relative;
-
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 0.5em;
-
-                padding-block: 0.3em;
-
-                font-size: 0.8em;
-                border-radius: var(--radius-lg);
-
-                @include m.respond(desktop){
-                    min-width: 80px;
-                    max-width: 80px;
-                    font-size: 0.7em;
-                    gap: 0.2em;
-                }
-
-                .icon{
-                    @include m.flex-center;
-                    padding: 0.3em 1em;
-
-                    border-radius: var(--radius-lg);
-                    
-                    svg{
-                        width: 25px;
-                        height: 25px;
-                    }
-                }
-
-                .cart-amount{
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-
-                    width: 20px;
-                    height: 20px;
-                    
-                    background: var(--pink-500);
-                    color: var(--white);
-
-                    font-size: 15px;
-                    font-weight: bold;
-                    border-radius: var(--radius-m);
-                }
-
-                    &:hover,
-                    &.selected{
-                        color: var(--pink-500);
-
-                        .icon{
-                            background: var(--pink-150);
-                        }
-                    }
-
-                    &:hover svg,
-                    &.selected svg{
-                        color: var(--pink-500);
-                    }
-            }
-        }
-    }
+.mobile{
+    @include m.respond(desktop){ display: none !important; }
 }
 
-
-.main{
-    flex: 1;
-}
-
-
-
-
-/* =-=-=-=-=-=-=-=-=-= FOOTER =-=-=-=-=-=-=-=-=-= */
-footer{
-    @include m.flex-center;
-    flex-direction: column;
-    gap: 1em;
-
-    padding: 1em;
-    margin: 0.5em;
-
-    border-radius: var(--radius-sm);
-    background: var(--white);
-
-    @include m.respond(desktop){
-        flex-direction: row;
-        justify-content: space-between;
-        margin: 0;
-        padding: 0.5em;
-
-        font-size: 0.9em;
-    }
-
-    span{
-        color: var(--pink-700);
-        font-size: clamp(0.8em, 2vw, 1em);
-    }
-
-    nav{
-        @include m.flex-center;
-        gap: 1em;
-    }
-}
-
-.mobile {
-    @include m.respond(desktop){
-        display: none !important;
-    }
-}
-
-.inactive{
-    display: none;
-}
+.inactive{ display: none; }
 
 .desktop{
     display: none;
-    @include m.respond(desktop){
-        display: inherit;
-    }
+    @include m.respond(desktop){ display: inherit; }
 }
 
-/* =-=-=-=-=-=-=-=-=-= OTHERS =-=-=-=-=-=-=-=-=-= */
-.product{
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-
-    min-width: 0;
-    width: 100%;
-    max-width: 100%;
-    
-    padding: 1em;
-
-    border: 1px solid transparent;
-    border-radius: var(--radius-sm);
-    box-shadow: 0px 0px 10px var(--light-shadow);
-    background: var(--white);
-
-    &.hover:hover{
-        border-color: var(--pink-300);
-        transform: scale(0.985);
-    }
-
-    img{ 
-        width: 100%;
-        aspect-ratio: 1/1;
-        border-radius: var(--radius);
-    }
-
-    form{ 
-        &, .inputs{
-            display: flex;
-            flex-direction: column;
-            gap: 0.5em;
-        }
-        gap: 1em;
-
-        .regular-btn{ font-size: 1em; }
-    }
-
-    .content{
-        display: flex;
-        flex-direction: column;
-        gap: 1em;
-
-        .title{
-            border-left: 4px solid var(--pink-400);
-            padding-left: 0.5em;
-
-            h1, p{
-                @include m.line-clamp;
-            }
-
-            h1{ 
-                font-size: clamp(1.2em, 2vw, 1.4em);
-                font-weight: normal;
-            }
-            p{ 
-                color: var(--pink-400);
-                font-size: clamp(0.9em, 2vw, 1em);
-                font-weight: bold;
-            }
-        }
-
-        .price{
-            color: var(--pink-450);
-
-            .value{
-                font-weight: bold;
-                font-size: clamp(1.1em, 2vw, 1.3em);
-            }
-        }
-
-        .others{ 
-            color: var(--pink-700);
-            font-size: 0.8em;
-        }
-    }
-}
 
 
 /* =-=-=-=-=-=-=-=-=-= DARK MODE =-=-=-=-=-=-=-=-=-= */
 .dark-mode{
     background: var(--pink-950);
-    color: var(--pink-200);
-
-    header{
-        .icon-button.menu{
-            background: var(--pink-900);
-
-            &:hover{ color: var(--pink-350) }
-        }
-
-        nav{
-            background: var(--pink-900);
-
-            .item{
-                .cart-amount{
-                    background: var(--pink-350);
-                    color: var(--pink-900);
-                }
-
-                &:hover,
-                &.selected{
-                    color: var(--pink-350);
-
-                    .icon{
-                        background: var(--pink-950);
-                    }
-                }
-
-                &:hover svg,
-                &.selected svg{
-                    color: var(--pink-350);
-                }
-
-            }
-        }
-    }
+    color: var(--pink-200);    
 
     details{
         nav{
@@ -551,24 +144,7 @@ footer{
         }
     }
 
-    .section-title{
-        border-color: var(--pink-300);
-
-        h1{ color: var(--pink-300) }
-    }
-
-    .horizontal-line{
-        background: linear-gradient(to left, transparent, var(--pink-800), transparent);
-    }
-
-    .toggle-theme{
-        background: var(--pink-950);
-        box-shadow: 0px 0px 10px var(--darker-shadow);
-
-        .selected-bg{ background: var(--pink-900) }
-
-        .icon-bg.active .toggle-icon{ color: var(--pink-350) }
-    }
+    .horizontal-line{ background: linear-gradient(to left, transparent, var(--pink-800), transparent); }
 
     .regular-btn{
         background: linear-gradient(to left, var(--pink-400), var(--pink-450) 70%);
@@ -578,79 +154,25 @@ footer{
         &:hover{ background-position: right }
     }
 
-    .icon-box{
-        .icon-bg{ color: var(--pink-900) }
-        .icon-svg{ color: var(--pink-200) }
-        
-        &.hover:hover .icon-bg{ color: var(--pink-950) }
-        &.hover:hover .icon-svg{ color: var(--pink-350) }
-    }
-
-    .regular-input{
-        input, select{
-            border-color: var(--pink-700);
-            color: var(--pink-200);
-
-            &::placeholder{ color: var(--pink-700) }
-        }
-
-        &:hover input,
-        &:focus-within input{
-            background: var(--pink-950);
-
-            &::placeholder{
-                color: var(--pink-300);
-            }
-        }
-    }
-
     .back-button{
         &:hover{
-            span, svg{
-                color: var(--pink-300);
-            }
+            span, svg{ color: var(--pink-300); }
         }
 
-        span, svg{
-            color: var(--pink-350);
-        }
-    }
-
-    .title-hero{
-        box-shadow: 0px 0px 10px var(--shadow);
-
-        background: var(--pink-900) url("https://res.cloudinary.com/dw2eqq9kk/image/upload/v1775004022/damascus-pattern-grey-free-png_1_dsvn0g.png");
-        background-size: cover;
-
-        p{ color: var(--pink-300) }
-    }
-
-
-    footer{
-        background: var(--pink-900);
-
-        span{ color: var(--pink-300) }
-    }
-
-    .product{
-        background: var(--pink-900);
-        &.hover:hover{
-            border-color: var(--pink-800);
-        }
-
-        .content{
-            .title{
-                border-color: var(--pink-400);
-                p{ color: var(--pink-350) }
-            }
-
-            .price{ color: var(--pink-300) }
-        }
+        span, svg{ color: var(--pink-350); }
     }
 }
 
 
 /* =-=-=-=-=-=-=-=-=-= ANIMATIONS =-=-=-=-=-=-=-=-=-= */
+.fade-in{
+    animation: fade-in 0.5s linear;
+}
+
+.fade-out{
+    animation: fade-out 0.5s linear;
+}
+
 @keyframes fade-out{
     from{
         opacity: 1;

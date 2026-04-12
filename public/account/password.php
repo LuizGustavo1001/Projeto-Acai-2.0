@@ -4,7 +4,7 @@
     require_once "../footerHeader.php";
     require_once "../printStyles.php";
 
-    if (isset($_SESSION["isAdmin"])) { setCookies("adminNotAllowed", "../mannager/admin.php", 0); }
+    if (isset($_SESSION["isAdmin"])) { setCookies("adminNotAllowed", "../manager/admin.php", 0); }
 
     if(isset($_SESSION["userMail"])){
         // trying to access the page without token
@@ -42,6 +42,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="stylesheet" href="<?php printStyle("base") ?>">
     <link rel="stylesheet" href="<?php printStyle("main") ?>">
     <link rel="stylesheet" href="<?php printStyle("account") ?>">
         
@@ -58,7 +59,7 @@
         </div>
 
         <div class="hero">
-            <div class="icon-box">
+            <div class="icon-wrapper">
                 <?php echo getIcon("iconBg")?>
                 <?php echo getIcon("key")?>
             </div>
@@ -69,7 +70,7 @@
             </div>
 
             <form method="post" class="regular-form">
-                <div class="regular-input">
+                <div class="regular-input-box">
                     <label for="iemail">Endereço de Email: </label>
                     <input type="email" name="email" id="iemail" maxlength="50" placeholder="email@exemplo.com" required>
                 </div>
@@ -79,6 +80,7 @@
         </div>
     </main>
 
+    <script src="/js/general.js"></script>
     <script src="/js/script.js"></script>
 
 

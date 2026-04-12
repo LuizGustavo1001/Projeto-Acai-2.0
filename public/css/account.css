@@ -59,18 +59,17 @@ main {
   background: var(--white);
   box-shadow: 0px 0px 10px var(--light-shadow);
 }
-.hero .icon-box {
-  --size: 55px;
-  align-self: center;
-}
-.hero .icon-box .icon-bg {
-  color: var(--pink-150);
-}
-.hero .icon-box .icon-svg {
-  color: var(--pink-850);
-}
 .hero .regular-btn {
   font-size: 1em;
+}
+.hero .icon-wrapper {
+  --size: 50px;
+}
+.hero .icon-wrapper .icon-bg {
+  color: var(--pink-150);
+}
+.hero .icon-wrapper {
+  align-self: center;
 }
 .hero .title h1 {
   font-family: var(--font-serif);

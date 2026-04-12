@@ -4,7 +4,7 @@
 
     if(isset($_GET["name"])){
         // mapping the allowed product variants
-        $getAllProducts = $mysqli->query("SELECT nameProduct FROM product_version") or die("var getAllProducts (removeProduct.php)". $mysqli->errno);
+        $getAllProducts = $mysqli->query("SELECT nameProduct FROM product_version") or die("var getAllProducts (removeProduct.php): ". $mysqli->errno);
         $allowedProducts = [];
         while($allProducts = $getAllProducts->fetch_assoc()){ $allowedProducts[] = $allProducts["nameProduct"]; }
 

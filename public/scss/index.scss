@@ -3,7 +3,6 @@
 
 .hero{
     max-width: clamp(0px, calc(100% - 15vw), 1350px);
-
     min-height: 80dvh;
     max-height: 1000px;
 
@@ -21,7 +20,6 @@
         width: 100%;
         display: flex;
         flex-direction: column;
-
         gap: 0.5em;
 
         @include m.respond(desktop){ max-width: clamp(0px, calc(100% - 10vw), 500px) }
@@ -31,18 +29,15 @@
             font-family: var(--font-style);
         }
 
-        h1{ font-size: clamp(3em, 4vw, 5em) }
+        h1{ font-size: clamp(3em, 4vw, 5em); }
 
-        p{ font-size: clamp(1em, 2vw, 1.2em) }
+        p{ font-size: clamp(1em, 2vw, 1.2em); }
 
-        span{
-            color: var(--pink-500);
-        }
+        span{ color: var(--pink-500); }
 
         .regular-btn{
             width: 100%;
-
-            @include m.respond(desktop){ width: 50%  }
+            @include m.respond(desktop){ width: 50%; }
         }
     }
 
@@ -53,12 +48,14 @@
 
         width: 100%;
         max-width: 480px;
+        padding: 1em;
+
+        @include m.respond(desktop){ width: clamp(0px, 30vw, 480px); }
 
         background: var(--white);
-        padding: 1em;
-        font-weight: bold;
         color: var(--pink-450);
         box-shadow: 0px 0px 10px var(--shadow);
+        font-weight: bold;
 
         svg{ color: var(--pink-500) }
 
@@ -67,54 +64,46 @@
             justify-content: space-between;
         }
 
-        .top span, .bottom span{@include m.flex-center }
+        .top span, .bottom span{@include m.flex-center; }
 
         .top{
-            span{ gap: 0.5em }
-            p{ font-family: var(--font-serif) }
+            span{ gap: 0.5em; }
+            p{ font-family: var(--font-serif); }
         }
 
         img{
             width: 100%;
-            background: var(--pink-150);
             padding: 2em;
+            background: var(--pink-150);
         }
 
         .bottom{
-            span{ gap: 1em }
+            span{ gap: 1em; }
         }
     }
 }
 
 .about-us{
-    .icon-box{
-        --size: 45px;
-        @include m.respond(desktop){
-            width: var(--size, 35px);
-            height: var(--size, 35px);
-        }
-
-        .icon-svg{ color: var(--pink-500) }
-    }
+    .icon-wrapper{ --size: 45px; }
 
     .container{
         display: flex;
         justify-content: space-between;
         gap: 1em;
 
-        overflow: scroll;
-
         padding-block: 0.5em;
+
+        overflow: scroll;
 
         .item{
             display: flex;
             flex-direction: column;
             gap: 1em;
 
-            padding: 1em;
             min-height: 300px;
             min-width: 400px;
             max-width: 400px;
+            padding: 1em;
 
             background: var(--white);
             border-radius: var(--radius-sm);
@@ -168,10 +157,7 @@
 }
 
 
-.features,
-.about-us{
-    padding: 0.5em;
-}
+.features, .about-us{ padding: 0.5em; }
 
 .dark-mode{
     .hero{
@@ -208,5 +194,4 @@
             }
         }
     }
-
 }

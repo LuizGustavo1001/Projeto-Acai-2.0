@@ -7,6 +7,8 @@
         $directory = "/css/";
 
         $cssFile = match($fileName){
+            "base"              => "base.css",
+            "admin"             => "admin.css",
             "main"              => "main.css",
             "general"           => "general.css",
             "account"           => "account.css",

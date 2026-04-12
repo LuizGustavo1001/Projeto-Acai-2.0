@@ -1,10 +1,10 @@
-<?php
+<?php 
     require_once __DIR__ . '/../../databaseConnection.php';
     require_once "../footerHeader.php";
-    require_once "mannagerPHP.php";
+    require_once "managerPHP.php";
     require_once "../printStyles.php";
 
-    $amount = getAmountItem("admin");
+    $amount = getAmountItem(type: "client");
 ?>
 
 <!DOCTYPE html>
@@ -13,36 +13,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="<?php printStyle("universal") ?>">
-    <link rel="stylesheet" href="<?php printStyle("mannager") ?>">
-
-    <?php displayFavicon()?>
-
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
     <script src="/js/generalScripts.js"></script>
+
+    <link rel="stylesheet" href="<?php printStyle("universal") ?>">
+    <link rel="stylesheet" href="<?php printStyle("mannager") ?>">
     
-    <title>Açaí e Polpas Amazônia - Administradores</title>
+    <?php displayFavicon()?>
+
+    <title>Açaí e Polpas Amazônia - Clientes</title>
 </head>
-
 <body>
-
-    <?php displayManagerNav("admin")?>
+    <?php displayManagerNav("client")?>
 
     <main>
-        <?php
+        <?php 
             if(isset($_GET["adminNotAllowed"]))
                 displayPopUp("adminNotAllowed", "");
-            else if(isset($_GET["makeAdmin"]))
-                displayPopUp("makeAdmin", "");
+            else if(isset($_GET["makeClient"]))
+                displayPopUp("makeClient", "");
+            else if(isset($_GET["removeS"]))
+                displayPopUp("removeS", "");
         ?>
-        
-        <?php displayPageNav("admin")?>
+
+        <?php displayPageNav("client")?>
 
         <section class="info-section">
             <ul>
                 <li class="amount">
                     <p><span><?php echo $amount?></span></p>
-                    <p>Total de Administradores</p>
+                    <p>Total de Clientes</p>
                 </li>
             </ul>
         </section>
@@ -59,13 +59,12 @@
             </div>
         </form>
 
-
         <?php 
             if(isset($_GET["query"])){
-                searchColumns($_GET["query"], "admin");
+                searchColumns($_GET["query"], "client");
             }
             
-            displayTable("admin");
+            displayTable("client");
         ?>
     </main>
 </body>

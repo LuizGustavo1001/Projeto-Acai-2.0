@@ -1,5 +1,3 @@
-const body = document.body
-
 const smileFace = `
     <svg viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'>
         <path d='M15 26.6667C16.4173 27.7172 18.141 28.3334 20 28.3334C21.859 28.3334 23.5827 27.7172 25 26.6667' stroke='currentColor' stroke-width='2' stroke-linecap='round'/>
@@ -16,65 +14,6 @@ const sadFace = `
         <path d='M22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C21.5093 4.43821 21.8356 5.80655 21.9449 8' stroke='currentColor' stroke-width='1.5' stroke-linecap='round'/>
     </svg>
 `;
-
-
-// toggle theme + last localStorage theme 
-const toggleThemeBox = document.querySelectorAll(".toggle-theme")
-if(toggleThemeBox){
-    toggleThemeBox.forEach(box => {
-        box.addEventListener("click", toggleTheme)
-    })
-
-}
-
-function toggleTheme(){
-    const selectedBg = document.querySelectorAll(".toggle-theme .selected-bg")
-    selectedBg.forEach(item => {
-        item.classList.toggle("outer")
-    })
-
-    const iconBg = document.querySelectorAll(".toggle-theme .icon-bg")
-    iconBg.forEach(icon => {
-        icon.classList.toggle("active")
-    })
-
-    body.classList.toggle("dark-mode")
-
-    const isDark = body.classList.contains("dark-mode")
-    localStorage.setItem("theme", isDark ? "dark" : "light")
-
-}
-
-const lastTheme = localStorage.getItem("theme")
-if(lastTheme == "dark"){
-    toggleTheme()
-}
-
-// Mobile sidebar toggle
-const toggleSidebarButton = document.querySelectorAll(".icon-button.menu")
-const dazzlesBg = document.querySelector(".dazzles-bg")
-const cardNav = document.querySelector("header nav")
-
-document.addEventListener("click", (e) => {
-    const clickedInsideNav = e.target.closest("header nav")
-    const clickedToggle = e.target.closest(".icon-button.menu")
-
-    if(! clickedInsideNav && !clickedToggle){
-        if(cardNav.classList.contains("open")){
-            toggleSidebar()
-        }
-    }
-})
-
-toggleSidebarButton.forEach(button => {
-    button.addEventListener("click", toggleSidebar)
-})
-
-function toggleSidebar(){
-    dazzlesBg.classList.toggle("open")
-    cardNav.classList.toggle("open")
-}
-
 
 
 /* toggle warning display */
@@ -160,7 +99,7 @@ function fillWarning(message, type){
             ${icon}
             <span>${warningMsgs[message]} <em>Clique nesta mensagem para fechá-la</em>.</span>
         `
-        body.insertAdjacentElement("afterbegin", warningBox)
+        document.body.insertAdjacentElement("afterbegin", warningBox)
 
         // remove message when click or after 10 seconds
         const removeBox = () => {
@@ -175,5 +114,68 @@ function fillWarning(message, type){
     // clear warning cookies
     document.cookie = "warning_message=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.cookie = "warning_type=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    }
+}
+
+
+// toggle theme + last localStorage theme 
+const toggleThemeBox = document.querySelectorAll(".toggle-theme")
+if(toggleThemeBox){
+    toggleThemeBox.forEach(box => {
+        box.addEventListener("click", toggleTheme)
+    })
+}
+
+function toggleTheme(){
+    const selectedBg = document.querySelectorAll(".toggle-theme .selected-bg")
+    selectedBg.forEach(item => {
+        item.classList.toggle("outer")
+    })
+
+    // regular toggle-theme
+    let iconBg = document.querySelectorAll(".toggle-theme .icon-bg")
+
+    // outer toggle-theme
+    if(iconBg.length == 0) iconBg = document.querySelectorAll(".toggle-theme .toggle-icon")
+    
+    iconBg.forEach(icon => {icon.classList.toggle("active")})
+
+    document.body.classList.toggle("dark-mode")
+
+    const isDark = document.body.classList.contains("dark-mode")
+    localStorage.setItem("theme", isDark ? "dark" : "light")
+
+}
+
+const lastTheme = localStorage.getItem("theme")
+if(lastTheme == "dark"){
+    toggleTheme()
+}
+
+
+// Mobile sidebar toggle
+const toggleSidebarButton = document.querySelectorAll(".icon-btn.menu")
+const dazzlesBg = document.querySelector(".dazzles-bg")
+const aside = document.querySelector("aside")
+const cardNav = document.querySelector(".aside-hero")
+
+if (cardNav) {
+
+    document.addEventListener("click", (e) => {
+        const clickedInsideNav = e.target.closest("aside.regular, aside.outer")
+        const clickedToggle = e.target.closest(".icon-btn.menu")
+
+        if (!clickedInsideNav && !clickedToggle && aside.classList.contains("open")) {
+            toggleSidebar()
+        }
+    })
+
+    toggleSidebarButton.forEach(button => {
+        button.addEventListener("click", toggleSidebar)
+    })
+
+    function toggleSidebar(){
+        if (dazzlesBg) dazzlesBg.classList.toggle("open")
+        aside.classList.toggle("open")
     }
 }

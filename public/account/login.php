@@ -7,7 +7,7 @@
     $currentDate = date("Y-m-d");
     $currentHour = date("H:i:s");
 
-    if (isset($_SESSION["isAdmin"])){ setCookies("adminNotAllowed", "../mannager/admin.php", 0); }
+    if (isset($_SESSION["isAdmin"])){ setCookies("adminNotAllowed", "../manager/admin.php", 0); }
     
     if(isset($_SESSION["clientMail"])){
         header("location: account.php");
@@ -86,7 +86,7 @@
             $_SESSION["isAdmin"] = true;
             verifyOrders();
 
-            header("location: ../mannager/admin.php");
+            header("location: ../manager/admin.php");
             exit();
         }
     }
@@ -98,6 +98,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="stylesheet" href="<?php printStyle("base") ?>">
     <link rel="stylesheet" href="<?php printStyle("main") ?>">
     <link rel="stylesheet" href="<?php printStyle("account") ?>">
 
@@ -114,7 +115,7 @@
         </div>
 
         <div class="hero">
-            <div class="icon-box">
+            <div class="icon-wrapper">
                 <?php echo getIcon("iconBg")?>
                 <?php echo getIcon("login")?>
             </div>
@@ -125,12 +126,12 @@
             </div>
 
             <form method="post" class="regular-form">
-                <div class="regular-input">
+                <div class="regular-input-box">
                     <label for="imail">Endereço de Email</label>
                     <input type="email" name="email" id="imail" placeholder="exemplo@dominio.com" required value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
                 </div>
 
-                <div class="regular-input">
+                <div class="regular-input-box">
                     <label for="ipassword">Senha</label>
                     <input type="password" name="password" id="ipassword" placeholder="********" required>
                 </div>
@@ -146,6 +147,7 @@
         <div class="fot-copy">2026 &copy; Açaí e Polpas Amazônia</div>
     </main>
 
+    <script src="/js/general.js"></script>
     <script src="/js/script.js"></script>
 </body>
 </html>

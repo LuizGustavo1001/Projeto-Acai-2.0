@@ -1,7 +1,7 @@
 <?php
     require_once __DIR__ . '/../../databaseConnection.php';
     require_once "../footerHeader.php";
-    require_once "mannagerPHP.php";
+    require_once "managerPHP.php";
     require_once "../printStyles.php";
     require_once '../composer/vendor/autoload.php';
 

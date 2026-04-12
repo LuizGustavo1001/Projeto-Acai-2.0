@@ -4,7 +4,7 @@
     require_once "/footerHeader.php";
     require_once "/printStyles.php";
 
-    if (isset($_SESSION["isAdmin"])) { setCookies("adminNotAllowed", "../mannager/admin.php", 0); }
+    if (isset($_SESSION["isAdmin"])) { setCookies("adminNotAllowed", "../manager/admin.php", 0); }
 
     if(! isset($_SESSION["sendMail"])){ 
         // trying to access the page without token
@@ -37,8 +37,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <link rel="stylesheet" href="<?php printStyle("universal") ?>">
-    <link rel="stylesheet" href="<?php printStyle("general") ?>">
+    <link rel="stylesheet" href="<?php printStyle("base") ?>">
+    <link rel="stylesheet" href="<?php printStyle("main") ?>">
     <link rel="stylesheet" href="<?php printStyle("account") ?>">
 
     <?php displayFavicon()?>
@@ -54,7 +54,7 @@
         </div>
 
         <div class="hero">
-            <div class="icon-box">
+            <div class="icon-wrapper">
                 <?php echo getIcon("iconBg")?>
                 <?php echo getIcon("key")?>
             </div>
@@ -65,7 +65,7 @@
             </div>
 
             <form method="post" class="regular-form">
-                <div class="regular-input">
+                <div class="regular-input-box">
                     <label for="ipassword">Nova Senha: </label>
                     <input type="password" name="password" id="ipassword" maxlength="50" placeholder="Digite Sua nova Senha Aqui" required>
                 </div>
@@ -75,6 +75,7 @@
         </div>
     </main>
 
+    <script src="/js/general.js"></script>
     <script src="/js/script.js"></script>
 
     <!--

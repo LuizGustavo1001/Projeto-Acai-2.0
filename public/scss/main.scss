@@ -1,0 +1,307 @@
+@use "mixins" as m;
+@use "variables";
+@use "buttons";
+
+.section-title{
+    padding: 0.5em;
+    margin-bottom: 1em;
+    border-left: 4px solid var(--pink-500);
+    
+    h1{
+        font-size: clamp(1.5em, 4vw, 2em);
+        font-family: var(--font-serif);
+        color: var(--pink-500);
+    }
+}
+
+.icon-svg{ display: flex; }
+
+.fot-copy{
+    text-align: center;
+    color: var(--pink-700);
+}
+
+.title-hero{
+    @include m.flex-center;
+    flex-direction: column;
+    text-align: center;
+
+    padding: 2em 1em;
+    margin-bottom: 1.5em;
+
+    border-radius: var(--radius-sm);
+    box-shadow: 0px 0px 10px var(--light-shadow);
+
+    background: var(--white) url("https://res.cloudinary.com/dw2eqq9kk/image/upload/v1775004022/damascus-pattern-grey-free-png_1_dsvn0g.png");
+    background-size: cover;
+
+    h1{ font-family: var(--font-serif); }
+    p{
+        color: var(--pink-700);
+        font-size: 0.9em;
+    }
+}
+
+
+/* =-=-=-=-=-=-=-=-=-= HEADER =-=-=-=-=-=-=-=-=-= */
+.main{ flex: 1; }
+
+header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0.5em;
+    @include m.respond(desktop){ padding: 0; }
+
+    --size: 50px;
+
+    .brand-logo{
+        width: var(--size);
+        height: var(--size);
+    }
+
+    aside.regular{
+        position: fixed;
+        top: 0;
+        left: 0;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        
+        height: 100dvh;
+        min-width: 150px;
+        max-width: 60dvw;
+        padding: 1em;
+
+        background: var(--white);
+        transform: translateX(-100%);
+        transition-timing-function: ease;
+   
+        z-index: 2;
+
+        &.open{ transform: translateX(0); }
+
+        @include m.respond(desktop){
+            position: relative;
+            
+            height: 100%;
+            min-width: 0;
+            max-width: fit-content;
+            padding: 0.2em 0.8em;
+
+            border-radius: var(--radius-lg);
+            box-shadow: 0px 4px 10px var(--light-shadow);
+
+            transform: translateX(0);
+            z-index: inherit;
+        }
+
+        .aside-hero{
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+
+            @include m.respond(desktop){
+                flex-direction: row;
+                gap: 1em;
+            }
+
+            .nav-link{
+                .icon-svg{ 
+                    width: calc(var(--size) - 1.7em);
+                    height: calc(var(--size) - 1.7em);
+                }
+            }
+        }
+    }
+}
+
+
+/* =-=-=-=-=-=-=-=-=-= FOOTER =-=-=-=-=-=-=-=-=-= */
+footer{
+    @include m.flex-center;
+    flex-direction: column;
+    gap: 1em;
+
+    padding: 1em;
+    margin: 0.5em;
+
+    background: var(--white);
+    border-radius: var(--radius-sm);
+
+    @include m.respond(desktop){
+        flex-direction: row;
+        justify-content: space-between;
+
+        margin: 0;
+        padding: 0.5em;
+
+        font-size: 0.9em;
+    }
+
+    span{
+        color: var(--pink-700);
+        font-size: clamp(0.8em, 2vw, 1em);
+    }
+
+    nav{
+        @include m.flex-center;
+        gap: 1em;
+
+        .icon-wrapper{ --size: 35px; }
+    }
+}
+
+
+/* =-=-=-=-=-=-=-=-=-= OTHERS =-=-=-=-=-=-=-=-=-= */
+.product{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    padding: 1em;
+
+    background: var(--white);
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    box-shadow: 0px 0px 10px var(--light-shadow);
+
+    &.hover:hover{
+        border-color: var(--pink-300);
+        transform: scale(0.985);
+    }
+
+    img{ 
+        width: 100%;
+        aspect-ratio: 1/1;
+        border-radius: var(--radius);
+    }
+
+    .content{
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+
+        .title{
+            border-left: 4px solid var(--pink-400);
+            padding-left: 0.5em;
+
+            h1, p{ @include m.line-clamp; }
+
+            h1{ 
+                font-size: clamp(1.2em, 2vw, 1.4em);
+                font-weight: normal;
+            }
+
+            p{ 
+                color: var(--pink-400);
+                font-size: clamp(0.9em, 2vw, 1em);
+                font-weight: bold;
+            }
+        }
+
+        .price{
+            color: var(--pink-450);
+
+            .value{
+                font-weight: bold;
+                font-size: clamp(1.1em, 2vw, 1.3em);
+            }
+        }
+
+        .others{ 
+            color: var(--pink-700);
+            font-size: 0.8em;
+        }
+    }
+}
+
+/* =-=-=-=-=-=-=-=-=-= DARK MODE =-=-=-=-=-=-=-=-=-= */
+.dark-mode{
+    /* HEADER */
+    header{
+        .icon-button.menu{
+            background: var(--pink-900);
+
+            &:hover{ color: var(--pink-350) }
+        }
+
+        nav{
+            background: var(--pink-900);
+
+            .item{
+                .cart-amount{
+                    background: var(--pink-350);
+                    color: var(--pink-900);
+                }
+
+                &:hover,
+                &.selected{
+                    color: var(--pink-350);
+
+                    .icon{
+                        background: var(--pink-950);
+                    }
+                }
+
+                &:hover svg,
+                &.selected svg{
+                    color: var(--pink-350);
+                }
+
+            }
+        }
+    }
+
+    .section-title{
+        border-color: var(--pink-300);
+
+        h1{ color: var(--pink-300) }
+    }
+
+    .theme-bar{
+        background: var(--pink-950);
+        box-shadow: 0px 0px 10px var(--darker-shadow);
+
+        .selected-bg{ background: var(--pink-900) }
+
+        .icon-bg.active .toggle-icon{ color: var(--pink-350) }
+    }
+
+    .title-hero{
+        box-shadow: 0px 0px 10px var(--shadow);
+
+        background: var(--pink-900) url("https://res.cloudinary.com/dw2eqq9kk/image/upload/v1775004022/damascus-pattern-grey-free-png_1_dsvn0g.png");
+        background-size: cover;
+
+        p{ color: var(--pink-300) }
+    }
+
+    footer{
+        background: var(--pink-900);
+
+        span{ color: var(--pink-300) }
+    }
+
+    .product{
+        background: var(--pink-900);
+        &.hover:hover{
+            border-color: var(--pink-800);
+        }
+
+        .content{
+            .title{
+                border-color: var(--pink-400);
+                p{ color: var(--pink-350) }
+            }
+
+            .price{ color: var(--pink-300) }
+        }
+    }
+}

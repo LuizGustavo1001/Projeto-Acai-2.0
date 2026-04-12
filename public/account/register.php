@@ -4,14 +4,14 @@
     require_once "../footerHeader.php";
     require_once "../printStyles.php";
     
-    if (isset($_SESSION["isAdmin"])) { setCookies("adminNotAllowed", "../mannager/admin.php", 0); }
+    if (isset($_SESSION["isAdmin"])) { setCookies("adminNotAllowed", "../manager/admin.php", 0); }
 
     if (isset($_SESSION["userMail"])) {
         header("location: account.php");
         exit();
     }
 
-    if (isset($_GET["userAdd"])) { setCookies("registered", "login.php", 1);  }
+    if (isset($_GET["userAdd"])) { setCookies("registered", "login.php", 1); }
 
     if( isset($_POST["name"], $_POST["email"], $_POST["phone"],
         $_POST["street"], $_POST["houseNum"] ,$_POST["district"],
@@ -83,6 +83,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="stylesheet" href="<?php printStyle("base") ?>">
     <link rel="stylesheet" href="<?php printStyle("main") ?>">
     <link rel="stylesheet" href="<?php printStyle("account") ?>">
     
@@ -101,7 +102,7 @@
         </div>
 
         <div class="hero">
-            <div class="icon-box">
+            <div class="icon-wrapper">
                 <?php echo getIcon("iconBg")?>
                 <?php echo getIcon("newUser")?>
             </div>
@@ -112,90 +113,62 @@
             </div>
 
             <form method="post" class="regular-form">
-                <div class="regular-input">
+                <div class="regular-input-box">
                     <label for="iname">Nome *</label>
                     <input type="text" name="name" id="iname" maxlength="30" minlength="8"
                                 placeholder="Nome Completo" value="<?= htmlspecialchars($_POST['name'] ?? '') ?>" required>
                 </div>
 
-                <div class="regular-input">
+                <div class="regular-input-box">
                     <label for="iemail">Endereço de Email *</label>
                     <input type="email" name="email" id="iemail" maxlength="50"
                                 placeholder="email@exemplo.com" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" required>
                 </div>
 
-                <div class="regular-input">
+                <div class="regular-input-box">
                     <label for="inumber">Telefone de Contato *</label>
                     <input type="text" name="phone" id="inumber" minlength="15" maxlength="16"
                         pattern="\(\d{2}\) \d \d{4} \d{4}" placeholder="(XX) 9 8888 8888" value="<?= htmlspecialchars($_POST['phone'] ?? '') ?>" required>
                 </div>
 
                 <div class="wrap">
-                    <div class="regular-input">
+                    <div class="regular-input-box">
                         <label for="istreet">Rua *</label>
                         <input type="text" name="street" id="istreet" maxlength="50"
                             placeholder="Nome da Rua Aqui" value="<?= htmlspecialchars($_POST['street'] ?? '') ?>" required>
                     </div>
-                    <div class="regular-input">
+                    <div class="regular-input-box">
                         <label for="ihouseNum">Número *</label>
                         <input type="number" name="houseNum" id="ihouseNum" max="99999999"
                             placeholder="Número  da Residência Aqui" value="<?= htmlspecialchars($_POST['houseNum'] ?? '') ?>" required>
                     </div>
                 </div>
 
-                <div class="regular-input">
+                <div class="regular-input-box">
                     <label for="idistrict">Bairro *</label>
                     <input type="text" name="district" id="idistrict" maxlength="40"
                         placeholder="Nome do Bairro Aqui" value="<?= htmlspecialchars($_POST['district'] ?? '') ?>" required>
                 </div>
 
                 <div class="wrap">
-                    <div class="regular-input">
+                    <div class="regular-input-box">
                         <label for="icity">Cidade *</label>
                         <input type="text" name="city" id="icity" maxlength="40"
                             placeholder="Nome da Cidade Aqui" value="<?= htmlspecialchars($_POST['city'] ?? '') ?>" required>
                     </div>
-                    <div class="regular-input">
+                    <div class="regular-input-box">
                         <label for="istate">Estado: </label>
-                        <select name="state" id="istate">
-                            <option value="AC">Acre</option>
-                            <option value="AL">Alagoas</option>
-                            <option value="AP">Amapá</option>
-                            <option value="AM">Amazonas</option>
-                            <option value="BA">Bahia</option>
-                            <option value="CE">Ceará</option>
-                            <option value="DF">Distrito Federal</option>
-                            <option value="ES">Espírito Santo</option>
-                            <option value="GO">Goiás</option>
-                            <option value="MA">Maranhão</option>
-                            <option value="MT">Mato Grosso</option>
-                            <option value="MS">Mato Grosso do Sul</option>
-                            <option value="MG">Minas Gerais</option>
-                            <option value="PA">Pará</option>
-                            <option value="PB">Paraíba</option>
-                            <option value="PR">PARANÁ</option>
-                            <option value="PE">Pernambuco</option>
-                            <option value="PI">Piauí</option>
-                            <option value="RJ">Rio de Janeiro</option>
-                            <option value="RN">Rio Grande do Norte</option>
-                            <option value="RS">Rio Grande do Sul</option>
-                            <option value="RO">Rondônia</option>
-                            <option value="RR">Roraima</option>
-                            <option value="SC">Santa Catarina</option>
-                            <option value="SP">São Paulo</option>
-                            <option value="SE">Sergipe</option>
-                            <option value="TO">Tocantins</option>
-                        </select>
+                        <select name="state" id="istate"> <?php displayStateOptions() ?> </select>
                     </div>
                 </div>
 
-                <div class="regular-input">
+                <div class="regular-input-box">
                     <label for="ireference">Ponto de Referência:</label>
                     <input type="text" name="reference" id="ireference" maxlength="50"
                         value="<?= htmlspecialchars($_POST['reference'] ?? '') ?>">
                 </div>
 
-                <div class="regular-input">
+                <div class="regular-input-box">
                     <label for="ipassword">Senha *</label>
                     <input type="password" name="password" id="ipassword" placeholder="********" required maxlength="30">
                 </div>
@@ -205,6 +178,7 @@
         </div>
     </main>
 
+    <script src="/js/general.js"></script>
     <script src="/js/script.js"></script>
 </body>
 </html>

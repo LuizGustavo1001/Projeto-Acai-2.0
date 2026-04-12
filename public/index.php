@@ -31,7 +31,7 @@
     }
 
     $aboutUsMap = [
-        "who" => [
+        [
             "icon" => getIcon("userLove"),
             "title" => "Quem Somos?",
             "text" => [
@@ -40,7 +40,7 @@
                 "Ofereçemos apenas produtos com qualidade comprovada."
             ]
         ],
-        "production" => [
+        [
             "icon" => getIcon("industry"),
             "title" => "Produção",
             "text" => [
@@ -49,7 +49,7 @@
                 "Nossa produção é supervisionada por <strong>engenheiro de alimentos</strong> altamente qualificado."
             ]
         ],
-        "delivery" => [
+        [
             "icon" => getIcon("truck"),
             "title" => "Entregas",
             "text" => [
@@ -57,7 +57,7 @@
                 "Realizamos entregas tanto para sua loja como para consumo próprio*.",
             ]
         ],
-        "address" => [
+        [
             "icon" => getIcon("maps"),
             "title" => "Endereço",
             "text" => [
@@ -67,12 +67,12 @@
     ];
 
     function fillAboutUs($map){
-        foreach($map as $key => $item){
+        foreach($map as $item){
             $iconBg = getIcon("iconBg");
             echo "
                 <div class='item'>
                     <div class='title'>
-                        <div class='icon-box'>
+                        <div class='icon-wrapper'>
                             {$iconBg}
                             {$item['icon']}
                         </div>
@@ -86,7 +86,6 @@
             ";
         }
     }
-
 ?>
 
 <!DOCTYPE html>
@@ -94,7 +93,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
+    <link rel="stylesheet" href="<?php printStyle("base") ?>">
     <link rel="stylesheet" href="<?php printStyle("main") ?>">
     <link rel="stylesheet" href="<?php printStyle("index") ?>">
 
@@ -162,6 +162,6 @@
 
     <?php displayFooter() ?>
 
-    <script src="/js/script.js"></script>
+    <script src="/js/general.js"></script>
 </body>
 </html>

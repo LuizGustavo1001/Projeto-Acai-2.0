@@ -2,9 +2,9 @@
 @use "variables";
 
 main{
-    padding-inline: 0.5em;
     width: 100%;
     max-width: 1920px;
+    padding-inline: 0.5em;
     margin: 0 auto;
 
     @include m.respond(desktop){
@@ -16,20 +16,20 @@ main{
 .hero{
     .filter-area{
         display: flex;
-        
-        justify-content: space-between;
         align-items: center;
-        gap: 1em;
+        justify-content: space-between;
 
         width: 100%;
+
+        .outer-input-box{ width: clamp(0px, 50vw, 450px); }
     }
 
     .container{
-        margin-top: 1em;
-
         display: flex;
         flex-direction: column;
         gap: 1em;
+
+        margin-top: 1em;
 
         .search-label{
             margin-bottom: 1em;
@@ -48,17 +48,16 @@ main{
     }
 }
 
-
 .product-view{
     width: clamp(0px, 98vw, 800px);
 
     .product{
-        margin-block: 0.5em;
-
-        height: 100%;
         display: flex;
         flex-direction: column;
         gap: 1em;
+
+        height: 100%;
+        margin-block: 0.5em;
 
         @include m.respond(tablet){ flex-direction: row; }
 
@@ -69,11 +68,12 @@ main{
 
         .content{
             flex: 1;
-            width: 100%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             gap: 1em;
+
+            width: 100%;
 
             .price{
                 color: var(--pink-450);

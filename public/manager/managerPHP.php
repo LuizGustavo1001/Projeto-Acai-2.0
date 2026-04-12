@@ -8,7 +8,7 @@
         exit();
     }
 
-    checkSession("cart");
+    checkSession();
 
     function displayManagerNav($page){
         $pages = [

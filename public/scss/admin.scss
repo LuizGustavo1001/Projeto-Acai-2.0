@@ -1,0 +1,139 @@
+@use "mixins" as m;
+@use "variables";
+@use "buttons";
+
+
+body{
+    padding: 0;
+}
+
+button{
+    cursor: pointer;
+}
+
+.icon-button{
+    background: var(--white);
+    border: none;
+    border-radius: var(--radius-sm);
+
+    padding: 0.5em;
+
+    @include m.flex-center;
+
+    svg{
+        color: var(--pink-850);
+    }
+
+    &:hover{
+        background: var(--pink-200);
+
+        svg{
+            color: var(--pink-500);
+        }
+    }
+}
+
+.theme-btn{
+    @include m.flex-center;
+
+    padding: 0.5em;
+
+    background: transparent;
+
+    .icon-bg{ display: none; }
+
+    & .icon-bg.active{
+        @include m.flex-center;
+    }
+
+
+    &:hover{ background: var(--pink-150); }
+
+}
+
+
+
+.brand-logo{
+    width: 45px;
+    height: 45px;
+}
+
+.manager-aside{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0.5em;
+
+    .aside-hero{
+        position: fixed;
+        top: 0;
+        left: 0;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+
+        height: 100dvh;
+        min-width: 150px;
+        max-width: 50dvw;
+        padding: 1em;
+
+        background: var(--white);
+
+        transition-timing-function: ease;
+        transform: translateX(-100%);
+        z-index: 2;
+
+        &.open{
+            transform: translateX(0);
+        }
+
+        @include m.respond(desktop){
+            position: initial;
+            
+            height: 100%;
+            width: 100%;
+            min-width: 0;
+            max-width: max-content;
+            padding: 0.3em;
+
+            transform: translateX(0);
+            z-index: inherit;
+        }
+
+        .nav-link{
+            --size: 60px;
+            position: relative;
+
+            width: fit-content;
+            height: fit-content;
+
+            .icon-bg{
+                width: var(--size);
+                height: var(--size);
+
+                position: absolute;
+                color: var(--pink-150);
+            }
+
+
+
+        }
+    }
+
+    @include m.respond(desktop){
+        flex-direction: column;
+        gap: 1em;
+        background: var(--white);
+
+        width: fit-content;
+
+        padding: 0;
+
+        .aside-hero{
+            background: transparent;
+        }
+    }
+}

@@ -204,6 +204,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="stylesheet" href="<?php printStyle("base") ?>">
     <link rel="stylesheet" href="<?php printStyle("main") ?>">
     <link rel="stylesheet" href="<?php printStyle("cart") ?>">
 
@@ -374,6 +375,7 @@
             -->
     <?php displayFooter()?>
 
+    <script src="/js/general.js"></script>
     <script src="/js/script.js"></script>
 </body>
 </html>

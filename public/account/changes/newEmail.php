@@ -59,6 +59,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="stylesheet" href="<?php printStyle("base") ?>">
     <link rel="stylesheet" href="<?php printStyle("main") ?>">
     <link rel="stylesheet" href="<?php printStyle("account") ?>">
 
@@ -75,7 +76,7 @@
         </div>
 
         <div class="hero">
-            <div class="icon-box">
+            <div class="icon-wrapper">
                 <?php echo getIcon("iconBg")?>
                 <?php echo getIcon("mail")?>
             </div>
@@ -86,12 +87,12 @@
             </div>
 
             <form method="post" class="regular-form">
-                <div class=" regular-input">
+                <div class="regular-input-box">
                     <label for="iemail">Email anterior: </label>
                     <input type="email" name="email" id="iemail" maxlength="50" placeholder="exemplo@dominio.com" required>
                 </div>
 
-                <div class=" regular-input">
+                <div class="regular-input-box">
                     <label for="inewEmail">Novo email: </label>
                     <input type="email" name="newEmail" id="inewEmail" maxlength="50" placeholder="exemplo@dominio.com" required>
                 </div>
@@ -100,7 +101,8 @@
             </form>
         </div>
     </main>
-
+    
+    <script src="/js/general.js"></script>
     <script src="/js/script.js"></script>
 
     <!--

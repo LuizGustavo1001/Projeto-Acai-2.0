@@ -150,6 +150,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="stylesheet" href="<?php printStyle("base") ?>">
     <link rel="stylesheet" href="<?php printStyle("main") ?>">
     <link rel="stylesheet" href="<?php printStyle("products") ?>">
 
@@ -236,6 +237,7 @@
         <div class="fot-copy">2026 &copy; Açaí e Polpas Amazônia</div>
     </main>
 
+    <script src="/js/general.js"></script>
     <script src="/js/script.js"></script>
 </body>
 </html>

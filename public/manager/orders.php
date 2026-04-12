@@ -1,20 +1,18 @@
-<?php
+<?php 
     require_once __DIR__ . '/../../databaseConnection.php';
     require_once "../footerHeader.php";
-    require_once "mannagerPHP.php";
+    require_once "managerPHP.php";
     require_once "../printStyles.php";
 
-    $amount = getAmountItem("product");
-    $amount2 = getAmountItem("version");
+    $amount = getAmountItem("order");
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    
     <script src="https://kit.fontawesome.com/71f5f3eeea.js" crossorigin="anonymous"></script>
     <script src="/js/generalScripts.js"></script>
 
@@ -23,12 +21,10 @@
 
     <?php displayFavicon()?>
 
-    <title>Açaí e Polpas Amazônia - Produtos</title>
-    
+    <title>Açaí e Polpas Amazônia - Pedidos</title>
 </head>
-
 <body>
-    <?php displayManagerNav("product")?>
+    <?php displayManagerNav("order")?>
 
     <main>
         <?php
@@ -38,40 +34,19 @@
                 displayPopUp("makeAdmin", "");
         ?>
         
-        <?php displayPageNav("product")?>
+        <?php displayPageNav("order")?>
 
         <section class="info-section">
-            <ul class="info-list">
-                <li>
-                    <ul class="info-sublist">
-                        <li class="amount">
-                            <p><span><?php echo $amount?></span></p>
-                            <p>Total de Produtos</p>
-                        </li>
-                        
-                        <li class="amount">
-                            <p><span><?php echo $amount2?></span></p>
-                            <p>Total de Versões</p>
-                        </li>
-                    </ul>
+            <ul>
+                <li class="amount">
+                    <p><span><?php echo $amount?></span></p>
+                    <p>Total de Pedidos</p>
                 </li>
-
-                <li>
-                    <ul class="info-sublist">
-                        <li>
-                            <a href="addItem.php?type=product" class="link-button">Adicionar Produto</a>
-                        </li>
-
-                        <li>
-                            <a href="addItem.php?type=prodVersion" class="link-button">Adicionar Versão</a>
-                        </li>
-                    </ul>
-                </li> 
             </ul>
         </section>
 
         <form method="GET" class="search-section">
-            <label for="isearch">Pesquisar Produto pelo <strong>nome</strong> ou <strong>código</strong></label>
+            <label for="isearch">Pesquisar pelo <strong>nome do cliente</strong> ou <strong>código</strong></label>
             <div class="search-bar">
                 <label for="isearch" style="display: flex; align-items: center; cursor: pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
@@ -81,12 +56,13 @@
                 <input type="text" name='query' id="isearch" class="alt-input">
             </div>
         </form>
+
         <?php 
             if(isset($_GET["query"])){
-                searchColumns($_GET["query"], "product");
+                searchColumns($_GET["query"], "order");
             }
             
-            displayTable("product");
+            displayTable("order");
         ?>
     </main>
 </body>

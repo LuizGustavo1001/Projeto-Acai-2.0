@@ -1,8 +1,98 @@
 @use "mixins" as m;
 
+button{
+    border: none;
+    background: var(--white);
+    cursor: pointer;
+}
+
+/* =-=-=-=-=-=-=-=-=-= OTHERS =-=-=-=-=-=-=-=-=-= */
+.cart-amount{
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 20px;
+    height: 20px;
+    
+    background: var(--pink-500);
+    color: var(--white);
+
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: var(--radius-m);
+}
+
+
+.regular-details{
+    position: relative;
+
+    summary{ cursor: pointer; }
+    
+    nav{
+        position: absolute;
+        top: 50%;
+        left: -50px;
+        transform: translateX(-60%);
+
+        display: flex;
+        flex-direction: column;
+
+        background: var(--white);
+        box-shadow: 0px 0px 10px var(--shadow);
+
+        border-radius: var(--radius);
+
+        a{
+            padding: 0.5em;
+            font-size: 1em;
+
+            &:hover{
+                background: var(--pink-200);
+                color: var(--pink-500);
+            }
+        }
+    }
+}
+
+
+
+.nav-link{
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+
+    @include m.flex-center;
+    flex-direction: column;
+    gap: 0em;
+
+    .icon-bg{
+        @include m.flex-center;
+        border-radius: var(--radius-lg);
+        padding: 0.3em 1em;
+        border-radius: var(--radius-lg);
+
+        color: var(--pink-150);
+    }
+
+    .label{ font-size: 0.8em; }
+
+    &:hover{
+        .icon-bg{ background: var(--pink-200); }
+
+        .icon-svg, p{ color: var(--pink-500)}
+    }
+}
+.nav-link.outer{ flex-direction: column-reverse; }
+
+
 /* =-=-=-=-=-=-=-=-=-= TOGGLE THEME =-=-=-=-=-=-=-=-=-= */
-.toggle-theme{
-    $width: 25px;
+.toggle-theme.regular{
+    --size: 20px;
 
     position: relative;
 
@@ -33,9 +123,7 @@
 
         z-index: 0;
 
-        &.outer{
-            transform: translateY(-50%) translateX(100%);
-        }
+        &.outer{ transform: translateY(-50%) translateX(100%); }
     }
 
     .icon-bg{
@@ -47,83 +135,65 @@
         
         z-index: 1;
 
-        &.active{
-            color: var(--pink-500);
-        }
+        &.active{ color: var(--pink-500); }
 
-        svg{
-            width: $width;  
+        svg{ 
+            width: var(--size); 
+            height: calc(var(--size) + 0.5em);
         }
     }
 
+    .toggle-icon{ 
+        width: var(--size); 
+        height: calc(var(--size) + 0.5em);
+    }
+
+    &.desktop{
+        display: none;
+        @include m.respond(desktop){ display: inherit; }
+    }
+}
+
+.toggle-theme.outer{
+    @include m.flex-center;
+    width: fit-content;
+    height: fit-content;
+    padding: 0.5em;
+
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+
     .toggle-icon{
-        width: $width;
+        display: none;
+
+        &.active{ display: block; }
+    }
+
+    &:hover{
+        background: var(--pink-200);
+
+        .toggle-icon{ color: var(--pink-500);}
     }
 }
 
 /* =-=-=-=-=-=-=-=-=-= REGULAR BUTTON =-=-=-=-=-=-=-=-=-= */
 .regular-btn{
+    padding: 1em;
+
     background: linear-gradient(to left, var(--pink-400), var(--pink-500) 80%);
     background-size: 200% 100%;
     background-position: left;
-    padding: 1em;
-
-    font-weight: bold;
-
     border-radius: var(--radius-sm);
     border: none;
 
     color: var(--pink-150);
-
+    font-weight: bold;
     text-align: center;
     cursor: pointer;
 
     &:hover{
         background-position: right;
         box-shadow: inset 0px 0px 10px var(--darker-shadow);
-    }
-}
-
-/* =-=-=-=-=-=-=-=-=-= OUTER BUTTON 1 =-=-=-=-=-=-=-=-=-= */
-.icon-box{
-    /* --size: 50px; */
-    width: var(--size, 40px);
-    height: var(--size, 40px);
-
-    @include m.respond(desktop){
-        width: var(--size, 35px);
-        height: var(--size, 35px);
-    }
-
-    position: relative;
-
-    .icon-bg,
-    .icon-svg{
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-
-    .icon-bg{
-        width: 100%;
-        height: 100%;
-        color: var(--white);
-        z-index: 0;
-    }
-    .icon-svg{
-        width: calc(100% - 0.8em);
-        height: calc(100% - 0.8em);
-
-        color: var(--pink-800);
-        z-index: 1;
-    }
-    
-    &.hover:hover .icon-bg{
-        color: var(--pink-150);
-    }
-    &.hover:hover .icon-svg{
-        color: var(--pink-500);
     }
 }
 
@@ -139,126 +209,151 @@
     cursor: pointer;
 
     &:hover{
-        span, svg{
-            color: var(--pink-400);
-        }
+        span, svg{ color: var(--pink-400); }
     }
 
-    span, svg{
-        color: var(--pink-500);
-    }
+    span, svg{ color: var(--pink-500); }
 }
 
 
-/* =-=-=-=-=-=-=-=-=-= REGULAR INPUT =-=-=-=-=-=-=-=-=-= */
-input,
-select{
-    width: 100%;
-    background-color: transparent;
-    padding: 1em;
-    border: none;
+/* =-=-=-=-=-=-=-=-=-= ICONS =-=-=-=-=-=-=-=-=-= */
+.icon-svg{
+    color: var(--pink-850);
+}
+
+.icon-wrapper{
+    position: relative;
+
+    /* --size: 50px; (EXAMPLE)*/
+    width: var(--size, 40px);
+    height: var(--size, 40px);
+
+    @include m.respond(desktop){
+        width: var(--size, 35px);
+        height: var(--size, 35px);
+    }
+
+    .icon-bg,
+    .icon-svg{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        width: var(--size);
+        height: var(--size);
+    }
+
+    .icon-bg{ color: var(--white); }
+
+    .icon-svg{
+        width: calc(var(--size) - 1em);
+        height: calc(var(--size) - 1em);
+    }
+}
+
+.icon-wrapper.hover:hover{
+    .icon-bg{ color: var(--pink-150); }
     
-    color: var(--pink-800);
+    .icon-svg{ color: var(--pink-500); }
+}
 
-    &::placeholder{
-        color: var(--pink-300);
+.icon-btn{
+    @include m.flex-center;
+
+    padding: 0.5em;
+    width: fit-content;
+    height: fit-content;
+
+    border-radius: var(--radius);
+
+    &:hover, &:focus-within{
+        background: var(--pink-250);
+
+        svg{ color: var(--pink-500); }
+    }
+}
+.icon-btn.outer-color{
+    background: var(--pink-500);
+
+    &, svg{ color: var(--pink-150);}
+
+    &:hover { background: var(--pink-450) }
+}
+
+.dark-mode{
+    .icon-wrapper{
+        .icon-bg{color: var(--pink-900);}
     }
 }
 
-select{
-    cursor: pointer;
-}
 
-.regular-input{
+
+
+/* =-=-=-=-=-=-=-=-=-= INPUTS =-=-=-=-=-=-=-=-=-=  */
+input, select{
+    width: 100%;
+    
+    border: none;
+    background: none;
+
+    padding: 1em;
+    border-radius: var(--radius);
+}
+select{ cursor: pointer; }
+
+.regular-input-box{
     display: flex;
     flex-direction: column;
     gap: 0.3em;
 
-    cursor: pointer;
+    border-bottom: 1px solid var(--pink-300);
 
-    label{
-        cursor: pointer;
-    }
+    input{
+        color: var(--pink-800);
+        font-weight: bold;
 
-    input, select{
-        border-bottom: 1px solid var(--pink-300);
-    }
-
-    &:hover input,
-    &:focus-within input{
-        background: var(--pink-150);
-
-        &::placeholder{
-            color: var(--pink-400);
+        &::placeholder{ 
+            color: var(--pink-300); 
+            font-weight: bold; 
         }
-    }   
+    }
+
+    &:hover, &:focus-within{
+        input{ background: var(--pink-150); }
+    }
 }
 
-
-.search-input{
+.outer-input-box{
     display: flex;
     align-items: center;
     gap: 0.5em;
 
-    width: 100%;
-    max-width: 450px;
-    
     background: var(--white);
-
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius);
 
     label{
         @include m.flex-center;
         padding-inline: 0.5em;
-        border-right: 1px solid var(--pink-700);
-        svg{
-            color: var(--pink-700);
-        }
+        border-right: 1px solid var(--pink-700);  
+
+        svg{ color: var(--pink-700); }
     }
 
     input{
-        padding: 1em 1em 1em 0.5em;
-        font-size: 1em;
-    }
-}
+        color: var(--pink-800);
+        font-weight: bold;
 
-.sort-btn{
-    background: var(--pink-500);
-    border-radius: var(--radius-sm);
-
-    &:hover,
-    &:focus-within{
-        background: var(--pink-450);
-    }
-
-    summary{
-        @include m.flex-center;
-        padding: 0.3em;
-
-        svg{
-            color: var(--pink-150);
-        }
-    }
-}
-
-.dark-mode{
-    .search-input{
-        background: var(--pink-900);
-
-        label{
-            border-right: 1px solid var(--pink-300);
-            svg{
-                color: var(--pink-300);
-            }
+        &::placeholder{
+            color: var(--pink-300); 
+            font-weight: bold; 
         }
     }
 
-    .sort-btn{
-        background: var(--pink-450);
-
-        &:hover,
-        &:focus-within{
-            background: var(--pink-500);
-        }
+    &:focus-visible, &:focus-within, &:hover{
+        background: var(--pink-200);
     }
 }
+
+
+/* =-=-=-=-=-=-=-=-=-=  DARK MODE =-=-=-=-=-=-=-=-=-= */

@@ -1,4 +1,4 @@
-<?php 
+<?php
     $host     = "container_database"; 
     $db       = "acai_admin";
     $user     = "user";

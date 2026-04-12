@@ -96,11 +96,18 @@
   gap: 1em;
   width: 100%;
   max-width: 480px;
-  background: var(--white);
   padding: 1em;
-  font-weight: bold;
+}
+@media (min-width: 1024px) {
+  .hero .image {
+    width: clamp(0px, 30vw, 480px);
+  }
+}
+.hero .image {
+  background: var(--white);
   color: var(--pink-450);
   box-shadow: 0px 0px 10px var(--shadow);
+  font-weight: bold;
 }
 .hero .image svg {
   color: var(--pink-500);
@@ -124,40 +131,31 @@
 }
 .hero .image img {
   width: 100%;
-  background: var(--pink-150);
   padding: 2em;
+  background: var(--pink-150);
 }
 .hero .image .bottom span {
   gap: 1em;
 }
 
-.about-us .icon-box {
+.about-us .icon-wrapper {
   --size: 45px;
-}
-@media (min-width: 1024px) {
-  .about-us .icon-box {
-    width: var(--size, 35px);
-    height: var(--size, 35px);
-  }
-}
-.about-us .icon-box .icon {
-  color: var(--pink-500);
 }
 .about-us .container {
   display: flex;
   justify-content: space-between;
   gap: 1em;
-  overflow: scroll;
   padding-block: 0.5em;
+  overflow: scroll;
 }
 .about-us .container .item {
   display: flex;
   flex-direction: column;
   gap: 1em;
-  padding: 1em;
   min-height: 300px;
   min-width: 400px;
   max-width: 400px;
+  padding: 1em;
   background: var(--white);
   border-radius: var(--radius-sm);
   box-shadow: 0px 0px 10px var(--shadow);
@@ -196,8 +194,7 @@
   max-width: 260px;
 }
 
-.features,
-.about-us {
+.features, .about-us {
   padding: 0.5em;
 }
 
@@ -217,7 +214,7 @@
 .dark-mode .hero .image img {
   background: var(--pink-950);
 }
-.dark-mode .about-us .icon-box .icon {
+.dark-mode .about-us .icon-box .icon-svg {
   color: var(--pink-300);
 }
 .dark-mode .about-us .container .item {

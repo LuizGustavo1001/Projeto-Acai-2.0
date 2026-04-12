@@ -44,9 +44,11 @@ main{
 
             .title{
                 border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-                padding: 0.5em;
+                padding: 0.5em 1em;
 
                 width: 70%;
+
+                box-shadow: 0px 0px 10px var(--light-shadow);
 
                 h1{
                     font-size: clamp(1.2em, 3vw, 1.5em);
@@ -55,12 +57,14 @@ main{
             }
 
             .content{
-                border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+                border-radius: 0 var(--radius-sm) var(--radius-sm) var(--radius-sm);
                 padding: 1em;
                 
                 display: flex;
                 flex-direction: column;
                 gap: 1em;
+
+                box-shadow: 0px 10px 10px var(--light-shadow);
 
                 li{
                     --size: 45px;
