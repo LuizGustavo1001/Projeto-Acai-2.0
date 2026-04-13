@@ -12,9 +12,7 @@ button{
     top: 0;
     right: 0;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include m.flex-center;
 
     width: 20px;
     height: 20px;
@@ -72,7 +70,6 @@ button{
 
     .icon-bg{
         @include m.flex-center;
-        border-radius: var(--radius-lg);
         padding: 0.3em 1em;
         border-radius: var(--radius-lg);
 
@@ -81,7 +78,7 @@ button{
 
     .label{ font-size: 0.8em; }
 
-    &:hover{
+    &:hover, &.selected{
         .icon-bg{ background: var(--pink-200); }
 
         .icon-svg, p{ color: var(--pink-500)}
@@ -135,9 +132,9 @@ button{
         
         z-index: 1;
 
-        &.active{ color: var(--pink-500); }
+        &.active .icon-svg{ color: var(--pink-500); }
 
-        svg{ 
+        .icon-svg{ 
             width: var(--size); 
             height: calc(var(--size) + 0.5em);
         }
@@ -357,3 +354,102 @@ select{ cursor: pointer; }
 
 
 /* =-=-=-=-=-=-=-=-=-=  DARK MODE =-=-=-=-=-=-=-=-=-= */
+.dark-mode{
+    .cart-amount{ background: var(--pink-500); }
+
+    .regular-details{
+        nav{
+            background: var(--pink-900);
+
+            a{
+                &:hover{
+                    background: var(--pink-850);
+                    color: var(--pink-350);
+                }
+            }
+        }
+    }
+
+    .nav-link{
+        &:hover, &.selected{
+            .icon-bg{ background: var(--pink-950); }
+            .icon-svg, p{ color: var(--pink-350); }
+        }
+    }
+
+    .toggle-theme.regular{
+        background: var(--pink-900);
+
+        .selected-bg{ background: var(--pink-950); }
+
+        .icon-bg{
+            &.active .icon-svg{ color: var(--pink-350); }
+        }
+    }
+
+    .toggle-theme.outer{
+        &:hover{
+            background: var(--pink-950);
+
+            .toggle-icon{ color: var(--pink-350); }
+        }
+    }
+
+    .icon-wrapper{
+        .icon-bg{ color: var(--pink-900); }
+    }
+
+    .icon-wrapper.hover:hover{
+        .icon-bg{ color: var(--pink-950); }
+        
+        .icon-svg{ color: var(--pink-350); }
+    }
+
+    .back-button{
+        &:hover{
+            span, svg{ color: var(--pink-300); }
+        }
+
+        span, svg{ color: var(--pink-350); }
+    }
+
+    .regular-btn{
+        background: linear-gradient(to left, var(--pink-400), var(--pink-450) 70%);
+        background-size: 200% 100%;
+        background-position: left;
+
+        &:hover{ background-position: right }
+    }
+
+    .regular-input-box{
+        border-color: var(--pink-700);
+
+        input{
+            color: var(--pink-300);
+
+            &::placeholder{ color: var(--pink-700); }
+        }
+
+        &:hover, &:focus-within{
+            input{ background: var(--pink-950); }
+        }
+    }
+
+    .outer-input-box{
+        background: var(--pink-900);
+
+        label{
+            border-color: 1px solid var(--pink-700);  
+
+            svg{ color: var(--pink-700); }
+        }
+
+        input{
+            color: var(--pink-300);
+
+            &::placeholder{ color: var(--pink-700); }
+        }
+
+        &:focus-visible, &:focus-within, &:hover{ background: var(--pink-800); }
+    }
+}

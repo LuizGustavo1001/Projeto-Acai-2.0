@@ -229,49 +229,16 @@ footer{
         .icon-button.menu{
             background: var(--pink-900);
 
-            &:hover{ color: var(--pink-350) }
+            &:hover{ color: var(--pink-350); }
         }
 
-        nav{
-            background: var(--pink-900);
-
-            .item{
-                .cart-amount{
-                    background: var(--pink-350);
-                    color: var(--pink-900);
-                }
-
-                &:hover,
-                &.selected{
-                    color: var(--pink-350);
-
-                    .icon{
-                        background: var(--pink-950);
-                    }
-                }
-
-                &:hover svg,
-                &.selected svg{
-                    color: var(--pink-350);
-                }
-
-            }
-        }
+        aside.regular{ background: var(--pink-900); }
     }
 
     .section-title{
         border-color: var(--pink-300);
 
         h1{ color: var(--pink-300) }
-    }
-
-    .theme-bar{
-        background: var(--pink-950);
-        box-shadow: 0px 0px 10px var(--darker-shadow);
-
-        .selected-bg{ background: var(--pink-900) }
-
-        .icon-bg.active .toggle-icon{ color: var(--pink-350) }
     }
 
     .title-hero{

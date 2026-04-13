@@ -49,8 +49,8 @@ button {
   top: 0;
   right: 0;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   width: 20px;
   height: 20px;
   background: var(--pink-500);
@@ -100,7 +100,6 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: var(--radius-lg);
   padding: 0.3em 1em;
   border-radius: var(--radius-lg);
   color: var(--pink-150);
@@ -108,10 +107,10 @@ button {
 .nav-link .label {
   font-size: 0.8em;
 }
-.nav-link:hover .icon-bg {
+.nav-link:hover .icon-bg, .nav-link.selected .icon-bg {
   background: var(--pink-200);
 }
-.nav-link:hover .icon-svg, .nav-link:hover p {
+.nav-link:hover .icon-svg, .nav-link:hover p, .nav-link.selected .icon-svg, .nav-link.selected p {
   color: var(--pink-500);
 }
 
@@ -153,10 +152,10 @@ button {
   width: 50%;
   z-index: 1;
 }
-.toggle-theme.regular .icon-bg.active {
+.toggle-theme.regular .icon-bg.active .icon-svg {
   color: var(--pink-500);
 }
-.toggle-theme.regular .icon-bg svg {
+.toggle-theme.regular .icon-bg .icon-svg {
   width: var(--size);
   height: calc(var(--size) + 0.5em);
 }
@@ -363,20 +362,89 @@ select {
 }
 
 /* =-=-=-=-=-=-=-=-=-=  DARK MODE =-=-=-=-=-=-=-=-=-= */
-.dark-mode .search-input {
+.dark-mode .cart-amount {
+  background: var(--pink-500);
+}
+.dark-mode .regular-details nav {
   background: var(--pink-900);
 }
-.dark-mode .search-input label {
-  border-right: 1px solid var(--pink-300);
+.dark-mode .regular-details nav a:hover {
+  background: var(--pink-850);
+  color: var(--pink-350);
 }
-.dark-mode .search-input label svg {
+.dark-mode .nav-link:hover .icon-bg, .dark-mode .nav-link.selected .icon-bg {
+  background: var(--pink-950);
+}
+.dark-mode .nav-link:hover .icon-svg, .dark-mode .nav-link:hover p, .dark-mode .nav-link.selected .icon-svg, .dark-mode .nav-link.selected p {
+  color: var(--pink-350);
+}
+.dark-mode .toggle-theme.regular {
+  background: var(--pink-900);
+}
+.dark-mode .toggle-theme.regular .selected-bg {
+  background: var(--pink-950);
+}
+.dark-mode .toggle-theme.regular .icon-bg.active .icon-svg {
+  color: var(--pink-350);
+}
+.dark-mode .toggle-theme.outer:hover {
+  background: var(--pink-950);
+}
+.dark-mode .toggle-theme.outer:hover .toggle-icon {
+  color: var(--pink-350);
+}
+.dark-mode .icon-wrapper .icon-bg {
+  color: var(--pink-900);
+}
+.dark-mode .icon-wrapper.hover:hover .icon-bg {
+  color: var(--pink-950);
+}
+.dark-mode .icon-wrapper.hover:hover .icon-svg {
+  color: var(--pink-350);
+}
+.dark-mode .back-button:hover span, .dark-mode .back-button:hover svg {
   color: var(--pink-300);
 }
-.dark-mode .sort-btn {
-  background: var(--pink-450);
+.dark-mode .back-button span, .dark-mode .back-button svg {
+  color: var(--pink-350);
 }
-.dark-mode .sort-btn:hover, .dark-mode .sort-btn:focus-within {
-  background: var(--pink-500);
+.dark-mode .regular-btn {
+  background: linear-gradient(to left, var(--pink-400), var(--pink-450) 70%);
+  background-size: 200% 100%;
+  background-position: left;
+}
+.dark-mode .regular-btn:hover {
+  background-position: right;
+}
+.dark-mode .regular-input-box {
+  border-color: var(--pink-700);
+}
+.dark-mode .regular-input-box input {
+  color: var(--pink-300);
+}
+.dark-mode .regular-input-box input::placeholder {
+  color: var(--pink-700);
+}
+.dark-mode .regular-input-box:hover input, .dark-mode .regular-input-box:focus-within input {
+  background: var(--pink-950);
+}
+.dark-mode .outer-input-box {
+  background: var(--pink-900);
+}
+.dark-mode .outer-input-box label {
+  border-color: 1px solid var(--pink-700);
+}
+.dark-mode .outer-input-box label svg {
+  color: var(--pink-700);
+}
+.dark-mode .outer-input-box input {
+  color: var(--pink-300);
+}
+.dark-mode .outer-input-box input::placeholder {
+  color: var(--pink-700);
+}
+.dark-mode .outer-input-box:focus-visible, .dark-mode .outer-input-box:focus-within, .dark-mode .outer-input-box:hover {
+  background: var(--pink-800);
 }
 
 * {
@@ -514,29 +582,11 @@ img {
   background: var(--pink-950);
   color: var(--pink-200);
 }
-.dark-mode details nav {
-  background: var(--pink-900);
-}
-.dark-mode details nav a:hover {
-  background: var(--pink-850);
-  color: var(--pink-350);
+.dark-mode .icon-svg {
+  color: var(--pink-200);
 }
 .dark-mode .horizontal-line {
   background: linear-gradient(to left, transparent, var(--pink-800), transparent);
-}
-.dark-mode .regular-btn {
-  background: linear-gradient(to left, var(--pink-400), var(--pink-450) 70%);
-  background-size: 200% 100%;
-  background-position: left;
-}
-.dark-mode .regular-btn:hover {
-  background-position: right;
-}
-.dark-mode .back-button:hover span, .dark-mode .back-button:hover svg {
-  color: var(--pink-300);
-}
-.dark-mode .back-button span, .dark-mode .back-button svg {
-  color: var(--pink-350);
 }
 
 /* =-=-=-=-=-=-=-=-=-= ANIMATIONS =-=-=-=-=-=-=-=-=-= */

@@ -93,20 +93,18 @@ main {
   text-decoration: underline;
 }
 
+/* =-=-=-=-=-=-=-=-=-=  DARK MODE =-=-=-=-=-=-=-=-=-= */
 .dark-mode .hero {
   background: var(--pink-900);
-}
-.dark-mode .hero .icon-box .icon-bg {
-  color: var(--pink-950);
-}
-.dark-mode .hero .icon-box .icon {
-  color: var(--pink-300);
 }
 .dark-mode .hero .title h1 {
   color: var(--pink-200);
 }
 .dark-mode .hero .title p {
   color: var(--pink-300);
+}
+.dark-mode .hero .icon-wrapper .icon-bg {
+  color: var(--pink-950);
 }
 .dark-mode .hero .fot {
   color: var(--pink-300);

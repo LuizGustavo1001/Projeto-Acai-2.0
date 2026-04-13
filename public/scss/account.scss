@@ -73,6 +73,10 @@ main{
             p{ color: var(--pink-300) }
         }
 
+        .icon-wrapper{
+            .icon-bg{ color: var(--pink-950);}
+        }
+
         .fot{ color: var(--pink-300); }
     }
 }

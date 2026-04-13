@@ -132,35 +132,9 @@ img{ width: 100px; }
     background: var(--pink-950);
     color: var(--pink-200);    
 
-    details{
-        nav{
-            background: var(--pink-900);
-            a{
-                &:hover{
-                    background: var(--pink-850);
-                    color: var(--pink-350);
-                }
-            }
-        }
-    }
+    .icon-svg{ color: var(--pink-200);}
 
     .horizontal-line{ background: linear-gradient(to left, transparent, var(--pink-800), transparent); }
-
-    .regular-btn{
-        background: linear-gradient(to left, var(--pink-400), var(--pink-450) 70%);
-        background-size: 200% 100%;
-        background-position: left;
-
-        &:hover{ background-position: right }
-    }
-
-    .back-button{
-        &:hover{
-            span, svg{ color: var(--pink-300); }
-        }
-
-        span, svg{ color: var(--pink-350); }
-    }
 }
 
 
