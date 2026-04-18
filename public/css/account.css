@@ -1,8 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Delius+Swash+Caps&family=Quicksand:wght@300..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Delius+Swash+Caps&family=Google+Sans+Flex:opsz,wght@6..144,1..1000&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
 :root {
   --font-style: "Delius Swash Caps", "cursive";
-  --font-serif: "Bricolage Grotesque", "serif";
-  --font-sans: "Quicksand", "sans-serif";
+  --font-serif: "Ubuntu", "serif";
+  --font-sans: "Google Sans Flex", "sans-serif";
   --radius: 0.25em;
   --radius-sm: calc(var(--radius) + 0.25em);
   --radius-m: calc(var(--radius-sm) + 1em);
@@ -63,7 +63,7 @@ main {
   font-size: 1em;
 }
 .hero .icon-wrapper {
-  --size: 50px;
+  --size: 60px;
 }
 .hero .icon-wrapper .icon-bg {
   color: var(--pink-150);

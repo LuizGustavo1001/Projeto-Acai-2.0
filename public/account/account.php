@@ -1,76 +1,4 @@
-<?php 
-    require_once __DIR__ . '/../../databaseConnection.php';
-    require_once "../generalPHP.php";
-    require_once "../footerHeader.php";
-    require_once "../printStyles.php";
-
-    if(isset($_GET["logout"])){ logout(); }
-
-    if ($_SERVER["REQUEST_METHOD"] === "POST") { changeColumn(); }
-
-    if (isset($_SESSION["isAdmin"])){ setCookies("adminNotAllowed", "../manager/admin.php", 0); }
-
-    if(! isset($_SESSION["userMail"])){
-        header("location: login.php");
-        exit();
-    }
-
-    checkSession();
-
-    function changeColumn(){
-        // function to change the value on Database associated to the value changed at the form in HTML
-        global $mysqli;
-        $allowedInputs = [
-            "userName", "userPhone", "district", "localNum", 
-            "referencePoint", "street", "city", "state"
-        ];
-
-        for($i = 0; $i < sizeof($allowedInputs); $i++){
-            if(isset($_POST[$allowedInputs[$i]])){
-                $newValue = trim($_POST[$allowedInputs[$i]]);
-
-                if($newValue != ""){
-                    $changeData = $mysqli->prepare("UPDATE user_data SET $allowedInputs[$i] = ? WHERE idUser = ?;") or die("var changeData (login.php): " . $mysqli->errno);
-                    $changeData->bind_param("si", $newValue, $_SESSION["idUser"]);
-
-                    if($allowedInputs[$i] == "referencePoint" or $allowedInputs[$i] == "state"){
-                        // special inputs -> can be null or the option is always selected on the form
-                        if($newValue != $_SESSION[$allowedInputs[$i]]){
-                            $changeData->execute();
-                            $changeData->close();
-                            switch($i){
-                                case 0:
-                                    $_SESSION["userName"] = $newValue;
-                                    break;
-                                case 1:
-                                    $_SESSION["userPhone"] = $newValue;
-                                    break;
-                                default: 
-                                    $_SESSION[$allowedInputs[$i]] = $newValue;
-                                    break;
-                            }
-                        }
-                    }else{
-                        if($newValue != $_SESSION[$allowedInputs[$i]]){
-                            $changeData->execute();
-                            switch($i){
-                                case 0:
-                                    $_SESSION["userName"] = $newValue;
-                                    break;
-                                case 1:
-                                    $_SESSION["userPhone"] = $newValue;
-                                    break;
-                                default: 
-                                    $_SESSION[$allowedInputs[$i]] = $newValue;
-                                    break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-?>
+<?php require_once __DIR__ . '/../../src/controller/account/accountController.php'; ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -109,14 +37,14 @@
                 <div class="regular-input-box">
                     <label for="iuserName">Nome: </label>
                     <div class="form-input">
-                        <input type="text" name="userName" id="iuserName" maxlength="30" minlength="8" placeholder="<?php echo $_SESSION['userName']; ?>" >
+                        <input type="text" name="nameUser" id="iuserName" maxlength="30" minlength="8" placeholder="<?php echo $_SESSION['nameUser']; ?>" >
                     </div>
                 </div>
 
                 <div class="regular-input-box">
                     <label for="iuserPhone">Telefone de Contato:</label>
                     <div class="form-input">
-                        <input type="text" name="userPhone" id="iuserPhone" minlength="15" maxlength="16" pattern="\(\d{2}\) \d \d{4} \d{4}" placeholder="<?php echo $_SESSION['userPhone']; ?>" >
+                        <input type="text" name="userPhone" id="iuserPhone" minlength="15" maxlength="16" pattern="\(\d{2}\) \d \d{4} \d{4}" placeholder="<?php echo $_SESSION['phoneUser']; ?>" >
                     </div>
                 </div>
 
@@ -124,13 +52,13 @@
                     <div class="regular-input-box">
                         <label for="istreet">Rua: </label>
                         <div class="form-input">
-                            <input type="text" name="street" id="istreet" maxlength="50" placeholder="<?php echo $_SESSION['street']; ?>" >
+                            <input type="text" name="a_street" id="istreet" maxlength="50" placeholder="<?php echo $_SESSION['a_street']; ?>" >
                         </div>
                     </div>
                     <div class="regular-input-box">
                         <label for="ilocalNum">Número: </label>
                         <div class="form-input">
-                            <input type="number" name="localNum" id="ilocalNum" max="99999999" placeholder="<?php echo $_SESSION['localNum']; ?>">
+                            <input type="number" name="a_numHouse" id="ilocalNum" max="99999999" placeholder="<?php echo $_SESSION['a_numHouse']; ?>">
                         </div>
                     </div>
                 </div>
@@ -138,7 +66,7 @@
                 <div class="regular-input-box">
                     <label for="iuserDistrict">Bairro: </label>
                     <div class="form-input">
-                        <input type="text" name="district" id="iuserDistrict" maxlength="40" placeholder="<?php echo $_SESSION['district']; ?>" >
+                        <input type="text" name="a_district" id="iuserDistrict" maxlength="40" placeholder="<?php echo $_SESSION['a_district']; ?>" >
                     </div>
                 </div>
 
@@ -146,19 +74,19 @@
                     <div class="regular-input-box">
                         <label for="iuserCity">Cidade: </label>
                         <div class="form-input">
-                            <input type="text" name="city" id="iuserCity" maxlength="40" placeholder="<?php echo $_SESSION['city']; ?>">
+                            <input type="text" name="a_city" id="iuserCity" maxlength="40" placeholder="<?php echo $_SESSION['a_city']; ?>">
                         </div>
                     </div>
                     <div class="regular-input-box">
                         <label for="istate">Estado</label>
-                        <select name="state" id="istate"> <?php displayStateOptions() ?> </select>
+                        <select name="a_state" id="istate"> <?php displayStateOptions() ?> </select>
                     </div>
                 </div>
 
                 <div class="regular-input-box">
                     <label for="ireferencePoint">Ponto de Referência: </label>
                     <div class="form-input">
-                        <input type="text" name="referencePoint" id="ireferencePoint" maxlength="50" placeholder="<?php echo $_SESSION['referencePoint']; ?>">
+                        <input type="text" name="a_referencePoint" id="ireferencePoint" maxlength="50" placeholder="<?php echo $_SESSION['a_referencePoint']; ?>">
                     </div>
                 </div>
                 <button class="regular-btn">Editar</button>
@@ -173,6 +101,5 @@
     </main>
 
     <script src="/js/general.js"></script>
-    <script src="/js/script.js"></script>
 </body>
 </html>

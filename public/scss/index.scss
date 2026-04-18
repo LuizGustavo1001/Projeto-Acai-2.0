@@ -122,6 +122,10 @@
                 background-size: cover;
                 border-radius: var(--radius-sm);
 
+                .icon-wrapper{
+                    .icon-svg{ color: var(--pink-500);}
+                }
+
                 p{
                     font-family: var(--font-serif);
                     font-weight: bold;
@@ -177,10 +181,6 @@
     }
 
     .about-us{
-        .icon-box{
-            .icon-svg{ color: var(--pink-300) }
-        }
-
         .container{
             .item{
                 background: var(--pink-900);
@@ -189,7 +189,11 @@
                     background: var(--pink-950) url("https://res.cloudinary.com/dw2eqq9kk/image/upload/v1775004022/damascus-pattern-grey-free-png_1_dsvn0g.png");
                     background-size: cover;
 
-                    p{ color: var(--pink-200) }
+                    .icon-wrapper{
+                        .icon-svg{ color: var(--pink-350);}
+                    }
+
+                    p{ color: var(--pink-350) }
                 }
             }
         }

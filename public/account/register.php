@@ -1,84 +1,7 @@
-<?php
-    require_once __DIR__ . '/../../databaseConnection.php';
-    require_once "../generalPHP.php";
-    require_once "../footerHeader.php";
-    require_once "../printStyles.php";
-    
-    if (isset($_SESSION["isAdmin"])) { setCookies("adminNotAllowed", "../manager/admin.php", 0); }
-
-    if (isset($_SESSION["userMail"])) {
-        header("location: account.php");
-        exit();
-    }
-
-    if (isset($_GET["userAdd"])) { setCookies("registered", "login.php", 1); }
-
-    if( isset($_POST["name"], $_POST["email"], $_POST["phone"],
-        $_POST["street"], $_POST["houseNum"] ,$_POST["district"],
-        $_POST["city"], $_POST["reference"], $_POST["password"])){
-        addUser();
-    }
-
-    function addUser(){
-        // function to register a new user as client(default)
-        global $mysqli;
-
-        $inputEmail = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
-        $verifyEmail = $mysqli->prepare("
-            SELECT userMail 
-            FROM user_data 
-            WHERE userMail = ?
-        ") or die("var verifyEmail (register.php): " . $mysqli->errno);
-        $verifyEmail->bind_param("s", $inputEmail);
-
-        $verifyEmail->execute();
-        $resultEmail = $verifyEmail->get_result();
-        $verifyEmail->close();
-
-        switch($resultEmail->num_rows){
-            case 0:
-                // there's no user registered with the email input -> register new one
-                $domain = substr(strrchr($inputEmail, "@"), 1);
-                if (checkdnsrr($domain, "MX")) {
-                    // verify if the email domain exists
-                    $name       = mb_convert_case($_POST['name'], MB_CASE_TITLE, "UTF-8");
-                    $phone      = $_POST["phone"];
-                    $street     = $_POST["street"];
-                    $houseNum   = $_POST["houseNum"];
-                    $district   = mb_convert_case($_POST["district"], MB_CASE_TITLE, "UTF-8");
-                    $city       = mb_convert_case($_POST["city"], MB_CASE_TITLE, "UTF-8");
-                    $reference  = $_POST["reference"] ?? null;
-                    $state      = $_POST["state"];
-                    $password   = password_hash($_POST['password'], PASSWORD_DEFAULT);
-
-                    $insertData = $mysqli->prepare("
-                            INSERT INTO user_data (userName, userMail, userPassword, userPhone, district, localNum, referencePoint, street, city, state) VALUES 
-                                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-                    ) or die("var insertData (register.php): " . $mysqli->errno);
-
-                    $insertData->bind_param("ssssssssss", $name, $inputEmail, $password, $phone, $district, $houseNum, $reference, $street, $city, $state);
-                    $insertData->execute();
-                    $insertData->close();
-
-                    // insert the user as client (default)
-                    $clientId = $mysqli->insert_id;
-                    $insertClient = $mysqli->prepare("INSERT INTO client_data (idClient) VALUES (?)") or die("var insertClient (register.php): " . $mysqli->errno);
-                    $insertClient->bind_param("i", $clientId);
-                    $insertClient->execute();
-                    $insertClient->close();
-                }else{
-                    setCookies("invalidDomain", "register.php", 0); 
-                }
-            default:
-                setCookies("emailExists", "register.php", 0);
-        }
-    }
-?>
-
+<?php require_once __DIR__ . '/../../src/controller/account/registerController.php'; ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -179,6 +102,5 @@
     </main>
 
     <script src="/js/general.js"></script>
-    <script src="/js/script.js"></script>
 </body>
 </html>

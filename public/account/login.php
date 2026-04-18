@@ -1,96 +1,4 @@
-<?php
-    require_once __DIR__ . '/../../databaseConnection.php';
-    require_once "../generalPHP.php";
-    require_once "../footerHeader.php";
-    require_once "../printStyles.php";
-
-    $currentDate = date("Y-m-d");
-    $currentHour = date("H:i:s");
-
-    if (isset($_SESSION["isAdmin"])){ setCookies("adminNotAllowed", "../manager/admin.php", 0); }
-    
-    if(isset($_SESSION["clientMail"])){
-        header("location: account.php");
-        exit(); 
-    }
-
-    if(isset($_POST["email"])){ login(); }
-
-    function login(){
-        global $mysqli;
-
-        // verify email domain
-        $inputEmail = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
-        if (!filter_var($inputEmail, FILTER_VALIDATE_EMAIL)){ setCookies("invalidEmail", "login.php", 0); }
-
-        $inputPassword = $_POST["password"];
-
-        $getUser = $mysqli->prepare("
-            SELECT idUser, userMail, userPassword, userName, userPhone, district, city, street, localNum, referencePoint, state
-            FROM user_data
-            WHERE userMail = ?
-            LIMIT 1
-        ") or die("var getUser (login.php): " . $mysqli->errno);
-        $getUser->bind_param("s", $inputEmail);
-
-        $getUser->execute();
-        $result = $getUser->get_result();
-        $getUser->close();
-
-        if($result->num_rows === 0){ setCookies("errorLogin", "login.php", 0); }
-
-        $user = $result->fetch_assoc();
-        if(! password_verify($inputPassword, $user["userPassword"])){ setCookies("errorLogin", "login.php", 0); }
-
-        // verify user type
-        $getUserType = $mysqli->prepare("SELECT idClient FROM client_data WHERE idClient = ?") or die("var getUserType (login.php): " . $mysqli->error);
-        $getUserType->bind_param("i", $user["idUser"]);
-
-        $getUserType->execute();
-        $userType = $getUserType->get_result();
-        $getUserType->close();
-
-        $uType = $userType->num_rows === 0 ? "admin" : "client";
-
-        // start session
-        session_regenerate_id(true);
-        $_SESSION = [
-            "idUser"         => $user["idUser"],
-            "userPhone"      => $user["userPhone"],
-            "userName"       => $user["userName"],
-            "userMail"       => $inputEmail,
-            "district"       => $user["district"],
-            "localNum"       => $user["localNum"],
-            "referencePoint" => $user["referencePoint"],
-            "street"         => $user["street"],
-            "city"           => $user["city"],
-            "state"          => $user["state"],
-            "lastActivity"   => time()
-        ];
-
-        if($uType === "client"){
-            $currentDate = date("Y-m-d");
-            $currentHour = date("H:i:s");
-
-            $newOrder = $mysqli->prepare("INSERT INTO order_data (idClient, orderDate, orderHour) VALUES (?, ?,?)") or die("var newOrder (login.php): " . $mysqli->error);
-            $newOrder->bind_param("iss", $_SESSION["idUser"], $currentDate, $currentHour);
-
-            $newOrder->execute();
-            $newOrder->close();
-
-            $_SESSION["idOrder"] = $mysqli->insert_id;
-            verifyOrders();
-
-            setCookies("loginSuccess", "../index.php", 1);
-        }else{
-            $_SESSION["isAdmin"] = true;
-            verifyOrders();
-
-            header("location: ../manager/admin.php");
-            exit();
-        }
-    }
-?>
+<?php require_once __DIR__ . '/../../src/controller/account/loginController.php'; ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -148,6 +56,5 @@
     </main>
 
     <script src="/js/general.js"></script>
-    <script src="/js/script.js"></script>
 </body>
 </html>

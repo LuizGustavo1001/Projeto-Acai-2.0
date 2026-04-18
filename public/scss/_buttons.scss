@@ -58,7 +58,6 @@ button{
 }
 
 
-
 .nav-link{
     position: relative;
     width: fit-content;
@@ -76,7 +75,7 @@ button{
         color: var(--pink-150);
     }
 
-    .label{ font-size: 0.8em; }
+    .label{ font-size: 0.75em;  }
 
     &:hover, &.selected{
         .icon-bg{ background: var(--pink-200); }
@@ -203,6 +202,7 @@ button{
 
     width: fit-content;
 
+    font-weight: bold;
     cursor: pointer;
 
     &:hover{
@@ -278,14 +278,6 @@ button{
     &:hover { background: var(--pink-450) }
 }
 
-.dark-mode{
-    .icon-wrapper{
-        .icon-bg{color: var(--pink-900);}
-    }
-}
-
-
-
 
 /* =-=-=-=-=-=-=-=-=-= INPUTS =-=-=-=-=-=-=-=-=-=  */
 input, select{
@@ -306,7 +298,12 @@ select{ cursor: pointer; }
 
     border-bottom: 1px solid var(--pink-300);
 
-    input{
+    label{
+        font-weight: 500;
+        color: var(--pink-700);
+    }
+
+    input, select{
         color: var(--pink-800);
         font-weight: bold;
 
@@ -317,7 +314,7 @@ select{ cursor: pointer; }
     }
 
     &:hover, &:focus-within{
-        input{ background: var(--pink-150); }
+        input, select{ background: var(--pink-150); }
     }
 }
 
@@ -423,15 +420,18 @@ select{ cursor: pointer; }
 
     .regular-input-box{
         border-color: var(--pink-700);
-
-        input{
+        
+        label{
             color: var(--pink-300);
+        }
 
+        input, select{
+            color: var(--pink-300);
             &::placeholder{ color: var(--pink-700); }
         }
 
         &:hover, &:focus-within{
-            input{ background: var(--pink-950); }
+            input, select{ background: var(--pink-950); }
         }
     }
 
@@ -439,7 +439,7 @@ select{ cursor: pointer; }
         background: var(--pink-900);
 
         label{
-            border-color: 1px solid var(--pink-700);  
+            border-color: var(--pink-700);  
 
             svg{ color: var(--pink-700); }
         }
@@ -451,5 +451,22 @@ select{ cursor: pointer; }
         }
 
         &:focus-visible, &:focus-within, &:hover{ background: var(--pink-800); }
+    }
+
+    .icon-btn{
+        background: var(--pink-900);
+
+        &:hover, &:focus-within{
+            background: var(--pink-850);
+
+            svg{ color: var(--pink-350); }
+        }
+    }
+    .icon-btn.outer-color{
+        background: var(--pink-850);
+
+        &, svg{ color: var(--pink-150);}
+
+        &:hover { background: var(--pink-900) }
     }
 }

@@ -1,31 +1,12 @@
-<?php
-// print the amount of products on the cart at header
-function verifyCartAmount(){
-    global $mysqli;
+<?php 
+/* PHP for all pages instead /manager directory */
 
-    if(isset($_SESSION["idOrder"])){
-        $getCartAmount = $mysqli->prepare("SELECT COUNT(*) AS itemCount FROM product_order WHERE idOrder = ?") or die("var getCartAmount (FooterHeader.php):" . $mysqli->errno);
-        $getCartAmount->bind_param("i", $_SESSION["idOrder"]);
-        
-        $getCartAmount->execute();
-        $result = $getCartAmount->get_result();
-        $getCartAmount->close();
-
-        if($result){
-            $row = $result->fetch_assoc();
-            $cartAmount = $row["itemCount"];
-            
-            return "<div class=\"cart-amount\">{$cartAmount}</div>";
-        }else{
-            return "<div class=\"cart-amount\">0</div>";
-        }
-    }
-    return "";
-}
+require_once __DIR__ . '/baseController.php';
 
 function displayFavicon(){
     echo "<link rel=\"shortcut icon\" href='https://res.cloudinary.com/dw2eqq9kk/image/upload/v1755358113/acai-icon_jsrexi_t30xv5.png' type=\"image/x-icon\">";
 }
+
 
 function displayHeader($page = "index"){
     $userPage = "/account/account.php";
