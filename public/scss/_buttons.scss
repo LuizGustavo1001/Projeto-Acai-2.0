@@ -206,7 +206,7 @@ button{
     cursor: pointer;
 
     &:hover{
-        span, svg{ color: var(--pink-400); }
+        span, svg{ color: var(--pink-450); }
     }
 
     span, svg{ color: var(--pink-500); }
@@ -404,10 +404,10 @@ select{ cursor: pointer; }
 
     .back-button{
         &:hover{
-            span, svg{ color: var(--pink-300); }
+            span, svg{ color: var(--pink-350); }
         }
 
-        span, svg{ color: var(--pink-350); }
+        span, svg{ color: var(--pink-300); }
     }
 
     .regular-btn{

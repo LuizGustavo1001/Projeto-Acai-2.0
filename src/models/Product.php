@@ -102,10 +102,10 @@ class Product extends Model{
             )
         ";
 
-        if($orderAttr && $order){
+        if($orderAttr != '' && $order != ''){
             $sql .= " ORDER BY $orderAttr $order";
         }
-
+        
         $stmt = $this->executeQuery($sql, "s", $type);
         
         $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);

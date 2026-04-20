@@ -157,10 +157,9 @@ function getIcon($name){
 
         "back" => '
             <svg class="icon-svg" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M21.875 12.5C21.875 17.6777 17.6777 21.875 12.5 21.875C7.32233 21.875 3.125 17.6777 3.125 12.5C3.125 7.32233 7.32233 3.125 12.5 3.125C17.6777 3.125 21.875 7.32233 21.875 12.5Z" stroke="currentColor" stroke-width="1.5"/>
-                <path d="M8.33398 12.5H16.6673" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M11.4586 9.375L8.42427 12.4094C8.3742 12.4594 8.3742 12.5406 8.42427 12.5906L11.4586 15.625" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2.34375 12.5C2.34375 18.1089 6.89111 22.6562 12.5 22.6562C18.1089 22.6562 22.6562 18.1089 22.6562 12.5C22.6562 6.89111 18.1089 2.34375 12.5 2.34375C6.89111 2.34375 2.34375 6.89111 2.34375 12.5ZM13.2812 8.58936L10.1768 11.7188H17.4805V13.2812H10.1768L13.2812 16.4106L12.1729 17.5112L7.2002 12.5L12.1729 7.48877L13.2812 8.58936Z" fill="currentColor"/>
             </svg>
+
         ',
 
         "login" => '

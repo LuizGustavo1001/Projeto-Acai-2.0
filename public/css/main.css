@@ -225,7 +225,7 @@ button {
   cursor: pointer;
 }
 .back-button:hover span, .back-button:hover svg {
-  color: var(--pink-400);
+  color: var(--pink-450);
 }
 .back-button span, .back-button svg {
   color: var(--pink-500);
@@ -404,10 +404,10 @@ select {
   color: var(--pink-350);
 }
 .dark-mode .back-button:hover span, .dark-mode .back-button:hover svg {
-  color: var(--pink-300);
+  color: var(--pink-350);
 }
 .dark-mode .back-button span, .dark-mode .back-button svg {
-  color: var(--pink-350);
+  color: var(--pink-300);
 }
 .dark-mode .regular-btn {
   background: linear-gradient(to left, var(--pink-400), var(--pink-450) 70%);

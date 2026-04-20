@@ -53,7 +53,7 @@
 
             <div class="container">
                 <?php 
-                    if(isset($_GET["nameProd"])){ echo prodSearchOutput($_GET["nameProd"]); } 
+                    if(isset($_GET["nameProd"])){ echo searchOutput($_GET["nameProd"]); } 
 
                     displayCategories($mapCategories);
                 ?>

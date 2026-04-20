@@ -36,7 +36,7 @@ function displayCategories($map){
 }
 
 // search bar result
-function prodSearchOutput($prodName){
+function searchOutput($prodName){
     global $productModel;
 
     $products = $productModel->getLikeName($prodName);
@@ -69,7 +69,7 @@ function prodSearchOutput($prodName){
 }
 
 
-// print the products based on the selected filter on HTML
+// print the products based on selected filter at HTML
 function categoryItems($type, $orderType){
     global $productModel;
 
