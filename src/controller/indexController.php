@@ -53,7 +53,7 @@ $aboutUsMap = [
         ]
     ],
     [
-        "icon" => getIcon("maps"),
+        "icon" => getIcon("maps_outer"),
         "title" => "Endereço",
         "text" => [
             "Nosso depósito está localizado na <strong>Rua ******, *** - ******, ****, ****</strong>.",

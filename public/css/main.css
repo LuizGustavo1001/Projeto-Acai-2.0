@@ -19,6 +19,7 @@
   --pink-850: #583F48;
   --pink-800: #705861;
   --pink-700: #A17F8C;
+  --pink-600: #B998A5;
   --pink-500: #89475F;
   --pink-450: #AC5373;
   --pink-400: #C8809A;
@@ -418,16 +419,16 @@ select {
   background-position: right;
 }
 .dark-mode .regular-input-box {
-  border-color: var(--pink-700);
+  border-color: var(--pink-800);
 }
 .dark-mode .regular-input-box label {
-  color: var(--pink-300);
+  color: var(--pink-600);
 }
 .dark-mode .regular-input-box input, .dark-mode .regular-input-box select {
   color: var(--pink-300);
 }
 .dark-mode .regular-input-box input::placeholder, .dark-mode .regular-input-box select::placeholder {
-  color: var(--pink-700);
+  color: var(--pink-800);
 }
 .dark-mode .regular-input-box:hover input, .dark-mode .regular-input-box:hover select, .dark-mode .regular-input-box:focus-within input, .dark-mode .regular-input-box:focus-within select {
   background: var(--pink-950);
@@ -475,7 +476,7 @@ select {
   border-left: 4px solid var(--pink-500);
 }
 .section-title h1 {
-  font-size: clamp(1.5em, 4vw, 2em);
+  font-size: clamp(1.5em, 4vw, 1.8em);
   font-family: var(--font-serif);
   color: var(--pink-500);
 }
@@ -585,8 +586,6 @@ header aside.regular .aside-hero .nav-link .icon-svg {
 /* =-=-=-=-=-=-=-=-=-= FOOTER =-=-=-=-=-=-=-=-=-= */
 footer {
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
   gap: 1em;
   padding: 1em;
@@ -596,6 +595,7 @@ footer {
 }
 @media (min-width: 1024px) {
   footer {
+    align-items: center;
     flex-direction: row;
     justify-content: space-between;
     margin: 0;
@@ -606,11 +606,13 @@ footer {
 footer span {
   color: var(--pink-700);
   font-size: clamp(0.8em, 2vw, 1em);
+  text-align: center;
 }
 footer nav {
   display: flex;
   justify-content: center;
   align-items: center;
+  justify-content: space-between;
   gap: 1em;
 }
 footer nav .icon-wrapper {
@@ -646,7 +648,7 @@ footer nav .icon-wrapper {
   gap: 1em;
 }
 .product .content .title {
-  border-left: 4px solid var(--pink-400);
+  border-left: 4px solid var(--pink-700);
   padding-left: 0.5em;
 }
 .product .content .title h1, .product .content .title p {
@@ -657,13 +659,12 @@ footer nav .icon-wrapper {
   overflow: hidden;
 }
 .product .content .title h1 {
-  font-size: clamp(1.2em, 2vw, 1.4em);
+  font-size: 1.2em;
   font-weight: normal;
 }
 .product .content .title p {
-  color: var(--pink-400);
-  font-size: clamp(0.9em, 2vw, 1em);
-  font-weight: bold;
+  color: var(--pink-700);
+  font-size: 0.9em;
 }
 .product .content .price {
   color: var(--pink-450);
@@ -708,7 +709,7 @@ footer nav .icon-wrapper {
   background: var(--pink-900);
 }
 .dark-mode footer span {
-  color: var(--pink-300);
+  color: var(--pink-600);
 }
 .dark-mode .product {
   background: var(--pink-900);
@@ -717,13 +718,16 @@ footer nav .icon-wrapper {
   border-color: var(--pink-800);
 }
 .dark-mode .product .content .title {
-  border-color: var(--pink-400);
+  border-color: var(--pink-600);
 }
 .dark-mode .product .content .title p {
-  color: var(--pink-350);
+  color: var(--pink-600);
 }
 .dark-mode .product .content .price {
-  color: var(--pink-300);
+  color: var(--pink-350);
+}
+.dark-mode .product .content .others {
+  color: var(--pink-600);
 }
 
 /*# sourceMappingURL=main.css.map */

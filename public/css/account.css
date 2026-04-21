@@ -19,6 +19,7 @@
   --pink-850: #583F48;
   --pink-800: #705861;
   --pink-700: #A17F8C;
+  --pink-600: #B998A5;
   --pink-500: #89475F;
   --pink-450: #AC5373;
   --pink-400: #C8809A;
@@ -68,6 +69,9 @@ main {
 .hero .icon-wrapper .icon-bg {
   color: var(--pink-150);
 }
+.hero .icon-wrapper .icon-svg {
+  color: var(--pink-700);
+}
 .hero .icon-wrapper {
   align-self: center;
 }
@@ -77,7 +81,7 @@ main {
   font-size: clamp(1.7em, 4vw, 2em);
 }
 .hero .title p {
-  color: var(--pink-700);
+  color: var(--pink-800);
   font-size: 0.9em;
 }
 .hero .fot {
@@ -105,6 +109,9 @@ main {
 }
 .dark-mode .hero .icon-wrapper .icon-bg {
   color: var(--pink-950);
+}
+.dark-mode .hero .icon-wrapper .icon-svg {
+  color: var(--pink-600);
 }
 .dark-mode .hero .fot {
   color: var(--pink-300);

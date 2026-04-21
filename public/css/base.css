@@ -19,6 +19,7 @@
   --pink-850: #583F48;
   --pink-800: #705861;
   --pink-700: #A17F8C;
+  --pink-600: #B998A5;
   --pink-500: #89475F;
   --pink-450: #AC5373;
   --pink-400: #C8809A;
@@ -418,16 +419,16 @@ select {
   background-position: right;
 }
 .dark-mode .regular-input-box {
-  border-color: var(--pink-700);
+  border-color: var(--pink-800);
 }
 .dark-mode .regular-input-box label {
-  color: var(--pink-300);
+  color: var(--pink-600);
 }
 .dark-mode .regular-input-box input, .dark-mode .regular-input-box select {
   color: var(--pink-300);
 }
 .dark-mode .regular-input-box input::placeholder, .dark-mode .regular-input-box select::placeholder {
-  color: var(--pink-700);
+  color: var(--pink-800);
 }
 .dark-mode .regular-input-box:hover input, .dark-mode .regular-input-box:hover select, .dark-mode .regular-input-box:focus-within input, .dark-mode .regular-input-box:focus-within select {
   background: var(--pink-950);

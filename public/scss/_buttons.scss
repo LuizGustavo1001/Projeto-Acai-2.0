@@ -419,15 +419,15 @@ select{ cursor: pointer; }
     }
 
     .regular-input-box{
-        border-color: var(--pink-700);
+        border-color: var(--pink-800);
         
         label{
-            color: var(--pink-300);
+            color: var(--pink-600);
         }
 
         input, select{
             color: var(--pink-300);
-            &::placeholder{ color: var(--pink-700); }
+            &::placeholder{ color: var(--pink-800); }
         }
 
         &:hover, &:focus-within{

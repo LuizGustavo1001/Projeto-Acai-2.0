@@ -123,13 +123,13 @@
                 border-radius: var(--radius-sm);
 
                 .icon-wrapper{
-                    .icon-svg{ color: var(--pink-500);}
+                    .icon-svg{ color: var(--pink-700);}
                 }
 
                 p{
                     font-family: var(--font-serif);
                     font-weight: bold;
-                    color: var(--pink-500);
+                    color: var(--pink-700);
                 }
             }
 
@@ -137,6 +137,9 @@
                 display: flex;
                 flex-direction: column;
                 gap: 1em;
+
+                font-size: clamp(0.9em, 1vw, 1em);
+
             }
         }
     }
@@ -190,10 +193,10 @@
                     background-size: cover;
 
                     .icon-wrapper{
-                        .icon-svg{ color: var(--pink-350);}
+                        .icon-svg{ color: var(--pink-600);}
                     }
 
-                    p{ color: var(--pink-350) }
+                    p{ color: var(--pink-600) }
                 }
             }
         }

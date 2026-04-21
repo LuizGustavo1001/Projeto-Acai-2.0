@@ -19,6 +19,7 @@
   --pink-850: #583F48;
   --pink-800: #705861;
   --pink-700: #A17F8C;
+  --pink-600: #B998A5;
   --pink-500: #89475F;
   --pink-450: #AC5373;
   --pink-400: #C8809A;
@@ -172,17 +173,18 @@
   border-radius: var(--radius-sm);
 }
 .about-us .container .item .title .icon-wrapper .icon-svg {
-  color: var(--pink-500);
+  color: var(--pink-700);
 }
 .about-us .container .item .title p {
   font-family: var(--font-serif);
   font-weight: bold;
-  color: var(--pink-500);
+  color: var(--pink-700);
 }
 .about-us .container .item .text {
   display: flex;
   flex-direction: column;
   gap: 1em;
+  font-size: clamp(0.9em, 1vw, 1em);
 }
 
 .features .container {
@@ -225,10 +227,10 @@
   background-size: cover;
 }
 .dark-mode .about-us .container .item .title .icon-wrapper .icon-svg {
-  color: var(--pink-350);
+  color: var(--pink-600);
 }
 .dark-mode .about-us .container .item .title p {
-  color: var(--pink-350);
+  color: var(--pink-600);
 }
 
 /*# sourceMappingURL=index.css.map */
