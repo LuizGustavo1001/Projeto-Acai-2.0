@@ -85,16 +85,16 @@ sass public/scss/base.scss public/css/base.css
 ### API Keys (any OS)
 #### Google Cloud (Under Development)
 - Create a [Google Cloud Project](https://www.youtube.com/watch?v=k_PB4ORz2r0) and enable the **Google Sheets API**.
-- Create a service account and download the `credentials.json` file. Place it in project root:
-- At `cart.php` file, update the config variable path to the path to your `credentias.json`:
-```php
-$config->setAuthConfig('../../credentials.json')
-```
-- At `cart.php` file yet, update `$spreadsheetId` value to your **spreadsheet id**:
-```php
-$spreadsheetId = "idHere"
-```
 - Share the spreadsheet with your service account email
+- Create a service account and download the `credentials.json` file. Place it at `/config/`:
+- At `/src/controller/cart/cartController.php`, update the config variable path to the path to your `credentias.json`:
+```php
+$client->setAuthConfig(__DIR__ . '/../../../credentials.json')
+```
+- At `/config/.env`, update `SPREADSHEET_ID` value to your **spreadsheet id**:
+```php
+SPREADSHEET_ID = <ID_HERE>
+```
 #### Cloudinary (Under Development)
 - Create an account on [Cloudinary](https://cloudinary.com)
 - Copy your **API Key** ([tutorial here](https://youtu.be/ZSIt6nCkqNc?si=zzNuC-CHRqCzuVdX&t=34)) and paste it in the `.env` file inside the `composer` directory
