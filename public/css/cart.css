@@ -19,12 +19,12 @@
   --pink-850: #583F48;
   --pink-800: #705861;
   --pink-700: #A17F8C;
+  --pink-600: #B998A5;
   --pink-500: #89475F;
   --pink-450: #AC5373;
   --pink-400: #C8809A;
   --pink-350: #FBB2C8;
   --pink-300: #E4D1D8;
-  --pink-250: #E8DCE0;
   --pink-200: #EFE6EA;
   --pink-150: #F5EFEF;
   --pink-150-outer: #f5efef53;
@@ -110,8 +110,11 @@ main {
   gap: 1em;
   align-items: center;
 }
-.hero .container .item .content li .icon-box .icon-bg {
+.hero .container .item .content li .icon-wrapper .icon-bg {
   color: var(--pink-150);
+}
+.hero .container .item .content li .icon-wrapper .icon-svg {
+  color: var(--pink-700);
 }
 
 .costumer li {
@@ -157,8 +160,11 @@ main {
 .dark-mode .hero .container .item .title, .dark-mode .hero .container .item .content {
   background: var(--pink-900);
 }
-.dark-mode .hero .container .item .content li .icon-box .icon-bg {
+.dark-mode .hero .container .item .content li .icon-wrapper .icon-bg {
   color: var(--pink-950);
+}
+.dark-mode .hero .container .item .content li .icon-wrapper .icon-svg {
+  color: var(--pink-600);
 }
 
 /*# sourceMappingURL=cart.css.map */

@@ -56,39 +56,39 @@ function fillWarning(message, type){
     }
 
     const warningMsgs = {
-            revAdd            : "Reversão de adição <strong>realizada com sucesso</strong>.",
-            revMod            : "Reversão de modificação <strong>realizada com sucesso</strong>.",
-            revRem            : "Reversão de remoção <strong>realizada com sucesso</strong>.",
-            orderConfirmed    : "<strong>Pedido enviado</strong> para nossa central.",
-            loginSuccess      : "<strong>Agora voce pode navegar pelo site e fazer compras em seu nome</strong>.",
-            notAdmin          : "É preciso fazer <strong>login como administrador</strong> para acessar a página de gerenciamento.",
-            prodAdd           : "<strong>Produto adicionado</strong> com sucesso ao <strong>carrinho</strong>.",
-            adminNotAllowed   : "É preciso fazer <strong>login como cliente</strong> para acessar A página anterior.",
-            makeClient        : "<strong>Novo cliente adicionado</strong> com sucesso.",
-            removeS           : "Sucesso ao <strong>remover um item</strong> no banco de dados.",
-            addProduct        : "Sucesso ao <strong>adicinar produto</strong> no banco de dados.",
-            addVersion        : "Sucesso ao <strong>adicinar versão de um produto</strong> ao banco de dados.",
-            makeAdmin         : "<strong>Novo administrador Adicionado</strong> com sucesso.",
-            noItem            : "É preciso adicionar algum produto ao carrinho para concluir a compra.",
-            outOfOrder        : "<strong>Versão do Produto</strong> selecionado está <strong>indisponível</strong>.",
-            errorLogin        : "Email ou senha <strong>incorretos</strong>, tente novamente ou <strong>cadastre-se</strong> no link abaixo.",
-            timeout           : "<strong>Sessão expirada</strong>, realize seus login novamente.",
-            unkUser           : "<strong>Realize seu login</strong> para <strong>adicionar produtos</strong> ao carrinho.",
-            registered        : "Credencias <strong>cadastradas com sucesso</strong>, <strong>realize seu Login</strong>.",
-            newEmail          : "Email <strong>alterado com sucesso</strong>. Autentique-se novamente para continuar.",
-            newPassword       : "Senha <strong>alterada com sucesso</strong>. Autentique-se novamente para continuar.",
-            logout            : "<strong>Deslogado com sucesso. </strong>",
-            emailExists       : "Email inserido já está <strong>cadastrado</strong> no site.",
-            invalidDomain     : "<strong>Domínio</strong> do email digitado <strong>inválido</strong>.",
-            sameMail          : "<strong>Email Anterior</strong> e <strong>Novo Email</strong> inseridos são os mesmos. ",
-            wrongMail         : "<strong>Email Inserido</strong> não está cadastrado. Tente Novamente.",
-            wrongToken        : "<strong>Token inserido</strong> incorreto. Tente Novamente.",
-            successText       : "<strong>Sucesso</strong> ao alterar dado",
-            errorText         : "O <strong>valor inserido</strong> é o mesmo já cadastrado.",
-            wrongP            : "<strong>Senha Anterior Inserida</strong> não está cadastrada.",
-            sameP             : "<strong>Senha Anterior</strong> e <strong>Nova Senha</strong> inseridas são as mesmas.",
-            prodRem           : "<strong>Produto</strong> removido do carrinho com <strong>sucesso</strong>.",
-            dev               : "Função ainda em <strong>desenvolvimento</strong>",
+            revAdd            : "Reversão de adição realizada com sucesso",
+            revMod            : "Reversão de modificação realizada com sucesso",
+            revRem            : "Reversão de remoção realizada com sucesso",
+            orderConfirmed    : "Pedido enviado para nossa central",
+            loginSuccess      : "Agora voce pode navegar pelo site e fazer compras em seu nome",
+            notAdmin          : "É preciso fazer login como administrador para acessar a página de gerenciamento",
+            prodAdd           : "Produto adicionado com sucesso ao carrinho",
+            adminNotAllowed   : "É preciso fazer login como cliente para acessar A página anterior",
+            makeClient        : "Novo cliente adicionado com sucesso",
+            removeS           : "Sucesso ao remover um item no banco de dados",
+            addProduct        : "Sucesso ao adicinar produto no banco de dados",
+            addVersion        : "Sucesso ao adicinar versão de um produto ao banco de dados",
+            makeAdmin         : "Novo administrador Adicionado com sucesso",
+            noItem            : "É preciso adicionar algum produto ao carrinho para concluir a compra",
+            outOfOrder        : "Versão do Produto selecionado está indisponível",
+            errorLogin        : "Email ou senha incorretos, tente novamente ou cadastre-se no link abaixo",
+            timeout           : "Sessão expirada, realize seus login novamente",
+            unkUser           : "Realize seu login para adicionar produtos ao carrinho",
+            registered        : "Credencias cadastradas com sucesso, realize seu Login",
+            newEmail          : "Email alterado com sucesso. Autentique-se novamente para continuar",
+            newPassword       : "Senha alterada com sucesso. Autentique-se novamente para continuar",
+            logout            : "Deslogado com sucesso",
+            emailExists       : "Email inserido já está cadastrado no site",
+            invalidDomain     : "Domínio do email digitado inválido",
+            sameMail          : "Email Anterior e Novo Email inseridos são os mesmos",
+            wrongMail         : "Email Inserido não está cadastrado. Tente Novamente",
+            wrongToken        : "Token inserido incorreto. Tente Novamente",
+            successText       : "Sucesso ao alterar dado",
+            errorText         : "O valor inserido é o mesmo já cadastrado",
+            wrongP            : "Senha Anterior Inserida não está cadastrada",
+            sameP             : "Senha Anterior e Nova Senha inseridas são as mesmas",
+            prodRem           : "Produto removido do carrinho com sucesso",
+            dev               : "Função ainda em desenvolvimento",
     }
 
     if(warningMsgs[message]){
@@ -97,7 +97,7 @@ function fillWarning(message, type){
 
         warningBox.innerHTML = `
             ${icon}
-            <span>${warningMsgs[message]} <em>Clique nesta mensagem para fechá-la</em>.</span>
+            <span><strong>${warningMsgs[message]}</strong>. <em>Clique nesta mensagem para fechá-la</em>.</span>
         `
         document.body.insertAdjacentElement("afterbegin", warningBox)
 

@@ -39,7 +39,7 @@ function displayCategories($map){
 function searchOutput($prodName){
     global $productModel;
 
-    $products = $productModel->getLikeName($prodName);
+    $products = $productModel->getLikeName($prodName, 'pd.printName');
 
     echo "<div class='category'>";
 
@@ -81,7 +81,6 @@ function categoryItems($type, $orderType){
         foreach($products as $product){
             printProduct($product);
         }
-        
     }else{
         echo "<div class='search-label'> <p>Erro: Nenhum Produto encontrado com o Tipo Inserido</p> </div>";
     }

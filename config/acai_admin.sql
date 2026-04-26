@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: container_database
--- Generation Time: Apr 15, 2026 at 02:07 PM
+-- Generation Time: Apr 26, 2026 at 03:47 AM
 -- Server version: 8.0.45
 -- PHP Version: 8.3.26
 
@@ -135,7 +135,8 @@ INSERT INTO `product_data` (`idProduct`, `printName`, `altName`, `brand`, `typeP
 CREATE TABLE `product_order` (
   `idOrder` int NOT NULL,
   `idVariant` int NOT NULL,
-  `amount` int NOT NULL
+  `amount` int NOT NULL,
+  `price` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -239,7 +240,7 @@ CREATE TABLE `user_data` (
 
 INSERT INTO `user_data` (`idUser`, `nameUser`, `mailUser`, `phoneUser`, `passwordUser`, `a_district`, `a_street`, `a_referencePoint`, `a_numHouse`, `a_city`, `a_state`, `typeUser`) VALUES
 (1, 'Admin 1', 'admin@domain.com', '(22) 2 2222 2222', '$2y$10$UUybSCbs3zBwsUca6AoOj.Wud9R1PUs8dw7voaBpEMCHKN.VAQ9Jm', 'District', 'Street', '', '999', 'City', 'RJ', 'admin'),
-(2, 'Client 1', 'client@domain.com', '(33) 3 3333 3333', '$2y$10$UUybSCbs3zBwsUca6AoOj.Wud9R1PUs8dw7voaBpEMCHKN.VAQ9Jm', 'District', 'Street', '', '777', 'City', 'SC', 'customer');
+(2, 'Client 1', 'client@domain.com', '(33) 3 3333 3333', '$2y$10$DrQeuOuEkiQgkDdUa7j0XuXj0IrQ6pSwMhZlIBc9br32kSZ/iz9d.', 'Bairro', 'Rua', '.', '777', 'Cidade', 'PI', 'customer');
 
 --
 -- Indexes for dumped tables
@@ -282,7 +283,7 @@ ALTER TABLE `product_data`
 --
 ALTER TABLE `product_order`
   ADD PRIMARY KEY (`idOrder`,`idVariant`),
-  ADD KEY `idVariant` (`idVariant`);
+  ADD KEY `product_order_ibfk_2` (`idVariant`);
 
 --
 -- Indexes for table `product_variant`
@@ -311,7 +312,7 @@ ALTER TABLE `change_data`
 -- AUTO_INCREMENT for table `order_data`
 --
 ALTER TABLE `order_data`
-  MODIFY `idOrder` int NOT NULL AUTO_INCREMENT;
+  MODIFY `idOrder` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `product_data`
@@ -329,7 +330,7 @@ ALTER TABLE `product_variant`
 -- AUTO_INCREMENT for table `user_data`
 --
 ALTER TABLE `user_data`
-  MODIFY `idUser` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idUser` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -363,8 +364,8 @@ ALTER TABLE `order_data`
 -- Constraints for table `product_order`
 --
 ALTER TABLE `product_order`
-  ADD CONSTRAINT `product_order_ibfk_1` FOREIGN KEY (`idOrder`) REFERENCES `order_data` (`idOrder`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  ADD CONSTRAINT `product_order_ibfk_2` FOREIGN KEY (`idVariant`) REFERENCES `product_variant` (`idVariant`) ON DELETE RESTRICT ON UPDATE CASCADE;
+  ADD CONSTRAINT `product_order_ibfk_1` FOREIGN KEY (`idOrder`) REFERENCES `order_data` (`idOrder`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `product_order_ibfk_2` FOREIGN KEY (`idVariant`) REFERENCES `product_variant` (`idVariant`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `product_variant`

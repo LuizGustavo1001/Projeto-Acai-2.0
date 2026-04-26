@@ -7,6 +7,18 @@ function displayFavicon(){
     echo "<link rel=\"shortcut icon\" href='https://res.cloudinary.com/dw2eqq9kk/image/upload/v1755358113/acai-icon_jsrexi_t30xv5.png' type=\"image/x-icon\">";
 }
 
+// print the amount of products on the cart at header
+function verifyCartAmount(){
+    global $orderModel;
+
+    if(isset($_SESSION["idOrder"])){
+        $cartAmount = $orderModel->orderItemAmount($_SESSION["idOrder"]);
+    
+        $result = ($cartAmount != null) ? "<div class=\"cart-amount\">{$cartAmount}</div>" : "<div class=\"cart-amount\">0</div>";
+        return $result;
+    }
+    return null;
+}
 
 function displayHeader($page = "index"){
     $userPage = "/account/account.php";
@@ -49,7 +61,6 @@ function displayHeader($page = "index"){
     echo "
         <header>
             {$brand}
-            
             <aside class='regular'>
                 <nav class='aside-hero'>";
                     foreach($menu as $key => $item){

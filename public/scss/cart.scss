@@ -72,8 +72,9 @@ main{
                     gap: 1em;
                     align-items: center;
 
-                    .icon-box{
+                    .icon-wrapper{
                         .icon-bg{ color: var(--pink-150); }
+                        .icon-svg{ color: var(--pink-700);}
                     }
                 }
             }
@@ -134,8 +135,9 @@ main{
 
                 .content{
                     li{
-                        .icon-box{
+                        .icon-wrapper{
                             .icon-bg{ color: var(--pink-950); }
+                            .icon-svg{ color: var(--pink-600);}
                         }
                     }
                 }

@@ -4,7 +4,6 @@ require_once __DIR__ . '/../mainController.php';
 if (isset($_SESSION["isAdmin"])) { 
     redirectWithMessage("adminNotAllowed", "../manager/admin.php", 0); 
 }
-
 if(! isset($_SESSION["passwordToken"])){
     header("location: password.php");
     exit();

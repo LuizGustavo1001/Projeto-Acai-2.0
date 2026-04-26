@@ -7,22 +7,20 @@ $userModel  = new User($mysqli);
 if(isset($_SESSION["passwordToken"])){ 
     unset($_SESSION["passwordToken"]); 
 }
-
 if(!isset($_SESSION["mailUser"])){
     header("location: login.php");
     exit();
 }
+if(isset($_SESSION["isAdmin"])){ 
+    redirectWithMessage("adminNotAllowed", "../manager/admin.php", 0); 
+}
 
 if(isset($_GET["logout"])){ 
-    logout(); 
+    logout();
 }
 
 if($_SERVER["REQUEST_METHOD"] === "POST"){ // change attribute value
     changeAttributesValue(); 
-}
-
-if (isset($_SESSION["isAdmin"])){ 
-    redirectWithMessage("adminNotAllowed", "../manager/admin.php", 0); 
 }
 
 checkSessionStatus();

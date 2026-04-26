@@ -5,37 +5,24 @@ require_once __DIR__ . '/iconsController.php';
 
 require_once __DIR__ . '/../models/Order.php';
 
-
 $orderModel = new Order($mysqli);
 
 date_default_timezone_set('America/Sao_Paulo');
-
-// print the amount of products on the cart at header
-function verifyCartAmount(){
-    global $orderModel;
-
-    if(isset($_SESSION["idOrder"])){
-        $cartAmount = $orderModel->orderItemAmount($_SESSION["idOrder"]);
-    
-        $result = ($cartAmount != null) ? "<div class=\"cart-amount\">{$cartAmount}</div>" : "<div class=\"cart-amount\">0</div>";
-        return $result;
-    }
-    return null;
-}
+$defaultMoney = numfmt_create("pt-BR", NumberFormatter::CURRENCY);
 
 function printProduct($productData, $page = "product", $priceType = "complete"){
     $name       = htmlspecialchars($productData['printName']);
-    $link       = "productView.php?id=" . urlencode($productData['altName']);
+    $id         = htmlspecialchars($productData['idProduct']);
+    $link       = "productView.php?id=" . urlencode($id);
     $imageURL   = htmlspecialchars($productData['image']);
     $brand      = htmlspecialchars($productData['brand']);
     $priceDate  = htmlspecialchars($productData['priceDate']);
     $price      = numfmt_format_currency(numfmt_create("pt-BR", NumberFormatter::CURRENCY), $productData['price'], "BRL");
-    $id         = htmlspecialchars($productData['altName']);
-
+    
     $priceComplement = "";
 
     if($page == "index"){
-        $link = "products/productView.php?id={$productData['altName']}";
+        $link = "products/productView.php?id=" . urlencode($id);
     }
 
     if($priceType == "complete"){
@@ -43,7 +30,7 @@ function printProduct($productData, $page = "product", $priceType = "complete"){
     }
 
     echo "
-        <div class='product hover' id='{$id}'>
+        <div class='product hover'>
             <img src='{$imageURL}' alt='{$name} Image'>
             <div class='content'>
                 <div class='title'>

@@ -1,9 +1,5 @@
-<?php
-    require_once __DIR__ . '/../../databaseConnection.php';
-    require_once "../generalPHP.php";
-    require_once "../footerHeader.php";
-    require_once "../printStyles.php";
-
+<?php require_once __DIR__ . '/../../src/controller/products/productViewController.php';
+    /*
     function add2Cart($prodName, $amount){
         global $mysqli;
 
@@ -90,7 +86,7 @@
     if(in_array($_GET["id"], $allowedNames)){
         // returning all the data that match with the product with the name above
         $getProductData = $mysqli->prepare("
-            SELECT pd.printName, pd.brandProduct, pv.priceProduct, pv.imageURL, pd.altName, pd.altName
+            SELECT pd.printName, pd.brandProduct, pv.priceProduct, pd.imageURL, pd.altName, pd.altName
             FROM product_data AS pd 
                 JOIN product_version AS pv ON pd.idProduct = pv.idProduct
             WHERE pd.altName = ? 
@@ -104,7 +100,7 @@
         $getProductData->close();
 
         while($productData = $result->fetch_assoc()){
-            $realName   = $productData["altName"];
+            $altName    = $productData["altName"];
             $printName  = $productData["printName"];
             $brand      = $productData["brandProduct"];
             $price      = $productData["priceProduct"];
@@ -141,6 +137,7 @@
             }
         }
     }
+        */
 ?>
 
 
@@ -165,7 +162,7 @@
             function updatePrices(){
                 sizeSelectors.forEach((selector, index) => {
                     const selectedOption = selector.options[selector.selectedIndex]
-                    const price = selectedOption.dataset.preco || 'Preço indisponível'
+                    const price = selectedOption.dataset.price || 'Preço indisponível'
                     if(priceElements[index]){
                         priceElements[index].textContent = price
                     }
@@ -197,6 +194,8 @@
         </div>
 
         <?php 
+        
+        /*
             if(in_array($_GET["id"], $allowedNames)){
                 $submitButton = "";
                 if(! isset($_SESSION["isAdmin"])){
@@ -233,6 +232,7 @@
                     </div>
                 ";
             }
+                */
         ?>
         <div class="fot-copy">2026 &copy; Açaí e Polpas Amazônia</div>
     </main>

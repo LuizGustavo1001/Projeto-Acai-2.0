@@ -2,15 +2,36 @@
 require_once __DIR__ . "/Model.php";
 
 class Product extends Model{
-    public function getById($id){
-        $stmt = $this->executeQuery("SELECT * FROM product_data WHERE idProduct = ?", "i", $id);
-        $result = $stmt->get_result()->fetch_assoc();
+    public function getById($id, $attribute){
+        $attrMap = ["pd.idProduct", "pv.idVariant"];
+
+        if(! in_array($attribute, $attrMap)){
+            return false;
+        }
+
+        $stmt = $this->executeQuery("
+            SELECT pd.*, pv.* 
+            FROM product_data AS pd 
+                JOIN product_variant AS pv ON pv.idProduct = pd.idProduct
+            WHERE $attribute = ?
+            ORDER BY $attribute",
+        "i", $id);
+        $resultObject = $stmt->get_result();
+        $result = $resultObject->fetch_all(MYSQLI_ASSOC);
+        $amount = $resultObject->num_rows;
+
         $stmt->close();
 
-        return $result;
+        return ["data" => $result, "amount" => $amount];
     }
 
-    public function getLikeName($name){
+    public function getLikeName($name, $attribute){
+        $attrMap = ["pd.printName", "pd.altName"];
+
+        if(! in_array($attribute, $attrMap)){
+            return false;
+        }
+
         $name = "%{$name}%";
 
         $stmt = $this->executeQuery("
@@ -18,7 +39,7 @@ class Product extends Model{
                 FROM product_data pd
                 JOIN product_variant pv 
                     ON pv.idProduct = pd.idProduct
-                WHERE pd.printName LIKE ?
+                WHERE $attribute LIKE ?
                 AND pv.price = (
                     SELECT MIN(pv2.price)
                     FROM product_variant pv2
@@ -51,7 +72,8 @@ class Product extends Model{
 
     public function getTypes(){
         $stmt = $this->executeQuery("
-            SELECT DISTINCT typeProduct FROM product_data
+            SELECT DISTINCT typeProduct 
+            FROM product_data
         ");
 
         $rows = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -113,4 +135,10 @@ class Product extends Model{
 
         return $result;
     }
+}
+
+
+class Variant extends Model{
+
+
 }

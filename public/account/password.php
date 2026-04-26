@@ -31,8 +31,7 @@
             <div class="title">
                 <h1>Esqueceu sua senha?</h1>
                 <p>
-                    Insira o <strong>endereço de email</strong> vinculado a sua conta para <br> 
-                    enviarmos um <strong>token de recuperação</strong>. <br>
+                    Insira o <strong>endereço de email</strong> vinculado a sua conta para enviarmos um <strong>token de recuperação</strong>. <br>
                     Após clicar em enviar <strong>aguarde alguns segundos</strong>.
                 </p>
             </div>

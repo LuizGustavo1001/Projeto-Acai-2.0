@@ -4,21 +4,19 @@ require_once __DIR__ . '/../mainController.php';
 require_once __DIR__ . '/../../models/User.php';
 require_once __DIR__ . '/../../models/Order.php';
 
-$userModel  = new User($mysqli);
-$orderModel = new Order($mysqli);
-
 if(isset($_SESSION["passwordToken"])){ 
     unset($_SESSION["passwordToken"]); 
 }
-
 if (isset($_SESSION["isAdmin"])){ 
     redirectWithMessage("adminNotAllowed", "../manager/admin.php", 0); 
 }
-
 if(isset($_SESSION["mailUser"])){ // alerady logged-in
     header("location: account.php");
     exit();
 }
+
+$userModel  = new User($mysqli);
+$orderModel = new Order($mysqli);
 
 if(isset($_POST["email"])){ 
     login(); 
@@ -51,17 +49,19 @@ function login(){
     $userData = $userModel->getById($user['userId']);
 
     session_regenerate_id(true);
-    $_SESSION['idUser']             = $userData["idUser"];
-    $_SESSION['phoneUser']          = $userData["phoneUser"];
-    $_SESSION['nameUser']           = $userData["nameUser"];
-    $_SESSION['mailUser']           = $userData["mailUser"];
-    $_SESSION['a_district']         = $userData["a_district"];
-    $_SESSION['a_numHouse']         = $userData["a_numHouse"];
-    $_SESSION['a_referencePoint']   = $userData["a_referencePoint"];
-    $_SESSION['a_street']           = $userData["a_street"];
-    $_SESSION['a_city']             = $userData["a_city"];
-    $_SESSION['a_state']            = $userData["a_state"];
+    $_SESSION['idUser']             = htmlspecialchars($userData["idUser"], ENT_QUOTES, 'UTF-8');
+    $_SESSION['phoneUser']          = htmlspecialchars($userData["phoneUser"], ENT_QUOTES, 'UTF-8');
+    $_SESSION['nameUser']           = htmlspecialchars($userData["nameUser"], ENT_QUOTES, 'UTF-8');
+    $_SESSION['mailUser']           = htmlspecialchars($userData["mailUser"], ENT_QUOTES, 'UTF-8');
+    $_SESSION['a_district']         = htmlspecialchars($userData["a_district"], ENT_QUOTES, 'UTF-8');
+    $_SESSION['a_numHouse']         = htmlspecialchars($userData["a_numHouse"], ENT_QUOTES, 'UTF-8');
+    $_SESSION['a_referencePoint']   = htmlspecialchars($userData["a_referencePoint"], ENT_QUOTES, 'UTF-8');
+    $_SESSION['a_street']           = htmlspecialchars($userData["a_street"], ENT_QUOTES, 'UTF-8');
+    $_SESSION['a_city']             = htmlspecialchars($userData["a_city"], ENT_QUOTES, 'UTF-8');
+    $_SESSION['a_state']            = htmlspecialchars($userData["a_state"], ENT_QUOTES, 'UTF-8');
     $_SESSION['lastActivity']       = time();
+
+    verifyOrders();
 
     // redirect based on userType
     if($userData['typeUser'] == 'customer'){

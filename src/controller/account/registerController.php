@@ -39,13 +39,13 @@ function addUser(){
         $domain = substr(strrchr($inputEmail, "@"), 1);
         if(checkdnsrr($domain, "MX")){
             $name       = mb_convert_case($_POST['name'], MB_CASE_TITLE, "UTF-8");
-            $phone      = htmlspecialchars($_POST["phone"]);
-            $street     = htmlspecialchars($_POST["street"]);
-            $houseNum   = htmlspecialchars($_POST["houseNum"]);
+            $phone      = htmlspecialchars($_POST["phone"], ENT_QUOTES, 'UTF-8');
+            $street     = htmlspecialchars($_POST["street"], ENT_QUOTES, 'UTF-8');
+            $houseNum   = htmlspecialchars($_POST["houseNum"], ENT_QUOTES, 'UTF-8');
             $district   = mb_convert_case($_POST["district"], MB_CASE_TITLE, "UTF-8");
             $city       = mb_convert_case($_POST["city"], MB_CASE_TITLE, "UTF-8");
-            $reference  = htmlspecialchars($_POST["reference"]) ?? null;
-            $state      = htmlspecialchars($_POST["state"]);
+            $reference  = htmlspecialchars($_POST["reference"], ENT_QUOTES, 'UTF-8') ?? null;
+            $state      = htmlspecialchars($_POST["state"], ENT_QUOTES, 'UTF-8');
             $password   = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
             // insert new user
@@ -55,7 +55,9 @@ function addUser(){
                 $newId = $createUser['idUser'];
                 $createCustomer = $userModel->addCustomer($newId);
 
-                if($createCustomer){ // redirect + e-mail
+                if($createCustomer){ // redirect + e-mail (test)
+                    verifyOrders();
+
                     $mailService->send(
                         'cliente@email.com',
                         'Cadastro em Açaí e Polpas Amazônia',
@@ -70,8 +72,7 @@ function addUser(){
                         '
                     );
 
-                    header("location: register.php?userAdd=1");
-                    exit();
+                    redirectWithMessage("registered", "login.php", 1);
                 }
             }
         }else{

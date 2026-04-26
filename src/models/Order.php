@@ -3,8 +3,27 @@ require_once __DIR__ . "/Model.php";
 
 class Order extends Model{
     
-    public function getProductsOrder($idOrder){
-        // return all products inserted in a order
+    // return products inserted in a order
+    public function getProductsAtOrder($idOrder){
+        $stmt = $this->executeQuery("
+            SELECT * 
+            FROM product_order
+            WHERE idOrder = ?
+        ", "i", $idOrder);
+        $resultObject = $stmt->get_result();
+        $result = $resultObject->fetch_all(MYSQLI_ASSOC);
+        $amount = $resultObject->num_rows;
+
+        if($amount == 0){
+            return False;
+        }
+
+        foreach($result as $key => $item){
+            $totalPrice = $item['amount']*$item['price'];
+            $result[$key]['totalPrice'] = $totalPrice;
+        }
+
+        return $result;
     }
 
     public function orderItemAmount($idOrder){
@@ -18,6 +37,19 @@ class Order extends Model{
         }else{
             return null;
         }
+    }
+
+    public function getOrderSubtotal($idOrder){
+        $stmt = $this->executeQuery("
+            SELECT SUM(price) as sumPrice
+            FROM product_order
+            WHERE idOrder = ?
+        ", "i", $idOrder);
+
+        $result = $stmt->get_result()->fetch_assoc();
+        $stmt->close();
+
+        return ($result['sumPrice'] == NULL) ? 0 : $result['sumPrice'];
     }
 
     public function removeExpiredOrders(){
@@ -35,12 +67,27 @@ class Order extends Model{
         if(!$stmt){
             throw new Exception("Erro ao remover pedidos expirados");
         }
+        
         $stmt->close();
+    }
+
+    public function removeVariant($idVariant, $idOrder){
+        $stmt = $this->executeQuery("
+            DELETE FROM product_order
+            WHERE idVariant = ? and idOrder = ?
+            LIMIT 1
+        ", "ii", $idVariant, $idOrder);
+        
+        if(!$stmt){
+            throw new Exception("Erro ao remover produto do carrinho");
+        }
+
+        return True;
     }
 
     public function addOrder(...$orderData){
         $stmt = $this->executeQuery("
-        INSERT INTO order_data (idCustomer) VALUES (?)
+            INSERT INTO order_data (idCustomer) VALUES (?)
         ", "i", ...$orderData);
         $result = $stmt->insert_id;
 
@@ -53,5 +100,21 @@ class Order extends Model{
         return ['newId' => $result];
     }
 
+
+    public function modifyStatus($idOrder, $newStatus){
+        $stmt = $this->executeQuery("
+            UPDATE order_data
+            SET status = ?
+            WHERE idOrder = ?
+        ", "si", $newStatus, $idOrder);
+        
+        if(! $stmt){
+            throw new Exception("Erro ao alterar status de pedido");
+        }
+
+        $stmt->close();
+
+        return True;
+    }
 }
 
