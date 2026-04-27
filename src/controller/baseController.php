@@ -30,7 +30,7 @@ function printProduct($productData, $page = "product", $priceType = "complete"){
     }
 
     echo "
-        <div class='product hover'>
+        <a href='{$link}' class='product hover'>
             <img src='{$imageURL}' alt='{$name} Image'>
             <div class='content'>
                 <div class='title'>
@@ -43,10 +43,8 @@ function printProduct($productData, $page = "product", $priceType = "complete"){
                 <div class='others'>
                     <span>Atualizado em: <strong>{$priceDate}</strong></span>
                 </div>
-
-                <a class='regular-btn' href='{$link}'>Adicionar ao Carrinho</a>
             </div>
-        </div>
+        </a>
     ";
 }
 

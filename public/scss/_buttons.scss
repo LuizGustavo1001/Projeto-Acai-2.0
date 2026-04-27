@@ -203,7 +203,13 @@ button{
     width: fit-content;
 
     font-weight: bold;
+    font-size: 0.9em;
     cursor: pointer;
+
+    svg{
+        width: 25px;
+        height: 25px;
+    }
 
     &:hover{
         span, svg{ color: var(--pink-450); }
@@ -275,7 +281,7 @@ button{
 
     &, svg{ color: var(--pink-150);}
 
-    &:hover { background: var(--pink-450) }
+    &:hover{ background: var(--pink-450) }
 }
 
 
@@ -301,6 +307,7 @@ select{ cursor: pointer; }
     label{
         font-weight: 500;
         color: var(--pink-700);
+        font-size: 0.9em;
     }
 
     input, select{

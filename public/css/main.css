@@ -25,7 +25,6 @@
   --pink-400: #C8809A;
   --pink-350: #FBB2C8;
   --pink-300: #E4D1D8;
-  --pink-250: #E8DCE0;
   --pink-200: #EFE6EA;
   --pink-150: #F5EFEF;
   --pink-150-outer: #f5efef53;
@@ -223,7 +222,12 @@ button {
   gap: 0.3em;
   width: fit-content;
   font-weight: bold;
+  font-size: 0.9em;
   cursor: pointer;
+}
+.back-button svg {
+  width: 25px;
+  height: 25px;
 }
 .back-button:hover span, .back-button:hover svg {
   color: var(--pink-450);
@@ -321,6 +325,7 @@ select {
 .regular-input-box label {
   font-weight: 500;
   color: var(--pink-700);
+  font-size: 0.9em;
 }
 .regular-input-box input, .regular-input-box select {
   color: var(--pink-800);
@@ -476,7 +481,7 @@ select {
   border-left: 4px solid var(--pink-500);
 }
 .section-title h1 {
-  font-size: clamp(1.5em, 4vw, 1.8em);
+  font-size: clamp(1.5em, 4vw, 1.7em);
   font-family: var(--font-serif);
   color: var(--pink-500);
 }
@@ -505,10 +510,11 @@ select {
 }
 .title-hero h1 {
   font-family: var(--font-serif);
+  font-size: 1.8em;
 }
 .title-hero p {
   color: var(--pink-700);
-  font-size: 0.9em;
+  font-size: 0.85em;
 }
 
 /* =-=-=-=-=-=-=-=-=-= HEADER =-=-=-=-=-=-=-=-=-= */
@@ -627,7 +633,7 @@ footer nav .icon-wrapper {
   min-width: 0;
   width: 100%;
   max-width: 100%;
-  padding: 1em;
+  padding: 0.5em;
   background: var(--white);
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
@@ -648,7 +654,7 @@ footer nav .icon-wrapper {
   gap: 1em;
 }
 .product .content .title {
-  border-left: 4px solid var(--pink-700);
+  border-left: 4px solid var(--pink-450);
   padding-left: 0.5em;
 }
 .product .content .title h1, .product .content .title p {
@@ -663,7 +669,7 @@ footer nav .icon-wrapper {
   font-weight: normal;
 }
 .product .content .title p {
-  color: var(--pink-700);
+  color: var(--pink-450);
   font-size: 0.9em;
 }
 .product .content .price {
@@ -703,7 +709,7 @@ footer nav .icon-wrapper {
   background-size: cover;
 }
 .dark-mode .title-hero p {
-  color: var(--pink-300);
+  color: var(--pink-600);
 }
 .dark-mode footer {
   background: var(--pink-900);
@@ -718,10 +724,10 @@ footer nav .icon-wrapper {
   border-color: var(--pink-800);
 }
 .dark-mode .product .content .title {
-  border-color: var(--pink-600);
+  border-color: var(--pink-400);
 }
 .dark-mode .product .content .title p {
-  color: var(--pink-600);
+  color: var(--pink-400);
 }
 .dark-mode .product .content .price {
   color: var(--pink-350);

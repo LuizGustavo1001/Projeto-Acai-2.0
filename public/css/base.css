@@ -25,7 +25,6 @@
   --pink-400: #C8809A;
   --pink-350: #FBB2C8;
   --pink-300: #E4D1D8;
-  --pink-250: #E8DCE0;
   --pink-200: #EFE6EA;
   --pink-150: #F5EFEF;
   --pink-150-outer: #f5efef53;
@@ -223,7 +222,12 @@ button {
   gap: 0.3em;
   width: fit-content;
   font-weight: bold;
+  font-size: 0.9em;
   cursor: pointer;
+}
+.back-button svg {
+  width: 25px;
+  height: 25px;
 }
 .back-button:hover span, .back-button:hover svg {
   color: var(--pink-450);
@@ -321,6 +325,7 @@ select {
 .regular-input-box label {
   font-weight: 500;
   color: var(--pink-700);
+  font-size: 0.9em;
 }
 .regular-input-box input, .regular-input-box select {
   color: var(--pink-800);

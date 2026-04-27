@@ -38,7 +38,7 @@
 
                 <details class="regular-details" aria-label="sort button">
                     <summary class="icon-btn outer-color" aria-label="clique aqui para filtrar os produtos"> 
-                        <?php echo getIcon("sort") ?> 
+                        <?php echo getIcon("sort") ?>
                     </summary>
 
                     <nav>

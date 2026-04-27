@@ -8,7 +8,7 @@
     border-left: 4px solid var(--pink-500);
     
     h1{
-        font-size: clamp(1.5em, 4vw, 1.8em);
+        font-size: clamp(1.5em, 4vw, 1.7em);
         font-family: var(--font-serif);
         color: var(--pink-500);
     }
@@ -35,10 +35,13 @@
     background: var(--white) url("https://res.cloudinary.com/dw2eqq9kk/image/upload/v1775004022/damascus-pattern-grey-free-png_1_dsvn0g.png");
     background-size: cover;
 
-    h1{ font-family: var(--font-serif); }
+    h1{ 
+        font-family: var(--font-serif);
+        font-size: 1.8em;
+    }
     p{
         color: var(--pink-700);
-        font-size: 0.9em;
+        font-size: 0.85em;
     }
 }
 
@@ -168,7 +171,7 @@ footer{
     min-width: 0;
     width: 100%;
     max-width: 100%;
-    padding: 1em;
+    padding: 0.5em;
 
     background: var(--white);
     border: 1px solid transparent;
@@ -192,7 +195,7 @@ footer{
         gap: 1em;
 
         .title{
-            border-left: 4px solid var(--pink-700);
+            border-left: 4px solid var(--pink-450);
             padding-left: 0.5em;
 
             h1, p{ @include m.line-clamp; }
@@ -203,7 +206,7 @@ footer{
             }
 
             p{ 
-                color: var(--pink-700);
+                color: var(--pink-450);
                 font-size: 0.9em;
             }
         }
@@ -249,7 +252,7 @@ footer{
         background: var(--pink-900) url("https://res.cloudinary.com/dw2eqq9kk/image/upload/v1775004022/damascus-pattern-grey-free-png_1_dsvn0g.png");
         background-size: cover;
 
-        p{ color: var(--pink-300) }
+        p{ color: var(--pink-600) }
     }
 
     footer{
@@ -266,8 +269,8 @@ footer{
 
         .content{
             .title{
-                border-color: var(--pink-600);
-                p{ color: var(--pink-600) }
+                border-color: var(--pink-400);
+                p{ color: var(--pink-400) }
             }
 
             .price{ color: var(--pink-350) }

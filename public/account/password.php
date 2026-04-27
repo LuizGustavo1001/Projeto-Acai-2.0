@@ -17,7 +17,7 @@
 
 <body>
     <main class="rise-above">
-        <div class="back-button" onclick="window.location.href = '/index.php'">
+        <div class="back-button" onclick="window.location.href = 'login.php'">
             <?php echo getIcon("back")?>
             <span>Voltar</span>
         </div>

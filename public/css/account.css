@@ -25,7 +25,6 @@
   --pink-400: #C8809A;
   --pink-350: #FBB2C8;
   --pink-300: #E4D1D8;
-  --pink-250: #E8DCE0;
   --pink-200: #EFE6EA;
   --pink-150: #F5EFEF;
   --pink-150-outer: #f5efef53;
@@ -78,10 +77,13 @@ main {
 .hero .title h1 {
   font-family: var(--font-serif);
   font-weight: normal;
-  font-size: clamp(1.7em, 4vw, 2em);
+  font-size: clamp(1.7em, 2vw, 2em);
 }
 .hero .title p {
   color: var(--pink-800);
+  font-size: 0.85em;
+}
+.hero form .regular-btn {
   font-size: 0.9em;
 }
 .hero .fot {

@@ -60,6 +60,8 @@ function displayHeader($page = "index"){
 
     echo "
         <header>
+            <button class='icon-btn menu mobile'>{$menuIcon}</button>
+            
             {$brand}
             <aside class='regular'>
                 <nav class='aside-hero'>";
@@ -93,8 +95,6 @@ function displayHeader($page = "index"){
 
                 <div class='icon-bg'> {$sun} </div>
             </div>
-
-            <button class='icon-btn menu mobile'>{$menuIcon}</button>
         </header>
     ";
 }
