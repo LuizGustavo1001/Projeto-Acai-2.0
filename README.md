@@ -83,7 +83,7 @@ npm install sass --save-dev
 sass public/scss/base.scss public/css/base.css
 ```
 ### API Keys (any OS)
-#### Google Cloud (Under Development)
+#### Google Cloud
 - Create a [Google Cloud Project](https://www.youtube.com/watch?v=k_PB4ORz2r0) and enable the **Google Sheets API**.
 - Share the spreadsheet with your service account email
 - Create a service account and download the `credentials.json` file. Place it at `/config/`:

@@ -26,6 +26,23 @@ class Order extends Model{
         return $result;
     }
 
+    public function verifyVariant($idOrder, $idVariant){
+        $stmt = $this->executeQuery("
+            SELECT idVariant
+            FROM product_order
+            WHERE idOrder = ? AND idVariant = ?
+        ", "ii", $idOrder, $idVariant);
+
+        $resultObject = $stmt->get_result();
+        $amount = $resultObject->num_rows;
+
+        if($amount == 0){
+            return False;
+        }
+
+        return True;
+    }   
+
     public function orderItemAmount($idOrder){
         // return amount of items in a order
         $stmt = $this->executeQuery("SELECT COUNT(*) AS itemCount FROM product_order WHERE idOrder = ?", "i", $idOrder);
@@ -41,7 +58,7 @@ class Order extends Model{
 
     public function getOrderSubtotal($idOrder){
         $stmt = $this->executeQuery("
-            SELECT SUM(price) as sumPrice
+            SELECT SUM((price*amount)) as sumPrice
             FROM product_order
             WHERE idOrder = ?
         ", "i", $idOrder);
@@ -71,18 +88,45 @@ class Order extends Model{
         $stmt->close();
     }
 
-    public function removeVariant($idVariant, $idOrder){
+    public function removeVariant($idOrder, $idVariant){
         $stmt = $this->executeQuery("
             DELETE FROM product_order
-            WHERE idVariant = ? and idOrder = ?
-            LIMIT 1
+            WHERE idVariant = ? AND idOrder = ?
         ", "ii", $idVariant, $idOrder);
         
         if(!$stmt){
             throw new Exception("Erro ao remover produto do carrinho");
         }
 
-        return True;
+        return $stmt->affected_rows > 0;
+    }
+
+    public function addVariant($idOrder, $idVariant, $amount){
+        $stmt = $this->executeQuery("
+            INSERT INTO product_order (idOrder, idVariant, amount, price)
+            SELECT ?, ?, ?, price
+            FROM product_variant
+            WHERE idVariant = ?
+        ", "iiid", $idOrder, $idVariant, $amount, $idVariant);
+        if(!$stmt){
+            throw new Exception("Erro ao remover produto do carrinho");
+        }
+
+        return $stmt->affected_rows > 0;
+    }
+
+    public function modifyVariant($idOrder, $idVariant, $amount){
+        $stmt = $this->executeQuery("
+            UPDATE product_order
+            SET amount = ?
+            WHERE idOrder = ? AND idVariant = ?
+        ", "iii", $amount, $idOrder, $idVariant);
+
+        if(!$stmt){
+            throw new Exception("Erro ao remover produto do carrinho");
+        }
+
+        return $stmt->affected_rows > 0;
     }
 
     public function addOrder(...$orderData){

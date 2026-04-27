@@ -227,7 +227,9 @@ function cartToSpreadsheet(){
     
     foreach($products as $product){ // concat data
         $totalOrderPrice += $product['totalPrice'];
-        $prodConcat .= "{$product['name']} / {$product['amount']} / {$product['totalPrice']}\n";
+        $price = numfmt_format_currency($defaultMoney, $product['totalPrice'], "BRL");
+
+        $prodConcat .= "{$product['name']} / {$product['amount']} / {$price}\n";
     }
 
     // Adding the data to the spreadsheet
@@ -275,7 +277,7 @@ function cartToSpreadsheet(){
 function removeFromCart($idVariant){
     global $orderModel;
 
-    $removeVariant = $orderModel->removeVariant($idVariant, $_SESSION['idOrder']);
+    $removeVariant = $orderModel->removeVariant($_SESSION['idOrder'], $idVariant);
 
     if($removeVariant){
         redirectWithMessage("prodRem", "cart.php", 1);

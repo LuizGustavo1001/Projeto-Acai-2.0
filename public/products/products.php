@@ -42,7 +42,7 @@
                     </summary>
 
                     <nav>
-                        <a href="products.php?filter=idProd">Identificador</a>
+                        <a href="products.php">Identificador</a>
                         <a href="products.php?filter=nameAsc">(A-Z)</a>
                         <a href="products.php?filter=nameDesc">(Z-A)</a>
                         <a href="products.php?filter=priceAsc">Menor preço</a>

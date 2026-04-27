@@ -114,6 +114,11 @@ main {
   font-size: clamp(1.6em, 3vw, 2em);
   font-weight: bold;
 }
+.product-view .product .content form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
 .product-view .product .content h1 {
   font-size: clamp(1.5em, 2vw, 1.8em);
 }
@@ -121,8 +126,8 @@ main {
   font-size: clamp(1em, 2vw, 1.1em);
 }
 
-.dark-mode .product-view .price {
-  color: var(--pink-300);
+.dark-mode .product-view .price span {
+  color: var(--pink-350);
 }
 
 /*# sourceMappingURL=products.css.map */

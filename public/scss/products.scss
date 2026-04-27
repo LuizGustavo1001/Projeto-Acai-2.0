@@ -88,6 +88,12 @@ main{
                 font-weight: bold;
             }
 
+            form{
+                display: flex;
+                flex-direction: column;
+                gap: 1em;
+            }
+
             h1{ font-size: clamp(1.5em, 2vw, 1.8em); }
             p{ font-size: clamp(1em, 2vw, 1.1em); }
         }
@@ -97,6 +103,6 @@ main{
 
 .dark-mode{
     .product-view{
-        .price{ color: var(--pink-300); }
+        .price span{ color: var(--pink-350); }
     }
 }
