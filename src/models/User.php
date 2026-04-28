@@ -2,27 +2,72 @@
 require_once __DIR__ . '/Model.php';
 
 class User extends Model{
-    
     public function getById($id){
-        $stmt   = $this->executeQuery("SELECT * FROM user_data WHERE idUser = ?", "i", $id);
-        $result = $stmt->get_result()->fetch_assoc();
+        $stmt = $this->executeQuery("
+            SELECT * FROM user_data WHERE idUser = ?",
+        "i", $id);
+
+        if(!$stmt){
+            throw new Exception("Erro ao buscar usuário com base no identificador");
+        }
+
+        $resultObject = $stmt->get_result();
+        $amount = $resultObject->num_rows;
+        $result = $resultObject->fetch_assoc();
         $stmt->close();
+
+        if($amount <= 0){
+            return False;
+        }
 
         return $result;
     }
 
-    public function getAllCostumers(){ // test
-        $stmt   = $this->executeQuery("SELECT * FROM customer_data");
-        $result = $stmt->get_result()->fetch_assoc();
+    public function getByEmail($mail){
+        $stmt = $this->executeQuery("
+            SELECT * FROM user_data WHERE mailUser = ?
+        ", "s", $mail);
+
+        if(!$stmt){
+            throw new Exception("Erro ao buscar usuário com base no email");
+        }
+
+        $resultObject = $stmt->get_result();
+        $amount = $resultObject->num_rows;
+        $result = $resultObject->fetch_assoc();
         $stmt->close();
+
+        if($amount <= 0){
+            return False;
+        }
+
+        return $result;
+    }
+
+    public function getAllCustomers(){ 
+        $stmt   = $this->executeQuery("
+            SELECT *
+            FROM user_data
+            WHERE typeUser = 'customer'
+        ");
+
+        if(!$stmt){
+            throw new Exception("Erro ao buscar usuário com base no email");
+        }
+
+        $resultObject = $stmt->get_result();
+        $amount = $resultObject->num_rows;
+        $result = $resultObject->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+
+        if($amount <= 0){
+            return False;
+        }
 
         return $result;
     }
 
     public function verifyEmail($email){
-        $idUser = null;
-        $password = null;
-
         $stmt = $this->executeQuery("
             SELECT idUser, passwordUser
             FROM user_data
@@ -30,16 +75,19 @@ class User extends Model{
             LIMIT 1
         ", "s", $email);
 
-        $stmt->store_result();
-
-        if($stmt->num_rows > 0){
-            $stmt->bind_result($idUser, $password);
-            $stmt->fetch();
-            $stmt->close();
-            
-            return ["emailExists" => True, "userId" => $idUser, "password" => $password];
+        if(!$stmt){
+            throw new Exception ("Erro ao verificar e-mail");
         }
-        return ["emailExists" => False];
+
+        $resultObject = $stmt->get_result();
+        $amount = $resultObject->num_rows;
+        $stmt->close();
+
+        if($amount <= 0){
+            return False;
+        }
+
+        return True;
     }
 
     public function updateData($attribute, $value, $idUser){
@@ -48,30 +96,32 @@ class User extends Model{
             SET $attribute = ?
             WHERE idUser = ?
             ", 
-            "si", $value, $idUser);
+        "si", $value, $idUser);
 
-        if(!$stmt) throw new Exception("Erro ao alterar dados do usuário");
-        
+        if(!$stmt){
+            throw new Exception("Erro ao alterar dados do usuário");
+        }
+
         $stmt->close();
-
-        return True;
     }
 
     public function addUser(...$userData){ // always as customer
         $stmt = $this->executeQuery("
-            INSERT INTO user_data (
+            INSERT INTO user_data(
                 nameUser, mailUser, phoneUser, passwordUser, a_district, 
                 a_street, a_referencePoint, a_numHouse, a_city, a_state
             ) VALUES
             (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ", "ssssssssss", ...$userData);
 
-        if(!$stmt) throw new Exception("Erro ao adicionar novo usuário");
+        if(!$stmt){
+            throw new Exception("Erro ao adicionar novo usuário");
+        }
 
         $insertId = $stmt->insert_id;
         $stmt->close();
 
-        return ["insert" => True, "idUser" => $insertId];
+        return $insertId;
     }
 
     public function addCustomer($idUser){
@@ -79,10 +129,31 @@ class User extends Model{
             INSERT INTO customer_data (idCustomer) VALUES (?)
         ", "i", $idUser);
 
-        if(!$stmt) throw new Exception("Erro ao adicionar novo cliente");
+        if(!$stmt){ 
+            throw new Exception("Erro ao adicionar novo cliente");
+        }
 
         $stmt->close();
+    }
 
-        return True;
+    public function getPasswordById($idUser){
+        $stmt = $this->executeQuery("
+            SELECT passwordUser FROM user_data WHERE idUser = ?
+        ", "i", $idUser);
+
+        if(!$stmt){
+            throw new Exception("Usuário não encontrado");
+        }
+
+        $resultObject = $stmt->get_result();
+        $amount = $resultObject->num_rows;
+        $result = $resultObject->fetch_assoc();
+        $stmt->close();
+
+        if($amount === 0){
+            return False;
+        }
+
+        return $result['passwordUser'];
     }
 }

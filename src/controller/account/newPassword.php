@@ -12,19 +12,16 @@ if(isset($_SESSION["isAdmin"])){
     redirectWithMessage("adminNotAllowed", "../manager/admin.php", 0); 
 }
 
-// trying to access the page without token
-if(! isset($_SESSION["sendMail"])){ 
+if(! isset($_SESSION["sendMail"])){  // trying to access the page without sending email
     header("location: password.php");
     exit();
-}else{
-    if(isset($_POST["password"])){ // modify password in Database
-        $newPassword = password_hash($_POST["password"], PASSWORD_DEFAULT);
+}
 
-        $updateData = $userModel->updateData('passwordUser', $newPassword, $_SESSION['sendIdUser']);
+if(isset($_POST["password"])){ // modify password at Database
+    $newPassword = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
-        if($updateData){
-            unset($_SESSION["userMail"]);
-            redirectWithMessage("newPassword", "login.php", 1); 
-        }
-    }
+    $userModel->updateData('passwordUser', $newPassword, $_SESSION['sendIdUser']);
+
+    unset($_SESSION["userMail"]);
+    redirectWithMessage("newPassword", "login.php", 1); 
 }

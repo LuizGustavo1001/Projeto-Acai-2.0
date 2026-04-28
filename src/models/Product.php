@@ -16,13 +16,21 @@ class Product extends Model{
             WHERE $attribute = ?
             ORDER BY $attribute",
         "i", $id);
+
+        if(!$stmt){
+            throw new Exception("Erro ao buscar produto pelo identificador");
+        }
+
         $resultObject = $stmt->get_result();
         $result = $resultObject->fetch_all(MYSQLI_ASSOC);
         $amount = $resultObject->num_rows;
-
         $stmt->close();
 
-        return ["data" => $result, "amount" => $amount];
+        if($amount <= 0){
+            return False;
+        }
+
+        return $result;
     }
 
     public function getLikeName($name, $attribute){
@@ -46,13 +54,22 @@ class Product extends Model{
                     WHERE pv2.idProduct = pd.idProduct
                 );
         ", "s", $name);
-        
+
+        if(!$stmt){
+            throw new Exception("Erro ao buscar produto pelo nome");
+        }
+
         $resultObject = $stmt->get_result();
         $result = $resultObject->fetch_all(MYSQLI_ASSOC);
         $amount = $resultObject->num_rows;
+        
         $stmt->close();
 
-        return ["items" => $result, "amount" => $amount];
+        if($amount <= 0){
+            return False;
+        }
+
+        return $result;
     }
 
     public function getRandom($amount){
@@ -64,6 +81,11 @@ class Product extends Model{
             ORDER BY RAND()
             LIMIT ?
         ", "i", $amount);
+        
+        if(!$stmt){
+            throw new Exception("Erro ao buscar produtos aleatoriamente");
+        }
+
         $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         $stmt->close();
 
@@ -129,16 +151,14 @@ class Product extends Model{
         }
         
         $stmt = $this->executeQuery($sql, "s", $type);
+
+        if(!$stmt){
+            throw new Exception("Erro ao buscar produtos com base nos tipos");
+        }
         
         $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         $stmt->close();
 
         return $result;
     }
-}
-
-
-class Variant extends Model{
-
-
 }

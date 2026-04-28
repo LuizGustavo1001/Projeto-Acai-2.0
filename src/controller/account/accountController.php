@@ -18,7 +18,6 @@ if(isset($_SESSION["isAdmin"])){
 if(isset($_GET["logout"])){ 
     logout();
 }
-
 if($_SERVER["REQUEST_METHOD"] === "POST"){ // change attribute value
     changeAttributesValue(); 
 }

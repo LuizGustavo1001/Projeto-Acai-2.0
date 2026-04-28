@@ -5,7 +5,6 @@ require_once __DIR__ . '/../../service/mailService.php';
 if(isset($_SESSION["passwordToken"])){ 
     unset($_SESSION["passwordToken"]); 
 }
-
 if (isset($_SESSION["isAdmin"])) { 
     redirectWithMessage("adminNotAllowed", "../manager/admin.php", 0); 
 }

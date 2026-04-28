@@ -20,16 +20,21 @@ $userModel = new User($mysqli);
 
 // verify if the email input exists on Database
 if(isset($_POST['email'])){
-    $sanitizedMail = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
+    try{
+        $sanitizedMail = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
 
-    $verifyEmail = $userModel->verifyEmail($sanitizedMail);
+        $emailExists = $userModel->verifyEmail($sanitizedMail);
 
-    if($verifyEmail['emailExists']){ // next step
-        $_SESSION["sendMail"]   = $sanitizedMail;
-        $_SESSION['sendIdUser'] = $verifyEmail['userId'];
+        if(!$emailExists){
+            redirectWithMessage("wrongMail", "password.php", 0);
+        }
+
+        $_SESSION["sendMail"] = $sanitizedMail;
+
         header("Location: passwordToken.php");
         exit();
-    }else{
-        redirectWithMessage("wrongMail", "password.php", 0);
+    }catch(Exception $e){
+        error_log($e->getMessage());
+        redirectWithMessage("error", "passwordController.php", 0);
     }
 }

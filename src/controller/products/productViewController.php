@@ -21,23 +21,23 @@ if($productId === ''){ // trying to access page without selecting a product
 // return product variants
 $variants = $productModel->getById($productId, "pd.idProduct");
 
-if($variants['amount'] <= 0){
+if(!$variants){
     header("location: products.php");
     exit();
 }
 
 // mapping product and variants data
 $dataMap = [
-    "prodName"      => $variants['data'][0]['printName'],
-    "brand"         => $variants['data'][0]['brand'],
-    "image"         => $variants['data'][0]['image'],
+    "prodName"      => htmlspecialchars($variants[0]['printName'], ENT_QUOTES, 'UTF-8'),
+    "brand"         => htmlspecialchars($variants[0]['brand'], ENT_QUOTES, 'UTF-8'),
+    "image"         => htmlspecialchars($variants[0]['image'], ENT_QUOTES, 'UTF-8'),
     "link"          => "",
     "prices"        => [],
     "values"        => [],
     "placeholders"  => [],
 ];
 
-foreach($variants['data'] as $variant){ // filling options value and price
+foreach($variants as $variant){ // filling options value and price
     if($variant['status'] == True){ // avoid not available variants
         $dataMap['prices'][]        = $variant['price'];
         $dataMap['placeholders'][]  = $variant['flavor'] ?? $variant['size'];
@@ -83,9 +83,9 @@ function fillPage(){
 
 function fillOptions($prices, $placeholders, $values){
     for($i = 0; $i < sizeof($values); $i++){
-        $value = htmlspecialchars($values[$i], ENT_QUOTES, 'UTF-8');
-        $price = htmlspecialchars($prices[$i], ENT_QUOTES, 'UTF-8');
-        $placeholder = htmlspecialchars($placeholders[$i], ENT_QUOTES, 'UTF-8');
+        $value          = htmlspecialchars($values[$i], ENT_QUOTES, 'UTF-8');
+        $price          = htmlspecialchars($prices[$i], ENT_QUOTES, 'UTF-8');
+        $placeholder    = htmlspecialchars($placeholders[$i], ENT_QUOTES, 'UTF-8');
 
         echo "<option value='{$value}' data-price='{$price}'>{$placeholder}</option>";
     }
@@ -97,7 +97,7 @@ function add2cart($idVariant, $amount){
 
     $variant = $productModel->getById($idVariant, "pv.idVariant");
 
-    if($variant['amount'] <= 0){
+    if(!$variant){
         header("location: products.php");
         exit();
     }

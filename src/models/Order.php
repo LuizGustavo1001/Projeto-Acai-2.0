@@ -45,15 +45,19 @@ class Order extends Model{
 
     public function orderItemAmount($idOrder){
         // return amount of items in a order
-        $stmt = $this->executeQuery("SELECT COUNT(*) AS itemCount FROM product_order WHERE idOrder = ?", "i", $idOrder);
+        $stmt = $this->executeQuery("
+            SELECT COUNT(*) AS itemCount 
+            FROM product_order 
+            WHERE idOrder = ?", 
+        "i", $idOrder);
         $result = $stmt->get_result()->fetch_assoc();
         $stmt->close();
 
         if($result){
             return $result['itemCount'];
-        }else{
-            return null;
         }
+
+        return null;
     }
 
     public function getOrderSubtotal($idOrder){
@@ -81,6 +85,7 @@ class Order extends Model{
                     WHERE idOrder = order_data.idOrder
                 )",
         );
+        
         if(!$stmt){
             throw new Exception("Erro ao remover pedidos expirados");
         }
@@ -108,6 +113,7 @@ class Order extends Model{
             FROM product_variant
             WHERE idVariant = ?
         ", "iiid", $idOrder, $idVariant, $amount, $idVariant);
+
         if(!$stmt){
             throw new Exception("Erro ao remover produto do carrinho");
         }

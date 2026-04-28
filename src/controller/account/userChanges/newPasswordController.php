@@ -13,29 +13,29 @@ checkSessionStatus();
 $userModel = new User($mysqli);
 
 if(isset($_POST['password'], $_POST['newPassword'])){
-    // verify input password
-    $sanitizedPassword = htmlspecialchars($_POST["password"], ENT_QUOTES, 'UTF-8');
+    $currentPassword = $_POST['password'];
+    $newPassword = $_POST['newPassword'];
 
-    $verifyPassword = $userModel->verifyEmail($_SESSION['mailUser']);
+    try{
+        $hashedPassword = $userModel->getPasswordById($_SESSION['idUser']);
 
-    if($verifyPassword['emailExists']){
-        if(password_verify($sanitizedPassword, $verifyPassword['password'])){
-            // verify password diff
-            $sanitizedNewPassword = htmlspecialchars($_POST['newPassword'], ENT_QUOTES, 'UTF-8');
-
-            if($sanitizedPassword == $sanitizedNewPassword){
-                redirectWithMessage("sameP", "newPassword.php", 0);
-            }else{ // encrypt new password and update at database
-                $hashedPassword = password_hash($sanitizedNewPassword, PASSWORD_DEFAULT);
-                $updatePassword = $userModel->updateData('passwordUser', $hashedPassword, $_SESSION['idUser']);
-
-                if($updatePassword){ // logout
-                    session_destroy();
-                    redirectWithMessage("newPassword", "../login.php", 1);
-                }
-            }
-        }else{
+        if(! password_verify($currentPassword, $hashedPassword)){
             redirectWithMessage("wrongP", "newPassword.php", 0);
         }
+
+        if($currentPassword == $newPassword){
+            redirectWithMessage("sameP", "newPassword.php", 0);
+        }
+
+        // update password
+        $newHashed = password_hash($newPassword, PASSWORD_DEFAULT);
+        $userModel->updateData('passwordUser', $newHashed, $_SESSION['idUser']);
+
+        session_destroy();
+        redirectWithMessage("newPassword", "../login.php", 1);
+
+    }catch(Exception $e){
+        error_log($e->getMessage());
+        redirectWithMessage("error", "newPassword.php", 0);
     }
 }

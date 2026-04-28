@@ -43,7 +43,7 @@ function searchOutput($prodName){
 
     echo "<div class='category'>";
 
-    if($products['amount'] == 0){
+    if(!$products){
         echo "
             <div class='search-label'>
                 <p>Nenhum Produto encontrado com o nome <em>" . htmlspecialchars($prodName, ENT_QUOTES, 'UTF-8') . "</em></p>
@@ -59,7 +59,7 @@ function searchOutput($prodName){
             <div class='products'>
         ";
         
-        foreach($products['items'] as $product){
+        foreach($products as $product){
             printProduct($product);
         }
     }

@@ -44,8 +44,9 @@ function getProductsAtCart(){
 
     foreach($products as $productAtOrder){
         $variantData = $productModel->getById($productAtOrder['idVariant'], "pv.idVariant");
+        
         if($variantData){
-            foreach($variantData['data'] as $variant){
+            foreach($variantData as $variant){
                 $name = "{$variant['printName']}";
                 if($variant['flavor'] == null){
                     $name = "{$variant['printName']} - {$variant['size']}";
@@ -111,10 +112,20 @@ function getSubTotal(){
 }
 
 function displayClientInfo(){
-    $name       = $_SESSION['nameUser'];
-    $address    = "{$_SESSION['a_street']}, {$_SESSION['a_numHouse']}, {$_SESSION['a_district']} - {$_SESSION['a_city']}";
-    $phone      = $_SESSION['phoneUser'];
+    $street     = htmlspecialchars($_SESSION['a_street'], ENT_QUOTES, 'UTF-8');
+    $numHouse   = htmlspecialchars($_SESSION['a_numHouse'], ENT_QUOTES, 'UTF-8');
+    $district   = htmlspecialchars($_SESSION['a_district'], ENT_QUOTES, 'UTF-8');
+    $city       = htmlspecialchars($_SESSION['a_city'], ENT_QUOTES, 'UTF-8');
 
+    $phone      = htmlspecialchars($_SESSION['phoneUser'], ENT_QUOTES, 'UTF-8');
+    $name       = htmlspecialchars($_SESSION['nameUser'], ENT_QUOTES, 'UTF-8');
+    $address    = "
+        {$street}, 
+        {$numHouse}, 
+        {$district} - 
+        {$city}
+    ";
+    
     $iconBg = getIcon("iconBg");
 
     $map = [
@@ -209,11 +220,11 @@ function cartToSpreadsheet(){
         return 0;
     }
 
-    $subTotal = numfmt_format_currency($defaultMoney, getSubTotal(), "BRL");
-    $street = htmlspecialchars($_SESSION['a_street'], ENT_QUOTES, 'UTF-8');
-    $houseNum = htmlspecialchars($_SESSION['a_numHouse'], ENT_QUOTES, 'UTF-8');
-    $district = htmlspecialchars($_SESSION['a_district'], ENT_QUOTES, 'UTF-8');
-    $city = htmlspecialchars($_SESSION['a_city'], ENT_QUOTES, 'UTF-8');
+    $subTotal   = numfmt_format_currency($defaultMoney, getSubTotal(), "BRL");
+    $street     = htmlspecialchars($_SESSION['a_street'], ENT_QUOTES, 'UTF-8');
+    $houseNum   = htmlspecialchars($_SESSION['a_numHouse'], ENT_QUOTES, 'UTF-8');
+    $district   = htmlspecialchars($_SESSION['a_district'], ENT_QUOTES, 'UTF-8');
+    $city       = htmlspecialchars($_SESSION['a_city'], ENT_QUOTES, 'UTF-8');
 
     $address = "{$street}, {$houseNum}, {$district} - {$city}";
     $currentDate = date("Y-m-d");

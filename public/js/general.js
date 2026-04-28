@@ -88,6 +88,7 @@ function fillWarning(message, type){
             wrongP            : "Senha Anterior Inserida não está cadastrada",
             sameP             : "Senha Anterior e Nova Senha inseridas são as mesmas",
             prodRem           : "Produto removido do carrinho com sucesso",
+            error             : "Erro interno. Tente novamente ou contate suporte técnico",
             dev               : "Função ainda em desenvolvimento",
     }
 
