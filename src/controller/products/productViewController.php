@@ -50,7 +50,12 @@ function fillPage(){
 
     $submitButton = "";
     if(! isset($_SESSION["isAdmin"])){ // only customers can add to the cart
-        $submitButton = "<button class='regular-btn'>Adicionar ao Carrinho</button>";
+        $submitButton = '
+            <button class="regular-btn await">
+                <span>Adicionar ao Carrinho</span>
+                <div class="wheel spinning inactive"></div>
+            </button>
+        ';
     }
 
     echo "
@@ -78,7 +83,6 @@ function fillPage(){
             </div>
         </div>
     ";
-
 }
 
 function fillOptions($prices, $placeholders, $values){

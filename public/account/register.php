@@ -96,7 +96,10 @@
                     <input type="password" name="password" id="ipassword" placeholder="********" required maxlength="30">
                 </div>
 
-                <button class="regular-btn">Registrar-se</button>
+                <button class="regular-btn await">
+                    <span>Registrar-se</span>
+                    <div class="wheel spinning inactive"></div>
+                </button>
             </form>
         </div>
     </main>

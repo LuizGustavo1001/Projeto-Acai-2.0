@@ -43,7 +43,10 @@
                     <input type="password" name="newPassword" id="inewPassword" maxlength="30" placeholder="• • • • • • • • • •" required>
                 </div>
 
-                <button class="regular-btn">Enviar</button>
+                <button class="regular-btn await">
+                    <span>Alterar</span>
+                    <div class="wheel spinning inactive"></div>
+                </button>
             </form>
         </div>
     </main>

@@ -44,7 +44,10 @@
                     <input type="password" name="password" id="ipassword" placeholder="********" required>
                 </div>
 
-                <button class="regular-btn">Entrar</button>
+                <button class="regular-btn await">
+                    <span>Entrar</span>
+                    <div class="wheel spinning inactive"></div>
+                </button>
             </form>
 
             <div class="fot">

@@ -5,7 +5,7 @@ const smileFace = `
         <path d='M15.0007 20C15.9211 20 16.6673 18.8807 16.6673 17.5C16.6673 16.1193 15.9211 15 15.0007 15C14.0802 15 13.334 16.1193 13.334 17.5C13.334 18.8807 14.0802 20 15.0007 20Z' fill='currentColor'/>
         <path d='M36.6673 19.9999C36.6673 27.8566 36.6673 31.7851 34.2265 34.2258C31.7858 36.6666 27.8573 36.6666 20.0007 36.6666C12.1439 36.6666 8.21553 36.6666 5.77477 34.2258C3.33398 31.7851 3.33398 27.8566 3.33398 19.9999C3.33398 12.1432 3.33398 8.2148 5.77477 5.77404C8.21553 3.33325 12.1439 3.33325 20.0007 3.33325C27.8573 3.33325 31.7858 3.33325 34.2265 5.77404C35.8495 7.39694 36.3933 9.6775 36.5755 13.3333' stroke='currentColor' stroke-width='2' stroke-linecap='round'/>
     </svg>
-`;
+`
 const sadFace = `
     <svg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
         <path d='M9 17C9.85038 16.3697 10.8846 16 12 16C13.1154 16 14.1496 16.3697 15 17' stroke='currentColor' stroke-width='1.5' stroke-linecap='round'/>
@@ -13,7 +13,7 @@ const sadFace = `
             <ellipse cx='9' cy='10.5' rx='1' ry='1.5' fill='currentColor'/>
         <path d='M22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C21.5093 4.43821 21.8356 5.80655 21.9449 8' stroke='currentColor' stroke-width='1.5' stroke-linecap='round'/>
     </svg>
-`;
+`
 
 
 /* toggle warning display */
@@ -93,8 +93,8 @@ function fillWarning(message, type){
     }
 
     if(warningMsgs[message]){
-        const warningBox = document.createElement("div");
-        warningBox.classList.add("warning", "fade-in", warningClass);
+        const warningBox = document.createElement("div")
+        warningBox.classList.add("warning", "fade-in", warningClass)
 
         warningBox.innerHTML = `
             ${icon}
@@ -178,5 +178,39 @@ if (cardNav) {
     function toggleSidebar(){
         if (dazzlesBg) dazzlesBg.classList.toggle("open")
         aside.classList.toggle("open")
+    }
+}
+
+
+// spinning wheel button animation when click
+const form = document.querySelector("form")
+const regularBntAwait = document.querySelector(".regular-btn.await")
+
+if(regularBntAwait && form){
+    form.addEventListener("submit", () => {
+        if(! form.checkValidity()) return
+
+        verifyBtn()
+    })
+}else if(regularBntAwait){ // button without form
+    regularBntAwait.addEventListener("click", (event) => {
+        event.preventDefault()
+
+        verifyBtn()
+
+        requestAnimationFrame(() => {
+            window.location.href = regularBntAwait.href
+        })
+    })
+}
+
+function verifyBtn(){
+    const wheel = regularBntAwait.querySelector(".wheel")
+    const text  = regularBntAwait.querySelector("span")
+
+    if(! regularBntAwait.disabled){
+        regularBntAwait.disabled = true
+        wheel.classList.remove("inactive")
+        text.style.display = 'none'
     }
 }

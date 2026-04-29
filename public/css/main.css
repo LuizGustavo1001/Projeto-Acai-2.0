@@ -197,6 +197,10 @@ button {
 
 /* =-=-=-=-=-=-=-=-=-= REGULAR BUTTON =-=-=-=-=-=-=-=-=-= */
 .regular-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
   padding: 1em;
   background: linear-gradient(to left, var(--pink-400), var(--pink-500) 80%);
   background-size: 200% 100%;

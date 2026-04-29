@@ -89,7 +89,10 @@
                         <input type="text" name="a_referencePoint" id="ireferencePoint" maxlength="50" placeholder="<?php echo $_SESSION['a_referencePoint']; ?>">
                     </div>
                 </div>
-                <button class="regular-btn">Editar</button>
+                <button class="regular-btn await">
+                    <span>Editar</span>
+                    <div class="wheel spinning inactive"></div>
+                </button>
             </form>
 
             <div class="fot">

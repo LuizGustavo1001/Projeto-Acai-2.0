@@ -44,7 +44,11 @@
 
                     <ul class="content">
                         <?php displayOrderOverview(); ?>
-                        <a href="cart.php?orderConfirmed=1" class="regular-btn">Confirmar Pedido</a>
+
+                        <a href="cart.php?orderConfirmed=1" class="regular-btn await">
+                            <span>Confirmar Pedido</span>
+                            <div class="wheel spinning inactive"></div>
+                        </a>
                     </ul>
                 </div>
             </div>

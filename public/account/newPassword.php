@@ -40,7 +40,10 @@
                     <input type="password" name="password" id="ipassword" maxlength="50" placeholder="Digite Sua nova Senha Aqui" required>
                 </div>
 
-                <button class="regular-btn">Enviar</button>
+                <button class="regular-btn await">
+                    <span>Enviar</span>
+                    <div class="wheel spinning inactive"></div>
+                </button>
             </form>
         </div>
     </main>

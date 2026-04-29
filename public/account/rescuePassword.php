@@ -39,7 +39,10 @@
                     <input type="text" name="token" id="itoken" maxlength="50" placeholder="Digite o Token de Recuperação Aqui" required>
                 </div>
 
-                <button class="regular-btn">Enviar</button>
+                <button class="regular-btn await">
+                    <span>Enviar</span>
+                    <div class="wheel spinning inactive"></div>
+                </button>
             </form>
         </div>
     </main>

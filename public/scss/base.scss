@@ -113,6 +113,16 @@ img{ width: 100px; }
     }
 }
 
+.wheel{
+    --size: 25px;
+    width: var(--size);
+    height: var(--size);
+    border: 2px solid transparent;
+    border-top: 2px solid var(--white);
+
+    border-radius: var(--radius-lg);
+}
+
 
 .mobile{
     @include m.respond(desktop){ display: none !important; }
@@ -136,7 +146,6 @@ img{ width: 100px; }
 
     .horizontal-line{ background: linear-gradient(to left, transparent, var(--pink-800), transparent); }
 }
-
 
 /* =-=-=-=-=-=-=-=-=-= ANIMATIONS =-=-=-=-=-=-=-=-=-= */
 .fade-in{
@@ -165,7 +174,6 @@ img{ width: 100px; }
     }
 }
 
-
 .rise-above{
     animation: rise-above var(--time-outer, 0.4s) ease-in;
 }
@@ -178,5 +186,18 @@ img{ width: 100px; }
     to{
         transform: translateY(0);
         opacity: 1;
+    }
+}
+
+.spinning{
+    animation: spinning 1s linear infinite;
+}
+
+@keyframes spinning{
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
     }
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: container_database
--- Generation Time: Apr 26, 2026 at 03:47 AM
+-- Generation Time: Apr 29, 2026 at 02:41 PM
 -- Server version: 8.0.45
 -- PHP Version: 8.3.26
 
@@ -239,8 +239,8 @@ CREATE TABLE `user_data` (
 --
 
 INSERT INTO `user_data` (`idUser`, `nameUser`, `mailUser`, `phoneUser`, `passwordUser`, `a_district`, `a_street`, `a_referencePoint`, `a_numHouse`, `a_city`, `a_state`, `typeUser`) VALUES
-(1, 'Admin 1', 'admin@domain.com', '(22) 2 2222 2222', '$2y$10$UUybSCbs3zBwsUca6AoOj.Wud9R1PUs8dw7voaBpEMCHKN.VAQ9Jm', 'District', 'Street', '', '999', 'City', 'RJ', 'admin'),
-(2, 'Client 1', 'client@domain.com', '(33) 3 3333 3333', '$2y$10$DrQeuOuEkiQgkDdUa7j0XuXj0IrQ6pSwMhZlIBc9br32kSZ/iz9d.', 'Bairro', 'Rua', '.', '777', 'Cidade', 'PI', 'customer');
+(1, 'Admin 1', 'admin@domain.com', '(22) 2 2222 2222', '$2y$10$E8TjybV6JLjvYRFG.ZcGtOQ3p7HyAv3xHtCPfrPALSiJpfSKbSMEG', 'District', 'Street', '', '999', 'City', 'RJ', 'admin'),
+(2, 'Client 1', 'client@domain.com', '(33) 3 3333 3333', '$2y$10$GiH803vOKPeFHeeyHsp5feO.9rKwBmYiiSOQLOLSVzSaxc697CWEu', 'Bairro', 'Rua', '.', '777', 'Cidade', 'PI', 'customer');
 
 --
 -- Indexes for dumped tables
@@ -296,7 +296,8 @@ ALTER TABLE `product_variant`
 -- Indexes for table `user_data`
 --
 ALTER TABLE `user_data`
-  ADD PRIMARY KEY (`idUser`);
+  ADD PRIMARY KEY (`idUser`),
+  ADD UNIQUE KEY `mailUser` (`mailUser`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -312,7 +313,7 @@ ALTER TABLE `change_data`
 -- AUTO_INCREMENT for table `order_data`
 --
 ALTER TABLE `order_data`
-  MODIFY `idOrder` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `idOrder` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `product_data`
@@ -330,7 +331,7 @@ ALTER TABLE `product_variant`
 -- AUTO_INCREMENT for table `user_data`
 --
 ALTER TABLE `user_data`
-  MODIFY `idUser` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idUser` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables

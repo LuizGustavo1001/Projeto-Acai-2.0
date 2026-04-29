@@ -42,7 +42,10 @@
                     <input type="email" name="email" id="iemail" maxlength="50" placeholder="email@exemplo.com" required>
                 </div>
 
-                <button class="regular-btn">Enviar Código</button>
+                <button class="regular-btn await">
+                    <span>Enviar Código</span>
+                    <div class="wheel spinning inactive"></div>
+                </button>
             </form>
         </div>
     </main>
